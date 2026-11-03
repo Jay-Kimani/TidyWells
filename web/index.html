@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tidywells</title>
+<style>
+:root{--bg:#0f1419;--fg:#e6e9ec;--muted:#8a96a3;--accent:#4fb3a5}
+:root[data-theme=light]{--bg:#fafaf7;--fg:#1a1f24;--muted:#5d6975;--accent:#1d7a6e}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 system-ui,sans-serif}
+header,main,footer{max-width:760px;margin:0 auto;padding:16px}
+nav a{color:var(--muted);margin-right:16px;text-decoration:none}
+nav a:hover{color:var(--accent)}
+h1{margin:32px 0 8px}
+.chip{display:inline-block;border:1px solid var(--muted);color:var(--muted);border-radius:12px;padding:0 10px;font-size:13px}
+button{background:none;border:1px solid var(--muted);color:var(--fg);border-radius:6px;padding:4px 10px;cursor:pointer}
+</style>
+</head>
+<body>
+<header><nav><a href="#">Home</a><a href="#">Tools</a><a href="#">Analysis</a><a href="#">Methods</a><a href="#">About</a>
+<button onclick="var r=document.documentElement;r.dataset.theme=r.dataset.theme==='light'?'dark':'light'">Theme</button></nav></header>
+<main>
+<h1>Tidywells</h1>
+<p>Clean Canadian oil and gas regulator data, run simple decline curves, and read plain-language analysis. Your files stay on your machine.</p>
+<p><span class="chip">Early build</span> <span class="chip">Illustrative, not for reserves or investment decisions</span></p>
+</main>
+<footer><small>Not affiliated with any regulator.</small></footer>
+</body>
+</html>
