@@ -5,4 +5,4 @@ window.TIDYWELLS_NEWSLETTER_ACTION = "https://buttondown.com/api/emails/embed-su
 
 // Paste your Stripe Payment Link (or similar) here to switch on the Subscribe button on pro.html.
 window.TIDYWELLS_PRO_URL="https://buy.stripe.com/dRmfZjcpdefU00E4251kA00";
-window.TIDYWELLS_PRO_PRICE="";  // e.g. "CAD $19 per month"
+window.TIDYWELLS_PRO_PRICE="CAD $4.99 per month, with a 3-day free trial. Cancel any time.";  // e.g. "CAD $19 per month"
