@@ -26,5 +26,27 @@ def build(posts):
             "<language>en-ca</language>" + "".join(items) + "</channel></rss>\n")
 
 
+MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+
+
+def card(p, root=""):
+    y, m, _ = p["date"].split("-")
+    svg = ""
+    if p.get("thumb"):
+        svg = '<div class="thumb">' + (ROOT / "posts" / f"thumb_{p['thumb']}.svg").read_text() + "</div>"
+    return (f'<a class="card post" href="{root}posts/{p["slug"]}.html"><div><small class="date">{MONTHS[int(m) - 1]} {y}</small>'
+            f'<b class="ptitle">{escape(p["title"])}</b><p>{escape(p["summary"])}</p></div>{svg}</a>')
+
+
+def patch(path, html):
+    s = path.read_text(encoding="utf-8")
+    a, z = "<!--POSTS-->", "<!--/POSTS-->"
+    i, j = s.index(a) + len(a), s.index(z)
+    path.write_text(s[:i] + "\n" + html + "\n" + s[j:], encoding="utf-8")
+
+
 if __name__ == "__main__":
-    (ROOT / "docs" / "feed.xml").write_text(build(json.loads((ROOT / "posts" / "posts.json").read_text())), encoding="utf-8")
+    posts = sorted(json.loads((ROOT / "posts" / "posts.json").read_text()), key=lambda p: p["date"], reverse=True)
+    (ROOT / "docs" / "feed.xml").write_text(build(posts), encoding="utf-8")
+    patch(ROOT / "docs" / "index.html", card(posts[0]))
+    patch(ROOT / "docs" / "analysis.html", "".join(card(p) for p in posts))

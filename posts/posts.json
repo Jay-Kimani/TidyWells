@@ -1,7 +1,7 @@
 [
   {
     "title": "How well does a simple decline curve forecast Canadian wells?",
-    "slug": "decline-backtest",
+    "slug": "decline-backtest", "thumb": "backtest",
     "date": "2026-11-03",
     "summary": "A backtest of a bounded Arps decline curve on about 1,900 Alberta, Saskatchewan and BC wells: how accurate a 12-month forecast is, how much history you need, and why the curve runs low."
   }

@@ -64,3 +64,14 @@ main a.btn,main a.btn:hover{color:var(--fg)}
 :root[data-theme=light] .hero img.logo-d{display:none}:root[data-theme=light] .hero img.logo-l{display:block}
 .brand img.logo-l{display:none}.brand img.logo-d{display:block}
 :root[data-theme=light] .brand img.logo-d{display:none}:root[data-theme=light] .brand img.logo-l{display:block}
+
+/* analysis list */
+.plist{display:grid;gap:14px;margin-top:16px}
+a.card.post{text-decoration:none;color:inherit;transition:transform .15s,border-color .15s}
+a.card.post:hover{transform:translateY(-2px);border-color:var(--accent)}
+.card.post .ptitle{display:block;color:var(--accent);font-size:18px;line-height:1.35;margin:2px 0 4px}
+.card.post .date{color:var(--muted);font-size:13px}
+.card.post p{color:var(--muted);font-size:15px}
+.card.post .thumb{flex:0 0 230px}
+.card.post .thumb svg{display:block;width:100%}
+@media(max-width:600px){.card.post .thumb{width:100%}}
