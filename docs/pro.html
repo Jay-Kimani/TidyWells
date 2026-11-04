@@ -7,12 +7,13 @@
 <h1>Tidywells Pro</h1>
 <p><span class="chip">Monthly subscription</span><span class="chip">Cancel any time</span></p>
 <p>The free site stays free: the decline-curve tool, the open-source package and the biweekly analysis posts. Pro is for people who want the cleaned numbers behind them each month without doing the loading themselves.</p>
-<div class="card"><h2 style="margin-top:0">What a subscription includes</h2>
+<div class="card"><h2 style="margin-top:0">What our subscription includes</h2>
 <ul>
-<li><strong>Monthly data pack.</strong> Tidy aggregate CSVs for Alberta, Saskatchewan and BC: producing wells, oil, gas and condensate volumes by month, plus decline and shut-in summaries, built with the methods on this site.</li>
+<li><strong>Monthly data pack.</strong> Tidy aggregate CSVs for Alberta, Saskatchewan and BC: monthly oil and gas volumes with wells reporting and per-well averages, plus a well-status table and a decline-curve backtest summary, built with the methods on this site.</li>
 <li><strong>Extended analysis.</strong> A longer companion to each public post, with the tables behind its charts.</li>
 <li><strong>Questions answered.</strong> Reply to any email with a data question about the files or the loaders.</li>
 </ul>
+<p class="muted"><strong>To be clear about what this is:</strong> the monthly volumes in the data pack come from the same public tables as the free monthly snapshots. The pack adds structure and convenience (tidy CSVs, per-well and growth columns, consistent units), not new data.</p>
 <p><span id="proPrice" class="muted"></span></p>
 <p id="proAction"><span class="muted">Subscriptions open soon. Join the free newsletter below to hear first.</span></p></div>
 <h2>Important</h2>
@@ -21,7 +22,7 @@
 <li>Tidywells is independent and not affiliated with or endorsed by Petrinex, the Alberta Energy Regulator, the Saskatchewan Ministry of Energy and Resources or the BC Energy Regulator.</li>
 <li>Subscriptions are billed monthly by our payment provider and can be cancelled at any time from the receipt email or customer portal. See the <a href="terms.html">terms, refunds and privacy</a> page.</li></ul>
 <script src="config.js"></script>
-<script>(function(){var u=window.TIDYWELLS_PRO_URL,p=window.TIDYWELLS_PRO_PRICE;if(u&&/^https:\/\//.test(u)){document.getElementById("proAction").innerHTML='<a class="btn" href="'+u.replace(/"/g,"")+'" rel="noopener">Subscribe</a>';}
+<script>(function(){var u=window.TIDYWELLS_PRO_URL,p=window.TIDYWELLS_PRO_PRICE;if(u&&/^https:\/\//.test(u)){document.getElementById("proAction").innerHTML='<a class="btn buy" href="'+u.replace(/"/g,"")+'" rel="noopener">Subscribe</a>';}
 if(p){document.getElementById("proPrice").textContent=String(p);}})();</script>
 </article></main>
 
