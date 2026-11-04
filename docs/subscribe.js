@@ -2,7 +2,7 @@
   var box = document.getElementById("subscribe"); if (!box) return;
   var action = window.TIDYWELLS_NEWSLETTER_ACTION || "";
   var rss = document.querySelector('link[rel=alternate][type="application/rss+xml"]').href;
-  var html = '<div class="panel" style="margin:16px 0"><b>New analysis, about once a month</b>' +
+  var html = '<div class="panel" style="margin:16px 0"><b>New analysis, about every two weeks</b>' +
     '<p style="margin:4px 0;font-size:14px;color:var(--muted)">No sales emails. ';
   if (action) {
     html += 'Get each post by email, or use <a href="' + rss + '">RSS</a>.</p>' +

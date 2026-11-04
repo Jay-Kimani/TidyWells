@@ -1,8 +1,194 @@
 [
   {
     "title": "How well does a simple decline curve forecast Canadian wells?",
-    "slug": "decline-backtest", "thumb": "backtest",
+    "slug": "decline-backtest",
+    "thumb": "backtest",
     "date": "2026-11-03",
-    "summary": "A backtest of a bounded Arps decline curve on about 1,900 Alberta, Saskatchewan and BC wells: how accurate a 12-month forecast is, how much history you need, and why the curve runs low."
+    "summary": "A backtest of a bounded Arps decline curve on about 1,900 Alberta, Saskatchewan and BC wells: how accurate a 12-month forecast is, how much history you need, and why the curve runs low.",
+    "kind": "analysis"
+  },
+  {
+    "title": "Why the decline curve runs low: wells that bounce back",
+    "slug": "recovery-low-forecasts",
+    "date": "2026-11-04",
+    "kind": "analysis",
+    "thumb": "recovery",
+    "summary": "About 35 to 50% of wells recover after the training window. A low month just before the forecast multiplies the typical miss by two to five, but does not explain all of it."
+  },
+  {
+    "title": "Gas has a season. Oil mostly doesn't.",
+    "slug": "gas-has-a-season",
+    "date": "2026-11-04",
+    "kind": "analysis",
+    "thumb": "season",
+    "summary": "Alberta and BC gas run 6 to 10% above trend in winter and below it through summer and early autumn. Oil barely moves with the calendar."
+  },
+  {
+    "title": "Monthly snapshot: January 2025",
+    "slug": "snapshot-2025-01",
+    "date": "2026-11-04",
+    "period": "2025-01",
+    "kind": "snapshot",
+    "summary": "Alberta oil averaged 2,492 thousand bbl/d (+7.6% on a year earlier); Alberta gas 14,901 MMcf/d (+0.5%); BC gas 8,530 MMcf/d."
+  },
+  {
+    "title": "Monthly snapshot: February 2025",
+    "slug": "snapshot-2025-02",
+    "date": "2026-11-04",
+    "period": "2025-02",
+    "kind": "snapshot",
+    "summary": "Alberta oil averaged 2,468 thousand bbl/d (+3.9% on a year earlier); Alberta gas 15,351 MMcf/d (+9.5%); BC gas 8,555 MMcf/d."
+  },
+  {
+    "title": "Monthly snapshot: March 2025",
+    "slug": "snapshot-2025-03",
+    "date": "2026-11-04",
+    "period": "2025-03",
+    "kind": "snapshot",
+    "summary": "Alberta oil averaged 2,522 thousand bbl/d (+5.6% on a year earlier); Alberta gas 14,224 MMcf/d (+5.7%); BC gas 8,192 MMcf/d."
+  },
+  {
+    "title": "Monthly snapshot: April 2025",
+    "slug": "snapshot-2025-04",
+    "date": "2026-11-04",
+    "period": "2025-04",
+    "kind": "snapshot",
+    "summary": "Alberta oil averaged 2,473 thousand bbl/d (+4.5% on a year earlier); Alberta gas 13,586 MMcf/d (+3.5%); BC gas 7,834 MMcf/d."
+  },
+  {
+    "title": "Monthly snapshot: May 2025",
+    "slug": "snapshot-2025-05",
+    "date": "2026-11-04",
+    "period": "2025-05",
+    "kind": "snapshot",
+    "summary": "Alberta oil averaged 2,345 thousand bbl/d (\u22120.5% on a year earlier); Alberta gas 13,133 MMcf/d (+3.1%); BC gas 8,048 MMcf/d."
+  },
+  {
+    "title": "Monthly snapshot: June 2025",
+    "slug": "snapshot-2025-06",
+    "date": "2026-11-04",
+    "period": "2025-06",
+    "kind": "snapshot",
+    "summary": "Alberta oil averaged 2,378 thousand bbl/d (\u22120.8% on a year earlier); Alberta gas 12,704 MMcf/d (\u22120.5%); BC gas 7,849 MMcf/d."
+  },
+  {
+    "title": "Monthly snapshot: July 2025",
+    "slug": "snapshot-2025-07",
+    "date": "2026-11-04",
+    "period": "2025-07",
+    "kind": "snapshot",
+    "summary": "Alberta oil averaged 2,519 thousand bbl/d (+7.7% on a year earlier); Alberta gas 13,045 MMcf/d (+1.5%); BC gas 8,054 MMcf/d."
+  },
+  {
+    "title": "Monthly snapshot: August 2025",
+    "slug": "snapshot-2025-08",
+    "date": "2026-11-04",
+    "period": "2025-08",
+    "kind": "snapshot",
+    "summary": "Alberta oil averaged 2,507 thousand bbl/d (+9.3% on a year earlier); Alberta gas 13,009 MMcf/d (+1.3%); BC gas 7,592 MMcf/d."
+  },
+  {
+    "title": "Monthly snapshot: September 2025",
+    "slug": "snapshot-2025-09",
+    "date": "2026-11-04",
+    "period": "2025-09",
+    "kind": "snapshot",
+    "summary": "Alberta oil averaged 2,468 thousand bbl/d (+11.3% on a year earlier); Alberta gas 13,017 MMcf/d (+7.4%); BC gas 7,270 MMcf/d."
+  },
+  {
+    "title": "Monthly snapshot: October 2025",
+    "slug": "snapshot-2025-10",
+    "date": "2026-11-04",
+    "period": "2025-10",
+    "kind": "snapshot",
+    "summary": "Alberta oil averaged 2,521 thousand bbl/d (+2.8% on a year earlier); Alberta gas 13,422 MMcf/d (+2.8%); BC gas 8,031 MMcf/d."
+  },
+  {
+    "title": "Monthly snapshot: November 2025",
+    "slug": "snapshot-2025-11",
+    "date": "2026-11-04",
+    "period": "2025-11",
+    "kind": "snapshot",
+    "summary": "Alberta oil averaged 2,581 thousand bbl/d (+4.4% on a year earlier); Alberta gas 14,194 MMcf/d (+1.8%); BC gas 8,742 MMcf/d."
+  },
+  {
+    "title": "Monthly snapshot: December 2025",
+    "slug": "snapshot-2025-12",
+    "date": "2026-11-04",
+    "period": "2025-12",
+    "kind": "snapshot",
+    "summary": "Alberta oil averaged 2,541 thousand bbl/d (+1.7% on a year earlier); Alberta gas 15,730 MMcf/d (+7.9%); BC gas 8,608 MMcf/d."
+  },
+  {
+    "title": "Monthly snapshot: January 2026",
+    "slug": "snapshot-2026-01",
+    "date": "2026-11-04",
+    "period": "2026-01",
+    "kind": "snapshot",
+    "summary": "Alberta oil averaged 2,562 thousand bbl/d (+2.8% on a year earlier); Alberta gas 15,732 MMcf/d (+5.6%); BC gas 8,892 MMcf/d."
+  },
+  {
+    "title": "Monthly snapshot: February 2026",
+    "slug": "snapshot-2026-02",
+    "date": "2026-11-04",
+    "period": "2026-02",
+    "kind": "snapshot",
+    "summary": "Alberta oil averaged 2,584 thousand bbl/d (+4.7% on a year earlier); Alberta gas 15,259 MMcf/d (\u22120.6%); BC gas 8,989 MMcf/d."
+  },
+  {
+    "title": "Monthly snapshot: March 2026",
+    "slug": "snapshot-2026-03",
+    "date": "2026-11-04",
+    "period": "2026-03",
+    "kind": "snapshot",
+    "summary": "Alberta oil averaged 2,591 thousand bbl/d (+2.7% on a year earlier); Alberta gas 14,477 MMcf/d (+1.8%); BC gas 8,603 MMcf/d."
+  },
+  {
+    "title": "Monthly snapshot: April 2026",
+    "slug": "snapshot-2026-04",
+    "date": "2026-11-04",
+    "period": "2026-04",
+    "kind": "snapshot",
+    "summary": "Alberta oil averaged 2,542 thousand bbl/d (+2.8% on a year earlier); Alberta gas 13,875 MMcf/d (+2.1%); BC gas 8,371 MMcf/d."
+  },
+  {
+    "title": "Monthly snapshot: May 2026",
+    "slug": "snapshot-2026-05",
+    "date": "2026-11-04",
+    "period": "2026-05",
+    "kind": "snapshot",
+    "summary": "Alberta oil averaged 2,418 thousand bbl/d (+3.1% on a year earlier); Alberta gas 13,088 MMcf/d (\u22120.3%); BC gas 8,064 MMcf/d."
+  },
+  {
+    "title": "Monthly snapshot: June 2026",
+    "slug": "snapshot-2026-06",
+    "date": "2026-11-04",
+    "period": "2026-06",
+    "kind": "snapshot",
+    "summary": "Alberta oil averaged 2,538 thousand bbl/d (+6.8% on a year earlier); Alberta gas 13,215 MMcf/d (+4.0%); BC gas 8,253 MMcf/d."
+  },
+  {
+    "title": "Monthly snapshot: July 2026",
+    "slug": "snapshot-2026-07",
+    "date": "2026-11-04",
+    "period": "2026-07",
+    "kind": "snapshot",
+    "summary": "Alberta oil averaged 2,644 thousand bbl/d (+5.0% on a year earlier); Alberta gas 13,633 MMcf/d (+4.5%); BC gas 8,007 MMcf/d."
+  },
+  {
+    "title": "Monthly snapshot: August 2026",
+    "slug": "snapshot-2026-08",
+    "date": "2026-11-04",
+    "period": "2026-08",
+    "kind": "snapshot",
+    "summary": "Alberta oil averaged 2,677 thousand bbl/d (+6.8% on a year earlier); Alberta gas 13,581 MMcf/d (+4.4%); BC gas 8,293 MMcf/d."
+  },
+  {
+    "title": "Monthly snapshot: September 2026",
+    "slug": "snapshot-2026-09",
+    "date": "2026-11-04",
+    "period": "2026-09",
+    "kind": "snapshot",
+    "summary": "Alberta oil averaged 2,631 thousand bbl/d (+6.6% on a year earlier); Alberta gas 13,540 MMcf/d (+4.0%); BC gas 8,099 MMcf/d."
   }
 ]

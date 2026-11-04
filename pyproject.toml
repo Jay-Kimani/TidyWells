@@ -4,15 +4,28 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "tidywells"
-version = "0.0.1"
+version = "0.1.0"
 description = "Load and clean Canadian oil and gas regulator files, plus simple decline curve tools."
 readme = "README.md"
 requires-python = ">=3.9"
 license = { text = "MIT" }
+authors = [{ name = "Jonathan Dupuis" }]
+keywords = ["oil and gas", "decline curve", "Petrinex", "Alberta", "Saskatchewan", "British Columbia"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Intended Audience :: Science/Research",
+  "Topic :: Scientific/Engineering",
+]
 dependencies = ["numpy", "pandas"]
 
 [project.optional-dependencies]
 dev = ["pytest"]
+
+[project.urls]
+Homepage = "https://jay-kimani.github.io/TidyWells/"
+Source = "https://github.com/Jay-Kimani/TidyWells"
+Issues = "https://github.com/Jay-Kimani/TidyWells/issues"
 
 [tool.setuptools.packages.find]
 where = ["src"]

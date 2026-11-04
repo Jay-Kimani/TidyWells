@@ -45,8 +45,25 @@ def patch(path, html):
     path.write_text(s[:i] + "\n" + html + "\n" + s[j:], encoding="utf-8")
 
 
+def snaps_html(snaps):
+    by = {}
+    for p in sorted(snaps, key=lambda p: p["period"], reverse=True):
+        by.setdefault(p["period"][:4], []).append(p)
+    out = []
+    for n, (y, ps) in enumerate(by.items()):
+        links = "".join(f'<a class="snap" href="posts/{p["slug"]}.html"><b>{MONTHS[int(p["period"][5:]) - 1]}</b><span>{escape(p["summary"].split(";")[0])}</span></a>' for p in ps)
+        out.append(f'<details{" open" if n == 0 else ""}><summary>{y} <small>({len(ps)} months)</small></summary><div class="snaps">{links}</div></details>')
+    return "".join(out)
+
+
 if __name__ == "__main__":
-    posts = sorted(json.loads((ROOT / "posts" / "posts.json").read_text()), key=lambda p: p["date"], reverse=True)
-    (ROOT / "docs" / "feed.xml").write_text(build(posts), encoding="utf-8")
-    patch(ROOT / "docs" / "index.html", card(posts[0]))
-    patch(ROOT / "docs" / "analysis.html", "".join(card(p) for p in posts))
+    posts = sorted(json.loads((ROOT / "posts" / "posts.json").read_text()), key=lambda p: (p["date"], p.get("period", "")), reverse=True)
+    analysis = [p for p in posts if p.get("kind", "analysis") == "analysis"]
+    snaps = [p for p in posts if p.get("kind") == "snapshot"]
+    (ROOT / "docs" / "feed.xml").write_text(build(posts[:40]), encoding="utf-8")
+    patch(ROOT / "docs" / "index.html", card(analysis[0]))
+    a = ROOT / "docs" / "analysis.html"
+    patch(a, "".join(card(p) for p in analysis))
+    t = a.read_text(encoding="utf-8")
+    i, j = t.index("<!--SNAPS-->") + 12, t.index("<!--/SNAPS-->")
+    a.write_text(t[:i] + "\n" + snaps_html(snaps) + "\n" + t[j:], encoding="utf-8")
