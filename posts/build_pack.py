@@ -58,6 +58,49 @@ def main():
         c.writerow(["group", "wells_tested", "share_recovered_pct"])
         for k, v in rec.items():
             c.writerow([k, v["n"], round(v["recovered_share"], 1)])
+
+    # ---- companion tables: the numbers behind the public analysis posts ----
+    comp = os.path.join(out, "companion_tables")
+    os.makedirs(comp, exist_ok=True)
+    with open(os.path.join(comp, "shutins_and_survival.csv"), "w", newline="") as f:
+        c = csv.writer(f)
+        c.writerow(["province", "wells_in_files", "producing_last_month", "stopped_6_months_plus", "wells_with_a_gap",
+                    "share_with_gap_pct"])
+        for pv in ("AB", "SK", "BC"):
+            s = study.get(pv, {}).get("shutins")
+            if s:
+                c.writerow([pv, s.get("ever"), s.get("producing_last_month"), s.get("stopped_6m"),
+                            s.get("interrupted_wells"), round(s.get("interrupted_share", 0), 1)])
+    with open(os.path.join(comp, "new_well_vintages.csv"), "w", newline="") as f:
+        c = csv.writer(f)
+        c.writerow(["province", "class", "start_year", "wells", "median_first6m_daily_rate_oil_bbl_or_gas_mcf_per_day", "p25", "p75", "horizontal_share_pct"])
+        for pv in ("AB", "SK", "BC"):
+            for g in study.get(pv, {}).get("vintage", {}).get("groups", []):
+                c.writerow([pv, g["cls"], g["year"], g["n"], round(g["median"], 1), round(g["p25"], 1), round(g["p75"], 1),
+                            round(g.get("horizontal_share", 0), 1)])
+    with open(os.path.join(comp, "licensee_concentration.csv"), "w", newline="") as f:
+        c = csv.writer(f)
+        c.writerow(["province", "top_n_licensees", "share_of_producing_wells_pct"])
+        for pv in ("AB", "SK", "BC"):
+            for n, v in study.get(pv, {}).get("operators", {}).get("top_wells", {}).items():
+                c.writerow([pv, n, round(v, 1)])
+    with open(os.path.join(comp, "gas_oil_ratio.csv"), "w", newline="") as f:
+        c = csv.writer(f)
+        c.writerow(["province", "group", "wells", "wells_with_no_gas", "median_gor_scf_per_bbl"])
+        for pv in ("AB", "SK", "BC"):
+            for grp, v in study.get(pv, {}).get("gor", {}).items():
+                c.writerow([pv, grp, v.get("n"), v.get("no_gas"), round(v.get("median_with_gas", 0), 0)])
+    split = json.load(open(os.path.join(HERE, "split.json")))
+    with open(os.path.join(comp, "backtest_oil_vs_bitumen.csv"), "w", newline="") as f:
+        c = csv.writer(f)
+        c.writerow(["group", "months_history", "wells", "median_abs_miss_pct", "within_25pct_share", "within_50pct_share",
+                    "bias_pct", "recovered_share_pct"])
+        for grp, d in split.items():
+            for k, v in d.items():
+                if isinstance(v, dict):
+                    c.writerow([grp, k, v["n"], round(v["median_abs"], 1), round(v["within25"], 1), round(v["within50"], 1),
+                                round(v["bias"], 1), round(v["recovered"], 1)])
+
     readme = f"""Tidywells Pro - monthly data pack ({edition} edition, data through {latest})
 
 WHAT THIS IS
@@ -70,7 +113,8 @@ monthly_production.csv     Monthly totals by province (AB, SK, BC) and product (
 well_status_inventory.csv  Wells in the AB and SK infrastructure files by licence status, and how many produced in the
                            last 12 months (as of the last time this table was rebuilt).
 backtest_summary.csv       Share of wells whose output recovered after a low month, from the decline-curve backtest post.
-
+companion_tables/          The numbers behind the public analysis posts: shut-ins and survival, new-well vintages,
+                           licensee concentration, gas-oil ratio, and the oil-vs-bitumen backtest.
 UNITS: oil in cubic metres (m3); gas in thousands of cubic metres (1000 m3). Convert: bbl = m3 x 6.28981; mcf = 1000 m3 x 35.3147.
 
 NOTES
@@ -88,8 +132,10 @@ Questions: hello@tidywells.com
     open(os.path.join(out, "README.txt"), "w").write(readme)
     zpath = os.path.join(OUT_ROOT, f"Tidywells-Pro-{edition}.zip")
     with zipfile.ZipFile(zpath, "w", zipfile.ZIP_DEFLATED) as z:
-        for fn in sorted(os.listdir(out)):
-            z.write(os.path.join(out, fn), fn)
+        for root, _d, files in os.walk(out):
+            for fn in sorted(files):
+                full = os.path.join(root, fn)
+                z.write(full, os.path.relpath(full, out))
     print(f"wrote {zpath} ({len(rows)} monthly rows, latest {latest})")
 
 
