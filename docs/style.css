@@ -72,6 +72,6 @@ a.card.post:hover{transform:translateY(-2px);border-color:var(--accent)}
 .card.post .ptitle{display:block;color:var(--accent);font-size:18px;line-height:1.35;margin:2px 0 4px}
 .card.post .date{color:var(--muted);font-size:13px}
 .card.post p{color:var(--muted);font-size:15px}
-.card.post .thumb{flex:0 0 230px}
+.card.post .thumb{flex:0 0 310px}
 .card.post .thumb svg{display:block;width:100%}
 @media(max-width:600px){.card.post .thumb{width:100%}}
