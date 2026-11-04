@@ -136,7 +136,42 @@ def read_volumetrics(paths, products: Sequence[str] = ("OIL", "GAS", "COND"),
     return out
 
 
-def monthly_series(vol: pd.DataFrame, well_id: str, product: str, daily: bool = True) -> pd.Series:
+_BC_PRODUCTS = {"Gas_prod_vol (e3m3)": "GAS", "Oil_prod_vol (m3)": "OIL",
+                "Cond_prod_vol (m3)": "COND", "Water_prod_vol (m3)": "WATER"}
+
+
+def read_bc_production(path, products: Sequence[str] = ("OIL", "GAS", "COND")) -> pd.DataFrame:
+    """BC Energy Regulator 'Production Data' (zone_prd*.csv) -> same long layout as
+    read_volumetrics, plus producing days.
+
+    The file has a title line before the header. Rows are per well and zone per month;
+    we sum zones to one row per well, month and product (days = max across zones).
+    Zero-volume months are kept as zeros (the well was reported but made nothing).
+    Units: liquids m3, gas 10^3 m3.
+    """
+    d = _read_csv(path, skiprows=1)
+    d.columns = [c.strip() for c in d.columns]
+    d["month"] = pd.PeriodIndex(d["Prod_period"].str.strip(), freq="M")
+    d["days"] = pd.to_numeric(d["Prod_days"], errors="coerce")
+    d["well_id"] = d["UWI"].str.strip()
+    parts = []
+    for col, prod in _BC_PRODUCTS.items():
+        if prod not in products or col not in d.columns:
+            continue
+        x = d[["month", "well_id", "days"]].copy()
+        x["volume"] = pd.to_numeric(d[col], errors="coerce")
+        g = x.groupby(["well_id", "month"], as_index=False).agg(volume=("volume", "sum"), days=("days", "max"))
+        g["product"] = prod
+        parts.append(g)
+    if not parts:
+        raise ValueError("no requested products found in file")
+    out = pd.concat(parts, ignore_index=True)
+    out["province"] = "BC"
+    return out[["month", "well_id", "province", "product", "volume", "days"]]
+
+
+def monthly_series(vol: pd.DataFrame, well_id: str, product: str, daily: bool = True,
+                   use_producing_days: bool = False) -> pd.Series:
     """Dense monthly series for one well and product (missing months = NaN).
 
     daily=True returns average rate per day (volume / days in month), which is what
@@ -148,7 +183,11 @@ def monthly_series(vol: pd.DataFrame, well_id: str, product: str, daily: bool = 
         return s
     s = s.reindex(pd.period_range(s.index.min(), s.index.max(), freq="M"))
     if daily:
-        s = s / s.index.days_in_month
+        if use_producing_days and "days" in d.columns:
+            days = d.groupby("month")["days"].max().reindex(s.index)
+            s = s / days.where(days > 0)
+        else:
+            s = s / s.index.days_in_month
     return s
 
 

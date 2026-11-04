@@ -69,3 +69,18 @@ def test_province_filter_on_folder(tmp_path):
     assert len(tw.read_volumetrics(tmp_path)) == 2
     d = tw.read_volumetrics(tmp_path, province="SK")
     assert len(d) == 1 and d["province"].iloc[0] == "SK"
+
+
+def test_bc_production_sums_zones_and_uses_days(tmp_path):
+    f = tmp_path / "zone_prd.csv"
+    f.write_text('"ZONE_PRD FILE"\n'
+        '"Wa_num","Prod_period","UWI","Gas_prod_vol (e3m3)","Oil_prod_vol (m3)","Water_prod_vol (m3)","Cond_prod_vol (m3)","Prod_days "\n'
+        '"00101","202401","100060608613W600","10","3","1","0","20"\n'
+        '"00101","202401","100060608613W600","5","2","1","0","15"\n'
+        '"00101","202403","100060608613W600","8","0","1","0","31"\n')
+    d = tw.read_bc_production(f)
+    g = d[(d.well_id == "100060608613W600") & (d["product"] == "GAS")].set_index("month")
+    assert g.loc[pd.Period("2024-01"), "volume"] == 15 and g.loc[pd.Period("2024-01"), "days"] == 20
+    s = tw.monthly_series(d, "100060608613W600", "GAS", use_producing_days=True)
+    assert s.iloc[0] == 15 / 20 and s.isna().iloc[1]
+    assert (d.province == "BC").all()
