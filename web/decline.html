@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Decline curve · Tidywells</title><link rel="stylesheet" href="style.css"></head>
+<body>
+<header><nav><a href="index.html">Home</a><a class="on" href="decline.html">Decline curve</a><a href="index.html#methods">Methods</a>
+<button id="theme">Theme</button></nav></header>
+<main>
+<h1>Decline curve and simple economics</h1>
+<p><span class="chip">Illustrative, not for reserves reporting or investment decisions</span><span class="chip">Runs in your browser; nothing is uploaded</span></p>
+<div class="grid">
+<div class="panel" id="inputs"></div>
+<div>
+<div class="stats" id="stats"></div>
+<div id="warn" class="warn"></div>
+<svg id="chart" viewBox="0 0 640 360" role="img" aria-label="Forecast rate chart"></svg>
+</div></div>
+<h2 id="methods">Methods</h2>
+<p>Arps hyperbolic decline q = qi / (1 + b·Di·t)^(1/b), switching to exponential decline at a terminal rate Dmin. Rate is per day, Di is nominal annual decline. Economics are undiscounted-royalty, pre-tax net revenue: volume × (price − opex) minus fixed costs, discounted monthly. Units are whatever you enter (bbl/d with $/bbl, or mcf/d with $/mcf).</p>
+</main>
+<footer><small>Not affiliated with any regulator. Provided as is, no warranty.</small></footer>
+<script src="decline.js"></script>
+<script>
+const fields=[["qi","Initial rate (per day)",500],["di","Initial decline Di (per year, 0.7 = 70%)",0.7],["b","b-factor (0 to 2)",1.0],["dmin","Terminal decline (per year)",0.08],["years","Forecast years",20],["price","Price ($/unit)",70],["opex","Variable opex ($/unit)",15],["fixed","Fixed cost ($/year)",60000],["disc","Discount rate",0.10]];
+const box=document.getElementById("inputs");
+box.innerHTML=fields.map(([k,l,v])=>`<label for="${k}">${l}</label><input id="${k}" type="number" step="any" value="${v}">`).join("");
+const $=k=>parseFloat(document.getElementById(k).value);
+const fmt=x=>x.toLocaleString(undefined,{maximumFractionDigits:0});
+function run(){
+  const qi=$("qi"),di=$("di"),b=$("b"),dmin=$("dmin"),yrs=$("years");
+  const warn=[];
+  if(!(qi>0&&di>0&&dmin>0&&yrs>0)) {document.getElementById("warn").textContent="Rates, declines and years must be positive.";return;}
+  if(b<0||b>2) warn.push("b outside 0 to 2 is unusual.");
+  if(b>1.5) warn.push("High b values can overstate reserves; treat with caution.");
+  document.getElementById("warn").textContent=warn.join(" ");
+  const f=forecast(qi,di,b,dmin,yrs);
+  const cum=f.volume.reduce((a,c)=>a+c,0);
+  const v=npv(f,$("price"),$("opex"),$("fixed"),$("disc"));
+  const last=f.rate[f.rate.length-1];
+  document.getElementById("stats").innerHTML=
+   [["Cumulative volume",fmt(cum)],["NPV ($)",fmt(v)],["Final rate /d",last.toFixed(1)]]
+   .map(([l,x])=>`<div class="panel stat"><b>${x}</b><span>${l}</span></div>`).join("");
+  const W=640,H=360,m=45,mx=Math.max(...f.rate),T=yrs;
+  const X=t=>m+(t/T)*(W-m-15),Y=q=>H-m-(q/mx)*(H-m-20);
+  const path=f.t.map((t,i)=>`${i?"L":"M"}${X(t).toFixed(1)},${Y(f.rate[i]).toFixed(1)}`).join("");
+  let g=`<line x1="${m}" y1="${H-m}" x2="${W-15}" y2="${H-m}" stroke="currentColor" opacity=".4"/><line x1="${m}" y1="20" x2="${m}" y2="${H-m}" stroke="currentColor" opacity=".4"/>`;
+  for(let i=0;i<=4;i++){const q=mx*i/4,t=T*i/4;
+    g+=`<text x="${m-6}" y="${Y(q)+4}" text-anchor="end" font-size="11" fill="currentColor">${fmt(q)}</text>`;
+    g+=`<text x="${X(t)}" y="${H-m+16}" text-anchor="middle" font-size="11" fill="currentColor">${t.toFixed(0)}</text>`;}
+  g+=`<text x="${W/2}" y="${H-6}" text-anchor="middle" font-size="12" fill="currentColor">Years</text>`;
+  g+=`<path d="${path}" fill="none" stroke="var(--accent)" stroke-width="2.5"/>`;
+  const s=document.getElementById("chart");s.style.color="var(--muted)";s.innerHTML=g;
+}
+document.querySelectorAll("input").forEach(i=>i.addEventListener("input",run));
+document.getElementById("theme").onclick=()=>{const r=document.documentElement;r.dataset.theme=r.dataset.theme==="light"?"dark":"light"};
+run();
+</script></body></html>
