@@ -23,7 +23,7 @@ dependencies = ["numpy", "pandas"]
 dev = ["pytest"]
 
 [project.urls]
-Homepage = "https://jay-kimani.github.io/TidyWells/"
+Homepage = "https://tidywells.com/"
 Source = "https://github.com/Jay-Kimani/TidyWells"
 Issues = "https://github.com/Jay-Kimani/TidyWells/issues"
 

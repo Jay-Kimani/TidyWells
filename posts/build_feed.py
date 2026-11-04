@@ -9,7 +9,7 @@ from pathlib import Path
 from xml.sax.saxutils import escape
 
 ROOT = Path(__file__).resolve().parents[1]
-SITE = "https://jay-kimani.github.io/TidyWells/"
+SITE = "https://tidywells.com/"
 
 
 def build(posts):

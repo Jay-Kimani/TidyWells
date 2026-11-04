@@ -2,7 +2,7 @@
 
 Clean Canadian oil and gas regulator files into one layout and run simple decline curves. You use your own downloaded files; they stay on your machine.
 
-Site, analysis and browser decline-curve tool: <https://jay-kimani.github.io/TidyWells/>
+Site, analysis and browser decline-curve tool: <https://tidywells.com/>
 
 **Not affiliated with any regulator.** Outputs are illustrative only, not for reserves reporting or investment decisions.
 
