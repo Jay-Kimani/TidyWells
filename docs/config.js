@@ -12,4 +12,4 @@ window.TIDYWELLS_GISCUS={repo:"Jay-Kimani/TidyWells",repoId:"R_kgDOViBLug",categ
 
 // Comments without sign-in: your Cloudflare Worker URL and Turnstile site key (see workers/comments/README.md).
 window.TIDYWELLS_COMMENTS_API="";
-window.TIDYWELLS_TURNSTILE_SITEKEY="";
+window.TIDYWELLS_TURNSTILE_SITEKEY="0x4AAAAAAFzv-FY4UZhVEvor";
