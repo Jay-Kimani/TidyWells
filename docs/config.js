@@ -15,6 +15,6 @@ window.TIDYWELLS_COMMENTS_API="https://tidywells-comments.jonathandupuis747.work
 window.TIDYWELLS_TURNSTILE_SITEKEY="0x4AAAAAAFzv-FY4UZhVEvor";
 
 // Cookieless analytics: Cloudflare dashboard > Analytics & Logs > Web Analytics > Add site (tidywells.com) > copy the token.
-window.TIDYWELLS_CF_ANALYTICS_TOKEN="";
+window.TIDYWELLS_CF_ANALYTICS_TOKEN = "b2b321b43f0a4327b1b0f58bdcc9953c";
 // One labelled sponsor strip shown at the top of every page. Leave name empty to hide. URL must be https.
 window.TIDYWELLS_SPONSOR={name:"",url:"",text:""};
