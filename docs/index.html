@@ -17,11 +17,13 @@ button{background:none;border:1px solid var(--muted);color:var(--fg);border-radi
 </style>
 </head>
 <body>
-<header><nav><a href="#">Home</a><a href="decline.html">Decline curve</a><a href="#">Analysis</a><a href="#">Methods</a><a href="#">About</a>
+<header><nav><a href="#">Home</a><a href="decline.html">Decline curve</a><a href="#analysis">Analysis</a><a href="#">Methods</a><a href="#">About</a>
 <button onclick="var r=document.documentElement;r.dataset.theme=r.dataset.theme==='light'?'dark':'light'">Theme</button></nav></header>
 <main>
 <h1>Tidywells</h1>
 <p>Clean Canadian oil and gas regulator data, run simple decline curves, and read plain-language analysis. Your files stay on your machine.</p>
+<h2 id="analysis">Analysis</h2>
+<p><a href="posts/decline-backtest.html">How well does a simple decline curve forecast Canadian wells?</a> A backtest on about 1,900 Alberta, Saskatchewan and BC wells.</p>
 <p><span class="chip">Early build</span> <span class="chip">Illustrative, not for reserves or investment decisions</span></p>
 </main>
 <footer><small>Not affiliated with any regulator.</small></footer>

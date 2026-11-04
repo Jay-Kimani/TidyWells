@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Decline curve backtest · Tidywells</title><link rel="stylesheet" href="../style.css">
+<style>table{border-collapse:collapse;width:100%;font-size:14px}th,td{border-bottom:1px solid var(--line);padding:6px 8px;text-align:right}th:first-child,td:first-child{text-align:left}article{max-width:720px}a{color:var(--accent)}</style></head>
+<body>
+<header><nav><a href="../index.html">Home</a><a href="../decline.html">Decline curve</a><a class="on" href="../index.html#analysis">Analysis</a><button id="theme">Theme</button></nav></header>
+<main><article>
+<h1>How well does a simple decline curve forecast Canadian wells?</h1>
+<p><span class="chip">November 2026</span><span class="chip">Illustrative, not for reserves or investment decisions</span></p>
+<p>We took public production data from Alberta, Saskatchewan and British Columbia and tested the most common decline curve (Arps, with a bounded b-factor) the hard way: fit it on the first 45 months of a well's life, predict the next 12, and compare to what was reported.</p>
+<h2>What we did</h2>
+<ul>
+<li><b>Data:</b> monthly well-level production, January 2022 to September 2026 (57 months). Alberta and Saskatchewan from Petrinex public data; BC from the BC Energy Regulator production file.</li>
+<li><b>Wells:</b> up to 500 randomly chosen wells per group, restricted to wells that produced in at least 50 of the 57 months. Alberta and Saskatchewan use calendar-month averages; BC gas uses producing days.</li>
+<li><b>Fit:</b> Arps decline fitted by least squares on log rate, starting at each well's peak month, b limited to 0 to 2.</li>
+<li><b>Test:</b> forecast the cumulative volume over months 46 to 57 and compare to the reported volume.</li></ul>
+<h2>Results</h2>
+<table><tr><th>Group</th><th>Wells tested</th><th>Typical miss</th><th>Within ±25%</th><th>Within ±50%</th><th>Average bias</th></tr>
+<tr><td>Alberta oil</td><td>460</td><td>17%</td><td>65%</td><td>89%</td><td>−10%</td></tr>
+<tr><td>Saskatchewan oil</td><td>469</td><td>17%</td><td>66%</td><td>90%</td><td>−9%</td></tr>
+<tr><td>Saskatchewan gas</td><td>471</td><td>16%</td><td>65%</td><td>85%</td><td>−12%</td></tr>
+<tr><td>BC gas</td><td>483</td><td>13%</td><td>75%</td><td>92%</td><td>−8%</td></tr></table>
+<p><small>"Typical miss" is the median absolute error of the 12-month cumulative volume. Negative bias means the forecast was a bit low on average.</small></p>
+<h2>What stands out</h2>
+<ol>
+<li><b>A simple curve is decent at one-year screening.</b> About two thirds of wells landed within a quarter of the actual volume, and almost 90% within half. That is useful for a quick look, not for reserves.</li>
+<li><b>The curve is consistently a little pessimistic.</b> All four groups under-forecast, by 8 to 12% on average. A likely reason is wells that were shut in, then restarted or re-completed, but we have not tested that.</li>
+<li><b>b is not well determined.</b> In every group the median fitted b sat at the upper limit of 2, and 83 to 90% of fits carried a warning (b at its bound, or many b values fitting about equally well). Treat any single well's b with suspicion.</li>
+<li><b>Warnings are not a quality score.</b> In a quick check on Alberta oil, the small group of fits with no warnings was not more accurate.</li></ol>
+<h2>Limits</h2>
+<ul>
+<li>The test only includes wells that kept producing across nearly all 57 months. Wells that shut in or stopped are excluded, so real accuracy across all wells would be worse.</li>
+<li>Forecasts here have no terminal-decline switch and no economics.</li>
+<li>One sample per group, one time window, not compared against any industry forecast.</li>
+<li>Some volumes may be allocated rather than metered; we did not separate them.</li></ul>
+<h2>Reproduce it</h2>
+<p>Code: <a href="https://github.com/Jay-Kimani/TidyWells">github.com/Jay-Kimani/TidyWells</a>, <code>posts/backtest.py</code> and <code>src/tidywells/decline.py</code>. Download the files yourself from Petrinex and the BC Energy Regulator; we do not host the data.</p>
+<p><small>Contains information licensed from Petrinex public data (Alberta, Saskatchewan) and the BC Energy Regulator; Crown copyright of the provinces is acknowledged. Tidywells is not affiliated with any regulator.</small></p>
+</article></main>
+<footer><small>Provided as is, no warranty.</small></footer>
+<script>document.getElementById("theme").onclick=()=>{const r=document.documentElement;r.dataset.theme=r.dataset.theme==="light"?"dark":"light"}</script>
+</body></html>
