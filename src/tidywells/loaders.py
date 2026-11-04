@@ -170,6 +170,32 @@ def read_bc_production(path, products: Sequence[str] = ("OIL", "GAS", "COND")) -
     return out[["month", "well_id", "province", "product", "volume", "days"]]
 
 
+def read_bc_well_index(path) -> pd.DataFrame:
+    """BC Energy Regulator 'Well Index' CSV -> one row per UWI.
+
+    The source repeats column names (Mode, Fluid, Oper appear twice: well level and
+    completion level). We keep the well-level ones. Fixed-width padding in names is
+    collapsed. The file has no operator name, only status codes.
+    """
+    d = _read_csv(path)
+    d.columns = [c.strip() for c in d.columns]
+    first = lambda name: d.loc[:, d.columns == name].iloc[:, 0]
+    out = pd.DataFrame({
+        "well_id": d["UWI"].str.strip(),
+        "wa_number": d["WA"].str.strip(),
+        "well_name": d["Well Name"].str.split().str.join(" "),
+        "bottom_hole": d["Bottom Hole"].str.strip(),
+        "status_mode": first("Mode").str.strip(),
+        "status_fluid": first("Fluid").str.strip(),
+        "well_class": d["Clas"].str.strip(),
+        "rig_release_date": pd.to_datetime(d["RR Date"], format="%Y%m%d", errors="coerce"),
+        "area_code": d["Area"].str.strip(),
+        "confidential_release": pd.to_datetime(d["Conf Rels Date"], format="%Y%m%d", errors="coerce"),
+    })
+    out["province"] = "BC"
+    return out.dropna(subset=["well_id"]).drop_duplicates("well_id", keep="last")
+
+
 def monthly_series(vol: pd.DataFrame, well_id: str, product: str, daily: bool = True,
                    use_producing_days: bool = False) -> pd.Series:
     """Dense monthly series for one well and product (missing months = NaN).

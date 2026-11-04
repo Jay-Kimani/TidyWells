@@ -84,3 +84,14 @@ def test_bc_production_sums_zones_and_uses_days(tmp_path):
     s = tw.monthly_series(d, "100060608613W600", "GAS", use_producing_days=True)
     assert s.iloc[0] == 15 / 20 and s.isna().iloc[1]
     assert (d.province == "BC").all()
+
+
+def test_bc_well_index_handles_duplicate_columns(tmp_path):
+    f = tmp_path / "well_index.csv"
+    f.write_text('"WA","Well Name","Bottom Hole","R","Mode","Fluid","Oper","DE","RR Date","Area","Form","Pool Seq","Pr","CE","Mode","Fluid","Oper","Struct","UWI","Clas","IP","Last P","CF","Conf Rels Date","OGC File #"\n'
+        '"00004","CANLIN   PINGEL  13-11-081-17","13-11-081-17","Y","ABAN","GAS","UND","00","19521223","8157","","","","02","FLOW","OIL","UND","NA","100131108117W602","EW","","","","19531223",""\n'
+        '"00004","CANLIN   PINGEL  13-11-081-17","13-11-081-17","Y","ABAN","GAS","UND","00","19521223","8157","","","","00","FLOW","OIL","UND","NA","100131108117W600","EW","","","","19531223",""\n')
+    d = tw.read_bc_well_index(f)
+    assert len(d) == 2 and d.well_name.iloc[0] == "CANLIN PINGEL 13-11-081-17"
+    assert d.status_mode.iloc[0] == "ABAN" and d.status_fluid.iloc[0] == "GAS"
+    assert d.rig_release_date.iloc[0] == pd.Timestamp("1952-12-23")
