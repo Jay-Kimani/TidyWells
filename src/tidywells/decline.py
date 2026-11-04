@@ -20,12 +20,15 @@ def arps_rate(t, qi, di, b):
     return qi / np.power(1.0 + b * di * t, 1.0 / b)
 
 
-def forecast(qi, di, b, d_min=0.06, years=30, step=1 / 12):
+def forecast(qi, di, b, d_min=0.06, years=30, step=1 / 12, t0=0.0):
     """Monthly forecast; switches to exponential when decline falls to d_min.
 
+    t0 shifts the start along the curve (e.g. years already produced), and the returned t
+    still starts at 0 so it can be used for discounting.
     Returns dict with t (years), rate (per day), volume (per period).
     """
-    t = np.arange(0, years, step)
+    tau = np.arange(0, years, step)
+    t = t0 + tau
     if b == 0 or di <= d_min:
         rate = arps_rate(t, qi, di, 0) if b == 0 else arps_rate(t, qi, di, b)
     else:
@@ -38,7 +41,7 @@ def forecast(qi, di, b, d_min=0.06, years=30, step=1 / 12):
             q_sw * np.exp(-d_min * (t - t_sw)),
         )
     volume = rate * step * DAYS_PER_YEAR
-    return {"t": t, "rate": rate, "volume": volume}
+    return {"t": tau, "rate": rate, "volume": volume}
 
 
 def npv(volume, t, price, opex_per_unit=0.0, fixed_cost_per_year=0.0, discount=0.10, step=1 / 12):

@@ -58,3 +58,10 @@ def test_fit_warns_when_b_unconstrained_and_rejects_tiny_input():
     assert f["warnings"]
     with pytest.raises(ValueError):
         fit_arps(t[:4], arps_rate(t[:4], 100, 0.5, 0))
+
+
+def test_forecast_offset_matches_tail_of_base_forecast():
+    base = forecast(100, 0.8, 1.2, d_min=0.06, years=30)
+    shifted = forecast(100, 0.8, 1.2, d_min=0.06, years=28, t0=2.0)
+    assert np.allclose(shifted["rate"], base["rate"][24:24 + len(shifted["rate"])])
+    assert shifted["t"][0] == 0

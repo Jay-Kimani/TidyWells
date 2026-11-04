@@ -1,56 +1,127 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Decline curve · Tidywells</title><link rel="stylesheet" href="style.css"></head>
+<title>Decline curve · Tidywells</title><link rel="stylesheet" href="style.css">
+<style>
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:700px){.two{grid-template-columns:1fr}}
+textarea{width:100%;min-height:120px;background:var(--bg);color:var(--fg);border:1px solid var(--line);border-radius:4px;padding:6px;font:13px/1.4 ui-monospace,monospace}
+select{width:100%;padding:6px;background:var(--bg);color:var(--fg);border:1px solid var(--line);border-radius:4px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:8px}
+.radio label{display:inline;color:var(--fg);font-size:14px;margin-right:12px}.radio input{width:auto}
+#fitbox{margin-top:12px;font-size:14px}#fitbox b{color:var(--accent)}
+.err{color:#e07a7a;font-size:14px}
+details summary{cursor:pointer;color:var(--muted)}
+main a{color:var(--accent)}
+</style></head>
 <body>
-<header><nav><a href="index.html">Home</a><a class="on" href="decline.html">Decline curve</a><a href="index.html#methods">Methods</a>
+<header><nav><a href="index.html">Home</a><a class="on" href="decline.html">Decline curve</a><a href="index.html#analysis">Analysis</a>
 <button id="theme">Theme</button></nav></header>
 <main>
 <h1>Decline curve and simple economics</h1>
 <p><span class="chip">Illustrative, not for reserves reporting or investment decisions</span><span class="chip">Runs in your browser; nothing is uploaded</span></p>
-<div class="grid">
+
+<div class="panel">
+<b>1. Fit your own well (optional)</b>
+<p style="margin:4px 0;font-size:14px;color:var(--muted)">Paste monthly production for one well, or load a CSV file. The file is read in your browser and never sent anywhere. Two columns: a month (2024-03, 202403, Mar 2024, or just 1, 2, 3 …) and the production.</p>
+<textarea id="paste" placeholder="month,volume&#10;2023-01,310&#10;2023-02,295&#10;..."></textarea>
+<div class="row"><input id="file" type="file" accept=".csv,.txt,.tsv" style="width:auto"><button id="example">Try an example (synthetic)</button><button id="fit">Fit and forecast</button></div>
+<div class="two" style="margin-top:8px"><div><label for="tcol">Month column</label><select id="tcol"></select></div><div><label for="vcol">Production column</label><select id="vcol"></select></div></div>
+<div class="row radio"><span style="font-size:14px">Values are:</span>
+<label><input type="radio" name="vt" value="vol" checked> monthly volume</label><label><input type="radio" name="vt" value="rate"> daily rate</label></div>
+<div id="fitbox"></div>
+</div>
+
+<div class="grid" style="margin-top:16px">
 <div class="panel" id="inputs"></div>
 <div>
 <div class="stats" id="stats"></div>
 <div id="warn" class="warn"></div>
-<svg id="chart" viewBox="0 0 640 360" role="img" aria-label="Forecast rate chart"></svg>
+<svg id="chart" viewBox="0 0 640 360" role="img" aria-label="Production history, fitted curve and forecast"></svg>
+<p style="font-size:13px;color:var(--muted)">Dots: your data from the peak onward. Line: fitted curve and forecast.</p>
 </div></div>
+
 <h2 id="methods">Methods</h2>
-<p>Arps hyperbolic decline q = qi / (1 + b·Di·t)^(1/b), switching to exponential decline at a terminal rate Dmin. Rate is per day, Di is nominal annual decline. Economics are undiscounted-royalty, pre-tax net revenue: volume × (price − opex) minus fixed costs, discounted monthly. Units are whatever you enter (bbl/d with $/bbl, or mcf/d with $/mcf).</p>
+<p>Arps hyperbolic decline q = qi / (1 + b·Di·t)^(1/b), switching to exponential decline at a terminal rate Dmin. Rate is per day, Di is nominal annual decline. The fit uses least squares on log rate from the highest month onward, with b searched between 0 and 2; it warns when b is poorly determined. The forecast starts at the end of your data. Economics are pre-tax and pre-royalty: volume × (price − opex) minus fixed costs, discounted monthly. Units are whatever you enter (bbl/d with $/bbl, or mcf/d with $/mcf).</p>
+<p>How reliable is this? See our <a href="posts/decline-backtest.html">backtest on about 1,900 Canadian wells</a>: typical error on a 12-month forecast was 13 to 17% with four years of history, and about twice that with two years.</p>
 </main>
 <footer><small>Not affiliated with any regulator. Provided as is, no warranty.</small></footer>
 <script src="decline.js"></script>
 <script>
-const fields=[["qi","Initial rate (per day)",500],["di","Initial decline Di (per year, 0.7 = 70%)",0.7],["b","b-factor (0 to 2)",1.0],["dmin","Terminal decline (per year)",0.08],["years","Forecast years",20],["price","Price ($/unit)",70],["opex","Variable opex ($/unit)",15],["fixed","Fixed cost ($/year)",60000],["disc","Discount rate",0.10]];
-const box=document.getElementById("inputs");
-box.innerHTML=fields.map(([k,l,v])=>`<label for="${k}">${l}</label><input id="${k}" type="number" step="any" value="${v}">`).join("");
-const $=k=>parseFloat(document.getElementById(k).value);
+const fields=[["qi","Rate at start of forecast (per day)",500],["di","Initial decline Di (per year, 0.7 = 70%)",0.7],["b","b-factor (0 to 2)",1.0],["dmin","Terminal decline (per year)",0.08],["years","Forecast years",20],["price","Price ($/unit)",70],["opex","Variable opex ($/unit)",15],["fixed","Fixed cost ($/year)",60000],["disc","Discount rate",0.10]];
+document.getElementById("inputs").innerHTML=fields.map(([k,l,v])=>`<label for="${k}">${l}</label><input id="${k}" type="number" step="any" value="${v}">`).join("");
+const $=k=>parseFloat(document.getElementById(k).value), el=id=>document.getElementById(id);
 const fmt=x=>x.toLocaleString(undefined,{maximumFractionDigits:0});
+let data=null; // {pts:[{x,q}] years since peak, tEnd, fit}
 function run(){
-  const qi=$("qi"),di=$("di"),b=$("b"),dmin=$("dmin"),yrs=$("years");
-  const warn=[];
-  if(!(qi>0&&di>0&&dmin>0&&yrs>0)) {document.getElementById("warn").textContent="Rates, declines and years must be positive.";return;}
+  const qi=$("qi"),di=$("di"),b=$("b"),dmin=$("dmin"),yrs=$("years"),warn=[];
+  if(!(qi>0&&di>0&&dmin>0&&yrs>0)){el("warn").textContent="Rates, declines and years must be positive.";return;}
   if(b<0||b>2) warn.push("b outside 0 to 2 is unusual.");
   if(b>1.5) warn.push("High b values can overstate reserves; treat with caution.");
-  document.getElementById("warn").textContent=warn.join(" ");
-  const f=forecast(qi,di,b,dmin,yrs);
-  const cum=f.volume.reduce((a,c)=>a+c,0);
-  const v=npv(f,$("price"),$("opex"),$("fixed"),$("disc"));
-  const last=f.rate[f.rate.length-1];
-  document.getElementById("stats").innerHTML=
-   [["Cumulative volume",fmt(cum)],["NPV ($)",fmt(v)],["Final rate /d",last.toFixed(1)]]
-   .map(([l,x])=>`<div class="panel stat"><b>${x}</b><span>${l}</span></div>`).join("");
-  const W=640,H=360,m=45,mx=Math.max(...f.rate),T=yrs;
-  const X=t=>m+(t/T)*(W-m-15),Y=q=>H-m-(q/mx)*(H-m-20);
-  const path=f.t.map((t,i)=>`${i?"L":"M"}${X(t).toFixed(1)},${Y(f.rate[i]).toFixed(1)}`).join("");
+  el("warn").textContent=warn.join(" ");
+  // with data loaded, input rate/Di/b describe the curve from the peak; forecast starts at end of data
+  const tEnd=data?data.tEnd:0;
+  const f=forecast(qi,di,b,dmin,yrs,1/12,tEnd);
+  const cum=f.volume.reduce((a,c)=>a+c,0), v=npv(f,$("price"),$("opex"),$("fixed"),$("disc"));
+  el("stats").innerHTML=[[data?"Remaining volume":"Cumulative volume",fmt(cum)],["NPV ($)",fmt(v)],["Final rate /d",f.rate[f.rate.length-1].toFixed(1)]].map(([l,x])=>`<div class="panel stat"><b>${x}</b><span>${l}</span></div>`).join("");
+  // chart: curve from peak (t=0) to end of forecast
+  const T=tEnd+yrs, curve=forecast(qi,di,b,dmin,T,1/12,0);
+  const W=640,H=360,m=45;
+  const mx=Math.max(...curve.rate,...(data?data.pts.map(p=>p.q):[0]));
+  const Tax=Math.ceil(T/4)*4,X=t=>m+(t/Tax)*(W-m-15),Y=q=>H-m-(q/mx)*(H-m-20);
   let g=`<line x1="${m}" y1="${H-m}" x2="${W-15}" y2="${H-m}" stroke="currentColor" opacity=".4"/><line x1="${m}" y1="20" x2="${m}" y2="${H-m}" stroke="currentColor" opacity=".4"/>`;
-  for(let i=0;i<=4;i++){const q=mx*i/4,t=T*i/4;
-    g+=`<text x="${m-6}" y="${Y(q)+4}" text-anchor="end" font-size="11" fill="currentColor">${fmt(q)}</text>`;
-    g+=`<text x="${X(t)}" y="${H-m+16}" text-anchor="middle" font-size="11" fill="currentColor">${t.toFixed(0)}</text>`;}
-  g+=`<text x="${W/2}" y="${H-6}" text-anchor="middle" font-size="12" fill="currentColor">Years</text>`;
-  g+=`<path d="${path}" fill="none" stroke="var(--accent)" stroke-width="2.5"/>`;
-  const s=document.getElementById("chart");s.style.color="var(--muted)";s.innerHTML=g;
+  for(let i=0;i<=4;i++){const q=mx*i/4,t=Tax*i/4;
+    g+=`<text x="${m-6}" y="${Y(q)+4}" text-anchor="end" font-size="11" fill="currentColor">${fmt(q)}</text><text x="${X(t)}" y="${H-m+16}" text-anchor="middle" font-size="11" fill="currentColor">${t.toFixed(0)}</text>`;}
+  g+=`<text x="${W/2}" y="${H-6}" text-anchor="middle" font-size="12" fill="currentColor">Years since peak</text>`;
+  if(data&&tEnd>0) g+=`<line x1="${X(tEnd)}" y1="20" x2="${X(tEnd)}" y2="${H-m}" stroke="currentColor" opacity=".3" stroke-dasharray="4 4"/>`;
+  g+=`<path d="${curve.t.map((t,i)=>`${i?"L":"M"}${X(t).toFixed(1)},${Y(curve.rate[i]).toFixed(1)}`).join("")}" fill="none" stroke="var(--accent)" stroke-width="2.5"/>`;
+  if(data) g+=data.pts.map(p=>`<circle cx="${X(p.x).toFixed(1)}" cy="${Y(p.q).toFixed(1)}" r="2.6" fill="currentColor" opacity=".75"/>`).join("");
+  const s=el("chart");s.style.color="var(--muted)";s.innerHTML=g;
 }
-document.querySelectorAll("input").forEach(i=>i.addEventListener("input",run));
-document.getElementById("theme").onclick=()=>{const r=document.documentElement;r.dataset.theme=r.dataset.theme==="light"?"dark":"light"};
+function fillColumns(tbl){
+  const opts=tbl.headers.map((h,i)=>`<option value="${i}">${h.replace(/</g,"&lt;")}</option>`).join("");
+  el("tcol").innerHTML=opts;el("vcol").innerHTML=opts;
+  el("tcol").value=0;el("vcol").value=Math.min(1,tbl.headers.length-1);
+}
+function readTable(){
+  const tbl=parseTable(el("paste").value); if(!tbl.rows.length) throw new Error("Paste some data or load a file first.");
+  if(tbl.headers.length<2) throw new Error("Need at least two columns: month and production.");
+  return tbl;
+}
+function doFit(){
+  const box=el("fitbox"); box.innerHTML="";
+  try{
+    const tbl=readTable(), tc=+el("tcol").value, vc=+el("vcol").value;
+    if(tc===vc) throw new Error("Pick different columns for month and production.");
+    const mode=document.querySelector('input[name=vt]:checked').value;
+    let base=null; const t=[],q=[]; let seq=0;
+    for(const r of tbl.rows){
+      const v=Number(String(r[vc]).replace(/,/g,"")); if(!isFinite(v)||r[vc]==="") continue;
+      const pm=parseMonth(r[tc]); let tm,days=30.4375;
+      if(pm){const k=pm.y*12+pm.m; if(base===null) base=k; tm=k-base; days=daysInMonth(pm.y,pm.m);}
+      else{const n=Number(r[tc]); tm=isFinite(n)?(base===null?(base=n,0):n-base):seq; if(isFinite(n)&&base===null) base=n;}
+      seq++; t.push(tm/12); q.push(mode==="vol"?v/days:v);
+    }
+    if(t.length<6) throw new Error("Need at least 6 months of data.");
+    const f=fitArps(t,q);
+    const t0=t[f.peakIndex], pts=f.usedIndex.map(i=>({x:t[i]-t0,q:q[i]})), tEnd=t[t.length-1]-t0;
+    data={pts,tEnd};
+    el("qi").value=f.qi.toPrecision(4); el("di").value=f.di.toPrecision(3); el("b").value=f.b.toFixed(2);
+    const last=q[q.length-1];
+    box.innerHTML=`Fitted from the peak (month ${f.peakIndex+1} of ${t.length}) using ${f.n} points: <b>qi ${f.qi.toFixed(1)}/d</b>, <b>Di ${(f.di*100).toFixed(0)}%/yr</b>, <b>b ${f.b.toFixed(2)}</b>. Fit error (log RMSE) ${f.rmseLog.toFixed(2)}. Last month's rate ${last.toFixed(1)}/d. The forecast below starts at the end of your data.`+(f.warnings.length?`<div class="warn">${f.warnings.map(w=>"• "+w).join("<br>")}</div>`:"");
+    run();
+  }catch(e){data=null;box.innerHTML=`<span class="err">${e.message}</span>`;run();}
+}
+function example(){
+  let s=12345; const rnd=()=>{s|=0;s=s+0x6D2B79F5|0;let t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296};
+  const rows=["month,volume (m3)"]; 
+  for(let i=0;i<40;i++){const y=2022+Math.floor(i/12),m=i%12+1,d=daysInMonth(y,m);
+    const q=arpsRate(i/12,300,1.5,1.2)*Math.exp((rnd()-.5)*.2); rows.push(`${y}-${String(m).padStart(2,"0")},${(q*d).toFixed(1)}`);}
+  el("paste").value=rows.join("\n"); fillColumns(parseTable(el("paste").value)); doFit();
+}
+el("paste").addEventListener("input",()=>{try{fillColumns(parseTable(el("paste").value))}catch(e){}});
+el("file").addEventListener("change",e=>{const f=e.target.files[0]; if(!f) return; const r=new FileReader(); r.onload=()=>{el("paste").value=r.result; fillColumns(parseTable(r.result));}; r.readAsText(f);});
+el("fit").onclick=doFit; el("example").onclick=example;
+document.querySelectorAll("#inputs input").forEach(i=>i.addEventListener("input",run));
+el("theme").onclick=()=>{const r=document.documentElement;r.dataset.theme=r.dataset.theme==="light"?"dark":"light"};
 run();
 </script></body></html>
