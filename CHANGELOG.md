@@ -11,3 +11,9 @@
 - Loaders for Petrinex (AB, SK) and BCER files, join, monthly series.
 - Bounded Arps fit, forecast with terminal switch, NPV.
 - Analysis scripts: backtest, recovery, monthly aggregates.
+
+## Site (unreleased), open data and trust
+- Added an Open data page with a free monthly production CSV (units, sources, caveats, citation) and Dataset markup.
+- Added a Corrections page and a 404 page; footer links on every page.
+- Added Article and WebSite structured data, built by `posts/build_feed.py`, which also rebuilds the CSV and the sitemap.
+- Fixed a broken Methods link in the Sponsor page nav.

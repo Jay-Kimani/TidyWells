@@ -71,10 +71,35 @@ if __name__ == "__main__":
     a.write_text(t[:i] + "\n" + snaps_html(snaps) + "\n" + t[j:], encoding="utf-8")
     # sitemap + robots (search engines)
     base = "https://tidywells.com"
-    pages = ["", "decline.html", "analysis.html", "methods.html", "guide.html", "pro.html", "about.html", "terms.html"]
+    pages = ["", "decline.html", "analysis.html", "methods.html", "guide.html", "pro.html", "about.html", "data.html", "corrections.html", "terms.html"]
     urls = [(f"{base}/{pg}", None) for pg in pages] + [(f"{base}/posts/{p['slug']}.html", p["date"]) for p in posts]
     sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
     for u, d in urls:
         sm += f"<url><loc>{u}</loc>" + (f"<lastmod>{d}</lastmod>" if d else "") + "</url>\n"
     (ROOT / "docs" / "sitemap.xml").write_text(sm + "</urlset>\n", encoding="utf-8")
     (ROOT / "docs" / "robots.txt").write_text(f"User-agent: *\nAllow: /\n\nSitemap: {base}/sitemap.xml\n", encoding="utf-8")
+
+    # open-data CSV, rebuilt from posts/monthly_agg.csv
+    import csv
+    src = ROOT / "posts" / "monthly_agg.csv"
+    if src.exists():
+        (ROOT / "docs" / "data").mkdir(exist_ok=True)
+        with open(src, newline="") as fi, open(ROOT / "docs" / "data" / "tidywells-monthly-production.csv", "w", newline="") as fo:
+            w = csv.writer(fo)
+            w.writerow(["province", "product", "month", "volume", "unit", "wells_producing", "days_in_month"])
+            for r in csv.DictReader(fi):
+                w.writerow([r["province"], r["product"], r["month"], r["volume"], "m3" if r["product"] == "OIL" else "10^3 m3", r["wells"], r["days_in_month"]])
+    # structured data (JSON-LD) so search engines understand posts and the site
+    import re
+    def ld_block(obj):
+        return "<!--LD--><script type=\"application/ld+json\">" + json.dumps(obj) + "</script><!--/LD-->"
+    def inject(path, block):
+        t = path.read_text(encoding="utf-8")
+        t = re.sub(r"<!--LD-->.*?<!--/LD-->", "", t, flags=re.S)
+        path.write_text(t.replace("</head>", block + "</head>", 1), encoding="utf-8")
+    pub = {"@type": "Organization", "name": "Tidywells", "url": "https://tidywells.com"}
+    for p_ in posts:
+        f = ROOT / "docs" / "posts" / f"{p_['slug']}.html"
+        if f.exists():
+            inject(f, ld_block({"@context": "https://schema.org", "@type": "Article", "headline": p_["title"], "description": p_["summary"], "datePublished": p_["date"], "dateModified": p_["date"], "author": pub, "publisher": pub, "mainEntityOfPage": f"https://tidywells.com/posts/{p_['slug']}.html"}))
+    inject(ROOT / "docs" / "index.html", ld_block({"@context": "https://schema.org", "@type": "WebSite", "name": "Tidywells", "url": "https://tidywells.com/", "description": "Clean Canadian oil and gas regulator data, decline curves and plain-language analysis.", "publisher": pub}))
