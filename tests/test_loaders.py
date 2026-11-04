@@ -60,3 +60,12 @@ def test_join_keeps_one_row_per_well(tmp_path):
     v = pd.DataFrame({"well_id": ["ABWI100010100115W400", "ABWI100010100115W400"], "month": [pd.Period("2024-01")] * 2})
     j = tw.join_wells(v, tw.read_well_infrastructure(tmp_path / "i.csv"), tw.read_well_licence(tmp_path / "l.csv"))
     assert len(j) == 1 and j.loc[0, "well_name"] == "FAKE 1-1-1-15"
+
+
+def test_province_filter_on_folder(tmp_path):
+    for prov in ("AB", "SK"):
+        w = f"{prov}WI100010100115W400"
+        (tmp_path / f"Vol_2024-01-{prov}.csv").write_text(vol("2024-01", [("PROD", "OIL", w, "WI", 10)]))
+    assert len(tw.read_volumetrics(tmp_path)) == 2
+    d = tw.read_volumetrics(tmp_path, province="SK")
+    assert len(d) == 1 and d["province"].iloc[0] == "SK"

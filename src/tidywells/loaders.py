@@ -90,20 +90,24 @@ def read_well_infrastructure(path) -> pd.DataFrame:
     return out
 
 
-def _expand(paths) -> list[str]:
+def _expand(paths, province: str | None = None) -> list[str]:
     if isinstance(paths, (str, os.PathLike)):
         p = os.fspath(paths)
         if os.path.isdir(p):
-            return sorted(glob.glob(os.path.join(p, "Vol_*.csv*")) + glob.glob(os.path.join(p, "Vol_*.CSV*")))
+            found = sorted(set(glob.glob(os.path.join(p, "Vol_*.csv*")) + glob.glob(os.path.join(p, "Vol_*.CSV*"))))
+            if province:  # files are named like Vol_2026-01-AB.csv.zip
+                found = [f for f in found if f"-{province.upper()}." in os.path.basename(f).upper()]
+            return found
         return [p]
     return [os.fspath(x) for x in paths]
 
 
 def read_volumetrics(paths, products: Sequence[str] = ("OIL", "GAS", "COND"),
-                     activity: str = "PROD") -> pd.DataFrame:
+                     activity: str = "PROD", province: str | None = None) -> pd.DataFrame:
     """Petrinex Conventional Volumetrics -> per-well monthly production, long format.
 
     paths: one file, a list of files, or a folder of Vol_*.csv(.zip) files.
+    province: 'AB' or 'SK' to pick only that province's files when given a folder.
     Only well-level rows for the chosen activity and products are kept, which keeps
     memory small. Masked wells (***) are dropped and counted in df.attrs['masked_rows'].
     """
@@ -111,7 +115,7 @@ def read_volumetrics(paths, products: Sequence[str] = ("OIL", "GAS", "COND"),
             "ActivityID", "ProductID", "FromToID", "FromToIDType", "Volume", "Hours",
             "ProrationProduct", "ProrationFactor"]
     parts, masked = [], 0
-    for p in _expand(paths):
+    for p in _expand(paths, province):
         d = _read_csv(p, usecols=lambda c: c in keep)
         d = d[(d["ActivityID"] == activity) & (d["FromToIDType"] == "WI") & d["ProductID"].isin(products)]
         masked += int((d["FromToID"] == "***").sum())
@@ -121,7 +125,7 @@ def read_volumetrics(paths, products: Sequence[str] = ("OIL", "GAS", "COND"),
     d = pd.concat(parts, ignore_index=True)
     out = pd.DataFrame({
         "month": pd.PeriodIndex(d["ProductionMonth"], freq="M"),
-        "well_id": d["FromToID"], "product": d["ProductID"],
+        "well_id": d["FromToID"], "province": d["FromToID"].str[:2], "product": d["ProductID"],
         "volume": pd.to_numeric(d["Volume"], errors="coerce"),
         "hours": pd.to_numeric(d["Hours"], errors="coerce"),
         "prorated": d["ProrationProduct"].notna(),
