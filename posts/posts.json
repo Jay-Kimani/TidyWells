@@ -286,5 +286,53 @@
     "period": "2026-09",
     "kind": "snapshot",
     "summary": "Alberta oil averaged 2,631 thousand bbl/d (+6.6% on a year earlier); Alberta gas 13,540 MMcf/d (+4.0%); BC gas 8,099 MMcf/d."
+  },
+  {
+    "title": "Most licensed wells aren't producing",
+    "slug": "licensed-vs-producing",
+    "date": "2026-11-04",
+    "kind": "analysis",
+    "thumb": "licensed-vs-producing",
+    "summary": "Alberta's well file lists about 668,000 wells and about 143,000 reported production in the last year. Saskatchewan: 158,000 and 42,000."
+  },
+  {
+    "title": "Shut-ins and restarts: how many wells stop, and do they come back?",
+    "slug": "shut-ins-and-restarts",
+    "date": "2026-11-04",
+    "kind": "analysis",
+    "thumb": "shut-ins-and-restarts",
+    "summary": "Of the wells producing in January 2022, 84% in Alberta, 82% in Saskatchewan and 73% in BC were still producing in September 2026; about one well in ten had a gap of three months or more."
+  },
+  {
+    "title": "Are new wells getting better? First-six-month rates by year",
+    "slug": "new-wells-by-vintage",
+    "date": "2026-11-04",
+    "kind": "analysis",
+    "thumb": "new-wells-by-vintage",
+    "summary": "Alberta gas wells that first produced in 2025 started 19% stronger than 2022 starters at the median; Saskatchewan oil wells were roughly unchanged."
+  },
+  {
+    "title": "How concentrated is production? Licensee shares in Alberta and Saskatchewan",
+    "slug": "who-holds-the-wells",
+    "date": "2026-11-04",
+    "kind": "analysis",
+    "thumb": "who-holds-the-wells",
+    "summary": "The five largest licensees hold 52% of Alberta's producing wells and 70% of Saskatchewan's; Saskatchewan's largest alone holds 27% of oil volume."
+  },
+  {
+    "title": "Gas-oil ratios: an \"oil well\" is not the same everywhere",
+    "slug": "gas-oil-ratio",
+    "date": "2026-11-04",
+    "kind": "analysis",
+    "thumb": "gas-oil-ratio",
+    "summary": "Alberta crude-oil wells have a median gas-oil ratio of about 1,896 scf/bbl, Saskatchewan about 693, and Alberta bitumen wells about 352."
+  },
+  {
+    "title": "What a naive load gets wrong: traps in Canadian well files",
+    "slug": "naive-load-traps",
+    "date": "2026-11-04",
+    "kind": "analysis",
+    "thumb": "naive-load-traps",
+    "summary": "Default CSV loading drops leading zeros from codes, counts 13,735 extra Alberta well rows, and splits licence statuses into 16 spellings instead of 8."
   }
 ]

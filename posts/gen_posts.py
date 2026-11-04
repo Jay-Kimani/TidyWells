@@ -105,7 +105,7 @@ def lines_chart(series, xlabels, W=720, H=300, ylab="", ypct=True, colors=None, 
     return "".join(o) + "</svg>"
 
 
-COL = {"Alberta gas": "#6fc3b5", "BC gas": "#6aa6f0", "Saskatchewan gas": "#e0a458", "Alberta oil": "#d98bb0", "Saskatchewan oil": "#b9a3f0"}
+COL = {"Alberta gas": "#6aa6f0", "BC gas": "#5fd0c0", "Saskatchewan gas": "#e0a458", "Alberta oil": "#d98bb0", "Saskatchewan oil": "#b9a3f0"}
 
 # =====================================================================
 # Analysis 2: recovery
@@ -132,7 +132,7 @@ def fig_bars():
         for j, (key, col) in enumerate((("err_nodip", "var(--accent)"), ("err_dip", "#e0a458"))):
             v = R[k][key]; bx = gx - 38 + j * 40
             o.append(f'<rect x="{bx:.1f}" y="{Y(0):.1f}" width="34" height="{Y(v) - Y(0):.1f}" rx="3" fill="{col}"/>'
-                     f'<text x="{bx + 17:.1f}" y="{Y(v) + 14:.1f}" font-size="11.5" text-anchor="middle" fill="#04201b" {F}>{v:.0f}%</text>')
+                     f'<text x="{bx + 17:.1f}" y="{Y(v) + 14:.1f}" font-size="11.5" text-anchor="middle" fill="#06162e" {F}>{v:.0f}%</text>')
         o.append(f'<text x="{gx:.1f}" y="{y1 + 20}" font-size="12" text-anchor="middle" fill="var(--fg)" {F}>{n}</text>')
     o.append(f'<rect x="{x0}" y="{H - 22}" width="12" height="12" rx="2" fill="var(--accent)"/><text x="{x0 + 18}" y="{H - 12}" font-size="12" fill="var(--fg)" {F}>no low month before the forecast</text>'
              f'<rect x="{x0 + 260}" y="{H - 22}" width="12" height="12" rx="2" fill="#e0a458"/><text x="{x0 + 278}" y="{H - 12}" font-size="12" fill="var(--fg)" {F}>a low month in the last 6 months of history</text></svg>')
@@ -193,7 +193,7 @@ rec_body = f'''<h1>Why the decline curve runs low: wells that bounce back</h1>
 <h2>What this means in practice</h2>
 <ul><li>Before trusting a fit, look at the last six months of history. A low month right at the end is a warning that the forecast will probably run low.</li><li>Treat a recovery allowance as a normal part of a portfolio forecast: {rng("recovered_share")}% of wells in these samples ended up above their recent rate.</li><li>We have not tested a fix. Two obvious experiments are fitting with the dip months removed, and anchoring on a median instead of the last months. They are candidates for a future post.</li></ul>
 <h2>Limits</h2>
-<ul><li>Same sample as the first post: up to 500 wells per group that kept producing, so wells that shut in for good are excluded.</li><li>The recovered flag uses the test window, which you would not have at forecast time. The low-month flag uses history only, so it is the one you could act on.</li><li>The half-of-median threshold is a rule of thumb we chose; we did not tune it, and other thresholds would give different counts.</li><li>One time window (January 2022 to September 2026).</li></ul>
+<ul><li>Same sample as the first post: up to 500 wells per group that kept producing, so wells that shut in for good are excluded.</li><li>The recovered flag uses the test window, which you would not have at forecast time. The low-month flag uses history only, so it is the one you could act on.</li><li>The half-of-median threshold is a rule of thumb we chose; we did not tune it, and other thresholds would give different counts.</li><li>One time window (January 2022 to September 2026).</li><li>The Alberta oil group includes wells licensed for crude bitumen; we did not separate them.</li></ul>
 <h2>Reproduce it</h2>
 <p>Code: <a href="https://github.com/Jay-Kimani/TidyWells">github.com/Jay-Kimani/TidyWells</a>, <code>posts/recovery.py</code>. Download the files yourself from Petrinex and the BC Energy Regulator; we do not host the data.</p>
 <p>Illustrative only. Not for reserves reporting or investment decisions.</p>{LICENCE}'''
@@ -207,7 +207,7 @@ key = {n: (p, pr) for n, p, pr in GROUPS}
 fa = lines_chart([(n, [round(AVG[key[n]][m], 2) for m in range(1, 13)], COL[n]) for n in SERIES], SHORT, ylab="rate vs its 12-month trend", ypct=True)
 # raw alberta gas by calendar month, one line per year
 yrs = ["2022", "2023", "2024", "2025"]
-ycol = {"2022": "#8a96a3", "2023": "#6aa6f0", "2024": "#e0a458", "2025": "#6fc3b5"}
+ycol = {"2022": "#8a96a3", "2023": "#5fd0c0", "2024": "#e0a458", "2025": "#6aa6f0"}
 fb = lines_chart([(y, [round(vol[("AB", "GAS")][f"{y}-{m:02d}"]) for m in range(1, 13)], ycol[y]) for y in yrs], SHORT,
                  ylab="Alberta gas, MMcf/d", ypct=False, zero=False)
 def swing_row(n):
@@ -232,7 +232,7 @@ seas_body = f'''<h1>Gas has a season. Oil mostly doesn't.</h1>
 <h2>What this means in practice</h2>
 <ul><li>When a gas month is up or down 5 to 10% on the previous month, check the calendar before reading anything into it. Compare with the same month a year earlier instead.</li><li>For oil, month-to-month moves are mostly not seasonal, so a change of a few percent is more likely to be real.</li><li>A decline curve fitted to a gas well should expect seasonal bumps; a fit that ends on a winter peak will look more optimistic than one ending in the summer.</li></ul>
 <h2>Limits</h2>
-<ul><li>Only four years per calendar month. A one-off event, for example a wildfire evacuation or a pipeline outage, can move the average for a single month.</li><li>The totals include only what appears in the public well-level files, and recent months can be revised.</li><li>The trend adjustment is a simple moving average and cannot separate seasonality from a steady rise or fall within a year.</li></ul>
+<ul><li>Only four years per calendar month. A one-off event, for example a wildfire evacuation or a pipeline outage, can move the average for a single month.</li><li>The totals include only what appears in the public well-level files, and recent months can be revised.</li><li>Alberta oil includes crude bitumen from wells licensed for it, so its small seasonal swing partly reflects bitumen operations.</li><li>The trend adjustment is a simple moving average and cannot separate seasonality from a steady rise or fall within a year.</li></ul>
 <h2>Reproduce it</h2>
 <p>Code: <a href="https://github.com/Jay-Kimani/TidyWells">github.com/Jay-Kimani/TidyWells</a>, <code>posts/monthly_agg.py</code> and <code>posts/gen_posts.py</code>. Download the files yourself from Petrinex and the BC Energy Regulator; we do not host the data.</p>
 <p>Illustrative only. Not for reserves reporting or investment decisions.</p>{LICENCE}'''
@@ -311,7 +311,7 @@ for i, m in enumerate(SNAPS):
 <h2>What stands out</h2>
 <ul><li>Biggest move from the previous month (BC oil excluded, it is small and noisy): <b>{big[1]}</b> at {pct(big[2], 1)}.</li><li>Compared with a year earlier, {yoys[-1][1]} was highest at {pct(yoys[-1][0], 1)} and {yoys[0][1]} lowest at {pct(yoys[0][0], 1)}.</li><li>Seasonal context: in 2022 to 2025, {MONTHS[mo - 1]} was typically {pct(ag_s, 1)} against trend for Alberta gas and {pct(bg_s, 1)} for BC gas (see <a href="gas-has-a-season.html">Gas has a season</a>), so part of a gas move in {MONTHS[mo - 1]} is the calendar.</li></ul>
 <h2>Notes</h2>
-<ul><li>These are sums of public well-level rows, not official provincial statistics. Confidential wells with masked IDs are left out.</li><li>Figures come from files downloaded in November 2026; operators can revise earlier months, so numbers here may differ from what was first reported at the time.</li><li>This page reports what the data shows and does not explain causes.</li></ul>
+<ul><li>These are sums of public well-level rows, not official provincial statistics. Confidential wells with masked IDs are left out.</li><li>Figures come from files downloaded in November 2026; operators can revise earlier months, so numbers here may differ from what was first reported at the time.</li><li>This page reports what the data shows and does not explain causes.</li><li>Alberta oil includes crude bitumen from wells licensed for it (about three quarters of the oil-product volume over the last 12 months; see <a href="licensed-vs-producing.html">the inventory post</a>).</li></ul>
 <p>{prev_l}{" &nbsp;·&nbsp; " if prev_l and next_l else ""}{next_l}</p>
 <p>Code: <a href="https://github.com/Jay-Kimani/TidyWells">github.com/Jay-Kimani/TidyWells</a>, <code>posts/monthly_agg.py</code> and <code>posts/gen_posts.py</code>. Illustrative only, not for reserves reporting or investment decisions.</p>{LICENCE}'''
     page(f"snapshot-{m}", f"Monthly snapshot: {name}", body)

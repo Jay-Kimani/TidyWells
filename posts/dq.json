@@ -1,0 +1,165 @@
+{
+ "BC": {
+  "index_columns": 25,
+  "duplicate_header_names": {
+   "Oper": 2,
+   "Mode": 2,
+   "Fluid": 2
+  },
+  "zone_rows_2025_on": 188501,
+  "lost_zero_zone": {
+   "Wa_num": {
+    "values_with_leading_zeros": 12649,
+    "of": 188501
+   },
+   "Compltn_event_seq": {
+    "values_with_leading_zeros": 188480,
+    "of": 188501
+   },
+   "Area_code": {
+    "values_with_leading_zeros": 753,
+    "of": 188501
+   },
+   "Formtn_code": {
+    "values_with_leading_zeros": 1824,
+    "of": 188501
+   },
+   "Project_code": {
+    "values_with_leading_zeros": 184945,
+    "of": 188501
+   }
+  }
+ },
+ "SK": {
+  "infra_rows": 159645,
+  "infra_unique_wells": 158165,
+  "infra_duplicate_rows": 1480,
+  "licence_rows": 147939,
+  "licence_unique": 147939,
+  "licence_duplicate_rows": 0,
+  "infra_licence_match_raw": 100.0,
+  "infra_licence_match_clean": 100.0,
+  "blank_status_mode": 5766,
+  "bad_status_dates": 0,
+  "missing_spud": 2,
+  "lost_zero_infra": {
+   "WellEventSequence": {
+    "values_with_leading_zeros": 134055,
+    "of": 159645
+   },
+   "LinkedFacilityOperatorBAID": {
+    "values_with_leading_zeros": 2698,
+    "of": 80057
+   },
+   "WellStatusFluidCode": {
+    "values_with_leading_zeros": 158326,
+    "of": 159645
+   },
+   "WellStatusModeCode": {
+    "values_with_leading_zeros": 100290,
+    "of": 159645
+   },
+   "WellStatusTypeCode": {
+    "values_with_leading_zeros": 87564,
+    "of": 159645
+   },
+   "WellStatusStructureCode": {
+    "values_with_leading_zeros": 140634,
+    "of": 159645
+   },
+   "LicenseeID": {
+    "values_with_leading_zeros": 15446,
+    "of": 159645
+   }
+  },
+  "lost_zero_licence": {
+   "Licensee": {
+    "values_with_leading_zeros": 16134,
+    "of": 147939
+   }
+  },
+  "licence_status_spellings": 2,
+  "licence_status_clean": 2,
+  "vol_files": 57,
+  "vol_rows_kept": 3773140,
+  "vol_rows_masked": 0
+ },
+ "AB": {
+  "infra_rows": 681275,
+  "infra_unique_wells": 667540,
+  "infra_duplicate_rows": 13735,
+  "licence_rows": 529506,
+  "licence_unique": 527170,
+  "licence_duplicate_rows": 2336,
+  "infra_licence_match_raw": 99.99016549851382,
+  "infra_licence_match_clean": 99.99016549851382,
+  "blank_status_mode": 121982,
+  "bad_status_dates": 0,
+  "missing_spud": 5055,
+  "lost_zero_infra": {
+   "WellEventSequence": {
+    "values_with_leading_zeros": 496347,
+    "of": 681275
+   },
+   "LinkedFacilityIdentifier": {
+    "values_with_leading_zeros": 184728,
+    "of": 235289
+   },
+   "Field": {
+    "values_with_leading_zeros": 666846,
+    "of": 681275
+   },
+   "WellStatusFluidCode": {
+    "values_with_leading_zeros": 612102,
+    "of": 681275
+   },
+   "WellStatusModeCode": {
+    "values_with_leading_zeros": 530518,
+    "of": 681275
+   },
+   "WellStatusTypeCode": {
+    "values_with_leading_zeros": 648574,
+    "of": 681275
+   },
+   "WellStatusStructureCode": {
+    "values_with_leading_zeros": 681259,
+    "of": 681275
+   },
+   "CommingledLinkedFacilityIdentifier": {
+    "values_with_leading_zeros": 28441,
+    "of": 33511
+   },
+   "BlockNumber": {
+    "values_with_leading_zeros": 306890,
+    "of": 306919
+   }
+  },
+  "lost_zero_licence": {
+   "LicenceLegalSubdivision": {
+    "values_with_leading_zeros": 8,
+    "of": 522735
+   },
+   "LicenceSection": {
+    "values_with_leading_zeros": 8,
+    "of": 522735
+   },
+   "LicenceTownship": {
+    "values_with_leading_zeros": 8,
+    "of": 522735
+   },
+   "LicenceRange": {
+    "values_with_leading_zeros": 8,
+    "of": 522735
+   },
+   "LicenceMeridian": {
+    "values_with_leading_zeros": 8,
+    "of": 522735
+   }
+  },
+  "licence_status_spellings": 16,
+  "licence_status_clean": 8,
+  "vol_files": 57,
+  "vol_rows_kept": 10413897,
+  "vol_rows_masked": 0
+ }
+}

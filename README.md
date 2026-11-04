@@ -48,7 +48,10 @@ Check each source's terms before reuse. Petrinex permits non-commercial use with
 python posts/backtest.py ab FOLDER extra     # first post; also sk, bc
 python posts/recovery.py ab FOLDER           # recovery post
 python posts/monthly_agg.py ab FOLDER        # monthly totals for snapshots and seasonality
-python posts/gen_posts.py && python posts/build_feed.py
+python posts/cache_matrix.py ab FOLDER      # well x month cache (also sk, bc), then:
+python posts/wells_study.py ab FOLDER       # inventory, shut-ins, vintage, licensees, GOR
+python posts/dq_study.py ab FOLDER          # data-quality counts
+python posts/gen_posts2.py && python posts/build_feed.py
 ```
 
 ## Layout

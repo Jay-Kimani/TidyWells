@@ -47,7 +47,7 @@ def fig_a():
 
 def fig_b():
     data = {"Alberta oil": [36, 23, 17], "Saskatchewan oil": [34, 24, 17], "Saskatchewan gas": [29, 21, 16], "BC gas": [24, 19, 13]}
-    cols = {"Alberta oil": "#6fc3b5", "Saskatchewan oil": "#6aa6f0", "Saskatchewan gas": "#e0a458", "BC gas": "#d98bb0"}
+    cols = {"Alberta oil": "#5fd0c0", "Saskatchewan oil": "#6aa6f0", "Saskatchewan gas": "#e0a458", "BC gas": "#d98bb0"}
     W, H, x0, x1, y0, y1 = 720, 300, 60, 520, 20, 250
     xs = {24: x0, 36: x0 + (x1 - x0) * 12 / 21, 45: x1}
     Y = lambda v: y1 - (y1 - y0) * v / 40
