@@ -20,3 +20,15 @@ input{width:100%;padding:6px;background:var(--bg);color:var(--fg);border:1px sol
 svg{width:100%;height:auto;background:var(--panel);border:1px solid var(--line);border-radius:8px}
 .warn{color:#e0a458;font-size:13px}
 main a,footer a{color:var(--accent)}
+
+.brand{display:inline-flex;align-items:center;margin-right:8px}
+.brand img{height:44px;width:auto;display:block}
+.hero{max-width:900px;margin:0 auto;padding:8px 16px 0;text-align:center}
+.hero img{max-width:100%;height:auto;display:block;margin:0 auto}
+.hero.sm{text-align:left}.hero.sm img{margin:0}
+.logo-d{display:inline}.logo-l{display:none}
+:root[data-theme=light] .logo-d{display:none}:root[data-theme=light] .logo-l{display:inline}
+.hero img.logo-d,.hero img.logo-l{display:none}
+.hero img.logo-d{display:block}:root[data-theme=light] .hero img.logo-d{display:none}:root[data-theme=light] .hero img.logo-l{display:block}
+.brand img.logo-l{display:none}.brand img.logo-d{display:block}
+:root[data-theme=light] .brand img.logo-d{display:none}:root[data-theme=light] .brand img.logo-l{display:block}
