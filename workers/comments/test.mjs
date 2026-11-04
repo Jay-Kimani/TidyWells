@@ -20,3 +20,8 @@ a((await handle(new Request("https://w/admin/pending"), env)).status === 401, "a
 r = await handle(new Request("https://w/admin/approve", { method: "POST", body: JSON.stringify({ id: 1 }), headers: { "X-Admin-Key": "k3y" } }), env); a(r.status === 200, "approve");
 r = await handle(new Request("https://w/comments?page=/posts/a.html"), env); a((await r.json()).comments.length === 1, "approved shown");
 console.log("worker tests passed");
+const pre = await handle(new Request("https://w/comments", { method: "OPTIONS", headers: { Origin: "http://www.tidywells.com" } }), env);
+if (pre.headers.get("Access-Control-Allow-Origin") !== "http://www.tidywells.com") { console.log("FAIL cors http www"); process.exit(1); }
+const bad2 = await handle(new Request("https://w/comments", { method: "OPTIONS", headers: { Origin: "https://evil.example" } }), env);
+if (bad2.headers.get("Access-Control-Allow-Origin") === "https://evil.example") { console.log("FAIL cors evil"); process.exit(1); }
+console.log("cors tests passed");

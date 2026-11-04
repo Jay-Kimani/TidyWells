@@ -6,9 +6,10 @@ const PAGE_RE = /^\/[A-Za-z0-9._\-\/]{1,200}$/;
 
 function cors(req, env) {
   const allowed = (env.ALLOWED_ORIGINS || "https://tidywells.com").split(",").map((s) => s.trim());
-  const o = req.headers.get("Origin");
+  const o = req.headers.get("Origin") || "";
+  const ok = allowed.includes(o) || /^https?:\/\/(www\.)?tidywells\.com$/.test(o);
   return {
-    "Access-Control-Allow-Origin": allowed.includes(o) ? o : allowed[0],
+    "Access-Control-Allow-Origin": ok ? o : allowed[0],
     "Access-Control-Allow-Methods": "GET,POST,OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type,X-Admin-Key",
     Vary: "Origin",
