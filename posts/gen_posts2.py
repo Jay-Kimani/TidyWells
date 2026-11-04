@@ -151,7 +151,7 @@ posts_new = []
 def add(slug, title, summary, body, thumb_svg):
     page(slug, title, body)
     (ROOT / "posts" / f"thumb_{slug}.svg").write_text(thumb_svg)
-    posts_new.append(dict(title=title, slug=slug, date=PUB, kind="analysis", thumb=slug, summary=summary))
+    posts_new.append(dict(title=title, slug=slug, date=g.OLD.get(slug, g.TODAY), kind="analysis", thumb=slug, summary=summary))
 
 
 # =====================================================================

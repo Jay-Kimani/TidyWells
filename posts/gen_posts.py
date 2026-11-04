@@ -10,7 +10,13 @@ from collections import defaultdict
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-PUB = "2026-11-04"
+PUB = "2026-11-04"   # date of the first batch of posts
+import datetime as _dt
+TODAY = _dt.date.today().isoformat()
+try:   # keep the dates of posts that already exist; only new posts get today's date
+    OLD = {p_["slug"]: p_["date"] for p_ in json.loads((ROOT / "posts" / "posts.json").read_text())}
+except Exception:
+    OLD = {}
 MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 SHORT = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 F = 'font-family="system-ui,sans-serif"'
@@ -302,8 +308,11 @@ for i, m in enumerate(SNAPS):
     ag_s, bg_s = AVG[("AB", "GAS")][mo], AVG[("BC", "GAS")][mo]
     prev_l = f'<a href="snapshot-{SNAPS[i - 1]}.html">&larr; {MONTHS[int(SNAPS[i - 1][5:]) - 1]} {SNAPS[i - 1][:4]}</a>' if i else ""
     next_l = f'<a href="snapshot-{SNAPS[i + 1]}.html">{MONTHS[int(SNAPS[i + 1][5:]) - 1]} {SNAPS[i + 1][:4]} &rarr;</a>' if i + 1 < len(SNAPS) else ""
+    sdate = OLD.get(f"snapshot-{m}", TODAY)
+    dlm = f"{MONTHS[int(sdate[5:7]) - 1]} {sdate[:4]}"
+    pubchip = "Published retrospectively, November 2026" if m <= "2026-09" else f"Published {dlm}"
     body = f'''<h1>Monthly snapshot: {name}</h1>
-<p><span class="chip">Data month: {name}</span><span class="chip">Published retrospectively, November 2026</span><span class="chip">Illustrative</span></p>
+<p><span class="chip">Data month: {name}</span><span class="chip">{pubchip}</span><span class="chip">Illustrative</span></p>
 <p>Average daily production reported for {name} in the public well-level files for Alberta and Saskatchewan (Petrinex) and BC (BC Energy Regulator), compared with the previous month and with {MONTHS[mo - 1]} {y - 1}. Rates are monthly volume divided by calendar days, so month length does not distort the comparison.</p>
 <div class="tw"><table><tr><th>Group</th><th>Average rate</th><th>vs {MONTHS[int(pm[5:]) - 1][:3]} {pm[:4]}</th><th>vs {SHORT[mo - 1]} {y - 1}</th><th>Wells producing</th></tr>{"".join(trs)}</table></div>
 <p><small>Rates: thousand bbl/d for oil, MMcf/d for gas. "Wells producing" counts well rows with volume above zero in the month. Oil and gas rows for the same well are counted separately.</small></p>
@@ -311,14 +320,14 @@ for i, m in enumerate(SNAPS):
 <h2>What stands out</h2>
 <ul><li>Biggest move from the previous month (BC oil excluded, it is small and noisy): <b>{big[1]}</b> at {pct(big[2], 1)}.</li><li>Compared with a year earlier, {yoys[-1][1]} was highest at {pct(yoys[-1][0], 1)} and {yoys[0][1]} lowest at {pct(yoys[0][0], 1)}.</li><li>Seasonal context: in 2022 to 2025, {MONTHS[mo - 1]} was typically {pct(ag_s, 1)} against trend for Alberta gas and {pct(bg_s, 1)} for BC gas (see <a href="gas-has-a-season.html">Gas has a season</a>), so part of a gas move in {MONTHS[mo - 1]} is the calendar.</li></ul>
 <h2>Notes</h2>
-<ul><li>These are sums of public well-level rows, not official provincial statistics. Rows with masked well IDs would be left out; none were present in the files we used.</li><li>Figures come from files downloaded in November 2026; operators can revise earlier months, so numbers here may differ from what was first reported at the time.</li><li>This page reports what the data shows and does not explain causes.</li><li>Alberta oil includes crude bitumen from wells licensed for it (about three quarters of the oil-product volume over the last 12 months; see <a href="licensed-vs-producing.html">the inventory post</a>).</li></ul>
+<ul><li>These are sums of public well-level rows, not official provincial statistics. Rows with masked well IDs would be left out; none were present in the files we used.</li><li>Figures come from files downloaded in {dlm}; operators can revise earlier months, so numbers here may differ from what was first reported at the time.</li><li>This page reports what the data shows and does not explain causes.</li><li>Alberta oil includes crude bitumen from wells licensed for it (about three quarters of the oil-product volume over the last 12 months; see <a href="licensed-vs-producing.html">the inventory post</a>).</li></ul>
 <p>{prev_l}{" &nbsp;·&nbsp; " if prev_l and next_l else ""}{next_l}</p>
 <p>Code: <a href="https://github.com/Jay-Kimani/TidyWells">github.com/Jay-Kimani/TidyWells</a>, <code>posts/monthly_agg.py</code> and <code>posts/gen_posts.py</code>. Illustrative only, not for reserves reporting or investment decisions.</p>{LICENCE}'''
     page(f"snapshot-{m}", f"Monthly snapshot: {name}", body)
     v = vol
     summ = (f"Alberta oil averaged {fmt(v[('AB', 'OIL')][m], 'OIL')} thousand bbl/d ({pct(100 * (v[('AB', 'OIL')][m] / v[('AB', 'OIL')][ly] - 1), 1)} on a year earlier); "
             f"Alberta gas {fmt(v[('AB', 'GAS')][m], 'GAS')} MMcf/d ({pct(100 * (v[('AB', 'GAS')][m] / v[('AB', 'GAS')][ly] - 1), 1)}); BC gas {fmt(v[('BC', 'GAS')][m], 'GAS')} MMcf/d.")
-    posts.append(dict(title=f"Monthly snapshot: {name}", slug=f"snapshot-{m}", date=PUB, period=m, kind="snapshot", summary=summ))
+    posts.append(dict(title=f"Monthly snapshot: {name}", slug=f"snapshot-{m}", date=sdate, period=m, kind="snapshot", summary=summ))
 (ROOT / "posts" / "posts.json").write_text(json.dumps(posts, indent=2), encoding="utf-8")
 print(len(posts), "posts")
 
