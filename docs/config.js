@@ -9,3 +9,6 @@ window.TIDYWELLS_PRO_PRICE="CAD $4.99 per month, with a 3-day free trial. Cancel
 
 // Comments (giscus). Enable Discussions on the repo, install the giscus app, then paste categoryId from https://giscus.app
 window.TIDYWELLS_GISCUS={repo:"Jay-Kimani/TidyWells",repoId:"R_kgDOViBLug",category:"Comments",categoryId:"DIC_kwDOViBLus4DKW_A"};
+
+// Comments without sign-in (Cusdis): sign up at cusdis.com, add a website, paste its App ID here.
+window.TIDYWELLS_CUSDIS_APP_ID="";
