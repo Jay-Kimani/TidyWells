@@ -4,27 +4,33 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Tidywells</title>
-<link rel="stylesheet" href="style.css"><style>
-:root{--bg:#0f1419;--fg:#e6e9ec;--muted:#8a96a3;--accent:#4fb3a5}
-:root[data-theme=light]{--bg:#fafaf7;--fg:#1a1f24;--muted:#5d6975;--accent:#1d7a6e}
-body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 system-ui,sans-serif}
-header,main,footer{max-width:760px;margin:0 auto;padding:16px}
-nav a{color:var(--muted);margin-right:16px;text-decoration:none}
-nav a:hover{color:var(--accent)}
-h1{margin:32px 0 8px}
-.chip{display:inline-block;border:1px solid var(--muted);color:var(--muted);border-radius:12px;padding:0 10px;font-size:13px}
-button{background:none;border:1px solid var(--muted);color:var(--fg);border-radius:6px;padding:4px 10px;cursor:pointer}
-</style>
+<meta name="description" content="Clean Canadian oil and gas regulator data, run simple decline curves, and read plain-language analysis. Open source.">
+<link rel="stylesheet" href="style.css">
 <link rel="alternate" type="application/rss+xml" title="Tidywells" href="feed.xml"><link rel="icon" type="image/png" href="img/favicon.png"><meta property="og:image" content="https://jay-kimani.github.io/TidyWells/img/og.png"><meta property="og:site_name" content="Tidywells"><meta name="twitter:card" content="summary_large_image"></head>
 <body>
-<header><nav><a class="brand" href="index.html" aria-label="Tidywells home"><img class="logo-l" src="img/logo.png" alt="Tidywells" height="44"><img class="logo-d" src="img/logo-dark.png" alt="" height="44"></a><a class="on" href="index.html">Home</a><a href="decline.html">Decline curve</a><a href="index.html#analysis">Analysis</a><a href="methods.html">Methods</a><a href="about.html">About</a><button id="theme">Theme</button></nav></header><div class="hero"><img class="logo-l" src="img/logo.png" alt="Tidywells: Canadian oil and gas data, decline curves, open source" width="420"><img class="logo-d" src="img/logo-dark.png" alt="" width="420"></div>
+<header><nav><a class="brand" href="index.html" aria-label="Tidywells home"><img class="logo-l" src="img/logo.png" alt="Tidywells" height="44"><img class="logo-d" src="img/logo-dark.png" alt="" height="44"></a><a class="on" href="index.html">Home</a><a href="decline.html">Decline curve</a><a href="index.html#analysis">Analysis</a><a href="methods.html">Methods</a><a href="about.html">About</a><button id="theme">Theme</button></nav></header>
+<div class="hero"><img class="logo-l" src="img/logo.png" alt="Tidywells: Canadian oil and gas data, decline curves, open source" width="340"><img class="logo-d" src="img/logo-dark.png" alt="" width="340"></div>
+<section class="lead">
+<span class="chip">Open source · Alberta, Saskatchewan, BC</span>
+<h1>Canadian oil and gas data, <span class="grad">made tidy.</span></h1>
+<p>Tidywells cleans public regulator well and production files, fits simple decline curves, and publishes plain-language analysis with the code behind it. Your files stay on your machine.</p>
+<div class="cta"><a class="btn primary" href="decline.html">Try the decline-curve tool</a><a class="btn" href="#analysis">Read the analysis</a></div>
+</section>
 <main>
-<h1>Tidywells</h1>
-<p>Clean Canadian oil and gas regulator data, run simple decline curves, and read plain-language analysis. Your files stay on your machine.</p>
-<h2 id="analysis">Analysis</h2>
-<p><a href="posts/decline-backtest.html">How well does a simple decline curve forecast Canadian wells?</a> A backtest on about 1,900 Alberta, Saskatchewan and BC wells.</p>
-<p><span class="chip">Early build</span> <span class="chip">Illustrative, not for reserves or investment decisions</span></p>
+<div class="feat">
+<div class="card"><h3>Python package</h3><p>Load Petrinex (Alberta, Saskatchewan) and BC Energy Regulator files into one clean layout. Install from the repository; not on PyPI yet.</p></div>
+<div class="card"><h3>Browser tool</h3><p>Paste a well's monthly production and fit a decline curve with a forecast and simple economics. Nothing is uploaded.</p></div>
+<div class="card"><h3>Analysis</h3><p>About one short post a month, built from public data, with the methods and limits stated up front.</p></div>
+</div>
+<h2 id="analysis">Latest analysis</h2>
+<a class="card post" href="posts/decline-backtest.html" style="text-decoration:none;color:inherit">
+<div><b style="color:var(--accent)">How well does a simple decline curve forecast Canadian wells?</b><p style="color:var(--muted)">A backtest on about 1,900 Alberta, Saskatchewan and BC wells: how accurate a 12-month forecast is, how much history you need, and why the curve runs low.</p></div>
+<div class="thumb"><svg viewBox="0 0 150 80" aria-hidden="true"><path d="M8 8 C 20 50, 50 66, 142 72" fill="none" stroke="var(--accent)" stroke-width="3"/><g fill="var(--muted)"><circle cx="14" cy="14" r="2.5"/><circle cx="28" cy="38" r="2.5"/><circle cx="48" cy="50" r="2.5"/><circle cx="78" cy="62" r="2.5"/><circle cx="110" cy="68" r="2.5"/></g></svg></div>
+</a>
+<p style="margin-top:14px"><span class="chip">Early build</span><span class="chip">Illustrative, not for reserves or investment decisions</span></p>
 </main>
-<footer><div id="subscribe"></div><small>Not affiliated with any regulator.</small></footer>
-<script src="config.js"></script><script src="subscribe.js"></script></body>
+<footer><div id="subscribe"></div><small>Not affiliated with any regulator. Provided as is, no warranty. <a href="feed.xml">RSS</a> · <a href="https://github.com/Jay-Kimani/TidyWells">Code</a></small></footer>
+<script src="config.js"></script><script src="subscribe.js"></script>
+<script>document.getElementById("theme").onclick=()=>{const r=document.documentElement;r.dataset.theme=r.dataset.theme==="light"?"dark":"light"}</script>
+</body>
 </html>
