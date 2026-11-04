@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>About · Tidywells</title><link rel="stylesheet" href="style.css"><link rel="alternate" type="application/rss+xml" title="Tidywells" href="feed.xml"><style>article{max-width:720px}main a,footer a{color:var(--accent)}table{border-collapse:collapse;width:100%;font-size:14px}th,td{border-bottom:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}.tw{overflow-x:auto}code{font-size:13px}</style></head>
+<body>
+<header><nav><a href="index.html">Home</a><a href="decline.html">Decline curve</a><a href="index.html#analysis">Analysis</a><a href="methods.html">Methods</a><a class="on" href="about.html">About</a><button id="theme">Theme</button></nav></header>
+<main><article>
+<h1>About Tidywells</h1>
+<p>Tidywells is a small open-source project that makes Canadian oil and gas regulator data easier to work with. It has three parts: a Python package that loads and cleans public well and production files into one consistent layout, a browser tool for fitting a decline curve to a well, and plain-language analysis built on the same code.</p>
+<h2>Why</h2>
+<p>Alberta, Saskatchewan and British Columbia all publish useful data, but in different layouts, with leading-zero IDs that spreadsheets damage, duplicate rows, and codes that need a lookup table. Most of the work is cleaning. We would rather do that once, in the open, and show how reliable the simple tools built on top really are.</p>
+<h2>Principles</h2>
+<ul>
+<li><b>Your files stay yours.</b> The tools work on files you download. We do not host regulator data, and the web tool never uploads anything.</li>
+<li><b>Show the work.</b> Every analysis links to the code that produced it, and the <a href="methods.html">Methods</a> page lists the sources and rules.</li>
+<li><b>Say what it can't do.</b> Results are illustrative, not for reserves reporting or investment decisions, and we publish the limits next to the results.</li></ul>
+<h2>Who</h2>
+<p>Built by Jonathan Dupuis as an independent project. It is not affiliated with, endorsed by or produced for any regulator, company or employer, and the views and analysis here are the author's own.</p>
+<h2>Get in touch</h2>
+<p>Found a bug, a wrong number or a file that won't load? <a href="https://github.com/Jay-Kimani/TidyWells/issues">Open an issue on GitHub</a>.</p>
+<h2>Licence and credits</h2>
+<p>The code is MIT licensed. Data used in our analysis contains information licensed from Petrinex public data (Alberta, Saskatchewan) and the BC Energy Regulator; Crown copyright of the provinces is acknowledged.</p>
+</article></main>
+
+<footer><div id="subscribe"></div><small>Not affiliated with any regulator. Provided as is, no warranty. <a href="feed.xml">RSS</a> · <a href="https://github.com/Jay-Kimani/TidyWells">Code</a></small></footer>
+<script src="config.js"></script><script src="subscribe.js"></script>
+<script>document.getElementById("theme").onclick=()=>{const r=document.documentElement;r.dataset.theme=r.dataset.theme==="light"?"dark":"light"}</script>
+</body></html>

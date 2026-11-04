@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Methods · Tidywells</title><link rel="stylesheet" href="style.css"><link rel="alternate" type="application/rss+xml" title="Tidywells" href="feed.xml"><style>article{max-width:720px}main a,footer a{color:var(--accent)}table{border-collapse:collapse;width:100%;font-size:14px}th,td{border-bottom:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}.tw{overflow-x:auto}code{font-size:13px}</style></head>
+<body>
+<header><nav><a href="index.html">Home</a><a href="decline.html">Decline curve</a><a href="index.html#analysis">Analysis</a><a class="on" href="methods.html">Methods</a><a href="about.html">About</a><button id="theme">Theme</button></nav></header>
+<main><article>
+<h1>Methods</h1>
+<p><span class="chip">Illustrative, not for reserves reporting or investment decisions</span></p>
+<p>Everything on this site is built from public regulator files that you download yourself. This page says exactly which files, how we clean them, and how the decline curve works, so you can check or reproduce any number. The code is open: <a href="https://github.com/Jay-Kimani/TidyWells">github.com/Jay-Kimani/TidyWells</a>.</p>
+
+<h2>Data sources</h2>
+<div class="tw"><table>
+<tr><th>Province</th><th>Files we read</th><th>Where from</th></tr>
+<tr><td>Alberta</td><td>Well Licence, Well Infrastructure, Conventional Volumetrics (monthly)</td><td>Petrinex public data. Volumetrics cover the current production year plus the previous four.</td></tr>
+<tr><td>Saskatchewan</td><td>Well Licence, Well Infrastructure, Conventional Volumetrics (monthly)</td><td>Petrinex public data, same layout as Alberta.</td></tr>
+<tr><td>British Columbia</td><td>Production Data (zone_prd), Well Index</td><td>BC Energy Regulator data centre.</td></tr></table></div>
+<p>We do not host or redistribute any of these files. The tools run on files you load yourself, and the web tool never uploads them. Published analysis contains only our own aggregate results. Petrinex's terms permit non-commercial use with Crown copyright acknowledged and require consent for commercial use. BC's site terms ask for written permission before reproducing material. We summarise these terms in good faith; this is not legal advice, so check the terms yourself before reusing any data.</p>
+
+<h2>Units and rates</h2>
+<ul>
+<li>Liquids are in cubic metres (m³) and gas in thousands of cubic metres (10³m³), as the regulators report them. We convert to barrels (×6.28981) and thousand cubic feet (×35.3147) for rates.</li>
+<li>Rates are volume per day. For Alberta and Saskatchewan we divide a month's volume by the calendar days in the month. For BC we divide by the producing days the regulator reports, which is more accurate for wells that were shut in part of the month.</li>
+</ul>
+
+<h2>Cleaning rules</h2>
+<ul>
+<li>All identifiers are read as text, so leading zeros survive (a spreadsheet will silently drop them).</li>
+<li>Alberta and Saskatchewan well IDs link production to the Well Infrastructure file, which links to a licence number and then to the licensee. BC wells link by their UWI to the Well Index. The BC Well Index has no operator names.</li>
+<li>Licence numbers are zero-padded to seven characters. Licence status spellings are normalised (for example "ISSUED" and "Issued").</li>
+<li>The source files repeat some well IDs and licence numbers. We keep the row with the latest status date.</li>
+<li>Confidential wells appear with masked IDs ("***"); we drop those rows because they cannot be tied to a well.</li>
+<li>BC production is reported by well and zone; we sum zones into one row per well and month.</li>
+<li>Only well-level production rows are used. Facility-level and injection or disposal rows are excluded.</li></ul>
+
+<h2>Decline curve</h2>
+<ul>
+<li><b>Model.</b> Arps hyperbolic decline: q = qi / (1 + b·Di·t)<sup>1/b</sup>, where qi is the starting rate, Di the nominal annual decline and b controls how fast the decline slows. b = 0 is exponential decline.</li>
+<li><b>Fit.</b> Least squares on the logarithm of the rate, starting at each well's highest month (ignoring ramp-up). b is searched on a grid from 0 to 2, and Di from 1% to 1,000% per year. Zero, negative and missing months are skipped. At least six usable points are required.</li>
+<li><b>Warnings.</b> The fit warns when there are fewer than 12 points, when b hits its upper limit, when many different b values fit about equally well, when the rate is higher at the end than at the peak, or when the fit is poor. b is often poorly determined from production data alone, so we recommend comparing forecast volumes rather than b.</li>
+<li><b>Forecast.</b> Hyperbolic decline until the instantaneous decline falls to a terminal rate (default 8% per year), then exponential. The web tool starts the forecast at the end of your data.</li>
+<li><b>Economics.</b> Pre-tax and pre-royalty: volume × (price − variable cost), minus fixed costs, discounted monthly at the rate you enter. You supply prices and costs; we do not.</li></ul>
+
+<h2>How we tested it</h2>
+<p>We fit wells on their first 45 months and predicted the next 12 for up to 500 random wells per group that produced in at least 50 of 57 months (January 2022 to September 2026). See the <a href="posts/decline-backtest.html">backtest write-up</a> for results. The script is <code>posts/backtest.py</code>. The Python and browser fits are checked against each other by an automated test, and the loaders are tested on small made-up files.</p>
+
+<h2>Known limits</h2>
+<ul>
+<li>Petrinex public volumetrics exclude oil sands, waste plants and some facility types, and hide confidential wells.</li>
+<li>Well volumes may be allocated from a battery rather than metered individually; we do not separate the two.</li>
+<li>The backtest only covers wells that kept producing; real accuracy across all wells would be lower.</li>
+<li>No well-level costs, royalties or taxes are modelled, and the tools are not a substitute for a reserves evaluation.</li></ul>
+
+<h2>Use it in Python</h2>
+<p>Not on PyPI yet. From a copy of the repository, run <code>pip install .</code>, then:</p>
+<pre style="overflow-x:auto;background:var(--panel);border:1px solid var(--line);padding:10px;border-radius:6px;font-size:13px">import tidywells as tw
+vol   = tw.read_volumetrics("path/to/folder", province="AB")
+infra = tw.read_well_infrastructure("Well Infrastructure-AB.csv.zip")
+lic   = tw.read_well_licence("Well Licence-AB.csv.zip")
+wells = tw.join_wells(vol, infra, lic)
+
+s = tw.monthly_series(vol, well_id, "OIL")     # m3 per day, one value per month
+t = [i / 12 for i in range(len(s))]            # time in years
+fit = tw.fit_arps(t, s.values * 6.28981)       # bbl/d; returns qi, di, b, warnings</pre>
+</article></main>
+
+<footer><div id="subscribe"></div><small>Not affiliated with any regulator. Provided as is, no warranty. <a href="feed.xml">RSS</a> · <a href="https://github.com/Jay-Kimani/TidyWells">Code</a></small></footer>
+<script src="config.js"></script><script src="subscribe.js"></script>
+<script>document.getElementById("theme").onclick=()=>{const r=document.documentElement;r.dataset.theme=r.dataset.theme==="light"?"dark":"light"}</script>
+</body></html>

@@ -12,10 +12,9 @@ select{width:100%;padding:6px;background:var(--bg);color:var(--fg);border:1px so
 .err{color:#e07a7a;font-size:14px}
 details summary{cursor:pointer;color:var(--muted)}
 main a{color:var(--accent)}
-</style></head>
+</style><link rel="alternate" type="application/rss+xml" title="Tidywells" href="feed.xml"></head>
 <body>
-<header><nav><a href="index.html">Home</a><a class="on" href="decline.html">Decline curve</a><a href="index.html#analysis">Analysis</a>
-<button id="theme">Theme</button></nav></header>
+<header><nav><a href="index.html">Home</a><a class="on" href="decline.html">Decline curve</a><a href="index.html#analysis">Analysis</a><a href="methods.html">Methods</a><a href="about.html">About</a><button id="theme">Theme</button></nav></header>
 <main>
 <h1>Decline curve and simple economics</h1>
 <p><span class="chip">Illustrative, not for reserves reporting or investment decisions</span><span class="chip">Runs in your browser; nothing is uploaded</span></p>
@@ -44,7 +43,7 @@ main a{color:var(--accent)}
 <p>Arps hyperbolic decline q = qi / (1 + b·Di·t)^(1/b), switching to exponential decline at a terminal rate Dmin. Rate is per day, Di is nominal annual decline. The fit uses least squares on log rate from the highest month onward, with b searched between 0 and 2; it warns when b is poorly determined. The forecast starts at the end of your data. Economics are pre-tax and pre-royalty: volume × (price − opex) minus fixed costs, discounted monthly. Units are whatever you enter (bbl/d with $/bbl, or mcf/d with $/mcf).</p>
 <p>How reliable is this? See our <a href="posts/decline-backtest.html">backtest on about 1,900 Canadian wells</a>: typical error on a 12-month forecast was 13 to 17% with four years of history, and about twice that with two years.</p>
 </main>
-<footer><small>Not affiliated with any regulator. Provided as is, no warranty.</small></footer>
+<footer><div id="subscribe"></div><small>Not affiliated with any regulator. Provided as is, no warranty.</small></footer>
 <script src="decline.js"></script>
 <script>
 const fields=[["qi","Rate at start of forecast (per day)",500],["di","Initial decline Di (per year, 0.7 = 70%)",0.7],["b","b-factor (0 to 2)",1.0],["dmin","Terminal decline (per year)",0.08],["years","Forecast years",20],["price","Price ($/unit)",70],["opex","Variable opex ($/unit)",15],["fixed","Fixed cost ($/year)",60000],["disc","Discount rate",0.10]];
@@ -124,4 +123,4 @@ el("fit").onclick=doFit; el("example").onclick=example;
 document.querySelectorAll("#inputs input").forEach(i=>i.addEventListener("input",run));
 el("theme").onclick=()=>{const r=document.documentElement;r.dataset.theme=r.dataset.theme==="light"?"dark":"light"};
 run();
-</script></body></html>
+</script><script src="config.js"></script><script src="subscribe.js"></script></body></html>
