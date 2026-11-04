@@ -19,7 +19,9 @@ def build(posts):
         url = f"{SITE}posts/{p['slug']}.html"
         items.append(f"<item><title>{escape(p['title'])}</title><link>{url}</link><guid>{url}</guid>"
                      f"<pubDate>{format_datetime(d)}</pubDate><description>{escape(p['summary'])}</description></item>")
-    return ('<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"><channel><title>Tidywells</title>'
+    return ('<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type="text/xsl" href="feed.xsl"?>'
+            '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Tidywells</title>'
+            f'<atom:link href="{SITE}feed.xml" rel="self" type="application/rss+xml"/>'
             f"<link>{SITE}</link><description>Canadian oil and gas data, decline curves and plain-language analysis.</description>"
             "<language>en-ca</language>" + "".join(items) + "</channel></rss>\n")
 

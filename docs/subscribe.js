@@ -1,7 +1,7 @@
 (function () {
   var box = document.getElementById("subscribe"); if (!box) return;
   var action = window.TIDYWELLS_NEWSLETTER_ACTION || "";
-  var rss = new URL("feed.xml", document.querySelector('link[rel=alternate]').href).href;
+  var rss = document.querySelector('link[rel=alternate][type="application/rss+xml"]').href;
   var html = '<div class="panel" style="margin:16px 0"><b>New analysis, about once a month</b>' +
     '<p style="margin:4px 0;font-size:14px;color:var(--muted)">No sales emails. ';
   if (action) {

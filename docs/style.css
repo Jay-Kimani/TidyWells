@@ -25,7 +25,7 @@ main a,footer a{color:var(--accent)}
 .brand img{height:44px;width:auto;display:block}
 .hero{max-width:900px;margin:0 auto;padding:8px 16px 0;text-align:center}
 .hero img{max-width:100%;height:auto;display:block;margin:0 auto}
-.hero.sm{text-align:left}.hero.sm img{margin:0}
+
 .logo-d{display:inline}.logo-l{display:none}
 :root[data-theme=light] .logo-d{display:none}:root[data-theme=light] .logo-l{display:inline}
 .hero img.logo-d,.hero img.logo-l{display:none}
