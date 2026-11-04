@@ -276,7 +276,7 @@ def prev_month(m, back):
     return f"{y}-{mo:02d}"
 
 
-SNAPS = [m for m in ALL if m >= "2025-01"]
+SNAPS = [m for m in ALL if m >= "2024-01"]
 posts = json.loads((ROOT / "posts" / "posts.json").read_text())
 posts = [p for p in posts if p.get("kind") not in ("snapshot",) and p["slug"] not in ("recovery-low-forecasts", "gas-has-a-season")]
 for p in posts:
