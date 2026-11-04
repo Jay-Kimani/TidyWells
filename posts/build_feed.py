@@ -57,7 +57,9 @@ def snaps_html(snaps):
 
 
 if __name__ == "__main__":
-    posts = sorted(json.loads((ROOT / "posts" / "posts.json").read_text()), key=lambda p: (p["date"], p.get("period", "")), reverse=True)
+    raw = json.loads((ROOT / "posts" / "posts.json").read_text())
+    # newest first; within one date, analysis posts come before snapshots, and later-added posts before earlier ones
+    posts = [p for _, p in sorted(enumerate(raw), key=lambda t: (t[1]["date"], t[1].get("kind", "analysis") == "analysis", t[1].get("period", ""), t[0]), reverse=True)]
     analysis = [p for p in posts if p.get("kind", "analysis") == "analysis"]
     snaps = [p for p in posts if p.get("kind") == "snapshot"]
     (ROOT / "docs" / "feed.xml").write_text(build(posts[:40]), encoding="utf-8")
@@ -67,3 +69,12 @@ if __name__ == "__main__":
     t = a.read_text(encoding="utf-8")
     i, j = t.index("<!--SNAPS-->") + 12, t.index("<!--/SNAPS-->")
     a.write_text(t[:i] + "\n" + snaps_html(snaps) + "\n" + t[j:], encoding="utf-8")
+    # sitemap + robots (search engines)
+    base = "https://tidywells.com"
+    pages = ["", "decline.html", "analysis.html", "methods.html", "guide.html", "pro.html", "about.html", "terms.html"]
+    urls = [(f"{base}/{pg}", None) for pg in pages] + [(f"{base}/posts/{p['slug']}.html", p["date"]) for p in posts]
+    sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+    for u, d in urls:
+        sm += f"<url><loc>{u}</loc>" + (f"<lastmod>{d}</lastmod>" if d else "") + "</url>\n"
+    (ROOT / "docs" / "sitemap.xml").write_text(sm + "</urlset>\n", encoding="utf-8")
+    (ROOT / "docs" / "robots.txt").write_text(f"User-agent: *\nAllow: /\n\nSitemap: {base}/sitemap.xml\n", encoding="utf-8")

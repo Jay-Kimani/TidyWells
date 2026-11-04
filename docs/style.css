@@ -92,3 +92,6 @@ a.snap:hover{border-color:var(--accent)}a.snap b{display:block;color:var(--accen
 .chip.new{background:rgba(255,31,61,.16);border-color:rgba(255,31,61,.5);color:#ff6b80}
 
 nav a[href$="pro.html"]:not(.on){color:#ff6b80}
+
+.sponsor{display:flex;gap:10px;align-items:baseline;margin:0 0 18px;padding:8px 14px;border:1px solid var(--line);border-radius:10px;background:var(--panel);font-size:.92rem}
+.sponsor small{color:var(--muted);text-transform:uppercase;letter-spacing:.06em;font-size:.72rem}

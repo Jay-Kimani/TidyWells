@@ -117,7 +117,7 @@ def study(prov, folder, cache):
         for i in np.where(newish)[0]:
             a = first[i]; sl = slice(a, a + 6)
             o6 = np.nansum(oil[i, sl]); g6 = np.nansum(gas[i, sl])
-            if o6 > 0 and o6 * M3_BBL > g6 * E3M3_MCF * 1000 / 100:      # oil well if oil is a real part of the output
+            if o6 > 0 and o6 * M3_BBL * 6000 > g6 * E3M3_MCF * 1000:      # oil well if oil is at least half of the output on an energy basis (6 Mcf per bbl)
                 rate = o6 / DIM[sl].sum() * M3_BBL; k = "oil"
             elif g6 > 0:
                 rate = g6 / DIM[sl].sum() * E3M3_MCF; k = "gas"

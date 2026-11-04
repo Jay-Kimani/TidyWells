@@ -13,3 +13,8 @@ window.TIDYWELLS_GISCUS={repo:"Jay-Kimani/TidyWells",repoId:"R_kgDOViBLug",categ
 // Comments without sign-in: your Cloudflare Worker URL and Turnstile site key (see workers/comments/README.md).
 window.TIDYWELLS_COMMENTS_API="https://tidywells-comments.jonathandupuis747.workers.dev";
 window.TIDYWELLS_TURNSTILE_SITEKEY="0x4AAAAAAFzv-FY4UZhVEvor";
+
+// Cookieless analytics: Cloudflare dashboard > Analytics & Logs > Web Analytics > Add site (tidywells.com) > copy the token.
+window.TIDYWELLS_CF_ANALYTICS_TOKEN="";
+// One labelled sponsor strip shown at the top of every page. Leave name empty to hide. URL must be https.
+window.TIDYWELLS_SPONSOR={name:"",url:"",text:""};
