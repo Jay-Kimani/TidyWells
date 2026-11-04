@@ -1,41 +1,37 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Decline curve backtest · Tidywells</title><link rel="stylesheet" href="../style.css">
-<style>table{border-collapse:collapse;width:100%;font-size:14px}th,td{border-bottom:1px solid var(--line);padding:6px 8px;text-align:right}th:first-child,td:first-child{text-align:left}article{max-width:720px}a{color:var(--accent)}</style></head>
+<style>table{border-collapse:collapse;width:100%;font-size:14px}.tw{overflow-x:auto}th,td{border-bottom:1px solid var(--line);padding:6px 8px;text-align:right}th:first-child,td:first-child{text-align:left}article{max-width:720px}a{color:var(--accent)}</style></head>
 <body>
 <header><nav><a href="../index.html">Home</a><a href="../decline.html">Decline curve</a><a class="on" href="../index.html#analysis">Analysis</a><button id="theme">Theme</button></nav></header>
 <main><article>
 <h1>How well does a simple decline curve forecast Canadian wells?</h1>
 <p><span class="chip">November 2026</span><span class="chip">Illustrative, not for reserves or investment decisions</span></p>
-<p>We took public production data from Alberta, Saskatchewan and British Columbia and tested the most common decline curve (Arps, with a bounded b-factor) the hard way: fit it on the first 45 months of a well's life, predict the next 12, and compare to what was reported.</p>
+<p>We took public production data from Alberta, Saskatchewan and British Columbia and tested the most common decline curve (Arps, with a bounded b-factor) the hard way: fit it on a well's early months, predict the next 12 months, and compare to what was reported. Then we asked three follow-up questions: does the extra b-factor help, how much history do you need, and why does the curve run low?</p>
 <h2>What we did</h2>
-<ul>
-<li><b>Data:</b> monthly well-level production, January 2022 to September 2026 (57 months). Alberta and Saskatchewan from Petrinex public data; BC from the BC Energy Regulator production file.</li>
-<li><b>Wells:</b> up to 500 randomly chosen wells per group, restricted to wells that produced in at least 50 of the 57 months. Alberta and Saskatchewan use calendar-month averages; BC gas uses producing days.</li>
-<li><b>Fit:</b> Arps decline fitted by least squares on log rate, starting at each well's peak month, b limited to 0 to 2.</li>
-<li><b>Test:</b> forecast the cumulative volume over months 46 to 57 and compare to the reported volume.</li></ul>
-<h2>Results</h2>
-<table><tr><th>Group</th><th>Wells tested</th><th>Typical miss</th><th>Within ±25%</th><th>Within ±50%</th><th>Average bias</th></tr>
-<tr><td>Alberta oil</td><td>460</td><td>17%</td><td>65%</td><td>89%</td><td>−10%</td></tr>
-<tr><td>Saskatchewan oil</td><td>469</td><td>17%</td><td>66%</td><td>90%</td><td>−9%</td></tr>
-<tr><td>Saskatchewan gas</td><td>471</td><td>16%</td><td>65%</td><td>85%</td><td>−12%</td></tr>
-<tr><td>BC gas</td><td>483</td><td>13%</td><td>75%</td><td>92%</td><td>−8%</td></tr></table>
+<ul><li><b>Data:</b> monthly well-level production, January 2022 to September 2026 (57 months). Alberta and Saskatchewan from Petrinex public data; BC from the BC Energy Regulator production file.</li><li><b>Wells:</b> up to 500 randomly chosen wells per group, restricted to wells that produced in at least 50 of the 57 months. Alberta and Saskatchewan use calendar-month averages; BC gas uses producing days.</li><li><b>Fit:</b> Arps decline fitted by least squares on log rate, starting at each well's peak month, b limited to 0 to 2.</li><li><b>Test:</b> forecast the cumulative volume over months 46 to 57 and compare to the reported volume. The main test trains on the first 45 months.</li></ul>
+<h2>1. The headline result</h2>
+<div class="tw"><table><tr><th>Group</th><th>Wells tested</th><th>Typical miss</th><th>Within ±25%</th><th>Within ±50%</th><th>Average bias</th></tr><tr><td>Alberta oil</td><td>460</td><td>17%</td><td>65%</td><td>89%</td><td>−10%</td></tr><tr><td>Saskatchewan oil</td><td>469</td><td>17%</td><td>66%</td><td>90%</td><td>−9%</td></tr><tr><td>Saskatchewan gas</td><td>471</td><td>16%</td><td>65%</td><td>85%</td><td>−12%</td></tr><tr><td>BC gas</td><td>483</td><td>13%</td><td>75%</td><td>92%</td><td>−8%</td></tr></table></div>
 <p><small>"Typical miss" is the median absolute error of the 12-month cumulative volume. Negative bias means the forecast was a bit low on average.</small></p>
-<h2>What stands out</h2>
-<ol>
-<li><b>A simple curve is decent at one-year screening.</b> About two thirds of wells landed within a quarter of the actual volume, and almost 90% within half. That is useful for a quick look, not for reserves.</li>
-<li><b>The curve is consistently a little pessimistic.</b> All four groups under-forecast, by 8 to 12% on average. A likely reason is wells that were shut in, then restarted or re-completed, but we have not tested that.</li>
-<li><b>b is not well determined.</b> In every group the median fitted b sat at the upper limit of 2, and 83 to 90% of fits carried a warning (b at its bound, or many b values fitting about equally well). Treat any single well's b with suspicion.</li>
-<li><b>Warnings are not a quality score.</b> In a quick check on Alberta oil, the small group of fits with no warnings was not more accurate.</li></ol>
+<p>About two thirds of wells landed within a quarter of the actual volume, and almost 90% within half. BC gas did best and Saskatchewan gas worst, but the groups are close. That is useful for a quick look, not for reserves.</p>
+<h2>2. Does the b-factor earn its keep?</h2>
+<p>The hyperbolic curve has an extra parameter (b) that lets the decline slow down over time. We compared it with a plain exponential curve (b fixed at 0) on the same wells.</p>
+<div class="tw"><table><tr><th>Group</th><th>Hyperbolic (b up to 2): typical miss</th><th>Exponential only: typical miss</th><th>Hyperbolic within ±25%</th><th>Exponential within ±25%</th></tr><tr><td>Alberta oil</td><td>17%</td><td>18%</td><td>65%</td><td>61%</td></tr><tr><td>Saskatchewan oil</td><td>17%</td><td>21%</td><td>66%</td><td>59%</td></tr><tr><td>Saskatchewan gas</td><td>16%</td><td>18%</td><td>65%</td><td>62%</td></tr><tr><td>BC gas</td><td>13%</td><td>16%</td><td>75%</td><td>68%</td></tr></table></div>
+<p>The hyperbolic curve was better in every group, but not by a lot: one to four points on the typical miss. The bigger point is that b itself is not well determined. In every group the median fitted b sat at the upper limit of 2, and 83 to 90% of fits carried a warning (b at its bound, or many b values fitting about equally well). So the benefit comes from letting the curve flatten, not from any single well's b, and we would not read meaning into one well's b.</p>
+<h2>3. How much history do you need?</h2>
+<p>We refit each well on shorter training windows and predicted the same last 12 months.</p>
+<div class="tw"><table><tr><th>Group</th><th>24 months of history</th><th>36 months</th><th>45 months</th></tr><tr><td>Alberta oil</td><td>36%</td><td>23%</td><td>17%</td></tr><tr><td>Saskatchewan oil</td><td>34%</td><td>24%</td><td>17%</td></tr><tr><td>Saskatchewan gas</td><td>29%</td><td>21%</td><td>16%</td></tr><tr><td>BC gas</td><td>24%</td><td>19%</td><td>13%</td></tr></table></div>
+<p>This was the largest effect we measured. Going from 24 to 45 months of history roughly halved the typical miss. With two years of data the curve missed by 24 to 36% on a typical well, and fewer than half the wells landed within 25% in three of four groups. A forecast on a young well deserves much wider error bars than one on a well with four years behind it. Note that shorter windows also need the well to have a clear peak and decline within them, and some wells could not be fitted at all, so the tested counts are a little lower at 24 months.</p>
+<h2>4. Why does the curve run low?</h2>
+<p>Every group under-forecast on average, by 8 to 12%. A natural suspicion is wells whose rate recovers after the training window: a restart after a shut-in, a workover, a new completion, a pressure change, or seasonal operations. We cannot see the reasons in this data, but we can see whether the rate went back up. We flagged a well as "recovered" if its average rate in the 12 test months was higher than its average over the last three training months.</p>
+<div class="tw"><table><tr><th>Group</th><th>Share of wells whose rate recovered</th><th>Median error: recovered</th><th>Median error: kept declining</th></tr><tr><td>Alberta oil</td><td>41%</td><td>−24%</td><td>0%</td></tr><tr><td>Saskatchewan oil</td><td>35%</td><td>−25%</td><td>−2%</td></tr><tr><td>Saskatchewan gas</td><td>50%</td><td>−17%</td><td>0%</td></tr><tr><td>BC gas</td><td>39%</td><td>−21%</td><td>−2%</td></tr></table></div>
+<p>Between 35 and 50% of wells recovered, and nearly all of the bias sits in that group, where the forecast ran 17 to 25% low on a typical well. Wells that simply kept declining had almost no bias (0 to −2%). In other words, the curve forecasts a declining well about right, and the miss comes from wells that do something a decline curve cannot know about. This is a description, not a proof: a rate increase is not always a restart, and this split uses information that was not available at forecast time.</p>
+<h2>What this means in practice</h2>
+<ul><li>For a quick one-year volume on a well with about four years of history, a bounded hyperbolic fit is a reasonable screening number, wrong by under a fifth for a typical well.</li><li>Treat young wells (two years or less) as about twice as uncertain.</li><li>Do not trust a single well's b-factor. If you compare wells or portfolios, compare forecast volumes, not b.</li><li>A forecast that ignores possible rate recoveries will tend to run low on a large share of wells. Any portfolio view should carry an allowance for that, or an explicit upside case.</li></ul>
 <h2>Limits</h2>
-<ul>
-<li>The test only includes wells that kept producing across nearly all 57 months. Wells that shut in or stopped are excluded, so real accuracy across all wells would be worse.</li>
-<li>Forecasts here have no terminal-decline switch and no economics.</li>
-<li>One sample per group, one time window, not compared against any industry forecast.</li>
-<li>Some volumes may be allocated rather than metered; we did not separate them.</li></ul>
+<ul><li>The test only includes wells that kept producing across nearly all 57 months. Wells that shut in or stopped are excluded, so real accuracy across all wells would be worse.</li><li>Forecasts here have no terminal-decline switch and no economics.</li><li>One random sample of up to 500 wells per group, one time window, and no comparison against any industry forecast.</li><li>Some volumes may be allocated rather than metered; we did not separate them.</li><li>In a quick check on Alberta oil, the small group of fits with no warnings was not more accurate, so warnings flag uncertainty and are not a quality score.</li></ul>
 <h2>Reproduce it</h2>
-<p>Code: <a href="https://github.com/Jay-Kimani/TidyWells">github.com/Jay-Kimani/TidyWells</a>, <code>posts/backtest.py</code> and <code>src/tidywells/decline.py</code>. Download the files yourself from Petrinex and the BC Energy Regulator; we do not host the data.</p>
-<p><small>Contains information licensed from Petrinex public data (Alberta, Saskatchewan) and the BC Energy Regulator; Crown copyright of the provinces is acknowledged. Tidywells is not affiliated with any regulator.</small></p>
+<p>Code: <a href="https://github.com/Jay-Kimani/TidyWells">github.com/Jay-Kimani/TidyWells</a>, <code>posts/backtest.py</code> (run it with <code>extra</code> for sections 2 to 4) and <code>src/tidywells/decline.py</code>. Download the files yourself from Petrinex and the BC Energy Regulator; we do not host the data.</p><p>Illustrative only. Not for reserves reporting or investment decisions.</p><p><small>Contains information licensed from Petrinex public data (Alberta, Saskatchewan) and the BC Energy Regulator; Crown copyright of the provinces is acknowledged. Tidywells is not affiliated with any regulator.</small></p>
 </article></main>
 <footer><small>Provided as is, no warranty.</small></footer>
 <script>document.getElementById("theme").onclick=()=>{const r=document.documentElement;r.dataset.theme=r.dataset.theme==="light"?"dark":"light"}</script>
