@@ -1,24 +1,55 @@
-// Comments for analysis posts. Uses Cusdis (name + comment, no account, moderated) when TIDYWELLS_CUSDIS_APP_ID is set;
-// otherwise falls back to giscus (GitHub sign-in) if configured. Shows nothing if neither is configured.
+// Comments for analysis posts. If TIDYWELLS_COMMENTS_API is set, uses the Tidywells comment service
+// (name + comment, no account, held for approval, Turnstile spam check). Otherwise falls back to giscus
+// (GitHub sign-in) if configured. Shows nothing if neither is configured.
 (function () {
   var box = document.getElementById("comments");
   if (!box) return;
-  var id = window.TIDYWELLS_CUSDIS_APP_ID, g = window.TIDYWELLS_GISCUS;
+  var api = (window.TIDYWELLS_COMMENTS_API || "").replace(/\/$/, ""), site = window.TIDYWELLS_TURNSTILE_SITEKEY || "";
+  var g = window.TIDYWELLS_GISCUS;
   function dark() { return document.documentElement.dataset.theme !== "light"; }
-  if (id) {
-    box.innerHTML = '<h2>Comments</h2><p class="muted" style="margin-top:-6px">Questions, corrections and ideas are welcome. Leave a name and a comment; no account needed. Comments appear after approval. Please be civil, and no investment tips or promotion.</p>' +
-      '<div id="cusdis_thread" data-host="https://cusdis.com" data-app-id="' + String(id).replace(/[^A-Za-z0-9-]/g, "") +
-      '" data-page-id="' + location.pathname.replace(/"/g, "") + '" data-page-url="' + location.origin + location.pathname +
-      '" data-page-title="' + document.title.replace(/"/g, "&quot;") + '" data-theme="' + (dark() ? "dark" : "light") + '"></div>';
-    var s = document.createElement("script");
-    s.src = "https://cusdis.com/js/cusdis.es.js"; s.async = true; s.defer = true;
-    document.body.appendChild(s);
-    var t = document.getElementById("theme");
-    if (t) t.addEventListener("click", function () {
-      setTimeout(function () {
-        var th = document.getElementById("cusdis_thread");
-        if (th && window.CUSDIS) { th.setAttribute("data-theme", dark() ? "dark" : "light"); window.CUSDIS.setTheme(dark() ? "dark" : "light"); }
-      }, 50);
+  function el(tag, props, kids) {
+    var e = document.createElement(tag);
+    for (var k in props || {}) { if (k === "text") e.textContent = props[k]; else e.setAttribute(k, props[k]); }
+    (kids || []).forEach(function (c) { e.appendChild(c); });
+    return e;
+  }
+  if (api && site) {
+    var page = location.pathname, list = el("div", { id: "cm-list" }), msg = el("p", { class: "muted", role: "status" });
+    var name = el("input", { type: "text", maxlength: "60", placeholder: "Your name", required: "required", "aria-label": "Your name" });
+    var body = el("textarea", { maxlength: "2000", rows: "4", placeholder: "Your comment", required: "required", "aria-label": "Your comment" });
+    var hp = el("input", { type: "text", name: "website", tabindex: "-1", autocomplete: "off", "aria-hidden": "true", style: "position:absolute;left:-9999px" });
+    var ts = el("div", { class: "cf-turnstile", "data-sitekey": site, "data-theme": dark() ? "dark" : "light" });
+    var btn = el("button", { type: "submit", class: "btn primary", text: "Post comment" });
+    var form = el("form", { class: "panel", style: "display:grid;gap:10px;margin:14px 0" }, [name, body, hp, ts, btn, msg]);
+    [name, body].forEach(function (i) { i.style.cssText = "width:100%;box-sizing:border-box;padding:9px 11px;border-radius:8px;border:1px solid var(--line);background:var(--panel);color:var(--fg);font:inherit"; });
+    box.appendChild(el("h2", { text: "Comments" }));
+    box.appendChild(el("p", { class: "muted", style: "margin-top:-6px", text: "Questions, corrections and ideas are welcome. Leave a name and a comment; no account needed. Comments appear after approval. Please be civil, and no investment tips or promotion." }));
+    box.appendChild(list); box.appendChild(form);
+    var loadTs = document.createElement("script");
+    loadTs.src = "https://challenges.cloudflare.com/turnstile/v0/api.js"; loadTs.async = true; loadTs.defer = true;
+    document.body.appendChild(loadTs);
+    var load = function () {
+      fetch(api + "/comments?page=" + encodeURIComponent(page)).then(function (r) { return r.json(); }).then(function (d) {
+        list.textContent = "";
+        (d.comments || []).forEach(function (c) {
+          list.appendChild(el("div", { class: "card", style: "margin:10px 0;padding:12px 16px" }, [
+            el("strong", { text: c.name }), el("small", { class: "muted", text: "  " + new Date(c.created).toLocaleDateString() }),
+            el("p", { style: "margin:6px 0 0;white-space:pre-wrap", text: c.body })]));
+        });
+      }).catch(function () {});
+    };
+    load();
+    form.addEventListener("submit", function (ev) {
+      ev.preventDefault(); btn.disabled = true; msg.textContent = "Posting...";
+      var tokEl = form.querySelector("[name=cf-turnstile-response]");
+      fetch(api + "/comments", { method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ page: page, name: name.value, body: body.value, website: hp.value, token: tokEl ? tokEl.value : "" }) })
+        .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
+        .then(function (x) {
+          if (x.ok) { msg.textContent = "Thanks! Your comment will appear after it is approved."; body.value = ""; if (window.turnstile) window.turnstile.reset(); }
+          else msg.textContent = x.d.error || "Something went wrong. Please try again.";
+        }).catch(function () { msg.textContent = "Could not reach the comment service. Please try again."; })
+        .then(function () { btn.disabled = false; });
     });
     return;
   }
