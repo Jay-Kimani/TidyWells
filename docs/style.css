@@ -84,3 +84,11 @@ a.snap:hover{border-color:var(--accent)}a.snap b{display:block;color:var(--accen
 
 .btn.buy,main a.btn.buy{background:#ff1f3d;border-color:#ff1f3d;color:#fff!important;font-weight:700;padding:11px 26px;font-size:1.05rem;box-shadow:0 6px 22px rgba(255,31,61,.35)}
 .btn.buy:hover,main a.btn.buy:hover{background:#e0112e;border-color:#e0112e;color:#fff!important}
+
+.promo{display:flex;flex-wrap:wrap;align-items:center;gap:14px 20px;margin:28px 0;padding:16px 20px;border:1px solid rgba(255,31,61,.45);border-left:4px solid #ff1f3d;border-radius:12px;background:linear-gradient(90deg,rgba(255,31,61,.12),rgba(255,31,61,.03));box-shadow:0 0 28px rgba(255,31,61,.10)}
+.promo .pt{flex:1 1 320px}.promo strong{display:block;font-size:1.02rem}.promo span{color:var(--muted);font-size:.93rem}
+.promo.big{padding:22px 26px;margin:0 0 30px}.promo.big strong{font-size:1.2rem}
+.promo .btn.buy{padding:9px 20px;font-size:.98rem}
+.chip.new{background:rgba(255,31,61,.16);border-color:rgba(255,31,61,.5);color:#ff6b80}
+
+nav a[href$="pro.html"]:not(.on){color:#ff6b80}
