@@ -49,8 +49,14 @@ def curves(long, product, to_unit, use_days, train=bt.TEST_START):
 
 if __name__ == "__main__":
     prov, folder = sys.argv[1].lower(), sys.argv[2]
-    label, v, product, unit, use_days = bt.load(prov, folder)[0]
-    out = curves(v, product, unit, use_days)
-    out.update(label=label, train_months=bt.TEST_START, months=bt.NMONTHS)
-    json.dump(out, open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "thumb_backtest.json"), "w"))
-    print(label, out["n"])
+    here = os.path.dirname(os.path.abspath(__file__))
+    fig = os.path.join(here, "fig_curves.json")
+    allc = json.load(open(fig)) if os.path.exists(fig) else {}
+    for label, v, product, unit, use_days in bt.load(prov, folder):
+        out = curves(v, product, unit, use_days)
+        out.update(label=label, train_months=bt.TEST_START, months=bt.NMONTHS)
+        allc[label] = out
+        if label == "AB oil":
+            json.dump(out, open(os.path.join(here, "thumb_backtest.json"), "w"))
+        print(label, out["n"], flush=True)
+    json.dump(allc, open(fig, "w"))
