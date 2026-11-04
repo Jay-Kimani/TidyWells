@@ -10,5 +10,5 @@ Early scaffold. Decline engine first, loaders next.
 ## Layout
 - `src/tidywells/` package (decline math, loaders)
 - `tests/` tests on synthetic data only
-- `web/` static site (GitHub Pages)
+- `docs/` static site (GitHub Pages)
 - `posts/` write-ups
