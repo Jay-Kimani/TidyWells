@@ -11,5 +11,5 @@ window.TIDYWELLS_PRO_PRICE="CAD $4.99 per month, with a 3-day free trial. Cancel
 window.TIDYWELLS_GISCUS={repo:"Jay-Kimani/TidyWells",repoId:"R_kgDOViBLug",category:"Comments",categoryId:"DIC_kwDOViBLus4DKW_A"};
 
 // Comments without sign-in: your Cloudflare Worker URL and Turnstile site key (see workers/comments/README.md).
-window.TIDYWELLS_COMMENTS_API="";
+window.TIDYWELLS_COMMENTS_API="https://tidywells-comments.jonathandupuis747.workers.dev";
 window.TIDYWELLS_TURNSTILE_SITEKEY="0x4AAAAAAFzv-FY4UZhVEvor";
