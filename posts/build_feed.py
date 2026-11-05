@@ -145,7 +145,7 @@ if __name__ == "__main__":
     strip = (f'<!--LATEST--><section class="latest"><h2>Latest data: {MON[m_ - 1]} {y_}</h2><div class="lt">{tiles_}</div>'
              f'<p><a href="explore.html">Explore every month</a> · <a href="posts/{snap_slug}.html">Read the {MON[m_ - 1]} snapshot</a> · <a href="data.html">Download the data</a></p></section><!--/LATEST-->')
     ix = ROOT / "docs" / "index.html"
-    t_ = re.sub(r"<!--LATEST-->.*?<!--/LATEST-->", "", ix.read_text(encoding="utf-8"), flags=re.S)
+    t_ = re.sub(r"<!--LATEST-->.*?<!--/LATEST-->\n?", "", ix.read_text(encoding="utf-8"), flags=re.S)
     t_ = t_.replace("<main>\n", "<main>\n" + strip + "\n", 1)
     ix.write_text(t_, encoding="utf-8")
     # cite and share block at the end of every post
