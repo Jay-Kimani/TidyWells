@@ -174,3 +174,55 @@ if __name__ == "__main__":
         else:
             t_ = t_.replace("</article></main>", blk + "</article></main>", 1)
         f.write_text(t_, encoding="utf-8")
+
+    # grouped site navigation, rebuilt on every page (header block is replaced wholesale)
+    NAV = [
+        ("link", "Home", "index.html", None),
+        ("menu", "Tools", "tools", [
+            ("decline.html", "Decline curve", "Fit a curve to one well"),
+            ("explore.html", "Production explorer", "Charts for AB, SK and BC")]),
+        ("menu", "Research", "research", [
+            ("analysis.html", "Analysis", "Studies and monthly snapshots"),
+            ("data.html", "Open data", "Download the data and see the checks")]),
+        ("menu", "Learn", "learn", [
+            ("methods.html", "Methods", "Sources, rules and limits"),
+            ("guide.html", "Data guide", "How the regulator files work"),
+            ("glossary.html", "Glossary", "Oil and gas terms in plain words")]),
+        ("link", "Pro", "pro.html", "pro"),
+        ("menu", "About", "about", [
+            ("about.html", "About Tidywells", "Who builds it and why"),
+            ("about.html#how-this-is-made", "How this is made", "Where AI is used, and how it is checked"),
+            ("corrections.html", "Corrections", "Mistakes we found and fixed"),
+            ("terms.html", "Terms and privacy", "Disclaimer and data use")]),
+    ]
+    GROUP_OF = {"index.html": "index.html", "decline.html": "tools", "explore.html": "tools", "analysis.html": "research",
+                "data.html": "research", "methods.html": "learn", "guide.html": "learn", "glossary.html": "learn",
+                "pro.html": "pro.html", "about.html": "about", "corrections.html": "about", "terms.html": "about",
+                "sponsor.html": "about"}
+    def nav_html(prefix, cur):
+        grp = GROUP_OF.get(cur)
+        out = [f'<header><nav><a class="brand" href="{prefix}index.html" aria-label="Tidywells home">'
+               f'<img class="logo-l" src="{prefix}img/logo.png" alt="Tidywells" height="44">'
+               f'<img class="logo-d" src="{prefix}img/logo-dark.png" alt="" height="44"></a>']
+        for kind, label, key, extra in NAV:
+            if kind == "link":
+                cls = " ".join(c for c in [extra, "on" if grp == key else ""] if c)
+                out.append('<a' + (' class="%s"' % cls if cls else '') + f' href="{prefix}{key}">{label}</a>')
+            else:
+                ON = ' class="on"'
+                items = "".join(
+                    f'<a{ON if href == cur else ""} href="{prefix}{href}"><b>{t}</b><small>{d}</small></a>'
+                    for href, t, d in extra)
+                out.append(f'<details class="dd{" on" if grp == key else ""}"><summary>{label}</summary><div class="menu">{items}</div></details>')
+        out.append('<button id="theme">Theme</button></nav></header>')
+        return "".join(out)
+    docs_ = ROOT / "docs"
+    for f in sorted(docs_.glob("*.html")) + sorted((docs_ / "posts").glob("*.html")):
+        t = f.read_text(encoding="utf-8")
+        if f.parent.name == "posts":
+            prefix, cur = "../", "analysis.html"
+        else:
+            prefix, cur = ("/" if f.name == "404.html" else ""), f.name
+        t2 = re.sub(r"<header><nav>.*?</nav></header>", lambda m: nav_html(prefix, cur), t, count=1, flags=re.S)
+        if t2 != t:
+            f.write_text(t2, encoding="utf-8")

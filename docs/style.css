@@ -122,3 +122,34 @@ nav a[href$="pro.html"]:not(.on){color:#ff6b80}
 .az{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 4px}.az a{border:1px solid var(--line);border-radius:6px;padding:2px 9px;font-size:13px;text-decoration:none;color:var(--fg)}
 
 a.card.post[hidden],a.snap[hidden],details[hidden]{display:none!important}
+
+/* grouped navigation */
+nav .dd{position:relative}
+nav .dd>summary{list-style:none;cursor:pointer;color:var(--muted);padding:6px 0;border-bottom:2px solid transparent;display:flex;align-items:center;gap:6px;user-select:none;transition:color .15s}
+nav .dd>summary::-webkit-details-marker{display:none}
+nav .dd>summary::after{content:"";width:6px;height:6px;border:solid currentColor;border-width:0 1.5px 1.5px 0;transform:rotate(45deg) translateY(-2px);transition:transform .15s}
+nav .dd[open]>summary::after{transform:rotate(225deg) translate(-1px,-1px)}
+nav .dd>summary:hover,nav .dd[open]>summary{color:var(--fg)}
+nav .dd.on>summary{color:var(--accent);border-bottom-color:var(--accent)}
+nav .dd .menu{position:absolute;top:calc(100% + 8px);left:-12px;min-width:250px;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:6px;box-shadow:0 14px 34px rgba(0,0,0,.28);z-index:20;display:flex;flex-direction:column;gap:2px}
+nav .dd .menu a{display:block;padding:8px 10px;border:0;border-radius:7px;color:var(--fg)}
+nav .dd .menu a b{display:block;font-weight:600;font-size:14px}
+nav .dd .menu a small{display:block;color:var(--muted);font-size:12px;margin-top:1px}
+nav .dd .menu a:hover{background:color-mix(in srgb,var(--fg) 8%,transparent)}
+nav .dd .menu a.on b{color:var(--accent)}
+nav a.pro{border:1px solid currentColor;border-radius:999px;padding:4px 14px}
+nav a.pro.on{border-bottom-color:var(--accent)}
+@media(max-width:640px){
+  nav{gap:4px 16px}
+  nav .dd{position:static}
+  nav .dd .menu{left:16px;right:16px;top:auto;margin-top:8px;min-width:0}
+}
+/* about page author */
+.author{display:flex;gap:18px;align-items:center;flex-wrap:wrap;margin:6px 0 12px}
+.author img{width:112px;height:112px;border-radius:50%;object-fit:cover;border:2px solid var(--line);flex:none}
+.author .ab{flex:1;min-width:220px}
+.author .ab p{margin:0 0 6px}
+.how{border:1px solid var(--line);border-radius:12px;padding:4px 18px 8px;margin:10px 0}
+nav details.dd{border:0;background:none;padding:0;margin:0;border-radius:0;box-shadow:none}
+nav details.dd[open]{background:none}
+nav .dd>summary{font-weight:400;font-size:inherit}

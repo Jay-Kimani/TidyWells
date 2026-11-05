@@ -19,3 +19,20 @@
     main.insertBefore(d, main.firstChild);
   }
 })();
+
+// Navigation dropdowns: one open at a time; close on outside click, Escape or choosing a link.
+(function () {
+  function all() { return document.querySelectorAll("nav details.dd"); }
+  document.addEventListener("toggle", function (e) {
+    if (e.target.matches && e.target.matches("nav details.dd") && e.target.open) {
+      all().forEach(function (d) { if (d !== e.target) d.open = false; });
+    }
+  }, true);
+  document.addEventListener("click", function (e) {
+    all().forEach(function (d) { if (!d.contains(e.target)) d.open = false; });
+    if (e.target.closest && e.target.closest("nav details.dd .menu a")) all().forEach(function (d) { d.open = false; });
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") all().forEach(function (d) { if (d.open) { d.open = false; d.querySelector("summary").focus(); } });
+  });
+})();
