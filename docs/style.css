@@ -95,3 +95,6 @@ nav a[href$="pro.html"]:not(.on){color:#ff6b80}
 
 .sponsor{display:flex;gap:10px;align-items:baseline;margin:0 0 18px;padding:8px 14px;border:1px solid var(--line);border-radius:10px;background:var(--panel);font-size:.92rem}
 .sponsor small{color:var(--muted);text-transform:uppercase;letter-spacing:.06em;font-size:.72rem}
+
+.btn.med{background:#0a84ff;color:#fff;border:0;font-weight:700}.btn.med:hover{background:#0069d9;color:#fff}
+.promo.blue{border-color:rgba(10,132,255,.5);border-left:4px solid #0a84ff;background:linear-gradient(90deg,rgba(10,132,255,.14),rgba(10,132,255,.03))}
