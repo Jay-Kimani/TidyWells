@@ -103,3 +103,22 @@ if __name__ == "__main__":
         if f.exists():
             inject(f, ld_block({"@context": "https://schema.org", "@type": "Article", "headline": p_["title"], "description": p_["summary"], "datePublished": p_["date"], "dateModified": p_["date"], "author": pub, "publisher": pub, "mainEntityOfPage": f"https://tidywells.com/posts/{p_['slug']}.html"}))
     inject(ROOT / "docs" / "index.html", ld_block({"@context": "https://schema.org", "@type": "WebSite", "name": "Tidywells", "url": "https://tidywells.com/", "description": "Clean Canadian oil and gas regulator data, decline curves and plain-language analysis.", "publisher": pub}))
+
+    # Medium call to action at the end of every post (before the comments), rebuilt on each run
+    cta = ('<!--MEDCTA--><div class="promo blue"><div class="pt"><strong>Read it on Medium too, and follow along</strong>'
+           '<span>We publish every analysis and monthly snapshot as a short article on Medium, with the key numbers up front. '
+           'Follow Tidywells there to get each new one.</span></div>'
+           '<a class="btn med" href="https://medium.com/@tidywells" target="_blank" rel="noopener">Follow on Medium</a></div><!--/MEDCTA-->')
+    for p_ in posts:
+        f = ROOT / "docs" / "posts" / f"{p_['slug']}.html"
+        if not f.exists():
+            continue
+        t = re.sub(r"<!--MEDCTA-->.*?<!--/MEDCTA-->", "", f.read_text(encoding="utf-8"), flags=re.S)
+        # comments box on analysis posts (generators do not emit its container)
+        if p_.get("kind", "analysis") == "analysis" and 'id="comments"' not in t:
+            t = t.replace("</article></main>", '<div id="comments"></div></article></main>', 1)
+        if '<div id="comments">' in t:
+            t = t.replace('<div id="comments">', cta + '<div id="comments">', 1)
+        else:
+            t = t.replace("</article></main>", cta + "</article></main>", 1)
+        f.write_text(t, encoding="utf-8")
