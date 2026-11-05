@@ -98,3 +98,27 @@ nav a[href$="pro.html"]:not(.on){color:#ff6b80}
 
 .btn.med{background:#0a84ff;color:#fff;border:0;font-weight:700}.btn.med:hover{background:#0069d9;color:#fff}
 .promo.blue{border-color:rgba(10,132,255,.5);border-left:4px solid #0a84ff;background:linear-gradient(90deg,rgba(10,132,255,.14),rgba(10,132,255,.03))}
+
+.latest{margin:0 0 26px;padding:16px 20px;border:1px solid var(--line);border-radius:12px;background:var(--panel)}
+.latest h2{margin:0 0 10px;font-size:1.05rem}
+.latest .lt{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+.latest .lt div{border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.latest b{display:block;font-size:1.15rem;font-variant-numeric:tabular-nums}
+.latest span{display:block;font-size:.85rem;color:var(--muted)}
+.latest .up{color:#4fd69a}.latest .dn{color:#ff8a80}
+:root[data-theme=light] .latest .up{color:#0b7a4a}:root[data-theme=light] .latest .dn{color:#b3261e}
+.latest p{margin:10px 0 0;font-size:.9rem}
+.latest p a{color:var(--accent)}
+.share{margin:26px 0;padding:14px 18px;border:1px solid var(--line);border-radius:12px;background:var(--panel)}
+.share h3{margin:0 0 6px;font-size:1rem}
+.share .cite{font-size:.88rem;color:var(--muted);margin:0 0 10px;overflow-wrap:anywhere}
+.share .sb{display:flex;flex-wrap:wrap;gap:8px}
+.share .sb a{display:inline-block;background:var(--panel);border:1px solid var(--line);color:var(--fg);border-radius:8px;padding:5px 12px;font-size:14px;text-decoration:none}
+.share .sb a:hover{border-color:var(--accent)}
+.sbox{margin:0 0 16px}.sbox input{width:100%;max-width:420px}
+.sbox .cnt{font-size:13px;color:var(--muted);margin-left:8px}
+.gl dt{font-weight:700;margin-top:18px;scroll-margin-top:70px}.gl dd{margin:4px 0 0;color:var(--fg)}
+.gl dd a{color:var(--accent)}
+.az{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 4px}.az a{border:1px solid var(--line);border-radius:6px;padding:2px 9px;font-size:13px;text-decoration:none;color:var(--fg)}
+
+a.card.post[hidden],a.snap[hidden],details[hidden]{display:none!important}

@@ -71,7 +71,7 @@ if __name__ == "__main__":
     a.write_text(t[:i] + "\n" + snaps_html(snaps) + "\n" + t[j:], encoding="utf-8")
     # sitemap + robots (search engines)
     base = "https://tidywells.com"
-    pages = ["", "decline.html", "explore.html", "analysis.html", "methods.html", "guide.html", "pro.html", "about.html", "data.html", "corrections.html", "terms.html"]
+    pages = ["", "decline.html", "explore.html", "analysis.html", "glossary.html", "methods.html", "guide.html", "pro.html", "about.html", "data.html", "corrections.html", "terms.html"]
     urls = [(f"{base}/{pg}", None) for pg in pages] + [(f"{base}/posts/{p['slug']}.html", p["date"]) for p in posts]
     sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
     for u, d in urls:
@@ -122,3 +122,55 @@ if __name__ == "__main__":
         else:
             t = t.replace("</article></main>", cta + "</article></main>", 1)
         f.write_text(t, encoding="utf-8")
+
+    # latest-data strip on the home page, from the monthly aggregate
+    rows_ = list(csv.DictReader(open(ROOT / "posts" / "monthly_agg.csv")))
+    conv_ = {"OIL": 6.2898 / 1000, "GAS": 35.3147 / 1000}
+    ser_ = {}
+    for r_ in rows_:
+        ser_.setdefault((r_["province"], r_["product"]), {})[r_["month"]] = float(r_["volume"]) / float(r_["days_in_month"]) * conv_[r_["product"]]
+    last_ = max(ser_[("AB", "OIL")])
+    y_, m_ = int(last_[:4]), int(last_[5:])
+    prev_ = f"{y_ - 1}-{m_:02d}"
+    MON = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+    def tile(label, key, unit):
+        v = ser_[key][last_]
+        g = (v / ser_[key][prev_] - 1) * 100
+        cls = "up" if g >= 0 else "dn"
+        return (f'<div><span>{label}</span><b>{v:,.0f} <small>{unit}</small></b>'
+                f'<span class="{cls}">{"+" if g >= 0 else chr(8722)}{abs(g):.1f}% on a year earlier</span></div>')
+    tiles_ = "".join([tile("Alberta oil", ("AB", "OIL"), "thousand bbl/d"), tile("Alberta gas", ("AB", "GAS"), "MMcf/d"),
+                      tile("Saskatchewan oil", ("SK", "OIL"), "thousand bbl/d"), tile("BC gas", ("BC", "GAS"), "MMcf/d")])
+    snap_slug = f"snapshot-{last_}"
+    strip = (f'<!--LATEST--><section class="latest"><h2>Latest data: {MON[m_ - 1]} {y_}</h2><div class="lt">{tiles_}</div>'
+             f'<p><a href="explore.html">Explore every month</a> · <a href="posts/{snap_slug}.html">Read the {MON[m_ - 1]} snapshot</a> · <a href="data.html">Download the data</a></p></section><!--/LATEST-->')
+    ix = ROOT / "docs" / "index.html"
+    t_ = re.sub(r"<!--LATEST-->.*?<!--/LATEST-->", "", ix.read_text(encoding="utf-8"), flags=re.S)
+    t_ = t_.replace("<main>\n", "<main>\n" + strip + "\n", 1)
+    ix.write_text(t_, encoding="utf-8")
+    # cite and share block at the end of every post
+    for p_ in posts:
+        f = ROOT / "docs" / "posts" / f"{p_['slug']}.html"
+        if not f.exists():
+            continue
+        url = f"https://tidywells.com/posts/{p_['slug']}.html"
+        yr = p_["date"][:4]
+        tt_ = p_["title"]; sep_ = "" if tt_[-1] in ".?!" else "."
+        cite = f"Tidywells ({yr}). {tt_}{sep_} {url}. Data: Petrinex and BC Energy Regulator public data."
+        from urllib.parse import quote
+        blk = ('<!--SHARE--><div class="share"><h3>Cite or share this</h3>'
+               f'<p class="cite">{escape(cite)}</p><div class="sb">'
+               f'<button data-copy="{escape(cite, {chr(34): "&quot;"})}">Copy citation</button>'
+               f'<button data-copy="{url}">Copy link</button>'
+               f'<a href="https://www.linkedin.com/sharing/share-offsite/?url={quote(url, safe="")}" target="_blank" rel="noopener">Share on LinkedIn</a>'
+               f'<a href="https://twitter.com/intent/tweet?url={quote(url, safe="")}&text={quote(p_["title"], safe="")}" target="_blank" rel="noopener">Post on X</a></div>'
+               '<script>document.querySelectorAll(".share [data-copy]").forEach(function(b){b.onclick=function(){var o=b.textContent,t=b.getAttribute("data-copy");'
+               'var d=function(){b.textContent="Copied";setTimeout(function(){b.textContent=o},1400)};'
+               'if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(d)}else{var x=document.createElement("textarea");x.value=t;document.body.appendChild(x);x.select();document.execCommand("copy");x.remove();d()}}});</script>'
+               '</div><!--/SHARE-->')
+        t_ = re.sub(r"<!--SHARE-->.*?<!--/SHARE-->", "", f.read_text(encoding="utf-8"), flags=re.S)
+        if "<!--MEDCTA-->" in t_:
+            t_ = t_.replace("<!--MEDCTA-->", blk + "<!--MEDCTA-->", 1)
+        else:
+            t_ = t_.replace("</article></main>", blk + "</article></main>", 1)
+        f.write_text(t_, encoding="utf-8")

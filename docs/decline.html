@@ -34,6 +34,7 @@ main a{color:var(--accent)}
 <div class="panel" id="inputs"></div>
 <div>
 <div class="stats" id="stats"></div>
+<div class="row" style="margin:0 0 10px"><button id="save">Save this curve to compare</button><button id="clr" hidden>Clear comparison</button><span id="cmpnote" style="font-size:13px;color:var(--muted)"></span></div>
 <div id="warn" class="warn"></div>
 <svg id="chart" viewBox="0 0 640 360" role="img" aria-label="Production history, fitted curve and forecast"></svg>
 <p style="font-size:13px;color:var(--muted)">Dots: your data from the peak onward. Line: fitted curve and forecast.</p>
@@ -50,6 +51,7 @@ const fields=[["qi","Rate at start of forecast (per day)",500],["di","Initial de
 document.getElementById("inputs").innerHTML=fields.map(([k,l,v])=>`<label for="${k}">${l}</label><input id="${k}" type="number" step="any" value="${v}">`).join("");
 const $=k=>parseFloat(document.getElementById(k).value), el=id=>document.getElementById(id);
 const fmt=x=>x.toLocaleString(undefined,{maximumFractionDigits:0});
+let saved=null;const KEYS=fields.map(f=>f[0]);
 let data=null; // {pts:[{x,q}] years since peak, tEnd, fit}
 function run(){
   const qi=$("qi"),di=$("di"),b=$("b"),dmin=$("dmin"),yrs=$("years"),warn=[];
@@ -61,11 +63,17 @@ function run(){
   const tEnd=data?data.tEnd:0;
   const f=forecast(qi,di,b,dmin,yrs,1/12,tEnd);
   const cum=f.volume.reduce((a,c)=>a+c,0), v=npv(f,$("price"),$("opex"),$("fixed"),$("disc"));
-  el("stats").innerHTML=[[data?"Remaining volume":"Cumulative volume",fmt(cum)],["NPV ($)",fmt(v)],["Final rate /d",f.rate[f.rate.length-1].toFixed(1)]].map(([l,x])=>`<div class="panel stat"><b>${x}</b><span>${l}</span></div>`).join("");
+  const tiles=[[data?"Remaining volume":"Cumulative volume",fmt(cum)],["NPV ($)",fmt(v)],["Final rate /d",f.rate[f.rate.length-1].toFixed(1)]];
+  let sf=null,sT=0;
+  if(saved){sf=forecast(saved.qi,saved.di,saved.b,saved.dmin,saved.years,1/12,saved.tEnd);sT=saved.tEnd+saved.years;
+    const sc=sf.volume.reduce((a,c)=>a+c,0),sv=npv(sf,saved.price,saved.opex,saved.fixed,saved.disc);
+    tiles.push(["Saved curve: volume",fmt(sc)],["Saved curve: NPV ($)",fmt(sv)],["Volume vs saved",sc>0?((cum/sc-1)*100>=0?"+":"\u2212")+Math.abs((cum/sc-1)*100).toFixed(1)+"%":"n/a"]);}
+  el("clr").hidden=!saved;el("cmpnote").textContent=saved?"Dashed orange line: the saved curve.":"";
+  el("stats").innerHTML=tiles.map(([l,x])=>`<div class="panel stat"><b>${x}</b><span>${l}</span></div>`).join("");
   // chart: curve from peak (t=0) to end of forecast
-  const T=tEnd+yrs, curve=forecast(qi,di,b,dmin,T,1/12,0);
+  const T=Math.max(tEnd+yrs,sT), curve=forecast(qi,di,b,dmin,tEnd+yrs,1/12,0), scurve=sf?forecast(saved.qi,saved.di,saved.b,saved.dmin,sT,1/12,0):null;
   const W=640,H=360,m=45;
-  const mx=Math.max(...curve.rate,...(data?data.pts.map(p=>p.q):[0]));
+  const mx=Math.max(...curve.rate,...(scurve?scurve.rate:[0]),...(data?data.pts.map(p=>p.q):[0]));
   const Tax=Math.ceil(T/4)*4,X=t=>m+(t/Tax)*(W-m-15),Y=q=>H-m-(q/mx)*(H-m-20);
   let g=`<line x1="${m}" y1="${H-m}" x2="${W-15}" y2="${H-m}" stroke="currentColor" opacity=".4"/><line x1="${m}" y1="20" x2="${m}" y2="${H-m}" stroke="currentColor" opacity=".4"/>`;
   for(let i=0;i<=4;i++){const q=mx*i/4,t=Tax*i/4;
@@ -73,6 +81,7 @@ function run(){
   g+=`<text x="${W/2}" y="${H-6}" text-anchor="middle" font-size="12" fill="currentColor">Years since peak</text>`;
   if(data&&tEnd>0) g+=`<line x1="${X(tEnd)}" y1="20" x2="${X(tEnd)}" y2="${H-m}" stroke="currentColor" opacity=".3" stroke-dasharray="4 4"/>`;
   g+=`<path d="${curve.t.map((t,i)=>`${i?"L":"M"}${X(t).toFixed(1)},${Y(curve.rate[i]).toFixed(1)}`).join("")}" fill="none" stroke="var(--accent)" stroke-width="2.5"/>`;
+  if(scurve) g+=`<path d="${scurve.t.map((t,i)=>`${i?"L":"M"}${X(t).toFixed(1)},${Y(scurve.rate[i]).toFixed(1)}`).join("")}" fill="none" stroke="#ff9a3c" stroke-width="2.5" stroke-dasharray="7 5"/><line x1="${W-190}" x2="${W-166}" y1="30" y2="30" stroke="var(--accent)" stroke-width="2.5"/><text x="${W-160}" y="34" font-size="11" fill="currentColor">Current</text><line x1="${W-100}" x2="${W-76}" y1="30" y2="30" stroke="#ff9a3c" stroke-width="2.5" stroke-dasharray="5 3"/><text x="${W-70}" y="34" font-size="11" fill="currentColor">Saved</text>`;
   if(data) g+=data.pts.map(p=>`<circle cx="${X(p.x).toFixed(1)}" cy="${Y(p.q).toFixed(1)}" r="2.6" fill="currentColor" opacity=".75"/>`).join("");
   const s=el("chart");s.style.color="var(--muted)";s.innerHTML=g;
 }
@@ -119,6 +128,7 @@ function example(){
 }
 el("paste").addEventListener("input",()=>{try{fillColumns(parseTable(el("paste").value))}catch(e){}});
 el("file").addEventListener("change",e=>{const f=e.target.files[0]; if(!f) return; const r=new FileReader(); r.onload=()=>{el("paste").value=r.result; fillColumns(parseTable(r.result));}; r.readAsText(f);});
+el("save").onclick=()=>{saved=Object.fromEntries(KEYS.map(k=>[k,$(k)]));saved.tEnd=data?data.tEnd:0;run()};el("clr").onclick=()=>{saved=null;run()};
 el("fit").onclick=doFit; el("example").onclick=example;
 document.querySelectorAll("#inputs input").forEach(i=>i.addEventListener("input",run));
 el("theme").onclick=()=>{const r=document.documentElement;r.dataset.theme=r.dataset.theme==="light"?"dark":"light"};
