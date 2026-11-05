@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Production explorer · Tidywells</title><meta name="description" content="Interactive monthly oil and gas production for Alberta, Saskatchewan and BC. Compare provinces, see year-on-year change and download the data."><link rel="stylesheet" href="style.css"><link rel="alternate" type="application/rss+xml" title="Tidywells" href="feed.xml"><style>article{max-width:720px}main a,footer a{color:var(--accent)}table{border-collapse:collapse;width:100%;font-size:14px}th,td{border-bottom:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}.tw{overflow-x:auto}code{font-size:13px}</style><link rel="icon" type="image/png" href="img/favicon.png"><meta property="og:image" content="https://tidywells.com/img/og.png"><meta property="og:site_name" content="Tidywells"><meta name="twitter:card" content="summary_large_image"><style>
+article.wide{max-width:900px}
+:root{--c-ab:#6aa6f0;--c-sk:#ffb066;--c-bc:#5fd6b4}
+:root[data-theme=light]{--c-ab:#0b5ed7;--c-sk:#c2570c;--c-bc:#0b7a62}
+.xp{border:1px solid var(--line);border-radius:14px;padding:16px;background:var(--panel)}
+.ctl{display:flex;flex-wrap:wrap;gap:12px 22px;margin-bottom:12px}
+.grp{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.gl{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-right:2px}
+.seg{border-radius:999px;padding:4px 13px;--c:var(--accent)}
+.seg.on{background:color-mix(in srgb,var(--c) 22%,transparent);border-color:var(--c);color:var(--fg);font-weight:600}
+select{background:var(--panel);color:var(--fg);border:1px solid var(--line);border-radius:8px;padding:5px 8px;font:inherit;font-size:14px}
+.ch{position:relative}
+#chart{width:100%;height:auto;display:block;touch-action:pan-y}
+#chart text{fill:var(--muted);font-size:11px;font-family:inherit}
+@media(max-width:600px){#chart text{font-size:19px}.tip{font-size:12px}}
+.tip{position:absolute;pointer-events:none;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-size:13px;line-height:1.45;box-shadow:0 4px 18px rgba(0,0,0,.25);white-space:nowrap;z-index:3}
+.sum{margin:10px 0;font-size:15px}
+.act{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center}
+.tbl{margin-top:12px}.tbl summary{cursor:pointer;color:var(--accent)}
+.tw{overflow-x:auto;margin-top:8px}
+#tbl{border-collapse:collapse;font-size:13px;font-variant-numeric:tabular-nums;width:100%}
+#tbl th,#tbl td{border-bottom:1px solid var(--line);padding:4px 10px;text-align:right;white-space:nowrap}
+#tbl th:first-child,#tbl td:first-child{text-align:left}
+.note{font-size:13px;color:var(--muted);margin-top:16px}
+.note a{color:var(--accent)}
+</style>
+</head>
+<body>
+<header><nav><a class="brand" href="index.html" aria-label="Tidywells home"><img class="logo-l" src="img/logo.png" alt="Tidywells" height="44"><img class="logo-d" src="img/logo-dark.png" alt="" height="44"></a><a href="index.html">Home</a><a href="decline.html">Decline curve</a><a class="on" href="explore.html">Explorer</a><a href="analysis.html">Analysis</a><a href="methods.html">Methods</a><a href="guide.html">Data guide</a><a href="pro.html">Pro</a><a href="about.html">About</a><button id="theme">Theme</button></nav></header>
+<main><article class="wide">
+<h1>Production explorer</h1>
+<p class="muted">Monthly oil and gas production for Alberta, Saskatchewan and BC, drawn from public regulator data. Pick a product, choose provinces and a view, and download what you see.</p>
+<div class="xp">
+<div class="ctl">
+<div class="grp" role="group" aria-label="Product"><span class="gl">Product</span><button class="seg on" data-prod="OIL">Oil</button><button class="seg" data-prod="GAS">Gas</button></div>
+<div class="grp" role="group" aria-label="Provinces"><span class="gl">Provinces</span><button class="seg on" data-prov="AB" style="--c:var(--c-ab)">Alberta</button><button class="seg on" data-prov="SK" style="--c:var(--c-sk)">Saskatchewan</button><button class="seg on" data-prov="BC" style="--c:var(--c-bc)">BC</button></div>
+<div class="grp" role="group" aria-label="View"><span class="gl">View</span><button class="seg on" data-view="rate">Daily rate</button><button class="seg" data-view="yoy">Change vs a year earlier</button><button class="seg" data-view="idx">Indexed to start</button></div>
+<div class="grp"><span class="gl">From</span><select id="from" aria-label="Start month"></select></div>
+</div>
+<div class="ch"><svg id="chart" viewBox="0 0 800 360" role="img" aria-label="Production chart"></svg><div id="tip" class="tip" hidden></div></div>
+<p class="muted" style="font-size:13px;margin:6px 0 0">Tip: Alberta is much larger than the other two, so switch it off to see Saskatchewan and BC in detail, or use the indexed or year-on-year views to compare them directly.</p>
+<p id="sum" class="sum"></p>
+<div class="act"><button id="dl">Download this view as CSV</button><span class="muted" id="unit"></span></div>
+<details class="tbl"><summary>Show the numbers</summary><div class="tw"><table id="tbl"></table></div></details>
+</div>
+<p class="note"><b>How to read this.</b> Rates are monthly volume divided by calendar days, so short months do not look low. Gas has a season (see <a href="posts/gas-has-a-season.html">Gas has a season</a>), so month-on-month gas moves are partly the calendar. Alberta oil includes bitumen. These are sums of public well-level rows, not official provincial statistics, and operators can revise earlier months. Sources: Petrinex (Alberta, Saskatchewan) and the BC Energy Regulator. Informational only, not investment, legal or engineering advice. Download the monthly totals as a <a href="data.html">free CSV</a>.</p>
+
+</article></main>
+
+<footer><div id="subscribe"></div><small>Not affiliated with any regulator. Provided as is, no warranty. <a href="feed.xml">RSS</a> · <a href="https://medium.com/@tidywells" target="_blank" rel="noopener">Medium</a> · <a href="terms.html">Terms and privacy</a> · <a href="sponsor.html">Sponsor</a> · <a href="data.html">Open data</a> · <a href="corrections.html">Corrections</a> · <a href="https://github.com/Jay-Kimani/TidyWells">Code</a></small></footer>
+<script src="config.js"></script><script src="subscribe.js"></script><script src="site.js"></script>
+<script>document.getElementById("theme").onclick=()=>{const r=document.documentElement;r.dataset.theme=r.dataset.theme==="light"?"dark":"light"}</script>
+<script>
+(function(){
+var NAME={AB:"Alberta",SK:"Saskatchewan",BC:"BC"},COL={AB:"var(--c-ab)",SK:"var(--c-sk)",BC:"var(--c-bc)"};
+var F={OIL:6.2898/1000,GAS:35.3147/1000},U={OIL:"thousand bbl/d",GAS:"MMcf/d"};
+var MN=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+var st={prod:"OIL",prov:{AB:1,SK:1,BC:1},view:"rate",from:0},data={},months=[];
+function lab(m){var p=m.split("-");return MN[+p[1]-1]+" "+p[0]}
+function fmt(v,view){if(v==null||isNaN(v))return"n/a";if(view==="yoy")return(v>=0?"+":"−")+Math.abs(v).toFixed(1)+"%";if(view==="idx")return v.toFixed(1);var a=Math.abs(v);return v.toLocaleString("en-CA",{maximumFractionDigits:a<100?1:0})}
+function series(){var out=[];Object.keys(NAME).forEach(function(p){if(!st.prov[p])return;var r=data[p+"|"+st.prod];if(!r)return;var vals=months.map(function(m,i){
+ var v=r[m];if(v==null)return null;
+ if(st.view==="rate")return v;
+ if(st.view==="yoy"){var pm=months[i-12];return pm&&r[pm]?(v/r[pm]-1)*100:null}
+ var b=r[months[st.from]];return b?v/b*100:null});
+ out.push({p:p,vals:vals})});return out}
+function nice(lo,hi){var span=hi-lo||1,step=Math.pow(10,Math.floor(Math.log10(span/5))),e=span/5/step;step*=e<1.5?1:e<3?2:e<7?5:10;return{lo:Math.floor(lo/step)*step,hi:Math.ceil(hi/step)*step,step:step}}
+var W=800,H=360,L=58,Rr=14,T=14,B=30,hov=null;
+function draw(){
+ var S=series(),n=months.length,s0=st.from;var all=[];S.forEach(function(s){s.vals.forEach(function(v,i){if(i>=s0&&v!=null)all.push(v)})});
+ var svg=document.getElementById("chart");if(!all.length){svg.innerHTML="";return}
+ var lo=Math.min.apply(null,all),hi=Math.max.apply(null,all);
+ if(st.view==="rate"){lo=Math.max(0,lo-(hi-lo)*.15)}
+ var sc=nice(lo,hi);if(st.view==="yoy"){sc.lo=Math.min(sc.lo,0);sc.hi=Math.max(sc.hi,0)}
+ var X=function(i){return L+(i-s0)/Math.max(1,n-1-s0)*(W-L-Rr)},Y=function(v){return T+(1-(v-sc.lo)/(sc.hi-sc.lo))*(H-T-B)};
+ var g="";
+ for(var v=sc.lo;v<=sc.hi+sc.step/2;v+=sc.step){var y=Y(v);g+='<line x1="'+L+'" x2="'+(W-Rr)+'" y1="'+y+'" y2="'+y+'" stroke="currentColor" opacity="'+(v===0&&st.view==="yoy"?.5:.12)+'"/><text x="'+(L-8)+'" y="'+(y+4)+'" text-anchor="end">'+(st.view==="yoy"?fmt(+v.toFixed(6),"yoy"):fmt(+v.toFixed(6),"rate"))+'</text>'}
+ months.forEach(function(m,i){if(i<s0)return;if(m.slice(5)==="01"||i===s0){var x=X(i);g+='<line x1="'+x+'" x2="'+x+'" y1="'+(H-B)+'" y2="'+(H-B+4)+'" stroke="currentColor" opacity=".4"/><text x="'+x+'" y="'+(H-8)+'" text-anchor="'+(i===s0?"start":"middle")+'">'+(i===s0?lab(m):m.slice(0,4))+'</text>'}});
+ S.forEach(function(s){var d="",open=false;s.vals.forEach(function(v,i){if(i<s0)return;if(v==null){open=false;return}d+=(open?"L":"M")+X(i).toFixed(1)+","+Y(v).toFixed(1);open=true});
+  g+='<path d="'+d+'" fill="none" stroke="'+COL[s.p]+'" stroke-width="2.4" stroke-linejoin="round"/>';
+  var li=n-1;while(li>=s0&&s.vals[li]==null)li--;if(li>=s0)g+='<circle cx="'+X(li)+'" cy="'+Y(s.vals[li])+'" r="3.6" fill="'+COL[s.p]+'"/>'});
+ if(hov!=null&&hov>=s0){var hx=X(hov);g+='<line x1="'+hx+'" x2="'+hx+'" y1="'+T+'" y2="'+(H-B)+'" stroke="currentColor" opacity=".35"/>';S.forEach(function(s){if(s.vals[hov]!=null)g+='<circle cx="'+hx+'" cy="'+Y(s.vals[hov])+'" r="4.5" fill="'+COL[s.p]+'" stroke="var(--bg)" stroke-width="1.5"/>'})}
+ svg.innerHTML=g;svg._X=X;svg._S=S;
+ var last=n-1,parts=[];S.forEach(function(s){var r=data[s.p+"|"+st.prod],v=r[months[last]],pm=r[months[last-12]];if(v==null)return;parts.push(NAME[s.p]+" "+v.toLocaleString("en-CA",{maximumFractionDigits:v<100?1:0})+" "+U[st.prod]+(pm?" ("+fmt((v/pm-1)*100,"yoy")+" on a year earlier)":""))});
+ document.getElementById("sum").textContent=lab(months[last])+": "+parts.join("; ")+".";
+ document.getElementById("unit").textContent=st.view==="rate"?"Unit: "+U[st.prod]:st.view==="yoy"?"Percent change in the daily rate versus the same month a year earlier":"Index, "+lab(months[s0])+" = 100";
+ var t='<tr><th>Month</th>'+S.map(function(s){return"<th>"+NAME[s.p]+"</th>"}).join("")+"</tr>";
+ for(var i=n-1;i>=s0;i--)t+="<tr><td>"+lab(months[i])+"</td>"+S.map(function(s){return"<td>"+fmt(s.vals[i],st.view)+"</td>"}).join("")+"</tr>";
+ document.getElementById("tbl").innerHTML=t}
+function load(csv){var rows=csv.trim().split("\n").slice(1),ms={};
+ rows.forEach(function(l){var c=l.split(",");if(c.length<7)return;var k=c[0]+"|"+c[1];(data[k]=data[k]||{})[c[2]]=parseFloat(c[3])/parseFloat(c[6])*F[c[1]];ms[c[2]]=1});
+ months=Object.keys(ms).sort();var sel=document.getElementById("from");
+ months.forEach(function(m,i){var o=document.createElement("option");o.value=i;o.textContent=lab(m);sel.appendChild(o)});sel.value=0;draw()}
+document.addEventListener("click",function(e){var b=e.target.closest(".seg");if(!b)return;
+ if(b.dataset.prod){st.prod=b.dataset.prod;document.querySelectorAll("[data-prod]").forEach(function(x){x.classList.toggle("on",x===b)})}
+ else if(b.dataset.prov){var p=b.dataset.prov;if(st.prov[p]&&Object.keys(st.prov).filter(function(k){return st.prov[k]}).length===1)return;st.prov[p]=st.prov[p]?0:1;b.classList.toggle("on",!!st.prov[p])}
+ else if(b.dataset.view){st.view=b.dataset.view;document.querySelectorAll("[data-view]").forEach(function(x){x.classList.toggle("on",x===b)})}
+ draw()});
+document.getElementById("from").addEventListener("change",function(){st.from=+this.value;draw()});
+var svg=document.getElementById("chart"),tip=document.getElementById("tip");
+function move(ev){var r=svg.getBoundingClientRect(),cx=(ev.touches?ev.touches[0].clientX:ev.clientX),x=(cx-r.left)/r.width*W;if(!svg._X)return;
+ var n=months.length,best=null,bd=1e9;for(var i=st.from;i<n;i++){var d=Math.abs(svg._X(i)-x);if(d<bd){bd=d;best=i}}
+ hov=best;draw();var S=svg._S,h="<b>"+lab(months[best])+"</b>";S.forEach(function(s){h+='<br><span style="color:'+COL[s.p]+'">●</span> '+NAME[s.p]+": "+fmt(s.vals[best],st.view)});
+ tip.innerHTML=h;tip.hidden=false;var px=svg._X(best)/W*r.width,tw=tip.offsetWidth;tip.style.left=Math.max(4,Math.min(r.width-tw-4,px+12))+"px";tip.style.top="8px"}
+svg.addEventListener("mousemove",move);svg.addEventListener("touchmove",move,{passive:true});svg.addEventListener("touchstart",move,{passive:true});
+svg.addEventListener("mouseleave",function(){hov=null;tip.hidden=true;draw()});
+document.getElementById("dl").addEventListener("click",function(){var S=series(),s0=st.from;
+ var rows=["month,"+S.map(function(s){return NAME[s.p].replace(/ /g,"_")+"_"+st.prod.toLowerCase()+"_"+st.view}).join(",")];
+ for(var i=s0;i<months.length;i++)rows.push(months[i]+","+S.map(function(s){return s.vals[i]==null?"":s.vals[i].toFixed(3)}).join(","));
+ var a=document.createElement("a");a.href=URL.createObjectURL(new Blob([rows.join("\n")+"\n"],{type:"text/csv"}));a.download="tidywells-"+st.prod.toLowerCase()+"-"+st.view+".csv";document.body.appendChild(a);a.click();a.remove()});
+fetch("data/tidywells-monthly-production.csv").then(function(r){return r.text()}).then(load).catch(function(){document.getElementById("sum").textContent="Could not load the data file. Please reload the page."});
+})();
+</script>
+</body></html>

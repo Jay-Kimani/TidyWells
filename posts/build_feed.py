@@ -71,7 +71,7 @@ if __name__ == "__main__":
     a.write_text(t[:i] + "\n" + snaps_html(snaps) + "\n" + t[j:], encoding="utf-8")
     # sitemap + robots (search engines)
     base = "https://tidywells.com"
-    pages = ["", "decline.html", "analysis.html", "methods.html", "guide.html", "pro.html", "about.html", "data.html", "corrections.html", "terms.html"]
+    pages = ["", "decline.html", "explore.html", "analysis.html", "methods.html", "guide.html", "pro.html", "about.html", "data.html", "corrections.html", "terms.html"]
     urls = [(f"{base}/{pg}", None) for pg in pages] + [(f"{base}/posts/{p['slug']}.html", p["date"]) for p in posts]
     sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
     for u, d in urls:

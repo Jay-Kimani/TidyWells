@@ -17,3 +17,5 @@
 - Added a Corrections page and a 404 page; footer links on every page.
 - Added Article and WebSite structured data, built by `posts/build_feed.py`, which also rebuilds the CSV and the sitemap.
 - Fixed a broken Methods link in the Sponsor page nav.
+
+- Added a Production explorer page (interactive monthly production chart, year-on-year and indexed views, CSV export) and an Explorer nav link on every page.
