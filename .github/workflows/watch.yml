@@ -1,0 +1,31 @@
+name: Data release watch
+on:
+  schedule:
+    - cron: "17 15 * * 1"   # Mondays
+  workflow_dispatch:
+permissions:
+  issues: write
+  contents: read
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Check for new regulator data
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python posts/watch.py > issues.json
+          python - <<'PY'
+          import json, subprocess
+          for i in json.load(open("issues.json")):
+              found = subprocess.run(["gh", "issue", "list", "--state", "all", "--search", f'"{i["title"]}" in:title', "--json", "title", "--jq", ".[].title"],
+                                     capture_output=True, text=True).stdout.split("\n")
+              if i["title"] in found:
+                  print("already open or closed:", i["title"]); continue
+              subprocess.run(["gh", "issue", "create", "--title", i["title"], "--body", i["body"]], check=True)
+              print("opened:", i["title"])
+          PY

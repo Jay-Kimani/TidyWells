@@ -71,7 +71,7 @@ if __name__ == "__main__":
     a.write_text(t[:i] + "\n" + snaps_html(snaps) + "\n" + t[j:], encoding="utf-8")
     # sitemap + robots (search engines)
     base = "https://tidywells.com"
-    pages = ["", "decline.html", "explore.html", "analysis.html", "glossary.html", "methods.html", "guide.html", "pro.html", "about.html", "data.html", "corrections.html", "terms.html"]
+    pages = ["", "decline.html", "explore.html", "analysis.html", "glossary.html", "methods.html", "guide.html", "pro.html", "about.html", "data.html", "clean.html", "scorecard.html", "revisions.html", "didnt-work.html", "corrections.html", "terms.html"]
     urls = [(f"{base}/{pg}", None) for pg in pages] + [(f"{base}/posts/{p['slug']}.html", p["date"]) for p in posts]
     sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
     for u, d in urls:
@@ -149,6 +149,28 @@ if __name__ == "__main__":
     t_ = re.sub(r"<!--LATEST-->.*?<!--/LATEST-->\n?", "", ix.read_text(encoding="utf-8"), flags=re.S)
     t_ = t_.replace("<main>\n", "<main>\n" + strip + "\n", 1)
     ix.write_text(t_, encoding="utf-8")
+    # reproduce-this-number block on monthly snapshots (placed before the share box)
+    for p_ in posts:
+        f = ROOT / "docs" / "posts" / f"{p_['slug']}.html"
+        if p_.get("kind") != "snapshot" or not f.exists():
+            continue
+        mon = p_["period"]
+        code = ('import csv, io, urllib.request\n'
+                'url = "https://tidywells.com/data/tidywells-monthly-production.csv"\n'
+                'conv = {"OIL": 6.2898 / 1000, "GAS": 35.3147 / 1000}   # m3 -> thousand bbl, 10^3 m3 -> MMcf\n'
+                'for r in csv.DictReader(io.StringIO(urllib.request.urlopen(url).read().decode())):\n'
+                f'    if r["month"] == "{mon}":\n'
+                '        rate = float(r["volume"]) / float(r["days_in_month"]) * conv[r["product"]]   # per day\n'
+                '        print(r["province"], r["product"], f"{rate:,.0f}" if (r["product"] == "GAS" or rate >= 100) else f"{rate:,.1f}")\n')
+        blk = ('<!--REPRO--><details class="repro"><summary>Reproduce these numbers</summary>'
+               '<p>Every figure above comes from the <a href="../data.html">open dataset</a> (province-level monthly totals built from the regulators’ public files). '
+               'Divide the month’s volume by the days in the month, then convert units. This short Python script prints the same daily rates shown in the table; it needs no libraries.</p>'
+               f'<pre><code>{escape(code)}</code></pre>'
+               '<p>The same checks run automatically on every change, see <a href="../data.html">How we check this</a>. '
+               'To go back to the raw regulator files, use the <a href="../clean.html">file cleaner</a> or the <a href="https://github.com/Jay-Kimani/TidyWells">Python package</a>.</p></details><!--/REPRO-->')
+        t_ = re.sub(r"<!--REPRO-->.*?<!--/REPRO-->", "", f.read_text(encoding="utf-8"), flags=re.S)
+        t_ = t_.replace("</article></main>", blk + "</article></main>", 1) if "<!--SHARE-->" not in t_ else t_.replace("<!--SHARE-->", blk + "<!--SHARE-->", 1)
+        f.write_text(t_, encoding="utf-8")
     # cite and share block at the end of every post
     for p_ in posts:
         f = ROOT / "docs" / "posts" / f"{p_['slug']}.html"
@@ -181,10 +203,14 @@ if __name__ == "__main__":
         ("link", "Home", "index.html", None),
         ("menu", "Tools", "tools", [
             ("decline.html", "Decline curve", "Fit a curve to one well"),
-            ("explore.html", "Production explorer", "Charts for AB, SK and BC")]),
+            ("explore.html", "Production explorer", "Charts for AB, SK and BC"),
+            ("clean.html", "File cleaner", "Clean a regulator file in your browser")]),
         ("menu", "Research", "research", [
             ("analysis.html", "Analysis", "Studies and monthly snapshots"),
-            ("data.html", "Open data", "Download the data and see the checks")]),
+            ("data.html", "Open data", "Download the data and see the checks"),
+            ("scorecard.html", "Forecast scorecard", "Our forecasts, graded against what happened"),
+            ("revisions.html", "Data revisions", "What the regulators changed after publishing"),
+            ("didnt-work.html", "What didn't work", "Negative results and mistakes we found")]),
         ("menu", "Learn", "learn", [
             ("methods.html", "Methods", "Sources, rules and limits"),
             ("guide.html", "Data guide", "How the regulator files work"),
@@ -196,7 +222,7 @@ if __name__ == "__main__":
             ("corrections.html", "Corrections", "Mistakes we found and fixed"),
             ("terms.html", "Terms and privacy", "Disclaimer and data use")]),
     ]
-    GROUP_OF = {"index.html": "index.html", "decline.html": "tools", "explore.html": "tools", "analysis.html": "research",
+    GROUP_OF = {"index.html": "index.html", "decline.html": "tools", "explore.html": "tools", "clean.html": "tools", "scorecard.html": "research", "revisions.html": "research", "didnt-work.html": "research", "analysis.html": "research",
                 "data.html": "research", "methods.html": "learn", "guide.html": "learn", "glossary.html": "learn",
                 "pro.html": "pro.html", "about.html": "about", "corrections.html": "about", "terms.html": "about",
                 "sponsor.html": "about"}

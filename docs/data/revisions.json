@@ -1,0 +1,13 @@
+{
+ "about": "Each entry is a time the open dataset changed. 'changed' lists months that were already published and now have a different value.",
+ "vintages": [
+  {
+   "detected": "2026-11-04",
+   "file": "2026-11-04-94193a12.csv",
+   "sha256": "94193a121eff937329b691e179f73bd2d545478244e76e3d95796f754ce60bfb",
+   "rows": 342,
+   "last_month": "2026-09"
+  }
+ ],
+ "events": []
+}

@@ -1,0 +1,12 @@
+{
+  "title": "Tidywells: open-source tools and open monthly dataset for Canadian oil and gas production",
+  "upload_type": "software",
+  "description": "Python loaders for public Petrinex (Alberta, Saskatchewan) and BC Energy Regulator files, a bounded Arps decline-curve fit, and an open monthly province-level production dataset with a verified analysis site at https://tidywells.com. Not affiliated with any regulator; for illustration only, not for reserves reporting or investment decisions.",
+  "creators": [{"name": "Dupuis, Jonathan"}],
+  "license": "MIT",
+  "keywords": ["oil and gas", "open data", "decline curve analysis", "Alberta", "Saskatchewan", "British Columbia", "Petrinex"],
+  "related_identifiers": [
+    {"identifier": "https://tidywells.com", "relation": "isDocumentedBy", "scheme": "url"},
+    {"identifier": "https://github.com/Jay-Kimani/TidyWells", "relation": "isSupplementTo", "scheme": "url"}
+  ]
+}

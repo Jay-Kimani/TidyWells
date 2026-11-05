@@ -19,7 +19,11 @@ jobs:
       - name: Unit tests
         run: pytest -q
       - name: Rebuild the generated site files
-        run: python posts/build_feed.py
+        run: |
+          python posts/gen_didnt_work.py
+          python posts/scorecard.py
+          python posts/revisions.py
+          python posts/build_feed.py
       - name: Check that every published number matches the data
         run: python posts/verify_site.py
       - name: Check the committed site is up to date

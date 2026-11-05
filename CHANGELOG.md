@@ -1,6 +1,11 @@
 # Changelog
 
 ## Site (unreleased)
+- File cleaner (`docs/clean.html`, `docs/clean.js`): cleans Petrinex and BCER production files in the browser; a test requires identical rows to the Python loaders.
+- Forecast scorecard (`posts/scorecard.py`, `docs/data/forecasts.json`): backtest plus an append-only log of live forecasts, graded automatically.
+- Data revision tracker (`posts/revisions.py`, `docs/data/vintages/`, `docs/data/revisions.json`).
+- Release watcher (`posts/watch.py`, `.github/workflows/watch.yml`) opens issues when new data is due; `posts/update.py` rebuilds everything after re-aggregating.
+- Reproduce-these-numbers block on every monthly snapshot; "What didn't work" page; Colab notebook; `.zenodo.json`.
 - Substack (https://tidywells.substack.com/) added alongside Medium: footer, home and Analysis promo, About buttons, end-of-post box, signup box, README.
 - Navigation grouped into dropdowns (Tools, Research, Learn, About) generated on every page by `posts/build_feed.py`; Pro stays a highlighted link.
 - About page: author photo and bio, and a "How this is made" section describing AI assistance and how figures are checked.

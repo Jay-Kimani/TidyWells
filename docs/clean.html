@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>File cleaner · Tidywells</title><meta name="description" content="Clean a Petrinex or BC Energy Regulator production file in your browser. Nothing is uploaded. Get one tidy CSV with one row per well, month and product."><link rel="stylesheet" href="style.css"><link rel="alternate" type="application/rss+xml" title="Tidywells" href="feed.xml"><style>article{max-width:720px}main a,footer a{color:var(--accent)}table{border-collapse:collapse;width:100%;font-size:14px}th,td{border-bottom:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}.tw{overflow-x:auto}code{font-size:13px}</style><link rel="canonical" href="https://tidywells.com/clean.html"><link rel="icon" type="image/png" href="img/favicon.png"><meta property="og:image" content="https://tidywells.com/img/og.png"><meta property="og:site_name" content="Tidywells"><meta name="twitter:card" content="summary_large_image"><style>.drop{border:2px dashed var(--line);border-radius:14px;padding:30px 18px;text-align:center;cursor:pointer;background:var(--panel)}.drop.over{border-color:var(--accent)}.drop b{display:block;margin-bottom:4px}.opts{display:flex;gap:16px;flex-wrap:wrap;margin:12px 0}.opts label{display:inline-flex;gap:6px;align-items:center;white-space:nowrap}.opts input{width:auto;flex:none;margin:0}#prev td{white-space:nowrap}.stat{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin:14px 0}.stat div{border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:var(--panel)}.stat span{display:block;color:var(--muted);font-size:12px}.stat b{font-size:1.2rem}#msg{min-height:1.4em;color:var(--muted)}#msg.err{color:#ff6b80}</style></head>
+<body>
+<header><nav><a class="brand" href="index.html" aria-label="Tidywells home"><img class="logo-l" src="img/logo.png" alt="Tidywells" height="44"><img class="logo-d" src="img/logo-dark.png" alt="" height="44"></a><a href="index.html">Home</a><details class="dd on"><summary>Tools</summary><div class="menu"><a href="decline.html"><b>Decline curve</b><small>Fit a curve to one well</small></a><a href="explore.html"><b>Production explorer</b><small>Charts for AB, SK and BC</small></a><a class="on" href="clean.html"><b>File cleaner</b><small>Clean a regulator file in your browser</small></a></div></details><details class="dd"><summary>Research</summary><div class="menu"><a href="analysis.html"><b>Analysis</b><small>Studies and monthly snapshots</small></a><a href="data.html"><b>Open data</b><small>Download the data and see the checks</small></a><a href="scorecard.html"><b>Forecast scorecard</b><small>Our forecasts, graded against what happened</small></a><a href="revisions.html"><b>Data revisions</b><small>What the regulators changed after publishing</small></a><a href="didnt-work.html"><b>What didn't work</b><small>Negative results and mistakes we found</small></a></div></details><details class="dd"><summary>Learn</summary><div class="menu"><a href="methods.html"><b>Methods</b><small>Sources, rules and limits</small></a><a href="guide.html"><b>Data guide</b><small>How the regulator files work</small></a><a href="glossary.html"><b>Glossary</b><small>Oil and gas terms in plain words</small></a></div></details><a class="pro" href="pro.html">Pro</a><details class="dd"><summary>About</summary><div class="menu"><a href="about.html"><b>About Tidywells</b><small>Who builds it and why</small></a><a href="about.html#how-this-is-made"><b>How this is made</b><small>Where AI is used, and how it is checked</small></a><a href="corrections.html"><b>Corrections</b><small>Mistakes we found and fixed</small></a><a href="terms.html"><b>Terms and privacy</b><small>Disclaimer and data use</small></a></div></details><button id="theme">Theme</button></nav></header>
+<main><article>
+<h1>File cleaner</h1>
+<p>Drop a file you downloaded from Petrinex (Alberta or Saskatchewan Conventional Volumetrics) or the BC Energy Regulator (production data) and get one tidy CSV: one row per well, month and product, with IDs kept as text. Everything runs in your browser. <b>Your file is never uploaded.</b></p>
+<div class="drop" id="drop" tabindex="0" role="button" aria-label="Choose files to clean"><b>Drop files here, or click to choose</b><span class="muted">.csv or .zip, one or several files of the same kind. Large files are read in pieces.</span><input type="file" id="pick" accept=".csv,.zip" multiple hidden></div>
+<div class="opts"><b>Products</b><label><input type="checkbox" name="p" value="OIL" checked> Oil</label><label><input type="checkbox" name="p" value="GAS" checked> Gas</label><label><input type="checkbox" name="p" value="COND" checked> Condensate</label><label><input type="checkbox" name="p" value="WATER"> Water (BC only)</label></div>
+<p id="msg" role="status" aria-live="polite"></p>
+<div id="out" hidden>
+<div class="stat" id="stat"></div>
+<p><button id="dl" class="btn primary">Download clean CSV</button></p>
+<div class="tw"><table id="prev"></table></div>
+<p class="muted" style="font-size:13px">Showing the first 10 rows. Volumes: oil and condensate in m³, gas in 10³ m³. Open the CSV in Excel with “Import from text” and set the ID columns to Text, or Excel will strip leading zeros.</p>
+</div>
+<h2>What it does</h2>
+<ul>
+<li><b>Alberta and Saskatchewan:</b> keeps well-level production rows only (activity PROD, well IDs), for the products you pick. Rows where the regulator masked the well ID (***) are dropped and counted.</li>
+<li><b>BC:</b> skips the title line, sums the zones of each well into one row per well, month and product, and keeps zero-volume months as zeros.</li>
+<li><b>IDs stay text</b>, so leading zeros survive.</li>
+<li><b>Same rules as the Python package.</b> The test suite runs this page's code and <code>tidywells.read_volumetrics</code> / <code>read_bc_production</code> on the same files and requires identical rows. See the <a href="methods.html">Methods</a> page and the <a href="https://github.com/Jay-Kimani/TidyWells">code</a>.</li></ul>
+<p class="muted" style="font-size:14px">Very large files (hundreds of MB of CSV) can take a minute and need free memory; if the tab runs out, clean one month at a time. Informational only, not investment, legal or engineering advice.</p>
+</article></main>
+<footer><div id="subscribe"></div><small>Not affiliated with any regulator. Provided as is, no warranty. <a href="feed.xml">RSS</a> · <a href="https://medium.com/@tidywells" target="_blank" rel="noopener">Medium</a> · <a href="https://tidywells.substack.com/" target="_blank" rel="noopener">Substack</a> · <a href="terms.html">Terms and privacy</a> · <a href="sponsor.html">Sponsor</a> · <a href="data.html">Open data</a> · <a href="glossary.html">Glossary</a> · <a href="corrections.html">Corrections</a> · <a href="https://github.com/Jay-Kimani/TidyWells">Code</a></small></footer>
+<script src="config.js"></script><script src="subscribe.js"></script><script src="site.js"></script>
+<script>document.getElementById("theme").onclick=()=>{const r=document.documentElement;r.dataset.theme=r.dataset.theme==="light"?"dark":"light"}</script>
+<script src="clean.js"></script><script>
+(function(){
+var $=function(i){return document.getElementById(i)},drop=$("drop"),pick=$("pick"),msg=$("msg"),res=null;
+function set(t,err){msg.textContent=t;msg.className=err?"err":""}
+drop.onclick=function(){pick.click()};drop.onkeydown=function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();pick.click()}};
+["dragenter","dragover"].forEach(function(n){drop.addEventListener(n,function(e){e.preventDefault();drop.classList.add("over")})});
+["dragleave","drop"].forEach(function(n){drop.addEventListener(n,function(e){e.preventDefault();drop.classList.remove("over")})});
+drop.addEventListener("drop",function(e){go(e.dataTransfer.files)});pick.onchange=function(){go(pick.files)};
+async function go(files){
+ if(!files||!files.length)return;files=Array.prototype.slice.call(files);
+ if(typeof DecompressionStream==="undefined"){set("This browser is too old for in-browser unzipping. Use a current Chrome, Edge, Firefox or Safari.",1);return}
+ var products=Array.prototype.map.call(document.querySelectorAll("input[name=p]:checked"),function(x){return x.value});
+ if(!products.length){set("Pick at least one product.",1);return}
+ $("out").hidden=true;set("Reading "+files.length+" file"+(files.length>1?"s":"")+" …");
+ try{
+  res=await TWClean.cleanFiles(files,{products:products},function(i,n,rows){set("File "+(i+1)+" of "+n+": "+rows.toLocaleString()+" rows read …")});
+ }catch(err){set(err.message||String(err),1);return}
+ set("Done.");render();
+}
+function render(){
+ var s=res.stats,mm=res.kind==="bc"?"":'<div><span>Masked IDs dropped</span><b>'+s.masked.toLocaleString()+'</b></div>';
+ var months=res.rows.map(function(r){return r[0]}).filter(Boolean).sort();
+ $("stat").innerHTML='<div><span>Rows read</span><b>'+s.read.toLocaleString()+'</b></div><div><span>Rows kept</span><b>'+s.kept.toLocaleString()+'</b></div>'+mm+'<div><span>Months</span><b>'+(months.length?months[0]+' to '+months[months.length-1]:'none')+'</b></div>';
+ var t=$("prev");t.innerHTML="";var h=t.createTHead().insertRow();res.header.forEach(function(c){var th=document.createElement("th");th.textContent=c;h.appendChild(th)});
+ var b=t.createTBody();res.rows.slice(0,10).forEach(function(r){var tr=b.insertRow();r.forEach(function(v){tr.insertCell().textContent=v===null?"":typeof v==="boolean"?(v?"True":"False"):String(v)})});
+ $("out").hidden=false;
+ if(!res.rows.length)set("No matching rows. Check the products you selected, and that this is a production file.",1);
+}
+$("dl").onclick=function(){
+ var parts=[res.header.join(",")+"\n"],CH=20000;
+ for(var i=0;i<res.rows.length;i+=CH)parts.push(TWClean.toCsv({header:[],rows:res.rows.slice(i,i+CH)}).replace(/^\n/,""));
+ var blob=new Blob(parts,{type:"text/csv"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="tidywells-clean-"+res.kind+".csv";document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href)},5000);
+};
+})();
+</script></body></html>
