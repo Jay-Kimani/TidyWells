@@ -1,6 +1,6 @@
 # Tidywells
 
-[![CI](https://github.com/Jay-Kimani/TidyWells/actions/workflows/ci.yml/badge.svg)](https://github.com/Jay-Kimani/TidyWells/actions/workflows/ci.yml) [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![CI](https://github.com/Jay-Kimani/TidyWells/actions/workflows/ci.yml/badge.svg)](https://github.com/Jay-Kimani/TidyWells/actions/workflows/ci.yml) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23969884.svg)](https://doi.org/10.5281/zenodo.23969884) [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 Clean Canadian oil and gas regulator files into one layout and run simple decline curves. You use your own downloaded files; they stay on your machine.
 
