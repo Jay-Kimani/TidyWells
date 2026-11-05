@@ -6,6 +6,8 @@ Clean Canadian oil and gas regulator files into one layout and run simple declin
 
 Site, analysis and browser decline-curve tool: <https://tidywells.com/>
 
+Follow: [Substack](https://tidywells.substack.com/) · [Medium](https://medium.com/@tidywells) · [LinkedIn](https://www.linkedin.com/company/tidywells)
+
 **Not affiliated with any regulator.** Outputs are illustrative only, not for reserves reporting or investment decisions.
 
 ## What it does

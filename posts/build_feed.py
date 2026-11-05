@@ -105,10 +105,11 @@ if __name__ == "__main__":
     inject(ROOT / "docs" / "index.html", ld_block({"@context": "https://schema.org", "@type": "WebSite", "name": "Tidywells", "url": "https://tidywells.com/", "description": "Clean Canadian oil and gas regulator data, decline curves and plain-language analysis.", "publisher": pub}))
 
     # Medium call to action at the end of every post (before the comments), rebuilt on each run
-    cta = ('<!--MEDCTA--><div class="promo blue"><div class="pt"><strong>Read it on Medium too, and follow along</strong>'
-           '<span>We publish every analysis and monthly snapshot as a short article on Medium, with the key numbers up front. '
-           'Follow Tidywells there to get each new one.</span></div>'
-           '<a class="btn med" href="https://medium.com/@tidywells" target="_blank" rel="noopener">Follow on Medium</a></div><!--/MEDCTA-->')
+    cta = ('<!--MEDCTA--><div class="promo blue"><div class="pt"><strong>Get every new analysis by email or on Medium</strong>'
+           '<span>We publish each analysis and monthly snapshot as a short article on Substack and Medium, with the key numbers up front. '
+           'Follow Tidywells on either to get each new one.</span></div>'
+           '<div class="btns"><a class="btn sub" href="https://tidywells.substack.com/" target="_blank" rel="noopener">Subscribe on Substack</a>'
+           '<a class="btn med" href="https://medium.com/@tidywells" target="_blank" rel="noopener">Follow on Medium</a></div></div><!--/MEDCTA-->')
     for p_ in posts:
         f = ROOT / "docs" / "posts" / f"{p_['slug']}.html"
         if not f.exists():
@@ -226,3 +227,25 @@ if __name__ == "__main__":
         t2 = re.sub(r"<header><nav>.*?</nav></header>", lambda m: nav_html(prefix, cur), t, count=1, flags=re.S)
         if t2 != t:
             f.write_text(t2, encoding="utf-8")
+
+    # Substack alongside Medium: home/analysis promo, About buttons, footer link on every page
+    SUB = "https://tidywells.substack.com/"
+    promo = ('<!--MEDIUM--><div class="promo blue"><div class="pt"><strong>New: our monthly analysis articles are on Substack and Medium</strong>'
+             '<span>Plain-language write-ups of every monthly snapshot and analysis, with the key numbers up front. Subscribe on Substack for email, or follow on Medium.</span></div>'
+             f'<div class="btns"><a class="btn sub" href="{SUB}" target="_blank" rel="noopener">Subscribe on Substack</a>'
+             '<a class="btn med" href="https://medium.com/@tidywells" target="_blank" rel="noopener">Read on Medium</a></div></div><!--/MEDIUM-->')
+    follow = ('<!--FOLLOW--><h2>Follow Tidywells</h2><p>Updates, new analyses and the code are in these places.</p>'
+              '<p style="display:flex;flex-wrap:wrap;gap:10px"><a class="btn med" href="https://www.linkedin.com/company/tidywells" target="_blank" rel="noopener">Follow on LinkedIn</a>'
+              '<a class="btn med" href="https://github.com/Jay-Kimani/TidyWells" target="_blank" rel="noopener">View the code on GitHub</a>'
+              '<a class="btn med" href="https://medium.com/@tidywells" target="_blank" rel="noopener">Read on Medium</a>'
+              f'<a class="btn sub" href="{SUB}" target="_blank" rel="noopener">Subscribe on Substack</a></p><!--/FOLLOW-->')
+    med_a = '<a href="https://medium.com/@tidywells" target="_blank" rel="noopener">Medium</a>'
+    sub_a = f'<a href="{SUB}" target="_blank" rel="noopener">Substack</a>'
+    for f in sorted(docs_.glob("*.html")) + sorted((docs_ / "posts").glob("*.html")):
+        t = f.read_text(encoding="utf-8"); t0 = t
+        t = re.sub(r"<!--MEDIUM-->.*?<!--/MEDIUM-->", lambda m: promo, t, flags=re.S)
+        t = re.sub(r"<!--FOLLOW-->.*?<!--/FOLLOW-->", lambda m: follow, t, flags=re.S)
+        if sub_a not in t:
+            t = t.replace(med_a, med_a + " · " + sub_a)
+        if t != t0:
+            f.write_text(t, encoding="utf-8")

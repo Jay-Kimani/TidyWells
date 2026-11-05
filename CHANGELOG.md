@@ -1,6 +1,7 @@
 # Changelog
 
 ## Site (unreleased)
+- Substack (https://tidywells.substack.com/) added alongside Medium: footer, home and Analysis promo, About buttons, end-of-post box, signup box, README.
 - Navigation grouped into dropdowns (Tools, Research, Learn, About) generated on every page by `posts/build_feed.py`; Pro stays a highlighted link.
 - About page: author photo and bio, and a "How this is made" section describing AI assistance and how figures are checked.
 - Correction: new-well vintage study sorted wells into oil/gas with a rule that put most oil wells with associated gas in the gas group; now oil if at least half of output on an energy basis (6 Mcf per bbl). Post, pack table and conclusions updated.

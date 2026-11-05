@@ -13,5 +13,6 @@
   } else {
     html += 'Follow by <a href="' + rss + '">RSS</a> (email signup coming soon).</p>';
   }
+  html += '<p style="margin:8px 0 0;font-size:14px">Prefer your inbox? <a href="https://tidywells.substack.com/" target="_blank" rel="noopener"><b>Subscribe on Substack</b></a>.</p>';
   box.innerHTML = html + '</div>';
 })();
