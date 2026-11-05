@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: "If you use Tidywells or its open dataset, please cite it as below."
+title: "Tidywells"
+abstract: "Open-source loaders and simple decline-curve tools for public Canadian oil and gas regulator data (Petrinex for Alberta and Saskatchewan, BC Energy Regulator), with plain-language analysis and an open monthly production dataset."
+type: software
+authors:
+  - family-names: Dupuis
+    given-names: Jonathan
+version: 0.1.0
+date-released: 2026-11-04
+license: MIT
+url: "https://tidywells.com"
+repository-code: "https://github.com/Jay-Kimani/TidyWells"
+keywords:
+  - oil and gas
+  - open data
+  - decline curve analysis
+  - Alberta
+  - Saskatchewan
+  - British Columbia

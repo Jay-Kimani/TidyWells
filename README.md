@@ -1,5 +1,7 @@
 # Tidywells
 
+[![CI](https://github.com/Jay-Kimani/TidyWells/actions/workflows/ci.yml/badge.svg)](https://github.com/Jay-Kimani/TidyWells/actions/workflows/ci.yml) [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
 Clean Canadian oil and gas regulator files into one layout and run simple decline curves. You use your own downloaded files; they stay on your machine.
 
 Site, analysis and browser decline-curve tool: <https://tidywells.com/>
@@ -35,6 +37,9 @@ f = tw.forecast(fit['qi'], fit['di'], fit['b'], years=10)       # dict: t, rate,
 print(fit, tw.npv(f['volume'], f['t'], price=70.0, opex_per_unit=20.0))
 ```
 See `examples/quickstart.ipynb` for a longer walk-through.
+
+## How the numbers are checked
+Every published figure in the monthly snapshots and on the home page is recomputed from the open dataset (`docs/data/tidywells-monthly-production.csv`) by `posts/verify_site.py`, and CI fails if one does not match. The dataset has a published SHA-256 in `docs/data/manifest.json`. Errors that get past this are corrected publicly: <https://tidywells.com/corrections.html>.
 
 ## Data
 This project does not host or redistribute any regulator data. Download the files yourself:

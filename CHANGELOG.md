@@ -21,3 +21,4 @@
 - Added a Production explorer page (interactive monthly production chart, year-on-year and indexed views, CSV export) and an Explorer nav link on every page.
 - Added a glossary, post search on the Analysis page, a cite and share block on every post, a latest-data strip on the home page (rebuilt each run from the monthly data), and a compare mode in the decline-curve tool.
 - Explorer: shareable links (view saved in the URL), embed code for any chart, and a seasonally adjusted view.
+- Added posts/verify_site.py (checks 800 published figures against the dataset, writes docs/data/manifest.json), a CI workflow, CITATION.cff, CONTRIBUTING.md, issue templates, and a "How we check this" section on the open-data page.
