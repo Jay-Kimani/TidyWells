@@ -29,11 +29,22 @@ def build(posts):
 MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 
 
+def key_figure(p):
+    """The post's own first chart (full size, readable); falls back to the small thumbnail file."""
+    import re
+    f = ROOT / "docs" / "posts" / f"{p['slug']}.html"
+    if f.exists():
+        m = re.search(r'<figure class="fig"><div class="tw">(<svg.*?</svg>)</div>', f.read_text(encoding="utf-8"), re.S)
+        if m:
+            return m.group(1)
+    return (ROOT / "posts" / f"thumb_{p['thumb']}.svg").read_text()
+
+
 def card(p, root=""):
     y, m, _ = p["date"].split("-")
     svg = ""
     if p.get("thumb"):
-        svg = '<div class="thumb">' + (ROOT / "posts" / f"thumb_{p['thumb']}.svg").read_text() + "</div>"
+        svg = '<div class="thumb">' + key_figure(p) + "</div>"
     return (f'<a class="card post" href="{root}posts/{p["slug"]}.html"><div><small class="date">{MONTHS[int(m) - 1]} {y}</small>'
             f'<b class="ptitle">{escape(p["title"])}</b><p>{escape(p["summary"])}</p></div>{svg}</a>')
 

@@ -72,7 +72,7 @@ a.card.post:hover{transform:translateY(-2px);border-color:var(--accent)}
 .card.post .ptitle{display:block;color:var(--accent);font-size:18px;line-height:1.35;margin:2px 0 4px}
 .card.post .date{color:var(--muted);font-size:13px}
 .card.post p{color:var(--muted);font-size:15px}
-.card.post .thumb{flex:0 0 310px}
+.card.post .thumb{flex:0 0 46%}
 .card.post .thumb svg{display:block;width:100%}
 @media(max-width:600px){.card.post .thumb{width:100%}}
 
@@ -331,10 +331,11 @@ body.ed main{max-width:780px;padding-top:8px}
 .mast{text-align:center;padding:30px 0 0;border-bottom:3px double var(--fg);margin-bottom:6px}
 .mast .kick{font:600 12px/1 Inter,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin:0 0 14px}
 .mast h1{font:700 clamp(40px,8vw,66px)/1.02 var(--serif);letter-spacing:-.015em;margin:0;color:var(--fg)}
-.mast .dek{font:italic 400 clamp(17px,2.4vw,20px)/1.5 var(--serif);color:var(--muted);max-width:560px;margin:14px auto 22px;text-wrap:balance}
+.mast .dek{font:400 clamp(16.5px,2.2vw,19px)/1.6 Inter,system-ui,sans-serif;color:var(--muted);max-width:640px;margin:16px auto 24px;text-wrap:pretty}
 .mast .rule{display:flex;justify-content:center;flex-wrap:wrap;gap:6px 22px;border-top:1px solid var(--fg);padding:9px 0;font:500 11.5px/1.3 Inter,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
 body.ed .sbox{margin:18px 0 6px}
-body.ed .sbox input{max-width:none;border:0;border-bottom:1px solid var(--fg);border-radius:0;background:transparent;padding:10px 2px;font:italic 400 17px var(--serif)}
+body.ed .sbox{margin:22px 0 6px}body.ed .sbox input{width:100%;max-width:none;border:1.5px solid #9a917d;border-radius:8px;background:#fff;color:#1a2238;padding:14px 16px;font:400 16px Inter,system-ui,sans-serif;box-shadow:0 1px 3px rgba(26,34,56,.08)}body.ed .sbox input::placeholder{color:#6b6a65;opacity:1}body.ed .sbox input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 25%,transparent)}
+:root[data-theme=dark] body.ed .sbox input{background:#fff;color:#0f1f3d;border-color:#fff}
 body.ed .sec{font:600 12px/1 Inter,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin:38px 0 4px;padding-bottom:10px;border-bottom:1px solid var(--fg);display:flex;justify-content:space-between;gap:12px}
 body.ed .plist{display:block;margin-top:0}
 body.ed a.card.post{display:flex;gap:28px;align-items:flex-start;border:0;border-bottom:1px solid var(--line);border-radius:0;background:transparent;box-shadow:none;padding:26px 0;transform:none}
@@ -383,4 +384,18 @@ body.hubpg main{max-width:960px}
 .lgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0 28px}
 .lgrid a{display:block;padding:14px 0;border-bottom:1px solid var(--line);text-decoration:none!important;color:var(--fg)!important}
 .lgrid a b{display:block;font:600 18px var(--serif)}.lgrid a:hover b{color:var(--accent)}.lgrid a span{font-size:14px;color:var(--muted)}
+/* charts */
+article .fig{margin:26px 0;padding:18px 18px 12px;background:var(--panel);border:1px solid var(--line);border-radius:8px}
+article .fig svg{min-width:540px;display:block}
+article .fig svg text{font-family:Inter,system-ui,sans-serif}
+article .fig figcaption{font-size:14px;line-height:1.55;color:var(--muted);margin-top:10px;padding-top:10px;border-top:1px solid var(--line)}
+:root:not([data-theme=dark]) svg [fill="#6aa6f0"]{fill:#2563c9}:root:not([data-theme=dark]) svg [stroke="#6aa6f0"]{stroke:#2563c9}
+:root:not([data-theme=dark]) svg [fill="#e0a458"]{fill:#c97a14}:root:not([data-theme=dark]) svg [stroke="#e0a458"]{stroke:#c97a14}
+:root:not([data-theme=dark]) svg [fill="#5fd0c0"]{fill:#0f9d8a}:root:not([data-theme=dark]) svg [stroke="#5fd0c0"]{stroke:#0f9d8a}
+:root:not([data-theme=dark]) svg [fill="#d98bb0"]{fill:#c24f86}:root:not([data-theme=dark]) svg [stroke="#d98bb0"]{stroke:#c24f86}
+:root:not([data-theme=dark]) svg [fill="#b9a3f0"]{fill:#7c5cd6}:root:not([data-theme=dark]) svg [stroke="#b9a3f0"]{stroke:#7c5cd6}
+body.ed a.card.post:first-of-type .thumb{padding:0;background:transparent;border:0}
+body.ed a.card.post:first-of-type .thumb svg{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:14px;min-width:0}
+body.ed a.card.post:first-of-type .thumb svg text{font-family:Inter,system-ui,sans-serif}
+body.ed .card.post:not(:first-of-type) .thumb{display:none}
 /*/EDITORIAL*/
