@@ -343,11 +343,14 @@ if __name__ == "__main__":
         if sub_a not in t:
             t = t.replace(med_a, med_a + " · " + sub_a)
         pref = "../" if f.parent.name == "posts" else ("/" if f.name == "404.html" else "")
-        # secondary Pro mention: a slim strip at the end of the main content, plus a footer link
-        if f.name not in ("pro.html", "404.html", "sponsor.html", "shop.html", "your-well.html"):
-            strip = (f'<!--PRO--><p class="pro-strip"><b>Tidywells Pro</b> &middot; tidy monthly data packs as CSV files, CAD $4.99 a month with a 3-day free trial. '
-                     f'<a href="{pref}pro.html">Learn more</a></p><!--/PRO-->')
+        # Pro box: only on the analysis index and the articles; removed everywhere else
+        if f.parent.name == "posts" or f.name == "analysis.html":
+            strip = (f'<!--PRO--><div class="pro-box"><div class="pt"><strong>Want the data behind these posts?</strong>'
+                     f'<span>Tidywells Pro: tidy monthly data packs as CSV files, CAD $4.99 a month with a 3-day free trial.</span></div>'
+                     f'<a class="btn buy" href="{pref}pro.html">See Tidywells Pro</a></div><!--/PRO-->')
             t = re.sub(r"<!--PRO-->.*?<!--/PRO-->", lambda m: strip, t, flags=re.S) if "<!--PRO-->" in t else t.replace("</main>", "</main>\n" + strip, 1)
+        else:
+            t = re.sub(r"<!--PRO-->.*?<!--/PRO-->\n?", "", t, flags=re.S)
         if "<footer" in t and 'pro.html">Pro' not in t.rsplit("<footer", 1)[1]:
             head_, foot_ = t.rsplit("<footer", 1)
             t = head_ + "<footer" + foot_.replace(">Shop</a>", f'>Shop</a> · <a href="{pref}pro.html">Pro data pack</a>', 1)
