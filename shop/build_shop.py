@@ -67,7 +67,7 @@ SPECS = {
     "poster": ["18 x 24 inch print, Dark Night or cream Paper edition (separate listings)", "Drawn from the open Tidywells dataset, data through September 2026", "Source, method and data window printed on the poster", "Produced and shipped by our fulfilment partner; timing shown at checkout"],
     "hoodie": ["Large design printed on the back, small Tidywells mark on the left chest", "Light-ink design for dark garments", "No oil company names or logos", "Garment colours, sizes and fabric are set in the store listing", "The images above are illustrative mockups of the print placement"],
     "tee": ["Large design printed on the back, small Tidywells mark on the left chest", "Light-ink design for dark garments", "No oil company names or logos", "Garment colours, sizes and fabric are set in the store listing", "The images above are illustrative mockups of the print placement"],
-    "sticker": ["3 inch, die-cut style vinyl sticker", "Made for hard hats, laptops and truck dashboards", "Final material and finish are set in the store listing"],
+    "sticker": ["A5 kiss-cut sheet, 5.8 x 8.3 inch, with the stickers already laid out", "Peel one off for a hard hat, laptop, toolbox or truck dash", "Fixed designs per sheet; no oil company names or logos", "Final material and finish are set in the store listing"],
     "mug": ["11 oz ceramic mug, design wraps around", "Dishwasher and microwave safe (confirm in the store listing)", "No oil company names or logos"],
     "hat": ["Embroidered text on the front panel", "Adjustable fit; colour set in the store listing", "No oil company names or logos"],
     "toque": ["Cuffed knit toque (beanie) with embroidered cuff", "One size; fabric and lining are set in the store listing", "No oil company names or logos"],
@@ -76,6 +76,9 @@ SPECS = {
 
 POSTER_TAIL = " Four headline figures sit under the chart, and the source, method and data window are printed at the foot, so it reads like a figure from a report rather than decoration. Available as a dark Night edition and a cream Paper edition."
 DESC = {
+    "bundle-stickers-3-pack": "A5 kiss-cut sheet with three of our best-known designs: Build the Pipeline, Scrap the Tanker Ban and Powered by Oil. Peel one off and stick it on a hard hat, toolbox or truck dash. About 2.5 inch each.",
+    "bundle-stickers-6-pack": "A5 kiss-cut sheet of six designs: Build the Pipeline, Scrap the Tanker Ban, Powered by Oil, Camp Life, Ottawa Doesn't Pump Oil and Darcy's Law. About 2.3 inch each, ready to peel and stick.",
+    "bundle-stickers-complete-set": "One A5 kiss-cut sheet with every design in the collection, one of each: nine stickers at about 1.7 inch. The best value per sticker.",
     "poster-ab-oil": "Alberta's monthly oil production from January 2022 to September 2026 as one clean line, with the peak month and the latest month marked." + POSTER_TAIL,
     "hoodie-build-the-pipeline": "Three words and a request, set large on the back. For everyone who has been waiting on a pipeline long enough to have an opinion about it. Printed in light ink for dark garments. Original design, no company names or logos.",
     "hoodie-ottawa-doesnt-pump-oil": "A short reminder of who actually pumps it. Bold type on the back for the crew, the office and the family barbecue. Printed in light ink for dark garments. Original design, no company names or logos.",
@@ -188,6 +191,15 @@ def catalogue():
     return out
 
 
+def sticker_items():
+    """The three sticker sheets, each with its own product page (kept out of catalogue(): they have their own price and no size options)."""
+    out = []
+    for bid, bt, bb, bp, bn, img in BUNDLES:
+        out.append(dict(kind="sticker", slug=bid, id="bundle-" + bid, page=f"product-bundle-{bid}.html", title=bt, short=bt, blurb=bb, price=bp,
+                        images=[(img, bt, 1000, 1000)]))
+    return out
+
+
 def esc(s):
     return escape(s, quote=True)
 
@@ -210,7 +222,7 @@ def card_of(it):
 
 
 def kind_label(k):
-    return {"poster": "Data-art poster", "hoodie": "Hoodie", "tee": "T-shirt", "sticker": "Sticker", "sheet": "Digital download", "mug": "Mug", "hat": "Hat", "toque": "Toque"}[k]
+    return {"poster": "Data-art poster", "hoodie": "Hoodie", "tee": "T-shirt", "sticker": "Sticker sheet", "sheet": "Digital download", "mug": "Mug", "hat": "Hat", "toque": "Toque"}[k]
 
 
 def body():
@@ -229,8 +241,8 @@ def body():
     o.append('<h2 id="apparel">Apparel</h2><p>Heavy type on the back, a small Tidywells mark on the left chest. True to size, with a size guide on every page.</p>' + grid(of("hoodie", "tee")))
     o.append('<h2 id="headwear">Toques and hats</h2><p>Embroidered text. Warm toques for the winter crew, adjustable hats for the rest of the year.</p>' + grid(of("toque", "hat")))
     o.append('<h2 id="drinkware">Mugs</h2>' + grid(of("mug")))
-    stick = [f'<div class="prod" data-slug="bundle-{b[0]}"><div class="pimg">{card_img(b[5], b[1], 1000, 1000)}</div><div class="pi"><span class="tag">{"Most designs" if b[4] == 9 else "Sticker sheet"}</span><h3>{esc(b[1])}</h3><p>{esc(b[2])}</p>'
-             f'{price_html(amount=b[3])}<span class="shop-note">About CAD ${fmt_price(b[3] / b[4])} a sticker.</span><span class="go">Ordering needs JavaScript.</span></div></div>' for b in BUNDLES]
+    stick = [f'<div class="prod" data-quick="1" data-slug="bundle-{b[0]}"><a class="pimg" href="product-bundle-{b[0]}.html">{card_img(b[5], b[1], 1000, 1000)}</a><div class="pi"><span class="tag">{"Most designs" if b[4] == 9 else "Sticker sheet"}</span><h3><a href="product-bundle-{b[0]}.html">{esc(b[1])}</a></h3><p>{esc(b[2])}</p>'
+             f'{price_html(amount=b[3])}<span class="shop-note">About CAD ${fmt_price(b[3] / b[4])} a sticker.</span><span class="go"><a class="btn primary" href="product-bundle-{b[0]}.html">Choose options</a></span></div></div>' for b in BUNDLES]
     names = "".join(f'<li>{esc(n)}</li>' for _s, n in STICKERS)
     o.append('<h2 id="stickers">Hard-hat sticker sheets</h2><p>Kiss-cut A5 sheets, ready to peel and stick on a hard hat, toolbox or truck dash. Fixed designs per sheet; the bigger sheets fit more, smaller.</p><div class="pgrid">' + "".join(stick) + '</div>'
              f'<details class="fold"><summary>The nine designs</summary><ul class="stk">{names}</ul></details>')
@@ -283,12 +295,12 @@ def product_page(it, items):
     tts = '<p class="tts"><strong>True to size.</strong> Order the size you normally wear; the size guide below shows the flat measurements.</p>'
     specs = "".join(f"<li>{esc(x)}</li>" for x in SPECS[kind])
     related = [x for x in items if x["kind"] == kind and x["id"] != it["id"]][:4]
-    rel = "".join(f'<a class="prod" href="{r["page"]}" style="text-decoration:none;color:inherit"><img src="{IMG}{r["images"][0][0]}" alt="{esc(r["images"][0][1])}" width="{r["images"][0][2]}" height="{r["images"][0][3]}" loading="lazy"><div class="pi"><h3>{esc(r["short"])}</h3>{price_html(kind)}</div></a>' for r in related)
+    rel = "".join(f'<a class="prod" href="{r["page"]}" style="text-decoration:none;color:inherit"><img src="{IMG}{r["images"][0][0]}" alt="{esc(r["images"][0][1])}" width="{r["images"][0][2]}" height="{r["images"][0][3]}" loading="lazy"><div class="pi"><h3>{esc(r["short"])}</h3>{price_html(kind, r.get("price"))}</div></a>' for r in related)
     ld = {"@context": "https://schema.org", "@type": "Product", "name": t, "description": DESC[it["id"]], "sku": it["id"], "brand": {"@type": "Brand", "name": "Tidywells"},
           "image": [f"https://tidywells.com/{IMG}{f}" for f, *_ in imgs], "url": f"https://tidywells.com/{it['page']}"}
     body_ = (f'<p class="crumb"><a href="shop.html">Shop</a> &rsaquo; {esc(kind_label(kind))}</p>'
              f'<div class="ppage"><div class="pview">{pics}{sw}</div><div class="pdet" data-slug="{esc(it["id"])}"><span class="tag">{esc(kind_label(kind))}</span><h1>{esc(t)}</h1>'
-             f'<p class="plead">{esc(it["blurb"])}</p><p>{price_html(kind)}</p><p class="go soon" data-slug="{esc(it["id"])}">Opening soon. <a href="shop.html#waitlist">Get an email when the shop opens</a>.</p>'
+             f'<p class="plead">{esc(it["blurb"])}</p><p>{price_html(kind, it.get("price"))}</p><p class="go soon" data-slug="{esc(it["id"])}">Opening soon. <a href="shop.html#waitlist">Get an email when the shop opens</a>.</p>'
              f'<h2>About this design</h2><p>{esc(DESC[it["id"]])}</p>{tts if kind in SIZES else ""}'
              f'<h2>Details</h2><ul class="specs">{specs}</ul>{size_chart(kind) if kind in SIZES else ""}'
              '<p class="shop-note">Launch price in Canadian dollars; shipping and tax are added at checkout and the store confirms the final price. Tidywells is not affiliated with any regulator or operator.</p></div></div>'
@@ -405,6 +417,8 @@ def main():
     items = catalogue()
     for it in items:
         (DOCS / it["page"]).write_text(product_page(it, items), encoding="utf-8")
+    for it in sticker_items():
+        (DOCS / it["page"]).write_text(product_page(it, sticker_items()), encoding="utf-8")
     idx = DOCS / "index.html"
     h = idx.read_text(encoding="utf-8")
     strip = home_strip()
