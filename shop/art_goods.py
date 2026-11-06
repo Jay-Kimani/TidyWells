@@ -188,28 +188,45 @@ def garment_back(kind, color):
     return f'<defs>{shade}</defs><path d="{body}" fill="{color}"/><path d="{body}" fill="url(#sh)"/>{extra}'
 
 
-def mockup_back(slug, kind, gcolor):
+def _frame(inner):
+    return ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 900" width="900" height="900">'
+            '<defs><radialGradient id="bg" cx=".5" cy=".42" r=".75"><stop offset="0" stop-color="#f4f6fb"/><stop offset="1" stop-color="#d9deea"/></radialGradient></defs>'
+            '<rect width="900" height="900" fill="url(#bg)"/>' + inner + '</svg>')
+
+
+def _front_g(kind, gcolor):
+    c = INKS["light"]
+    cy = 226 if kind == "tee" else 340
+    logo = chest_logo_svg(c).replace('width="1200" height="600"', f'x="522" y="{cy}" width="92" height="46"')
+    return garment(kind, GARMENT_COLORS[gcolor]) + logo
+
+
+def _back_g(slug, kind, gcolor):
     c = INKS["light"]
     fn = [d for d in DESIGNS if d[0] == slug][0][2]
     y = 225 if kind == "tee" else 345
     h = 430 if kind == "tee" else 420
     w = h * 0.75
-    return ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 900" width="900" height="900">'
-            '<defs><radialGradient id="bg" cx=".5" cy=".42" r=".75"><stop offset="0" stop-color="#f4f6fb"/><stop offset="1" stop-color="#d9deea"/></radialGradient></defs>'
-            '<rect width="900" height="900" fill="url(#bg)"/><ellipse cx="450" cy="830" rx="300" ry="26" fill="#000" fill-opacity=".10"/>'
-            + garment_back(kind, GARMENT_COLORS[gcolor]) +
-            f'<svg x="{450 - w / 2:.0f}" y="{y}" width="{w:.0f}" height="{h}" viewBox="0 0 1200 1600">{fn(c)}</svg>'
-            '<text x="450" y="868" font-family="Inter,sans-serif" font-size="22" font-weight="600" fill="#6a7390" text-anchor="middle" letter-spacing="4">BACK PRINT</text></svg>')
+    return garment_back(kind, GARMENT_COLORS[gcolor]) + f'<svg x="{450 - w / 2:.0f}" y="{y}" width="{w:.0f}" height="{h}" viewBox="0 0 1200 1600">{fn(c)}</svg>'
+
+
+def _label(x, text_, y=868):
+    return f'<text x="{x}" y="{y}" font-family="Inter,sans-serif" font-size="22" font-weight="600" fill="#6a7390" text-anchor="middle" letter-spacing="4">{text_}</text>'
 
 
 def mockup_front(slug, kind, gcolor):
-    c = INKS["light"]
-    cy = 232 if kind == "tee" else 352
-    logo = chest_logo_svg(c).replace('width="1200" height="600"', f'x="520" y="{cy}" width="112" height="56"')
-    return ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="100 70 700 700" width="900" height="900">'
-            '<defs><radialGradient id="bg" cx=".5" cy=".42" r=".75"><stop offset="0" stop-color="#f4f6fb"/><stop offset="1" stop-color="#d9deea"/></radialGradient></defs>'
-            '<rect x="0" y="0" width="900" height="900" fill="url(#bg)"/>' + garment(kind, GARMENT_COLORS[gcolor]) + logo +
-            '</svg>')
+    return _frame('<ellipse cx="450" cy="830" rx="300" ry="26" fill="#000" fill-opacity=".10"/>' + _front_g(kind, gcolor) + _label(450, "FRONT"))
+
+
+def mockup_back(slug, kind, gcolor):
+    return _frame('<ellipse cx="450" cy="830" rx="300" ry="26" fill="#000" fill-opacity=".10"/>' + _back_g(slug, kind, gcolor) + _label(450, "BACK PRINT"))
+
+
+def mockup_both(slug, kind, gcolor):
+    sc = 0.58
+    L = f'<g transform="translate({25 - 120 * sc:.1f},{450 - 418 * sc:.1f}) scale({sc})">{_front_g(kind, gcolor)}</g>'
+    R = f'<g transform="translate({470 - 120 * sc:.1f},{450 - 418 * sc:.1f}) scale({sc})">{_back_g(slug, kind, gcolor)}</g>'
+    return _frame(L + R + _label(216, "FRONT", 790) + _label(661, "BACK PRINT", 790))
 
 
 def mockup(slug, kind, gcolor, light_ink):
@@ -270,10 +287,9 @@ def main(out):
             (out / "svg" / f"apparel-{slug}-{ink}.svg").write_text(svg, encoding="utf-8")
             jobs.append({"src": f"svg/apparel-{slug}-{ink}.svg", "out": f"print/apparel/{slug}-{ink}-ink-3600x4800.png", "w": 1200, "h": 1600, "scale": 3, "type": "png", "transparent": True})
         gc = "black" if slug not in ("arps-was-right", "gas-has-a-season") else "navy"
-        (out / "svg" / f"mockup-{slug}.svg").write_text(mockup_back(slug, kind, gc), encoding="utf-8")
-        jobs.append({"src": f"svg/mockup-{slug}.svg", "out": f"web/mockup-{slug}.jpg", "w": 720, "h": 720, "scale": 1, "type": "jpeg", "quality": 88})
-        (out / "svg" / f"mockup-{slug}-front.svg").write_text(mockup_front(slug, kind, gc), encoding="utf-8")
-        jobs.append({"src": f"svg/mockup-{slug}-front.svg", "out": f"web/mockup-{slug}-front.jpg", "w": 720, "h": 720, "scale": 1, "type": "jpeg", "quality": 88})
+        for suffix, fn_ in (("", mockup_both), ("-back", mockup_back), ("-front", mockup_front)):
+            (out / "svg" / f"mockup-{slug}{suffix}.svg").write_text(fn_(slug, kind, gc), encoding="utf-8")
+            jobs.append({"src": f"svg/mockup-{slug}{suffix}.svg", "out": f"web/mockup-{slug}{suffix}.jpg", "w": 720, "h": 720, "scale": 1, "type": "jpeg", "quality": 88})
         BRAND_ON = True
     for slug in STICKERS:
         (out / "svg" / f"sticker-{slug}.svg").write_text(sticker_svg(slug), encoding="utf-8")

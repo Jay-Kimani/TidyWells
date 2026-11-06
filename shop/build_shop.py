@@ -135,7 +135,7 @@ def catalogue():
     for s, t, b in POSTERS:
         out.append(dict(kind="poster", slug=s, title=t + " poster", short=t, blurb=b, images=[(f"poster-{s}-night.jpg", f"{t} poster, Night colourway", 720, 960), (f"poster-{s}-paper.jpg", f"{t} poster, Paper colourway", 720, 960)]))
     for s, n, k, b in APPAREL:
-        out.append(dict(kind=k, slug=s, title=f"{n} {'hoodie' if k == 'hoodie' else 't-shirt'}", short=n, blurb=b, images=[(f"mockup-{s}.jpg", f"{n} {k}, back print", 720, 720), (f"mockup-{s}-front.jpg", f"{n} {k}, Tidywells chest logo", 720, 720)]))
+        out.append(dict(kind=k, slug=s, title=f"{n} {'hoodie' if k == 'hoodie' else 't-shirt'}", short=n, blurb=b, images=[(f"mockup-{s}.jpg", f"{n} {k}, front and back", 720, 720), (f"mockup-{s}-back.jpg", f"{n} {k}, back print", 720, 720), (f"mockup-{s}-front.jpg", f"{n} {k}, front with Tidywells chest logo", 720, 720)]))
     for s, n in STICKERS:
         out.append(dict(kind="sticker", slug=s, title=f"{n} sticker", short=n, blurb="A hard-hat sticker for people who work with oil and gas data.", images=[(f"sticker-{s}.png", f"{n} sticker", 600, 600)]))
     for s, n, b in NOTEBOOKS:
@@ -238,8 +238,9 @@ def product_page(it, items):
     pics = "".join(f'<img src="{IMG}{f}" alt="{esc(a)}" width="{w}" height="{h}" data-pi="{i}"{"" if i == 0 else " hidden"}>' for i, (f, a, w, h) in enumerate(imgs))
     sw = ""
     if len(imgs) > 1:
-        l0, l1 = ("Night", "Paper") if kind == "poster" else ("Back", "Front")
-        sw = f'<div class="sw" role="group" aria-label="View"><button type="button" data-pi="0" aria-pressed="true">{l0}</button><button type="button" data-pi="1" aria-pressed="false">{l1}</button></div>'
+        labels = ("Night", "Paper") if kind == "poster" else ("Front + back", "Back", "Front")
+        sw = '<div class="sw" role="group" aria-label="View">' + "".join(f'<button type="button" data-pi="{i}" aria-pressed="{"true" if i == 0 else "false"}">{l}</button>' for i, l in enumerate(labels[:len(imgs)])) + '</div>'
+    tts = '<p class="tts"><strong>True to size.</strong> Order the size you normally wear; the size guide below shows the flat measurements.</p>'
     specs = "".join(f"<li>{esc(x)}</li>" for x in SPECS[kind])
     related = [x for x in items if x["kind"] == kind and x["id"] != it["id"]][:4]
     rel = "".join(f'<a class="prod" href="{r["page"]}" style="text-decoration:none;color:inherit"><img src="{IMG}{r["images"][0][0]}" alt="{esc(r["images"][0][1])}" width="{r["images"][0][2]}" height="{r["images"][0][3]}" loading="lazy"><div class="pi"><h3>{esc(r["short"])}</h3>{price_html(kind)}</div></a>' for r in related)
@@ -248,7 +249,7 @@ def product_page(it, items):
     body_ = (f'<p class="crumb"><a href="shop.html">Shop</a> &rsaquo; {esc(kind_label(kind))}</p>'
              f'<div class="ppage"><div class="pview">{pics}{sw}</div><div class="pdet" data-slug="{esc(it["id"])}"><span class="tag">{esc(kind_label(kind))}</span><h1>{esc(t)}</h1>'
              f'<p class="plead">{esc(it["blurb"])}</p><p>{price_html(kind)}</p><p class="go soon">Opening soon. <a href="shop.html#waitlist">Get an email when the shop opens</a>.</p>'
-             f'<h2>About this design</h2><p>{esc(DESC[it["id"]])}</p>'
+             f'<h2>About this design</h2><p>{esc(DESC[it["id"]])}</p>{tts if kind in SIZES else ""}'
              f'<h2>Details</h2><ul class="specs">{specs}</ul>{size_chart(kind) if kind in SIZES else ""}'
              '<p class="shop-note">Launch price in Canadian dollars; shipping and tax are added at checkout and the store confirms the final price. Tidywells is not affiliated with any regulator or operator.</p></div></div>'
              f'<h2>More from this range</h2><div class="pgrid">{rel}</div>')
@@ -309,7 +310,7 @@ def listings():
                          "Not investment advice.", TAGS_BASE + ["data art", "wall art", "office decor", "poster", "chart print"]))
     for s, n, k, b in APPAREL:
         rows.append((f"{k}-{s}", "Hoodie" if k == "hoodie" else "T-shirt", f"{n} {'Hoodie' if k == 'hoodie' else 'T-Shirt'}, Oil and Gas Humor, Decline Curve Gift",
-                     f"{DESC[pid(k, s)]} Large back print with a small Tidywells mark on the left chest.", TAGS_BASE + ["funny shirt", "decline curve", "roughneck", "oilfield humor", "gift for him"]))
+                     f"{DESC[pid(k, s)]} True to size. Large back print with a small Tidywells mark on the left chest.", TAGS_BASE + ["funny shirt", "decline curve", "roughneck", "oilfield humor", "gift for him"]))
     for s, n in STICKERS:
         rows.append((f"sticker-{s}", "Sticker 3in", f"{n} Sticker, Hard Hat Sticker, Oil and Gas Humor, Laptop Decal",
                      DESC[pid("sticker", s)], TAGS_BASE + ["hard hat sticker", "laptop sticker", "vinyl sticker", "decal", "oilfield"]))
