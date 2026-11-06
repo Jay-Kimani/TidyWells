@@ -52,6 +52,53 @@ FEATURED = ["hyperbolic-decline", "arps-was-right", "shut-in-not-shut-down", "we
 LINKJS = ('<script src="shop.js"></script>')
 
 
+PRICE = {"hoodie": 69, "tee": 36, "poster": 42, "sticker": 5, "notebook": 19, "sheet": 8}  # CAD launch prices; confirmed in the store
+BUNDLES = [  # id, title, blurb, price, would-be separate total, image
+    ("sheets-all-three", "Reference sheet set", "All three 11 x 17 reference sheets: units and conversions, decline curves, and regulator data gotchas.", 19, 24, "bundle-sheets.jpg"),
+    ("stickers-three-pack", "Sticker 3-pack", "Pick any three hard-hat stickers from the collection.", 12, 15, "bundle-stickers.jpg"),
+]
+SPECS = {
+    "poster": ["18 x 24 inch print, Night (dark) or Paper (cream) colourway", "Drawn from the open Tidywells dataset, data through September 2026", "Source, method and data window printed on the poster", "Printed on demand by a print partner confirmed at store opening"],
+    "hoodie": ["Design printed on demand; light ink for dark garments", "No company names or logos", "Garment colours, sizes and fabric are set in the store listing", "The image above is an illustrative mockup of the print placement"],
+    "tee": ["Design printed on demand; light ink for dark garments", "No company names or logos", "Garment colours, sizes and fabric are set in the store listing", "The image above is an illustrative mockup of the print placement"],
+    "sticker": ["3 inch, die-cut style vinyl sticker", "Made for hard hats, laptops and truck dashboards", "Final material and finish are set in the store listing"],
+    "notebook": ["Printed cover design; paper type and page count are set in the store listing", "Made for field notes and well logs"],
+    "sheet": ["11 x 17 inch PDF, instant digital download", "For your own use: print as often as you like", "Standard published conversion factors and public regulator file layouts"],
+}
+
+
+def price_html(kind=None, amount=None):
+    a = PRICE[kind] if amount is None else amount
+    return f'<span class="price">CAD ${a} <small>launch price</small></span>'
+
+
+def pid(kind, slug):
+    return f"{kind}-{slug}"
+
+
+def page_name(kind, slug):
+    return f"product-{pid(kind, slug)}.html"
+
+
+def catalogue():
+    """Every product as a dict: id, kind, slug, title, blurb, images [(file, alt, w, h)], page."""
+    out = []
+    for s, t, b in POSTERS:
+        out.append(dict(kind="poster", slug=s, title=t + " poster", short=t, blurb=b, images=[(f"poster-{s}-night.jpg", f"{t} poster, Night colourway", 720, 960), (f"poster-{s}-paper.jpg", f"{t} poster, Paper colourway", 720, 960)]))
+    for s, n, k, b in APPAREL:
+        out.append(dict(kind=k, slug=s, title=f"{n} {'hoodie' if k == 'hoodie' else 't-shirt'}", short=n, blurb=b, images=[(f"mockup-{s}.jpg", f"{n} {k} mockup", 720, 720)]))
+    for s, n in STICKERS:
+        out.append(dict(kind="sticker", slug=s, title=f"{n} sticker", short=n, blurb="A hard-hat sticker for people who work with oil and gas data.", images=[(f"sticker-{s}.png", f"{n} sticker", 600, 600)]))
+    for s, n, b in NOTEBOOKS:
+        out.append(dict(kind="notebook", slug=s, title=f"{n} notebook", short=n, blurb=b, images=[(f"cover-{s}.jpg", f"{n} notebook cover", 600, 928)]))
+    for s, t, b in SHEETS:
+        out.append(dict(kind="sheet", slug=s, title=f"{t} reference sheet", short=t, blurb=b, images=[(f"sheet-{s}.jpg", f"{t} reference sheet", 720, 1118)]))
+    for it in out:
+        it["id"] = pid(it["kind"], it["slug"])
+        it["page"] = page_name(it["kind"], it["slug"])
+    return out
+
+
 def esc(s):
     return escape(s, quote=True)
 
@@ -61,8 +108,9 @@ def card_img(src, alt, w, h):
 
 
 def prod(slug, kind, title, blurb, img, w, h, extra=""):
-    return (f'<div class="prod" data-slug="{esc(kind + "-" + slug)}">{img}<div class="pi"><span class="tag">{esc(kind_label(kind))}</span>'
-            f'<h3>{esc(title)}</h3><p>{esc(blurb)}</p>{extra}<span class="go soon">Opening soon</span></div></div>')
+    href = page_name(kind, slug)
+    return (f'<div class="prod" data-slug="{esc(pid(kind, slug))}"><a class="pimg" href="{href}">{img}</a><div class="pi"><span class="tag">{esc(kind_label(kind))}</span>'
+            f'<h3><a href="{href}">{esc(title)}</a></h3><p>{esc(blurb)}</p>{extra}{price_html(kind)}<span class="go soon">Opening soon</span></div></div>')
 
 
 def kind_label(k):
@@ -75,8 +123,8 @@ def body():
              '<h1>The Tidywells <span class="grad">shop</span></h1>'
              '<p>Oil and gas, in the places it belongs: on your wall, your chest and your hard hat. Posters drawn from the open dataset, '
              'apparel only people who have fought a regulator file will get, stickers, notebooks and printable reference sheets.</p>'
-             '<p class="shop-note">Made on demand, so nothing sits in a warehouse. The store opens soon; join the newsletter at the bottom of the page and we will tell you first. '
-             'Prices and checkout links appear here when the store is live.</p></div>')
+             '<p class="shop-note">Made on demand, so nothing sits in a warehouse. Prices are launch prices in Canadian dollars; shipping and tax are added at checkout, and the store confirms the final price.</p>'
+             '<div id="waitlist" class="waitlist"></div></div>')
     # featured hoodies
     feat = [a for a in APPAREL if a[0] in FEATURED]
     o.append('<h2 id="hoodies">Featured hoodies</h2><div class="pgrid four">' + "".join(
@@ -105,6 +153,10 @@ def body():
              '<p><a class="btn primary" href="your-well.html">Make a poster</a></p>'
              '<p class="shop-note">We do not sell prints of other people\'s wells from public files; that needs the regulator\'s written confirmation.</p></div>'
              f'<figure><img src="{IMG}your-well-example.jpg" alt="Example Your Well poster built from synthetic data" width="720" height="960" loading="lazy"><figcaption>Example, made from synthetic data</figcaption></figure></div>')
+    o.append('<h2 id="bundles">Bundles</h2><div class="pgrid">' + "".join(
+        f'<div class="prod" data-slug="bundle-{i}"><div class="pimg">{card_img(img, t, 720, 720)}</div><div class="pi"><span class="tag">Bundle</span><h3>{esc(t)}</h3><p>{esc(b)}</p>'
+        f'{price_html(amount=p)}<span class="shop-note">Separately CAD ${full}: you save ${full - p}.</span><span class="go soon">Opening soon</span></div></div>'
+        for i, t, b, p, full, img in BUNDLES) + '</div>')
     # digital
     o.append('<h2 id="downloads">Printable reference sheets</h2><p>Three 11 × 17 inch sheets to pin up beside your screen. Digital download, print them as often as you like for your own use.</p><div class="pgrid">' + "".join(
         prod(s, "sheet", t, b, card_img(f"sheet-{s}.jpg", f"{t} reference sheet", 720, 1118), 720, 1118) for s, t, b in SHEETS) + '</div>')
@@ -118,14 +170,49 @@ def body():
 
 def home_strip():
     feat = [a for a in APPAREL if a[0] in FEATURED]
-    cards = "".join(f'<a class="prod" href="shop.html#hoodies" style="text-decoration:none;color:inherit"><img src="{IMG}mockup-{s}.jpg" alt="{esc(n)} hoodie mockup" width="720" height="720" loading="lazy"><div class="pi"><span class="tag">Hoodie</span><h3>{esc(n)}</h3></div></a>'
+    cards = "".join(f'<a class="prod" href="{page_name("hoodie", s)}" style="text-decoration:none;color:inherit"><img src="{IMG}mockup-{s}.jpg" alt="{esc(n)} hoodie mockup" width="720" height="720" loading="lazy"><div class="pi"><span class="tag">Hoodie</span><h3>{esc(n)}</h3></div></a>'
                     for s, n, k, b in feat)
-    pcards = "".join(f'<a class="prod" href="shop.html#posters" style="text-decoration:none;color:inherit"><img src="{IMG}poster-{s}-night.jpg" alt="{esc(t)} poster" width="720" height="960" loading="lazy"><div class="pi"><span class="tag">Poster</span><h3>{esc(t)}</h3></div></a>'
+    pcards = "".join(f'<a class="prod" href="{page_name("poster", s)}" style="text-decoration:none;color:inherit"><img src="{IMG}poster-{s}-night.jpg" alt="{esc(t)} poster" width="720" height="960" loading="lazy"><div class="pi"><span class="tag">Poster</span><h3>{esc(t)}</h3></div></a>'
                      for s, t in (("ab-oil", "Alberta Oil"), ("gas-season", "Gas Has a Season")))
     return ('<!--SHOP--><section class="strip"><span class="badge">Launch collection · opening soon</span>'
             '<h2>The Tidywells shop</h2><p>Hoodies, posters drawn from real data, stickers and notebooks for people who work with Canadian oil and gas.</p>'
             f'<div class="pgrid">{cards}{pcards}</div>'
+            f'<p class="shop-note">Hoodies from CAD ${PRICE["hoodie"]} · posters from CAD ${PRICE["poster"]} · stickers from CAD ${PRICE["sticker"]} (launch prices)</p>'
             '<p><a class="btn primary" href="shop.html">See the collection</a> <a class="btn" href="shop.html#posters">Data-art posters</a></p></section><!--/SHOP-->')
+
+
+def product_page(it, items):
+    """One search-landing page per product, with structured data (no offer data until a store URL exists)."""
+    import json
+    t, kind = it["title"], it["kind"]
+    imgs = it["images"]
+    pics = "".join(f'<img src="{IMG}{f}" alt="{esc(a)}" width="{w}" height="{h}" data-pi="{i}"{"" if i == 0 else " hidden"}>' for i, (f, a, w, h) in enumerate(imgs))
+    sw = ""
+    if len(imgs) > 1:
+        sw = '<div class="sw" role="group" aria-label="Colourway"><button type="button" data-pi="0" aria-pressed="true">Night</button><button type="button" data-pi="1" aria-pressed="false">Paper</button></div>'
+    specs = "".join(f"<li>{esc(x)}</li>" for x in SPECS[kind])
+    related = [x for x in items if x["kind"] == kind and x["id"] != it["id"]][:4]
+    rel = "".join(f'<a class="prod" href="{r["page"]}" style="text-decoration:none;color:inherit"><img src="{IMG}{r["images"][0][0]}" alt="{esc(r["images"][0][1])}" width="{r["images"][0][2]}" height="{r["images"][0][3]}" loading="lazy"><div class="pi"><h3>{esc(r["short"])}</h3>{price_html(kind)}</div></a>' for r in related)
+    ld = {"@context": "https://schema.org", "@type": "Product", "name": t, "description": it["blurb"], "sku": it["id"], "brand": {"@type": "Brand", "name": "Tidywells"},
+          "image": [f"https://tidywells.com/{IMG}{f}" for f, *_ in imgs], "url": f"https://tidywells.com/{it['page']}"}
+    body_ = (f'<p class="crumb"><a href="shop.html">Shop</a> &rsaquo; {esc(kind_label(kind))}</p>'
+             f'<div class="ppage"><div class="pview">{pics}{sw}</div><div class="pdet" data-slug="{esc(it["id"])}"><span class="tag">{esc(kind_label(kind))}</span><h1>{esc(t)}</h1>'
+             f'<p class="plead">{esc(it["blurb"])}</p><p>{price_html(kind)}</p><p class="go soon">Opening soon. <a href="shop.html#waitlist">Get an email when the shop opens</a>.</p>'
+             f'<h2>Details</h2><ul class="specs">{specs}</ul>'
+             '<p class="shop-note">Launch price in Canadian dollars; shipping and tax are added at checkout and the store confirms the final price. Tidywells is not affiliated with any regulator or operator.</p></div></div>'
+             f'<h2>More from this range</h2><div class="pgrid">{rel}</div>')
+    body_ += f'<script type="application/ld+json">{json.dumps(ld)}</script><script src="shop.js"></script>'
+    return page(it["page"], t, f"{t} from the Tidywells shop. {it['blurb']}", body_, css="article{max-width:none}")
+
+
+def posterbox(prefix, topic):
+    """'Hang this chart' strip for articles: three matched posters with prices, linking to their product pages."""
+    sets = {"snapshot": ["ab-oil", "ab-gas", "bc-gas"], "gas": ["gas-season", "ab-gas", "sk-gas"], "decline": ["decline-shape", "ab-oil", "five-years"], "default": ["five-years", "ab-oil", "decline-shape"]}
+    names = {s: t for s, t, _ in POSTERS}
+    cards = "".join(f'<a class="prod" href="{prefix}{page_name("poster", s)}" style="text-decoration:none;color:inherit"><img src="{prefix}{IMG}poster-{s}-night.jpg" alt="{esc(names[s])} poster" width="720" height="960" loading="lazy"><div class="pi"><h3>{esc(names[s])}</h3>{price_html("poster")}</div></a>' for s in sets.get(topic, sets["default"]))
+    return ('<!--POSTERBOX--><section class="posterbox"><div class="pb-t"><span class="tag">From the Tidywells shop</span><h2>Hang the data on your wall</h2>'
+            f'<p>Every poster is drawn from the same open dataset as these articles, 18 x 24 inch, opening soon. <a href="{prefix}shop.html#posters">See all posters</a>.</p></div>'
+            f'<div class="pgrid">{cards}</div></section><!--/POSTERBOX-->')
 
 
 def your_well():
@@ -195,6 +282,9 @@ def main():
                 css="article{max-width:none}")
     (DOCS / "shop.html").write_text(html, encoding="utf-8")
     (DOCS / "your-well.html").write_text(page("your-well.html", "Your Well poster", "Make a poster of your own well's production in your browser. Nothing is uploaded.", your_well(), css="article{max-width:none}"), encoding="utf-8")
+    items = catalogue()
+    for it in items:
+        (DOCS / it["page"]).write_text(product_page(it, items), encoding="utf-8")
     idx = DOCS / "index.html"
     h = idx.read_text(encoding="utf-8")
     strip = home_strip()

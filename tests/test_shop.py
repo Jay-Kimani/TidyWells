@@ -46,14 +46,53 @@ def test_every_image_exists():
                 assert (DOCS / src).exists(), src
 
 
-def test_no_prices_or_sale_claims_before_store_is_live():
+def test_prices_are_labelled_and_no_sale_claims():
     cfg = (DOCS / "config.js").read_text(encoding="utf-8")
-    assert re.search(r'TIDYWELLS_SHOP_URL\s*=\s*""', cfg), "store URL set: update this test and add real prices deliberately"
-    for page in ("shop.html", "your-well.html"):
+    assert re.search(r'TIDYWELLS_SHOP_URL\s*=\s*""', cfg), "store URL set: review the opening-soon wording on purpose"
+    pages = ["shop.html", "your-well.html"] + [i["page"] for i in shop.catalogue()]
+    for page in pages:
         t = visible_text((DOCS / page).read_text(encoding="utf-8"))
-        assert "$" not in t and " sale" not in t and "% off" not in t and "discount" not in t, page
+        assert " sale" not in t and "% off" not in t and "discount" not in t and "limited time" not in t, page
+        if "$" in t:
+            assert "launch price" in t, page
     strip = re.search(r"<!--SHOP-->.*?<!--/SHOP-->", (DOCS / "index.html").read_text(encoding="utf-8"), re.S).group(0).lower()
-    assert "$" not in strip and "sale" not in strip and "opening soon" in strip
+    assert " sale" not in strip and "opening soon" in strip and "launch prices" in strip
+
+
+def test_every_product_has_a_page_a_price_and_clean_structured_data():
+    import json
+    items = shop.catalogue()
+    assert len(items) == 32 and len({i["page"] for i in items}) == 32
+    sitemap = (DOCS / "sitemap.xml").read_text(encoding="utf-8")
+    for it in items:
+        html = (DOCS / it["page"]).read_text(encoding="utf-8")
+        assert f"CAD ${shop.PRICE[it['kind']]}" in html, it["id"]
+        assert it["page"] in sitemap
+        for f, *_ in it["images"]:
+            assert (DOCS / "img" / "shop" / f).exists(), f
+        ld = json.loads(re.search(r'<script type="application/ld\+json">(.*?)</script>', html, re.S).group(1))
+        assert ld["@type"] == "Product" and "offers" not in ld  # no price/availability claims in search data until a store exists
+
+
+def test_bundles_really_save_money():
+    for _i, _t, _b, price, full, img in shop.BUNDLES:
+        assert price < full and (DOCS / "img" / "shop" / img).exists()
+    assert shop.BUNDLES[0][4] == 3 * shop.PRICE["sheet"]
+    assert shop.BUNDLES[1][4] == 3 * shop.PRICE["sticker"]
+
+
+def test_dataset_structured_data_matches_manifest():
+    import json
+    m = json.loads((DOCS / "data" / "manifest.json").read_text(encoding="utf-8"))
+    html = (DOCS / "data.html").read_text(encoding="utf-8")
+    ld = json.loads(re.search(r'<!--LD--><script type="application/ld\+json">(.*?)</script>', html, re.S).group(1))
+    assert ld["@type"] == "Dataset" and ld["distribution"][0]["sha256"] == m["sha256"]
+    assert ld["temporalCoverage"] == f"{m['first_month']}/{m['last_month']}"
+
+
+def test_articles_carry_poster_box():
+    for page in sorted((DOCS / "posts").glob("*.html")):
+        assert "<!--POSTERBOX-->" in page.read_text(encoding="utf-8"), page.name
 
 
 def test_no_company_names_in_products_or_art():
@@ -71,7 +110,7 @@ def test_catalogue_is_consistent():
     assert set(goods.STICKERS) <= set(slugs) and {s[0] for s in shop.STICKERS} == set(goods.STICKERS)
     for s, _n, kind, _b in shop.APPAREL:
         assert kind in ("hoodie", "tee") and kind == [d[3] for d in goods.DESIGNS if d[0] == s][0]
-    for s, *_ in shop.FEATURED and [(f,) for f in shop.FEATURED]:
+    for s in shop.FEATURED:
         assert s in slugs
 
 
@@ -127,7 +166,7 @@ console.log(JSON.stringify({{bad:p.bad,n:s.length,v0:s[0].v,wells:c.wells,s1:s1.
 def test_listing_copy_fits_store_limits():
     import csv
     rows = list(csv.DictReader(open(ROOT / "shop" / "listings.csv", encoding="utf-8")))
-    assert len(rows) == 41  # 18 posters + 12 apparel + 6 stickers + 2 notebooks + 3 sheets
+    assert len(rows) == 41  # 18 posters (2 colourways x 9) + 12 apparel + 6 stickers + 2 notebooks + 3 sheets
     for r in rows:
         tags = r["tags"].split("|")
         assert len(r["title"]) <= 140 and len(tags) <= 13 and all(len(t) <= 20 for t in tags), r["id"]

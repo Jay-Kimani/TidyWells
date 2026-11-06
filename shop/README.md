@@ -37,3 +37,9 @@ The previews on the site are the files in `docs/img/shop/`. Print-size files are
 - Poster figures match the open dataset (recomputed from the CSV in a test).
 - No company names or logos in product text or art.
 - No prices, "sale" or discount wording until a store URL is set. Garment images are labelled as illustrative mockups.
+
+## Prices, bundles and product pages
+- Launch prices (CAD) are proposals in `shop/build_shop.py` (`PRICE`, `BUNDLES`). Check each against the supplier's base cost, shipping and fees before opening; margins are NOT verified.
+- Every item has its own page (`docs/product-*.html`), generated. Product JSON-LD carries no `offers` until the shop is live.
+- Waitlist form posts to the Buttondown action in `docs/config.js` with tag `shop-launch`.
+- Articles carry a poster box after `</main>`; Dataset JSON-LD on data.html comes from `docs/data/manifest.json`.

@@ -71,7 +71,7 @@ if __name__ == "__main__":
     a.write_text(t[:i] + "\n" + snaps_html(snaps) + "\n" + t[j:], encoding="utf-8")
     # sitemap + robots (search engines)
     base = "https://tidywells.com"
-    pages = ["", "decline.html", "explore.html", "analysis.html", "glossary.html", "methods.html", "guide.html", "pro.html", "about.html", "data.html", "clean.html", "scorecard.html", "revisions.html", "didnt-work.html", "corrections.html", "terms.html", "shop.html", "your-well.html"]
+    pages = ["", "decline.html", "explore.html", "analysis.html", "glossary.html", "methods.html", "guide.html", "pro.html", "about.html", "data.html", "clean.html", "scorecard.html", "revisions.html", "didnt-work.html", "corrections.html", "terms.html", "shop.html", "your-well.html"] + sorted(x.name for x in (ROOT / "docs").glob("product-*.html"))
     urls = [(f"{base}/{pg}", None) for pg in pages] + [(f"{base}/posts/{p['slug']}.html", p["date"]) for p in posts]
     sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
     for u, d in urls:
@@ -291,7 +291,7 @@ if __name__ == "__main__":
                 "about.html": "about", "corrections.html": "about", "terms.html": "about",
                 "sponsor.html": "about", "shop.html": "shop.html", "your-well.html": "shop.html"}
     def nav_html(prefix, cur):
-        grp = GROUP_OF.get(cur)
+        grp = GROUP_OF.get(cur) or ("shop.html" if cur.startswith("product-") else None)
         out = [f'<div class="util"><div><a href="{prefix}data.html">Open data</a><a href="{prefix}pro.html">Pro data pack</a><a href="{prefix}corrections.html">Corrections</a>'
                f'<a href="https://github.com/Jay-Kimani/TidyWells" target="_blank" rel="noopener">GitHub</a>'
                f'<a href="https://tidywells.substack.com/" target="_blank" rel="noopener">Substack</a></div></div>'
@@ -310,6 +310,25 @@ if __name__ == "__main__":
                 out.append(f'<details class="dd{" on" if grp == key else ""}"><summary>{label}</summary><div class="menu">{items}</div></details>')
         out.append('<button id="theme">Theme</button></nav></header>')
         return "".join(out)
+    import importlib.util, json as _json
+    _sp = importlib.util.spec_from_file_location("build_shop_mod", ROOT / "shop" / "build_shop.py")
+    BSHOP = importlib.util.module_from_spec(_sp); _sp.loader.exec_module(BSHOP)
+    def ld_json(name):
+        base = "https://tidywells.com"
+        if name == "data.html":
+            m = _json.loads((ROOT / "docs" / "data" / "manifest.json").read_text(encoding="utf-8"))
+            d = {"@context": "https://schema.org", "@type": "Dataset", "name": "Tidywells monthly oil and gas production, Alberta, Saskatchewan and British Columbia",
+                 "description": f"Monthly oil and gas production totals for Alberta, Saskatchewan and British Columbia ({m['series']} series, {m['rows']} rows, {m['first_month']} to {m['last_month']}), aggregated from public Petrinex and BC Energy Regulator data with the volume, days in month and wells producing for each month.",
+                 "url": f"{base}/data.html", "creator": {"@type": "Organization", "name": "Tidywells", "url": base + "/"}, "isAccessibleForFree": True,
+                 "spatialCoverage": ["Alberta", "Saskatchewan", "British Columbia"], "temporalCoverage": f"{m['first_month']}/{m['last_month']}", "dateModified": m["built_utc"],
+                 "keywords": ["oil production", "gas production", "Alberta", "Saskatchewan", "British Columbia", "Petrinex", "BC Energy Regulator", "decline curve"],
+                 "distribution": [{"@type": "DataDownload", "encodingFormat": "text/csv", "contentUrl": f"{base}/data/tidywells-monthly-production.csv", "sha256": m["sha256"]}]}
+        else:
+            d = {"@context": "https://schema.org", "@graph": [
+                {"@type": "Organization", "name": "Tidywells", "url": base + "/", "logo": base + "/img/logo.png",
+                 "sameAs": ["https://tidywells.substack.com/", "https://medium.com/@tidywells", "https://github.com/Jay-Kimani/TidyWells"]},
+                {"@type": "WebSite", "name": "Tidywells", "url": base + "/"}]}
+        return '<script type="application/ld+json">' + _json.dumps(d) + "</script>"
     docs_ = ROOT / "docs"
     for f in sorted(docs_.glob("*.html")) + sorted((docs_ / "posts").glob("*.html")):
         t = f.read_text(encoding="utf-8")
@@ -343,6 +362,16 @@ if __name__ == "__main__":
         if sub_a not in t:
             t = t.replace(med_a, med_a + " · " + sub_a)
         pref = "../" if f.parent.name == "posts" else ("/" if f.name == "404.html" else "")
+        # shop cross-sell: matched posters at the end of every article
+        if f.parent.name == "posts":
+            topic = "snapshot" if f.name.startswith("snapshot-") else "gas" if f.name in ("gas-has-a-season.html", "gas-oil-ratio.html") else \
+                "decline" if f.name in ("first-year-decline.html", "decline-backtest.html", "recovery-low-forecasts.html", "shut-ins-and-restarts.html", "new-wells-by-vintage.html") else "default"
+            pb = BSHOP.posterbox("../", topic)
+            t = re.sub(r"<!--POSTERBOX-->.*?<!--/POSTERBOX-->", lambda m: pb, t, flags=re.S) if "<!--POSTERBOX-->" in t else t.replace("</main>", "</main>\n" + pb, 1)
+        # structured data: Dataset on the open-data page, Organization and WebSite on the home page
+        if f.name in ("data.html", "index.html"):
+            t = re.sub(r"<!--LD-->.*?<!--/LD-->\n?", "", t, flags=re.S)
+            t = t.replace("</head>", "<!--LD-->" + ld_json(f.name) + "<!--/LD-->\n</head>", 1)
         # Pro box: only on the analysis index and the articles; removed everywhere else
         if f.parent.name == "posts" or f.name == "analysis.html":
             strip = (f'<!--PRO--><div class="pro-box"><div class="pt"><strong>Want the data behind these posts?</strong>'
