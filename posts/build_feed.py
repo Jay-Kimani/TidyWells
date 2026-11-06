@@ -106,7 +106,7 @@ if __name__ == "__main__":
         return "<!--LD--><script type=\"application/ld+json\">" + json.dumps(obj) + "</script><!--/LD-->"
     def inject(path, block):
         t = path.read_text(encoding="utf-8")
-        t = re.sub(r"<!--LD-->.*?<!--/LD-->", "", t, flags=re.S)
+        t = re.sub(r"\s*<!--LD-->.*?<!--/LD-->\n?", "", t, flags=re.S)
         path.write_text(t.replace("</head>", block + "</head>", 1), encoding="utf-8")
     pub = {"@type": "Organization", "name": "Tidywells", "url": "https://tidywells.com"}
     for p_ in posts:
@@ -383,7 +383,7 @@ if __name__ == "__main__":
             t = re.sub(r"<!--POSTERBOX-->.*?<!--/POSTERBOX-->", lambda m: pb, t, flags=re.S) if "<!--POSTERBOX-->" in t else t.replace("</main>", "</main>\n" + pb, 1)
         # structured data: Dataset on the open-data page, Organization and WebSite on the home page
         if f.name in ("data.html", "index.html"):
-            t = re.sub(r"<!--LD-->.*?<!--/LD-->\n?", "", t, flags=re.S)
+            t = re.sub(r"\s*<!--LD-->.*?<!--/LD-->\n?", "", t, flags=re.S)
             t = t.replace("</head>", "<!--LD-->" + ld_json(f.name) + "<!--/LD-->\n</head>", 1)
         # Pro box: only on the analysis index and the articles; removed everywhere else
         if f.parent.name == "posts" or f.name == "analysis.html":

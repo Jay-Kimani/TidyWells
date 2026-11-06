@@ -1,5 +1,6 @@
 """Apparel, sticker and notebook artwork (typographic, no company names or logos) plus garment mockups.
 Run: python3 shop/art_goods.py OUTDIR  (after art.py)  -> OUTDIR/svg/*.svg and OUTDIR/manifest.json for shop/render.js"""
+SCALE_TXT = '<text transform="scale(.95,1)" '
 import json
 import math
 import sys
@@ -333,7 +334,7 @@ def hat_mockup(lines, color="#17191f"):
               '<circle cx="500" cy="188" r="13" fill="#101216"/>'
               f'{brim} fill="{color}"/>{brim} fill="url(#cg)"/>'
               '<path d="M 262 520 C 380 566 500 586 612 590" fill="none" stroke="#000" stroke-opacity=".35" stroke-width="7"/>'
-              f'<g transform="translate(410,360) skewY(-5) rotate(-4)">{t.replace("<text ", "<text transform=\"scale(.95,1)\" ")}</g>')
+              f'<g transform="translate(410,360) skewY(-5) rotate(-4)">{t.replace("<text ", SCALE_TXT)}</g>')
     return _frame(defs + '<ellipse cx="440" cy="710" rx="290" ry="22" fill="#000" fill-opacity=".10"/>' + pieces + _label(450, "EMBROIDERED HAT"))
 
 
