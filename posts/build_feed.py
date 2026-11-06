@@ -198,6 +198,70 @@ if __name__ == "__main__":
             t_ = t_.replace("</article></main>", blk + "</article></main>", 1)
         f.write_text(t_, encoding="utf-8")
 
+
+    # home-page feature directory: every tool and section, grouped, one clean card each
+    IC = {
+        "curve": '<path d="M4 4v16h16"/><path d="M7 8c3 0 4 7 12 8"/>',
+        "bars": '<path d="M5 20V11M12 20V5M19 20v-7"/>',
+        "file": '<path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4M10 14l2 2 3-4"/>',
+        "frame": '<rect x="4" y="4" width="16" height="16" rx="2"/><path d="M7 16l3-4 3 3 2-2 3 3"/>',
+        "code": '<path d="M9 8l-4 4 4 4M15 8l4 4-4 4"/>',
+        "db": '<ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v12c0 1.7 3.1 3 7 3s7-1.3 7-3V6M5 12c0 1.7 3.1 3 7 3s7-1.3 7-3"/>',
+        "doc": '<path d="M7 3h10v18H7z"/><path d="M10 8h4M10 12h4M10 16h2"/>',
+        "target": '<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1"/>',
+        "refresh": '<path d="M20 11a8 8 0 0 0-14-4M4 5v3h3M4 13a8 8 0 0 0 14 4M20 19v-3h-3"/>',
+        "x": '<circle cx="12" cy="12" r="8"/><path d="M9 9l6 6M15 9l-6 6"/>',
+        "list": '<path d="M9 7h11M9 12h11M9 17h11M4 7l1 1 2-2M4 12l1 1 2-2M4 17l1 1 2-2"/>',
+        "book": '<path d="M5 4h6a2 2 0 0 1 2 2v14a2 2 0 0 0-2-2H5zM19 4h-6a2 2 0 0 0-2 2v14a2 2 0 0 1 2-2h6z"/>',
+        "az": '<path d="M4 18l4-12 4 12M5.5 14h5M15 8h5l-5 8h5"/>',
+        "mail": '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>',
+        "bag": '<path d="M5 8h14l-1 12H6z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/>',
+        "layers": '<path d="M12 4l9 5-9 5-9-5zM3 14l9 5 9-5"/>',
+    }
+    FEATURES = [
+        ("Tools", [
+            ("decline.html", "curve", "Decline-curve tool", "Fit a curve to one well, forecast it and run simple economics."),
+            ("explore.html", "bars", "Production explorer", "Monthly charts for Alberta, Saskatchewan and BC."),
+            ("clean.html", "file", "File cleaner", "Turn a regulator file into one tidy CSV, in your browser."),
+            ("your-well.html", "frame", "Your Well poster", "Make a poster from your own well's production data."),
+        ]),
+        ("Research", [
+            ("analysis.html", "doc", "Analysis", "A new study about every two weeks, plus monthly snapshots."),
+            ("data.html", "db", "Open data", "Download the monthly dataset and see how it is checked."),
+            ("scorecard.html", "target", "Forecast scorecard", "Forecasts written down first and graded in public."),
+            ("revisions.html", "refresh", "Data revisions", "What the regulators changed after first publishing a month."),
+        ]),
+        ("Learn", [
+            ("methods.html", "list", "Methods", "Sources, rules and limits behind every number."),
+            ("guide.html", "book", "Data guide", "How the regulator files work and where they trip people up."),
+            ("glossary.html", "az", "Glossary", "Oil and gas terms in plain words."),
+            ("didnt-work.html", "x", "What didn't work", "Negative results and mistakes we found."),
+        ]),
+        ("Follow, build and shop", [
+            ("https://github.com/Jay-Kimani/TidyWells", "code", "Python package", "Open-source loaders for Petrinex and BCER files."),
+            ("https://tidywells.substack.com/", "mail", "Newsletter", "New analysis by email on Substack, or on Medium."),
+            ("shop.html", "bag", "Shop", "Hoodies, posters from real data, stickers and notebooks."),
+            ("pro.html", "layers", "Pro data pack", "Tidy monthly CSV packs, CAD $4.99 a month."),
+        ]),
+    ]
+    def feature_html():
+        out = ['<!--FEATURES--><section class="ftdir" aria-label="Everything on Tidywells"><h2>Everything on Tidywells</h2>']
+        for title, items in FEATURES:
+            out.append(f'<h3 class="fth">{title}</h3><div class="ftgrid">')
+            for href, ic, name, desc in items:
+                ext = href.startswith("http")
+                att = ' target="_blank" rel="noopener"' if ext else ""
+                out.append(f'<a class="ft" href="{href}"{att}><span class="fti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{IC[ic]}</svg></span>'
+                           f'<span class="ftt"><b>{name}</b><small>{desc}</small></span></a>')
+            out.append('</div>')
+        out.append('</section><!--/FEATURES-->')
+        return "".join(out)
+    ix = ROOT / "docs" / "index.html"
+    ih = ix.read_text(encoding="utf-8")
+    ih2 = re.sub(r"<!--FEATURES-->.*?<!--/FEATURES-->", lambda m: feature_html(), ih, flags=re.S)
+    if ih2 != ih:
+        ix.write_text(ih2, encoding="utf-8")
+
     # grouped site navigation, rebuilt on every page (header block is replaced wholesale)
     NAV = [
         ("link", "Home", "index.html", None),

@@ -249,3 +249,14 @@ footer .btn{background:#fff;color:#14285a!important}
 .pro-strip{max-width:1000px;margin:0 auto;padding:14px 16px 0;font-size:13.5px;color:var(--muted)}
 .pro-strip b{color:var(--navy)}
 /*/PROSTRIP*/
+/*FEATURES*/
+.ftdir h2{margin:44px 0 4px}
+.fth{margin:22px 0 10px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.ftgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(225px,1fr));gap:12px}
+a.ft{display:flex;gap:12px;align-items:flex-start;padding:16px;border:1px solid var(--line);border-radius:8px;background:var(--panel);text-decoration:none;color:var(--fg)!important;transition:border-color .15s,box-shadow .15s,transform .15s}
+a.ft:hover{border-color:var(--accent);box-shadow:0 6px 20px rgba(27,95,214,.14);transform:translateY(-1px)}
+.fti{flex:none;width:38px;height:38px;border-radius:8px;background:var(--soft);color:var(--accent);display:flex;align-items:center;justify-content:center}
+.fti svg{width:22px;height:22px;background:none;border:0;border-radius:0}
+.ftt b{display:block;color:var(--navy);font-size:16px;line-height:1.3}
+.ftt small{display:block;color:var(--muted);font-size:13.5px;line-height:1.45;margin-top:2px}
+/*/FEATURES*/

@@ -132,3 +132,13 @@ def test_listing_copy_fits_store_limits():
         tags = r["tags"].split("|")
         assert len(r["title"]) <= 140 and len(tags) <= 13 and all(len(t) <= 20 for t in tags), r["id"]
         assert not any(b in (r["title"] + r["description"]).lower() for b in BRANDS)
+
+
+def test_home_feature_directory_links_resolve():
+    html = (DOCS / "index.html").read_text(encoding="utf-8")
+    block = re.search(r"<!--FEATURES-->.*?<!--/FEATURES-->", html, re.S).group(0)
+    hrefs = re.findall(r'class="ft" href="([^"]+)"', block)
+    assert len(hrefs) == 16
+    for h in hrefs:
+        if not h.startswith("http"):
+            assert (DOCS / h).exists(), h
