@@ -222,7 +222,7 @@ def body():
     o.append('<div class="shop-hero"><span class="badge">Now open</span>'
              '<h1>The Tidywells <span class="grad">shop</span></h1>'
              '<p>Hoodies, toques, hats, mugs and sticker packs for people who work in oil and gas, and posters drawn from the open data.</p>'
-             '<ul class="trust"><li>Printed to order, delivered in 5 to 10 business days</li><li>Secure checkout by Shopify</li><li>Prices in CAD, launch price while it lasts</li><li>Size guide on every page</li></ul>'
+             '<ul class="trust"><li>Printed to order, delivered in 5 to 7 business days</li><li>Secure checkout by Shopify</li><li>Prices in CAD, launch price while it lasts</li><li>Size guide on every page</li></ul>'
              '<nav class="chips" aria-label="Shop sections"><a href="#apparel">Apparel</a><a href="#headwear">Toques and hats</a><a href="#drinkware">Mugs</a><a href="#stickers">Sticker packs</a>'
              '<a href="#posters">Posters</a><a href="#downloads">Digital</a><a href="#your-well">Make your own</a></nav></div>')
     o.append('<h2 id="best">Crew favourites</h2>' + grid([by[i] for i in BEST], "pgrid four"))
@@ -247,7 +247,7 @@ def body():
              '<p class="shop-note">We do not sell prints of other people\'s wells from public files; that needs the regulator\'s written confirmation.</p></div>'
              f'<figure><img src="{IMG}your-well-example.jpg" alt="Example Your Well poster built from synthetic data" width="720" height="960" loading="lazy"><figcaption>Example, made from synthetic data</figcaption></figure></div>')
     o.append('<h2>Good to know</h2><div class="faq"><p><b>How do sizes fit?</b><br>True to size. Every hoodie and tee page has a size guide with flat measurements.</p>'
-             '<p><b>Who makes and ships the products?</b><br>Our fulfilment partner prints each item to order. Delivery takes about 5 to 10 business days; the shipping cost is shown at checkout before you pay. The digital sheet is instant.</p>'
+             '<p><b>Who makes and ships the products?</b><br>Our fulfilment partner prints each item to order. Delivery takes about 5 to 7 business days; the shipping cost is shown at checkout before you pay. The digital sheet is instant.</p>'
              '<p><b>Is this affiliated with a regulator or an operator?</b><br>No. The posters use public regulator data and original wording, and no company names or logos appear on any product. Posters are not investment advice.</p>'
              '<p><b>Where does the money go?</b><br>It helps keep the open data, tools and analysis free. Tidywells is built by one person; see <a href="about.html">About</a>.</p></div>')
     o.append(LINKJS)
