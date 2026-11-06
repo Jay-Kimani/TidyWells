@@ -383,8 +383,7 @@ def store_links(rows):
     handle = lambda t: re.sub(r"[^a-z0-9]+", "-", t.lower().replace("'", "")).strip("-")
     links = {}
     # Shopify handles that differ from the listing title (a duplicated product, a retitled sheet)
-    fix = {"scrap-the-tanker-ban-t-shirt-oil-and-gas-humor-decline-curve-gift": "copy-of-powered-by-oil-t-shirt-oil-and-gas-humor-decline-curve-gift",
-           "complete-sheet-of-9-hard-hat-stickers-oil-and-gas-humor-laptop-decals": "sticker-sheet-of-9-complete-hard-hat-sticker-set-oil-and-gas-humor-laptop-decals"}
+    fix = {"complete-sheet-of-9-hard-hat-stickers-oil-and-gas-humor-laptop-decals": "sticker-sheet-of-9-complete-hard-hat-sticker-set-oil-and-gas-humor-laptop-decals"}
     for rid, _type, title, *_ in rows:
         h0 = handle(title)
         h = base + fix.get(h0, h0)

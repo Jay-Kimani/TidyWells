@@ -27,7 +27,7 @@ window.TIDYWELLS_SHOP_LINKS = {
  "hoodie-hyperbolic-decline": "https://tidywells.myshopify.com/products/hyperbolic-decline-my-motivation-hoodie-oil-and-gas-humor-decline-curve-gift",
  "hoodie-arps-was-right": "https://tidywells.myshopify.com/products/arps-was-right-hoodie-oil-and-gas-humor-decline-curve-gift",
  "tee-powered-by-oil": "https://tidywells.myshopify.com/products/powered-by-oil-t-shirt-oil-and-gas-humor-decline-curve-gift",
- "tee-scrap-the-tanker-ban": "https://tidywells.myshopify.com/products/copy-of-powered-by-oil-t-shirt-oil-and-gas-humor-decline-curve-gift",
+ "tee-scrap-the-tanker-ban": "https://tidywells.myshopify.com/products/scrap-the-tanker-ban-t-shirt-oil-and-gas-humor-decline-curve-gift",
  "tee-camp-life": "https://tidywells.myshopify.com/products/camp-life-t-shirt-oil-and-gas-humor-decline-curve-gift",
  "tee-oil-and-gas-crew": "https://tidywells.myshopify.com/products/oil-gas-crew-t-shirt-oil-and-gas-humor-decline-curve-gift",
  "tee-darcys-law": "https://tidywells.myshopify.com/products/darcys-law-t-shirt-oil-and-gas-humor-decline-curve-gift",
