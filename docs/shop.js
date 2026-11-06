@@ -36,6 +36,7 @@
   var open = window.TIDYWELLS_SHOP_OPEN === true;
   if (open) {
     document.querySelectorAll(".badge").forEach(function (b) { b.textContent = "Now open"; });
+    var st = document.createElement("style"); st.textContent = "#waitlist,#waitlist2,.waitlist-end{display:none!important}"; document.head.appendChild(st);
     document.querySelectorAll(".prod .go").forEach(function (go) {
       var a = go.parentNode.querySelector("h3 a");
       if (a) { go.className = "go"; go.innerHTML = '<a class="btn primary" href="' + a.getAttribute("href") + '">Choose options</a>'; }
