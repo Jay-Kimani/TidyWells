@@ -142,7 +142,7 @@ def bold(lines, acc, c, size_cap=250):
     y = 700 - size * n / 2 + size * 0.80
     o = []
     for i, l in enumerate(lines):
-        o.append(text(600, y + i * size, l.replace("'", "&#39;"), round(size), c["accent"] if i == acc else c["ink"], SANS, 800, anchor="middle", spacing=-round(size * 0.01)))
+        o.append(text(600, y + i * size, l.replace("&", "&amp;").replace("'", "&#39;"), round(size), c["accent"] if i == acc else c["ink"], SANS, 800, anchor="middle", spacing=-round(size * 0.01)))
     ry = y + (n - 1) * size + size * 0.40
     o.append(f'<line x1="470" y1="{ry:.0f}" x2="730" y2="{ry:.0f}" stroke="{c["muted"]}" stroke-width="6" stroke-linecap="round"/>')
     return "".join(o)
@@ -160,12 +160,16 @@ def d_ottawa(c):
     return bold(["OTTAWA", "DOESN'T", "PUMP", "OIL."], 3, c) + brand(c)
 
 
-def d_quiet(c):
-    return bold(["PIPELINE", "OR QUIET.", "PICK ONE."], 2, c) + brand(c)
+def d_oilgas(c):
+    return bold(["OIL", "& GAS."], 1, c) + brand(c)
+
+
+def d_crew(c):
+    return bold(["OIL & GAS", "CREW."], 1, c) + brand(c)
 
 
 def d_money(c):
-    return bold(["POWERED", "BY OIL", "MONEY."], 2, c) + brand(c)
+    return bold(["POWERED", "BY OIL."], 1, c) + brand(c)
 
 
 def d_camp(c):
@@ -194,18 +198,19 @@ DESIGNS = [  # slug, name, fn, garment
     ("shut-in-not-shut-down", "Shut-In, Not Shut Down", d_shutin, "hoodie"),
     ("hyperbolic-decline", "Hyperbolic Decline: My Motivation", d_hyperbolic, "hoodie"),
     ("arps-was-right", "Arps Was Right", d_arps, "hoodie"),
-    ("powered-by-oil-money", "Powered by Oil Money", d_money, "tee"),
+    ("powered-by-oil", "Powered by Oil", d_money, "tee"),
     ("scrap-the-tanker-ban", "Scrap the Tanker Ban", d_tanker, "tee"),
-    ("pipeline-or-quiet", "Pipeline or Quiet. Pick One.", d_quiet, "tee"),
+    ("oil-and-gas", "Oil & Gas", d_oilgas, "hoodie"),
+    ("oil-and-gas-crew", "Oil & Gas Crew", d_crew, "tee"),
     ("camp-life", "Camp Life", d_camp, "tee"),
     ("darcys-law", "Darcy's Law", d_darcy, "tee"),
     ("pv-znrt", "pV = znRT", d_gaslaw, "tee"),
     ("check-the-units", "Check the Units", d_units, "tee"),
 ]
-STICKER_SLUGS = ["build-the-pipeline", "scrap-the-tanker-ban", "ottawa-doesnt-pump-oil", "pipeline-or-quiet", "powered-by-oil-money", "shut-in-not-shut-down", "hyperbolic-decline", "camp-life", "darcys-law", "pv-znrt"]
-MUG_SLUGS = ["build-the-pipeline", "ottawa-doesnt-pump-oil", "powered-by-oil-money", "hyperbolic-decline", "check-the-units"]
-HATS = [("build-the-pipeline", ["BUILD THE", "PIPELINE"]), ("ottawa-doesnt-pump-oil", ["OTTAWA DOESN'T", "PUMP OIL."])]
-TOQUES = [("build-the-pipeline", ["BUILD THE PIPELINE"]), ("camp-life", ["CAMP LIFE."]), ("powered-by-oil-money", ["POWERED BY", "OIL MONEY."])]
+STICKER_SLUGS = ["build-the-pipeline", "scrap-the-tanker-ban", "ottawa-doesnt-pump-oil", "powered-by-oil", "shut-in-not-shut-down", "hyperbolic-decline", "camp-life", "darcys-law", "pv-znrt"]
+MUG_SLUGS = ["build-the-pipeline", "ottawa-doesnt-pump-oil", "powered-by-oil", "hyperbolic-decline", "check-the-units"]
+HATS = [("build-the-pipeline", ["BUILD THE", "PIPELINE"]), ("powered-by-oil", ["POWERED", "BY OIL."])]
+TOQUES = [("build-the-pipeline", ["BUILD THE PIPELINE"]), ("camp-life", ["CAMP LIFE."]), ("powered-by-oil", ["POWERED BY OIL."])]
 STICKERS = STICKER_SLUGS
 GARMENT_COLORS = {"black": "#17191f", "navy": "#16233f", "sand": "#d9cfba", "white": "#f1f1ee", "heather": "#9ca2ab"}
 
@@ -312,14 +317,14 @@ def hat_art(lines):
     n = len(lines)
     size = min(230, 1250 / (0.62 * max(len(l) for l in lines)))
     y0 = 300 - size * n / 2 + size * 0.80
-    t = "".join(text(675, y0 + i * size * 1.02, l.replace("'", "&#39;"), round(size), "#ffffff", SANS, 800, anchor="middle", spacing=-3) for i, l in enumerate(lines))
+    t = "".join(text(675, y0 + i * size * 1.02, l.replace("&", "&amp;").replace("'", "&#39;"), round(size), "#ffffff", SANS, 800, anchor="middle", spacing=-3) for i, l in enumerate(lines))
     return f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1350 600" width="1350" height="600">{t}</svg>'
 
 
 def hat_mockup(lines, color="#17191f"):
     """Three-quarter view of a curved-brim cap: crown, front panel with embroidery, brim projecting forward-left."""
     fs = min(44, 236 / (0.62 * max(len(l) for l in lines)))
-    t = "".join(text(0, k * fs * 1.18, l.replace("'", "&#39;"), round(fs, 1), "#ffffff", SANS, 800, anchor="middle", spacing=-1) for k, l in enumerate(lines))
+    t = "".join(text(0, k * fs * 1.18, l.replace("&", "&amp;").replace("'", "&#39;"), round(fs, 1), "#ffffff", SANS, 800, anchor="middle", spacing=-1) for k, l in enumerate(lines))
     defs = ('<defs><linearGradient id="cg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".14"/><stop offset="1" stop-color="#000" stop-opacity=".25"/></linearGradient></defs>')
     crown = ('<path d="M 262 520 C 236 330 330 190 500 188 C 650 186 736 300 730 470 C 728 520 726 540 720 556 C 600 600 400 596 262 520 Z"')
     brim = ('<path d="M 262 520 C 190 556 120 604 112 650 C 108 676 150 690 230 678 C 360 660 480 626 612 590 C 500 586 380 566 262 520 Z"')
@@ -336,7 +341,7 @@ def toque_art(lines):
     n = len(lines)
     size = min(190, 1000 / (0.62 * max(len(l) for l in lines)))
     y0 = 225 - size * n / 2 + size * 0.80
-    t = "".join(text(525, y0 + i * size * 1.02, l.replace("'", "&#39;"), round(size), "#ffffff", SANS, 800, anchor="middle", spacing=-2) for i, l in enumerate(lines))
+    t = "".join(text(525, y0 + i * size * 1.02, l.replace("&", "&amp;").replace("'", "&#39;"), round(size), "#ffffff", SANS, 800, anchor="middle", spacing=-2) for i, l in enumerate(lines))
     return f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1050 450" width="1050" height="450">{t}</svg>'
 
 

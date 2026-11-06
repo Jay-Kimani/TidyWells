@@ -104,7 +104,7 @@ def test_no_company_names_in_products_or_art():
 
 def test_catalogue_is_consistent():
     slugs = [d[0] for d in goods.DESIGNS]
-    assert len(slugs) == len(set(slugs)) == 12
+    assert len(slugs) == len(set(slugs)) == 13
     assert {a[0] for a in shop.APPAREL} <= set(slugs)
     assert set(goods.MUG_SLUGS) <= set(slugs) and {m[0] for m in shop.MUGS} == set(goods.MUG_SLUGS)
     assert {c[0] for c in shop.HATS} == {c[0] for c in goods.HATS} and {c[0] for c in shop.TOQUES} == {c[0] for c in goods.TOQUES}
