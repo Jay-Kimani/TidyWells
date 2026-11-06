@@ -58,8 +58,8 @@ BUNDLES = [  # id, title, blurb, price, would-be separate total, image
 ]
 SPECS = {
     "poster": ["18 x 24 inch print, Night (dark) or Paper (cream) colourway", "Drawn from the open Tidywells dataset, data through September 2026", "Source, method and data window printed on the poster", "Produced and shipped by our fulfilment partner; timing shown at checkout"],
-    "hoodie": ["Light-ink design for dark garments", "No company names or logos", "Garment colours, sizes and fabric are set in the store listing", "The image above is an illustrative mockup of the print placement"],
-    "tee": ["Light-ink design for dark garments", "No company names or logos", "Garment colours, sizes and fabric are set in the store listing", "The image above is an illustrative mockup of the print placement"],
+    "hoodie": ["Large design printed on the back, small Tidywells mark on the left chest", "Light-ink design for dark garments", "No oil company names or logos", "Garment colours, sizes and fabric are set in the store listing", "The images above are illustrative mockups of the print placement"],
+    "tee": ["Large design printed on the back, small Tidywells mark on the left chest", "Light-ink design for dark garments", "No oil company names or logos", "Garment colours, sizes and fabric are set in the store listing", "The images above are illustrative mockups of the print placement"],
     "sticker": ["3 inch, die-cut style vinyl sticker", "Made for hard hats, laptops and truck dashboards", "Final material and finish are set in the store listing"],
     "notebook": ["Printed cover design; paper type and page count are set in the store listing", "Made for field notes and well logs"],
     "sheet": ["11 x 17 inch PDF, instant digital download", "For your own use: print as often as you like", "Standard published conversion factors and public regulator file layouts"],
@@ -135,7 +135,7 @@ def catalogue():
     for s, t, b in POSTERS:
         out.append(dict(kind="poster", slug=s, title=t + " poster", short=t, blurb=b, images=[(f"poster-{s}-night.jpg", f"{t} poster, Night colourway", 720, 960), (f"poster-{s}-paper.jpg", f"{t} poster, Paper colourway", 720, 960)]))
     for s, n, k, b in APPAREL:
-        out.append(dict(kind=k, slug=s, title=f"{n} {'hoodie' if k == 'hoodie' else 't-shirt'}", short=n, blurb=b, images=[(f"mockup-{s}.jpg", f"{n} {k} mockup", 720, 720)]))
+        out.append(dict(kind=k, slug=s, title=f"{n} {'hoodie' if k == 'hoodie' else 't-shirt'}", short=n, blurb=b, images=[(f"mockup-{s}.jpg", f"{n} {k}, back print", 720, 720), (f"mockup-{s}-front.jpg", f"{n} {k}, Tidywells chest logo", 720, 720)]))
     for s, n in STICKERS:
         out.append(dict(kind="sticker", slug=s, title=f"{n} sticker", short=n, blurb="A hard-hat sticker for people who work with oil and gas data.", images=[(f"sticker-{s}.png", f"{n} sticker", 600, 600)]))
     for s, n, b in NOTEBOOKS:
@@ -238,7 +238,8 @@ def product_page(it, items):
     pics = "".join(f'<img src="{IMG}{f}" alt="{esc(a)}" width="{w}" height="{h}" data-pi="{i}"{"" if i == 0 else " hidden"}>' for i, (f, a, w, h) in enumerate(imgs))
     sw = ""
     if len(imgs) > 1:
-        sw = '<div class="sw" role="group" aria-label="Colourway"><button type="button" data-pi="0" aria-pressed="true">Night</button><button type="button" data-pi="1" aria-pressed="false">Paper</button></div>'
+        l0, l1 = ("Night", "Paper") if kind == "poster" else ("Back", "Front")
+        sw = f'<div class="sw" role="group" aria-label="View"><button type="button" data-pi="0" aria-pressed="true">{l0}</button><button type="button" data-pi="1" aria-pressed="false">{l1}</button></div>'
     specs = "".join(f"<li>{esc(x)}</li>" for x in SPECS[kind])
     related = [x for x in items if x["kind"] == kind and x["id"] != it["id"]][:4]
     rel = "".join(f'<a class="prod" href="{r["page"]}" style="text-decoration:none;color:inherit"><img src="{IMG}{r["images"][0][0]}" alt="{esc(r["images"][0][1])}" width="{r["images"][0][2]}" height="{r["images"][0][3]}" loading="lazy"><div class="pi"><h3>{esc(r["short"])}</h3>{price_html(kind)}</div></a>' for r in related)
@@ -308,7 +309,7 @@ def listings():
                          "Not investment advice.", TAGS_BASE + ["data art", "wall art", "office decor", "poster", "chart print"]))
     for s, n, k, b in APPAREL:
         rows.append((f"{k}-{s}", "Hoodie" if k == "hoodie" else "T-shirt", f"{n} {'Hoodie' if k == 'hoodie' else 'T-Shirt'}, Oil and Gas Humor, Decline Curve Gift",
-                     f"{DESC[pid(k, s)]}", TAGS_BASE + ["funny shirt", "decline curve", "roughneck", "oilfield humor", "gift for him"]))
+                     f"{DESC[pid(k, s)]} Large back print with a small Tidywells mark on the left chest.", TAGS_BASE + ["funny shirt", "decline curve", "roughneck", "oilfield humor", "gift for him"]))
     for s, n in STICKERS:
         rows.append((f"sticker-{s}", "Sticker 3in", f"{n} Sticker, Hard Hat Sticker, Oil and Gas Humor, Laptop Decal",
                      DESC[pid("sticker", s)], TAGS_BASE + ["hard hat sticker", "laptop sticker", "vinyl sticker", "decal", "oilfield"]))

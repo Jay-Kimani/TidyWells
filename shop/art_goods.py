@@ -57,7 +57,12 @@ def design_svg(inner):
     return f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1600" width="1200" height="1600">{inner}</svg>'
 
 
+BRAND_ON = True  # sticker art carries the url; apparel carries a chest logo instead
+
+
 def brand(c):
+    if not BRAND_ON:
+        return ""
     return text(600, 1490, "tidywells.com", 34, c["muted"], SANS, 600, anchor="middle", spacing=6)
 
 
@@ -164,6 +169,49 @@ def garment(kind, color):
     return f'<defs>{shade}</defs><path d="{body}" fill="{color}"/><path d="{body}" fill="url(#sh)"/>{extra}'
 
 
+def chest_logo_svg(c):
+    """Small left-chest mark: decline-curve glyph + serif wordmark, 1200x600 (4 x 2 inch at 300 dpi)."""
+    return ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600" width="1200" height="600">'
+            + curve(215, 170, 270, 260, c, 1.0, 1.6, 20) + text(420, 365, "Tidywells", 170, c["ink"], SERIF, 600) + '</svg>')
+
+
+def garment_back(kind, color):
+    shade = '<linearGradient id="sh" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".10"/><stop offset="1" stop-color="#000" stop-opacity=".16"/></linearGradient>'
+    if kind == "tee":
+        body = "M 300 150 L 380 132 Q 450 150 520 132 L 600 150 L 770 236 L 706 350 L 646 318 L 646 790 L 254 790 L 254 318 L 194 350 L 130 236 Z"
+        extra = '<path d="M 380 132 Q 450 150 520 132" fill="none" stroke="#000" stroke-opacity=".25" stroke-width="10"/>'
+    else:
+        body = "M 296 196 L 378 172 Q 450 190 522 172 L 604 196 L 780 330 L 730 650 L 650 626 L 650 806 L 250 806 L 250 626 L 170 650 L 120 330 Z"
+        extra = (f'<path d="M 330 176 Q 450 150 570 176 L 585 300 Q 450 360 315 300 Z" fill="{color}"/>'
+                 '<path d="M 330 176 Q 450 150 570 176 L 585 300 Q 450 360 315 300 Z" fill="url(#sh)"/>'
+                 '<path d="M 316 300 Q 450 360 584 300" fill="none" stroke="#000" stroke-opacity=".3" stroke-width="9"/>')
+    return f'<defs>{shade}</defs><path d="{body}" fill="{color}"/><path d="{body}" fill="url(#sh)"/>{extra}'
+
+
+def mockup_back(slug, kind, gcolor):
+    c = INKS["light"]
+    fn = [d for d in DESIGNS if d[0] == slug][0][2]
+    y = 225 if kind == "tee" else 345
+    h = 430 if kind == "tee" else 420
+    w = h * 0.75
+    return ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 900" width="900" height="900">'
+            '<defs><radialGradient id="bg" cx=".5" cy=".42" r=".75"><stop offset="0" stop-color="#f4f6fb"/><stop offset="1" stop-color="#d9deea"/></radialGradient></defs>'
+            '<rect width="900" height="900" fill="url(#bg)"/><ellipse cx="450" cy="830" rx="300" ry="26" fill="#000" fill-opacity=".10"/>'
+            + garment_back(kind, GARMENT_COLORS[gcolor]) +
+            f'<svg x="{450 - w / 2:.0f}" y="{y}" width="{w:.0f}" height="{h}" viewBox="0 0 1200 1600">{fn(c)}</svg>'
+            '<text x="450" y="868" font-family="Inter,sans-serif" font-size="22" font-weight="600" fill="#6a7390" text-anchor="middle" letter-spacing="4">BACK PRINT</text></svg>')
+
+
+def mockup_front(slug, kind, gcolor):
+    c = INKS["light"]
+    cy = 232 if kind == "tee" else 352
+    logo = chest_logo_svg(c).replace('width="1200" height="600"', f'x="520" y="{cy}" width="112" height="56"')
+    return ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="100 70 700 700" width="900" height="900">'
+            '<defs><radialGradient id="bg" cx=".5" cy=".42" r=".75"><stop offset="0" stop-color="#f4f6fb"/><stop offset="1" stop-color="#d9deea"/></radialGradient></defs>'
+            '<rect x="0" y="0" width="900" height="900" fill="url(#bg)"/>' + garment(kind, GARMENT_COLORS[gcolor]) + logo +
+            '</svg>')
+
+
 def mockup(slug, kind, gcolor, light_ink):
     c = INKS["light" if light_ink else "dark"]
     fn = [d for d in DESIGNS if d[0] == slug][0][2]
@@ -211,14 +259,22 @@ def cover_svg(kind):
 def main(out):
     (out / "svg").mkdir(parents=True, exist_ok=True)
     jobs = []
+    global BRAND_ON
+    for ink in ("light", "dark"):
+        (out / "svg" / f"chest-logo-{ink}.svg").write_text(chest_logo_svg(INKS[ink]), encoding="utf-8")
+        jobs.append({"src": f"svg/chest-logo-{ink}.svg", "out": f"print/apparel/tidywells-chest-logo-{ink}-ink-1200x600.png", "w": 1200, "h": 600, "scale": 1, "type": "png", "transparent": True})
     for slug, name, fn, kind in DESIGNS:
+        BRAND_ON = False
         for ink in ("light", "dark"):
             svg = design_svg(fn(INKS[ink]))
             (out / "svg" / f"apparel-{slug}-{ink}.svg").write_text(svg, encoding="utf-8")
             jobs.append({"src": f"svg/apparel-{slug}-{ink}.svg", "out": f"print/apparel/{slug}-{ink}-ink-3600x4800.png", "w": 1200, "h": 1600, "scale": 3, "type": "png", "transparent": True})
         gc = "black" if slug not in ("arps-was-right", "gas-has-a-season") else "navy"
-        (out / "svg" / f"mockup-{slug}.svg").write_text(mockup(slug, kind, gc, True), encoding="utf-8")
+        (out / "svg" / f"mockup-{slug}.svg").write_text(mockup_back(slug, kind, gc), encoding="utf-8")
         jobs.append({"src": f"svg/mockup-{slug}.svg", "out": f"web/mockup-{slug}.jpg", "w": 720, "h": 720, "scale": 1, "type": "jpeg", "quality": 88})
+        (out / "svg" / f"mockup-{slug}-front.svg").write_text(mockup_front(slug, kind, gc), encoding="utf-8")
+        jobs.append({"src": f"svg/mockup-{slug}-front.svg", "out": f"web/mockup-{slug}-front.jpg", "w": 720, "h": 720, "scale": 1, "type": "jpeg", "quality": 88})
+        BRAND_ON = True
     for slug in STICKERS:
         (out / "svg" / f"sticker-{slug}.svg").write_text(sticker_svg(slug), encoding="utf-8")
         jobs.append({"src": f"svg/sticker-{slug}.svg", "out": f"print/stickers/{slug}-1200x1200.png", "w": 1200, "h": 1200, "scale": 1, "type": "png", "transparent": True})
