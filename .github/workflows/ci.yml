@@ -23,6 +23,7 @@ jobs:
           python posts/gen_didnt_work.py
           python posts/scorecard.py
           python posts/revisions.py
+          python shop/build_shop.py
           python posts/build_feed.py
       - name: Check that every published number matches the data
         run: python posts/verify_site.py

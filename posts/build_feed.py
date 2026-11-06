@@ -71,7 +71,7 @@ if __name__ == "__main__":
     a.write_text(t[:i] + "\n" + snaps_html(snaps) + "\n" + t[j:], encoding="utf-8")
     # sitemap + robots (search engines)
     base = "https://tidywells.com"
-    pages = ["", "decline.html", "explore.html", "analysis.html", "glossary.html", "methods.html", "guide.html", "pro.html", "about.html", "data.html", "clean.html", "scorecard.html", "revisions.html", "didnt-work.html", "corrections.html", "terms.html"]
+    pages = ["", "decline.html", "explore.html", "analysis.html", "glossary.html", "methods.html", "guide.html", "pro.html", "about.html", "data.html", "clean.html", "scorecard.html", "revisions.html", "didnt-work.html", "corrections.html", "terms.html", "shop.html", "your-well.html"]
     urls = [(f"{base}/{pg}", None) for pg in pages] + [(f"{base}/posts/{p['slug']}.html", p["date"]) for p in posts]
     sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
     for u, d in urls:
@@ -216,6 +216,7 @@ if __name__ == "__main__":
             ("guide.html", "Data guide", "How the regulator files work"),
             ("glossary.html", "Glossary", "Oil and gas terms in plain words")]),
         ("link", "Pro", "pro.html", "pro"),
+        ("link", "Shop", "shop.html", None),
         ("menu", "About", "about", [
             ("about.html", "About Tidywells", "Who builds it and why"),
             ("about.html#how-this-is-made", "How this is made", "Where AI is used, and how it is checked"),
@@ -225,7 +226,7 @@ if __name__ == "__main__":
     GROUP_OF = {"index.html": "index.html", "decline.html": "tools", "explore.html": "tools", "clean.html": "tools", "scorecard.html": "research", "revisions.html": "research", "didnt-work.html": "research", "analysis.html": "research",
                 "data.html": "research", "methods.html": "learn", "guide.html": "learn", "glossary.html": "learn",
                 "pro.html": "pro.html", "about.html": "about", "corrections.html": "about", "terms.html": "about",
-                "sponsor.html": "about"}
+                "sponsor.html": "about", "shop.html": "shop.html", "your-well.html": "shop.html"}
     def nav_html(prefix, cur):
         grp = GROUP_OF.get(cur)
         out = [f'<header><nav><a class="brand" href="{prefix}index.html" aria-label="Tidywells home">'
@@ -273,5 +274,9 @@ if __name__ == "__main__":
         t = re.sub(r"<!--FOLLOW-->.*?<!--/FOLLOW-->", lambda m: follow, t, flags=re.S)
         if sub_a not in t:
             t = t.replace(med_a, med_a + " · " + sub_a)
+        pref = "../" if f.parent.name == "posts" else ("/" if f.name == "404.html" else "")
+        if "<footer" in t and f'>Shop</a>' not in t.rsplit("<footer", 1)[1]:
+            head_, foot_ = t.rsplit("<footer", 1)
+            t = head_ + "<footer" + foot_.replace(sub_a, sub_a + f' · <a href="{pref}shop.html">Shop</a>', 1)
         if t != t0:
             f.write_text(t, encoding="utf-8")

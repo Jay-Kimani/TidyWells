@@ -7,3 +7,4 @@ data/
 sample_data/
 !docs/data/
 !docs/data/tidywells-monthly-production.csv
+shop/out/
