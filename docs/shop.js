@@ -159,9 +159,8 @@ if (document.readyState === "loading") document.addEventListener("DOMContentLoad
 
 // Marketing labels on the shop: ribbons, one-line captions and button wording. Honest claims only: no fake stock counts, no invented sales numbers.
 function twHype() {
-  var HOT = { "hoodie-build-the-pipeline": "Hot pick", "hoodie-ottawa-doesnt-pump-oil": "Crowd favourite", "toque-camp-life": "Cold-snap essential", "mug-build-the-pipeline": "Hot pick",
-              "tee-darcys-law": "Nerd approved", "tee-pv-znrt": "Nerd approved", "hoodie-arps-was-right": "Engineers love this one", "poster-decline-shape": "Wall-worthy", "poster-record-barrels": "Wall-worthy",
-              "bundle-stickers-complete-set": "Best value", "sheet-units-and-conversions": "Instant download", "hoodie-hyperbolic-decline": "Relatable", "mug-hyperbolic-decline": "Relatable" };
+  var HOT = { "hoodie-build-the-pipeline": "Hot pick", "hoodie-ottawa-doesnt-pump-oil": "Crowd favourite", "toque-camp-life": "Cold-snap essential", "mug-build-the-pipeline": "Gift-ready",
+              "bundle-stickers-complete-set": "Best value", "sheet-units-and-conversions": "Instant download" };
   var KIND = { hoodie: ["Fresh drop", "Heavy, warm, printed to order. Hoodie season is here."], tee: ["Fresh drop", "Soft tee, loud back print. Printed to order."], toque: ["Winter-ready", "Warm toque with an embroidered line. Printed to order."],
                hat: ["Fresh drop", "Embroidered, adjustable, one size fits most."], mug: ["Gift-ready", "The coffee mug your crew will fight over."], poster: ["Launch price while it lasts", "18 x 24 in. Real data, drawn clean."],
                bundle: ["Launch price while it lasts", "More stickers per dollar on the bigger sheets."], sheet: ["Instant download", "Pin it up today. No shipping, no waiting."] };
@@ -172,6 +171,7 @@ function twHype() {
   document.head.appendChild(st);
   document.querySelectorAll(".prod[data-slug]").forEach(function (card) {
     var slug = card.getAttribute("data-slug"), k = KIND[kindOf(slug)], hot = HOT[slug];
+    if (!hot) return;
     var box = card.querySelector(".pimg"); if (box && !box.querySelector(".hype")) {
       var r = document.createElement("span"); r.className = "hype" + (hot ? " hot" : " alt"); r.textContent = hot || (k && k[0]) || ""; if (r.textContent) box.appendChild(r);
     }
@@ -183,7 +183,7 @@ function twHype() {
   document.querySelectorAll("h2#best").forEach(function (h) { h.textContent = "Crew favourites"; });
   document.querySelectorAll(".go[data-slug]").forEach(function (go) {
     var slug = go.getAttribute("data-slug"), k = KIND[kindOf(slug)], hot = HOT[slug];
-    if (!k || go.previousElementSibling && go.previousElementSibling.classList.contains("proof")) return;
+    if (!k || !hot || go.previousElementSibling && go.previousElementSibling.classList.contains("proof")) return;
     var d = document.createElement("p"); d.className = "proof";
     d.innerHTML = "<b>" + (hot || k[0]) + ".</b> " + k[1] + " Launch price while it lasts.";
     go.parentNode.insertBefore(d, go);
