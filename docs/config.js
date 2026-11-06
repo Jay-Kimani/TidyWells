@@ -18,7 +18,7 @@ window.TIDYWELLS_SPONSOR={name:"",url:"",text:""};
 
 // Shop: paste your storefront URL (https only) to switch on "View in store" buttons on shop.html. Optional per-product links:
 // window.TIDYWELLS_SHOP_LINKS = {"poster-ab-oil": "https://..."} (keys are the data-slug values on shop.html).
-window.TIDYWELLS_SHOP_URL = "";
+window.TIDYWELLS_SHOP_URL = "https://hwerse-gx.myshopify.com";
 
 // Paste your Stripe Payment Link (or similar) here to switch on the Subscribe button on pro.html.
 window.TIDYWELLS_PRO_URL="https://buy.stripe.com/dRmfZjcpdefU00E4251kA00";
