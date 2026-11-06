@@ -71,7 +71,7 @@ if __name__ == "__main__":
     a.write_text(t[:i] + "\n" + snaps_html(snaps) + "\n" + t[j:], encoding="utf-8")
     # sitemap + robots (search engines)
     base = "https://tidywells.com"
-    pages = ["", "decline.html", "explore.html", "analysis.html", "glossary.html", "methods.html", "guide.html", "pro.html", "about.html", "data.html", "clean.html", "scorecard.html", "revisions.html", "didnt-work.html", "corrections.html", "terms.html", "shop.html", "your-well.html"]
+    pages = ["", "decline.html", "explore.html", "analysis.html", "glossary.html", "methods.html", "guide.html", "about.html", "data.html", "clean.html", "scorecard.html", "revisions.html", "didnt-work.html", "corrections.html", "terms.html", "shop.html", "your-well.html"]
     urls = [(f"{base}/{pg}", None) for pg in pages] + [(f"{base}/posts/{p['slug']}.html", p["date"]) for p in posts]
     sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
     for u, d in urls:
@@ -215,8 +215,7 @@ if __name__ == "__main__":
             ("methods.html", "Methods", "Sources, rules and limits"),
             ("guide.html", "Data guide", "How the regulator files work"),
             ("glossary.html", "Glossary", "Oil and gas terms in plain words")]),
-        ("link", "Pro", "pro.html", "pro"),
-        ("link", "Shop", "shop.html", None),
+        ("link", "Shop", "shop.html", "shopbtn"),
         ("menu", "About", "about", [
             ("about.html", "About Tidywells", "Who builds it and why"),
             ("about.html#how-this-is-made", "How this is made", "Where AI is used, and how it is checked"),
@@ -225,11 +224,14 @@ if __name__ == "__main__":
     ]
     GROUP_OF = {"index.html": "index.html", "decline.html": "tools", "explore.html": "tools", "clean.html": "tools", "scorecard.html": "research", "revisions.html": "research", "didnt-work.html": "research", "analysis.html": "research",
                 "data.html": "research", "methods.html": "learn", "guide.html": "learn", "glossary.html": "learn",
-                "pro.html": "pro.html", "about.html": "about", "corrections.html": "about", "terms.html": "about",
+                "about.html": "about", "corrections.html": "about", "terms.html": "about",
                 "sponsor.html": "about", "shop.html": "shop.html", "your-well.html": "shop.html"}
     def nav_html(prefix, cur):
         grp = GROUP_OF.get(cur)
-        out = [f'<header><nav><a class="brand" href="{prefix}index.html" aria-label="Tidywells home">'
+        out = [f'<div class="util"><div><a href="{prefix}data.html">Open data</a><a href="{prefix}corrections.html">Corrections</a>'
+               f'<a href="https://github.com/Jay-Kimani/TidyWells" target="_blank" rel="noopener">GitHub</a>'
+               f'<a href="https://tidywells.substack.com/" target="_blank" rel="noopener">Substack</a></div></div>'
+               f'<header><nav><a class="brand" href="{prefix}index.html" aria-label="Tidywells home">'
                f'<img class="logo-l" src="{prefix}img/logo.png" alt="Tidywells" height="44">'
                f'<img class="logo-d" src="{prefix}img/logo-dark.png" alt="" height="44"></a>']
         for kind, label, key, extra in NAV:
@@ -251,7 +253,9 @@ if __name__ == "__main__":
             prefix, cur = "../", "analysis.html"
         else:
             prefix, cur = ("/" if f.name == "404.html" else ""), f.name
-        t2 = re.sub(r"<header><nav>.*?</nav></header>", lambda m: nav_html(prefix, cur), t, count=1, flags=re.S)
+        t2 = re.sub(r'(?:<div class="util">.*?</div></div>)?<header><nav>.*?</nav></header>', lambda m: nav_html(prefix, cur), t, count=1, flags=re.S)
+        t2 = re.sub(r"<!--PROMO-->.*?<!--/PROMO-->\n?", "", t2, flags=re.S)
+        t2 = t2.replace('r.dataset.theme==="light"?"dark":"light"', 'r.dataset.theme==="dark"?"light":"dark"')
         if t2 != t:
             f.write_text(t2, encoding="utf-8")
 

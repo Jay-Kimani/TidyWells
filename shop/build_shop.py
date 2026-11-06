@@ -47,28 +47,7 @@ SHEETS = [("units-and-conversions", "Units & Conversions", "Oil, gas, energy and
           ("regulator-data-gotchas", "Regulator Data Gotchas", "Seven ways public well data quietly breaks an analysis.")]
 FEATURED = ["hyperbolic-decline", "arps-was-right", "shut-in-not-shut-down", "wells-dont-retire"]
 
-CSS = """/*SHOP*/
-.shop-hero{text-align:center;padding:8px 0 4px}.shop-hero h1{font-size:clamp(30px,5.5vw,46px);margin:8px 0}.shop-hero p{color:var(--muted);max-width:640px;margin:0 auto 14px}
-.badge{display:inline-block;background:var(--accent);color:#06162e;font-weight:700;font-size:12px;letter-spacing:.08em;text-transform:uppercase;border-radius:999px;padding:3px 12px}
-:root[data-theme=light] .badge{color:#fff}
-.hub{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin:18px 0}
-.hub a{display:block;text-decoration:none;color:inherit;border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:14px}
-.hub a:hover{border-color:var(--accent)}.hub b{display:block;color:var(--accent);font-size:17px}.hub span{font-size:13.5px;color:var(--muted);line-height:1.4}
-.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px;margin:12px 0}
-.prod{background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
-.prod img{display:block;width:100%;height:auto;background:#e8ecf4}.prod .pi{padding:10px 12px 12px;display:flex;flex-direction:column;gap:4px;flex:1}
-.prod h3{margin:0;font-size:15.5px;line-height:1.3}.prod p{margin:0;font-size:13px;color:var(--muted);line-height:1.4}
-.tag{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
-.sw{display:flex;gap:6px;margin-top:4px}.sw button{padding:2px 10px;font-size:12px}.sw button[aria-pressed=true]{border-color:var(--accent);color:var(--accent)}
-.prod .go{margin-top:auto;padding-top:6px;font-size:13px}.soon{color:var(--muted);font-size:12.5px}
-.strip{border:1px solid color-mix(in srgb,var(--accent) 55%,transparent);border-radius:14px;padding:16px;margin:22px 0;background:var(--panel)}
-.strip h2{margin:0 0 2px;font-size:22px}.strip>p{margin:0 0 12px;color:var(--muted)}
-.strip .pgrid{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));margin:8px 0}
-.pgrid.four{grid-template-columns:repeat(4,1fr)}@media(max-width:900px){.pgrid.four{grid-template-columns:repeat(2,1fr)}}
-.panel select{background:var(--bg);color:var(--fg);border:1px solid var(--line);border-radius:8px}
-.shop-note{font-size:13px;color:var(--muted)}
-.faq p{margin:2px 0 12px}
-/*/SHOP*/"""
+
 
 LINKJS = ('<script src="shop.js"></script>')
 
@@ -98,13 +77,6 @@ def body():
              'apparel only people who have fought a regulator file will get, stickers, notebooks and printable reference sheets.</p>'
              '<p class="shop-note">Made on demand, so nothing sits in a warehouse. The store opens soon; join the newsletter at the bottom of the page and we will tell you first. '
              'Prices and checkout links appear here when the store is live.</p></div>')
-    o.append('<h2 id="hub">Everything oil and gas, in one place</h2><div class="hub">'
-             '<a href="decline.html"><b>Calculators</b><span>Decline-curve fits and simple economics, in your browser.</span></a>'
-             '<a href="explore.html"><b>Data</b><span>Explore Alberta, Saskatchewan and BC production by month.</span></a>'
-             '<a href="analysis.html"><b>Analysis</b><span>Studies and monthly snapshots with the methods shown.</span></a>'
-             '<a href="https://tidywells.substack.com/" target="_blank" rel="noopener"><b>Newsletters</b><span>Substack, Medium and email. New posts about every two weeks.</span></a>'
-             '<a href="#apparel"><b>Apparel</b><span>Hoodies and tees for data people in the patch.</span></a>'
-             '<a href="#posters"><b>Posters</b><span>Real charts, printed large.</span></a></div>')
     # featured hoodies
     feat = [a for a in APPAREL if a[0] in FEATURED]
     o.append('<h2 id="hoodies">Featured hoodies</h2><div class="pgrid four">' + "".join(
@@ -212,10 +184,6 @@ def main():
                 css="article{max-width:none}")
     (DOCS / "shop.html").write_text(html, encoding="utf-8")
     (DOCS / "your-well.html").write_text(page("your-well.html", "Your Well poster", "Make a poster of your own well's production in your browser. Nothing is uploaded.", your_well(), css="article{max-width:760px}"), encoding="utf-8")
-    sc = DOCS / "style.css"
-    t = sc.read_text(encoding="utf-8")
-    t = re.sub(r"/\*SHOP\*/.*?/\*/SHOP\*/", "", t, flags=re.S).rstrip() + "\n" + CSS + "\n"
-    sc.write_text(t, encoding="utf-8")
     idx = DOCS / "index.html"
     h = idx.read_text(encoding="utf-8")
     strip = home_strip()
