@@ -1,4 +1,4 @@
-:root{--bg:#ffffff;--soft:#f3f6fb;--panel:#ffffff;--fg:#0f1f3d;--muted:#4f5f7a;--accent:#1b5fd6;--accent2:#e5475f;--navy:#14285a;--line:#dbe3ef;--glow:transparent;--mapline:transparent;--chip:#eaf0fa;--shadow:0 1px 2px rgba(15,31,61,.06),0 4px 14px rgba(15,31,61,.05)}
+:root{--bg:#fbf9f4;--soft:#f3efe6;--panel:#fffdf8;--fg:#1a2238;--muted:#5b5a55;--accent:#1b5fd6;--accent2:#e5475f;--navy:#14285a;--line:#ddd5c4;--glow:transparent;--mapline:transparent;--chip:#eaf0fa;--shadow:0 1px 2px rgba(15,31,61,.06),0 4px 14px rgba(15,31,61,.05)}
 :root[data-theme=dark]{--bg:#08122a;--soft:#0c1833;--panel:#0f1c3b;--fg:#e9eefb;--muted:#9eacc9;--accent:#6aa6f0;--accent2:#ff6b80;--navy:#d6e3ff;--line:#223259;--chip:rgba(255,255,255,.1);--shadow:none;color-scheme:dark}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -316,8 +316,8 @@ a.ft:hover{border-color:var(--accent);box-shadow:0 6px 20px rgba(27,95,214,.14);
 
 /*SHOP3*/
 .pgrid .prod .go.soon{display:none}
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 4px}.chips a{padding:6px 12px;border:1px solid var(--line,#dfe4ef);border-radius:999px;font-size:14px;text-decoration:none;color:var(--navy,#14285a);background:var(--card,#fff)}.chips a:hover{border-color:var(--accent,#0a58ca)}
-.waitlist-end{margin:36px 0 8px;padding:22px;border:1px solid var(--line,#dfe4ef);border-radius:14px;background:var(--card,#fff)}.waitlist-end h2{margin-top:0}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 4px}.chips a{padding:6px 12px;border:1px solid var(--line,#dfe4ef);border-radius:999px;font-size:14px;text-decoration:none;color:var(--navy,#14285a);background:var(--panel)}.chips a:hover{border-color:var(--accent,#0a58ca)}
+.waitlist-end{margin:36px 0 8px;padding:22px;border:1px solid var(--line,#dfe4ef);border-radius:14px;background:var(--panel)}.waitlist-end h2{margin-top:0}
 html{scroll-behavior:smooth}
 
 /*EDITORIAL*/
@@ -326,7 +326,6 @@ html{scroll-behavior:smooth}
 @font-face{font-family:Fraunces;font-weight:600;font-style:normal;font-display:swap;src:url(fonts/fraunces-600-normal.woff2) format("woff2")}
 @font-face{font-family:Fraunces;font-weight:700;font-style:normal;font-display:swap;src:url(fonts/fraunces-700-normal.woff2) format("woff2")}
 :root{--serif:Fraunces,Georgia,"Times New Roman",serif}
-:root:not([data-theme=dark]) body.ed,:root:not([data-theme=dark]) body.hubpg{--bg:#fbf9f4;--soft:#f3efe6;--panel:#fffdf8;--line:#ddd5c4;--muted:#5b5a55;--fg:#1a2238}
 body.ed::before,body.hubpg::before{display:none}
 body.ed main{max-width:780px;padding-top:8px}
 .mast{text-align:center;padding:30px 0 0;border-bottom:3px double var(--fg);margin-bottom:6px}
