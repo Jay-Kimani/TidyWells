@@ -32,19 +32,13 @@
     wl.innerHTML = '<p class="shop-note">Follow on <a href="https://tidywells.substack.com/" target="_blank" rel="noopener">Substack</a> to hear when the shop opens.</p>';
   }
   });
-  // Store links: shown only once config.js sets TIDYWELLS_SHOP_OPEN = true (the Shopify store is password-protected until then).
-  var links = window.TIDYWELLS_SHOP_LINKS || {}, open = window.TIDYWELLS_SHOP_OPEN === true;
-  function ok(u) { return typeof u === "string" && /^https:\/\//.test(u); }
+  // Shop open: cards point to the product page on this site, where the buy widget (below) talks to Shopify's Storefront API.
+  var open = window.TIDYWELLS_SHOP_OPEN === true;
   if (open) {
     document.querySelectorAll(".badge").forEach(function (b) { b.textContent = "Now open"; });
-    document.querySelectorAll("[data-slug]").forEach(function (el) {
-      var u = links[el.getAttribute("data-slug")], go = el.classList.contains("go") ? el : el.querySelector(".go");
-      if (!go || !u) return;
-      var one = function (url, label) { return '<a class="btn primary" href="' + url + '" target="_blank" rel="noopener">' + label + '</a>'; };
-      var html = "";
-      if (typeof u === "object") { if (ok(u.night)) html += one(u.night, "Night edition in the store "); if (ok(u.paper)) html += " " + one(u.paper, "Paper edition in the store"); }
-      else if (ok(u)) html = one(u, "Buy in the store");
-      if (html) { go.className = "go"; go.innerHTML = html; }
+    document.querySelectorAll(".prod .go").forEach(function (go) {
+      var a = go.parentNode.querySelector("h3 a");
+      if (a) { go.className = "go"; go.innerHTML = '<a class="btn primary" href="' + a.getAttribute("href") + '">Choose options</a>'; }
     });
   }
   });
@@ -78,3 +72,85 @@
     im.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } });
   });
 })();
+
+// Buy widget: products, options and checkout come from Shopify's Storefront API; the visitor never leaves tidywells.com until the
+// hosted Shopify checkout. Needs config.js: TIDYWELLS_SHOP_OPEN = true and TIDYWELLS_STOREFRONT = {domain, token} (the token is public by design).
+function twBuy() {
+  "use strict";
+  var cfg = window.TIDYWELLS_STOREFRONT, links = window.TIDYWELLS_SHOP_LINKS || {};
+  if (window.TIDYWELLS_SHOP_OPEN !== true || !cfg || !cfg.domain || !cfg.token) return;
+  var API = "https://" + cfg.domain + "/api/2025-01/graphql.json", KEY = "tw_cart";
+  function gql(q, v) {
+    return fetch(API, { method: "POST", headers: { "Content-Type": "application/json", "X-Shopify-Storefront-Access-Token": cfg.token }, body: JSON.stringify({ query: q, variables: v || {} }) })
+      .then(function (r) { return r.json(); }).then(function (j) { if (j.errors) throw new Error(j.errors[0].message); return j.data; });
+  }
+  function store(k, v) { try { if (v === undefined) return JSON.parse(localStorage.getItem(k) || "null"); if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, JSON.stringify(v)); } catch (e) { return null; } }
+  var CART = "cart{id checkoutUrl totalQuantity}";
+  function bar(c) {
+    var el = document.getElementById("tw-cart");
+    if (!c || !c.totalQuantity) { if (el) el.remove(); return; }
+    if (!el) { el = document.createElement("a"); el.id = "tw-cart"; el.className = "btn primary"; el.style.cssText = "position:fixed;right:16px;bottom:16px;z-index:50;box-shadow:0 6px 24px rgba(0,0,0,.25)"; document.body.appendChild(el); }
+    el.href = c.checkoutUrl; el.textContent = "Checkout (" + c.totalQuantity + ")";
+  }
+  function add(variantId, qty) {
+    var saved = store(KEY), line = [{ merchandiseId: variantId, quantity: qty }];
+    function create() { return gql("mutation($l:[CartLineInput!]){cartCreate(input:{lines:$l}){" + CART + " userErrors{message}}}", { l: line }).then(function (d) { return d.cartCreate; }); }
+    var p = saved ? gql("mutation($id:ID!,$l:[CartLineInput!]!){cartLinesAdd(cartId:$id,lines:$l){" + CART + " userErrors{message}}}", { id: saved, l: line }).then(function (d) { return d.cartLinesAdd; }).then(function (r) { return (r.cart ? r : create()); }, create) : create();
+    return p.then(function (r) { if (!r.cart) throw new Error((r.userErrors[0] || {}).message || "Could not add to cart"); store(KEY, r.cart.id); bar(r.cart); return r.cart; });
+  }
+  var saved = store(KEY);
+  if (saved) gql("query($id:ID!){cart(id:$id){id checkoutUrl totalQuantity}}", { id: saved }).then(function (d) { if (d.cart) bar(d.cart); else store(KEY, null); }, function () {});
+  var host = document.querySelector(".go[data-slug]");
+  if (!host) return;
+  var u = links[host.getAttribute("data-slug")];
+  if (!u) return;
+  var handles = typeof u === "object" ? [["Night", u.night], ["Paper", u.paper]] : [["", u]];
+  handles = handles.filter(function (h) { return h[1]; }).map(function (h) { return [h[0], h[1].split("/products/")[1]]; });
+  var Q = "title options{name values} variants(first:100){nodes{id availableForSale price{amount currencyCode} selectedOptions{name value}}}";
+  var q = "{" + handles.map(function (h, i) { return "p" + i + ':product(handle:"' + h[1] + '"){' + Q + "}"; }).join(" ") + "}";
+  host.className = "go"; host.textContent = "Loading options...";
+  gql(q).then(function (d) {
+    var prods = handles.map(function (h, i) { return { ed: h[0], p: d["p" + i] }; }).filter(function (x) { return x.p; });
+    if (!prods.length) throw new Error("not found");
+    var box = document.createElement("div"); box.className = "buy"; box.style.cssText = "display:grid;gap:10px;max-width:380px";
+    var sels = [], cur = prods[0].p, status = document.createElement("p"), price = document.createElement("p"), qty = document.createElement("input");
+    function field(label, opts, onchange) {
+      var l = document.createElement("label"), s = document.createElement("select"); l.textContent = label + " "; l.style.cssText = "display:grid;gap:4px;font-weight:600";
+      s.style.cssText = "padding:8px;border-radius:8px;font:inherit"; opts.forEach(function (o) { var e = document.createElement("option"); e.value = e.textContent = o; s.appendChild(e); });
+      s.addEventListener("change", onchange); l.appendChild(s); box.appendChild(l); return s;
+    }
+    var edSel = prods.length > 1 ? field("Edition", prods.map(function (x) { return x.ed; }), function () { cur = prods.filter(function (x) { return x.ed === edSel.value; })[0].p; build(); }) : null;
+    var optBox = document.createElement("div"); optBox.style.cssText = "display:grid;gap:10px"; box.appendChild(optBox);
+    function variant() {
+      var want = sels.map(function (s) { return [s.getAttribute("data-n"), s.value]; });
+      return cur.variants.nodes.filter(function (v) { return want.every(function (w) { return v.selectedOptions.some(function (o) { return o.name === w[0] && o.value === w[1]; }); }); })[0] || cur.variants.nodes[0];
+    }
+    function refresh() { var v = variant(); price.textContent = "CAD $" + Number(v.price.amount).toFixed(2); status.textContent = v.availableForSale ? "" : "Sold out"; btns.forEach(function (b) { b.disabled = !v.availableForSale; }); }
+    function build() {
+      optBox.innerHTML = ""; sels = [];
+      cur.options.filter(function (o) { return !(o.values.length === 1 && o.values[0] === "Default Title"); }).forEach(function (o) {
+        var l = document.createElement("label"), s = document.createElement("select"); l.textContent = o.name + " "; l.style.cssText = "display:grid;gap:4px;font-weight:600";
+        s.style.cssText = "padding:8px;border-radius:8px;font:inherit"; s.setAttribute("data-n", o.name);
+        o.values.forEach(function (x) { var e = document.createElement("option"); e.value = e.textContent = x; s.appendChild(e); });
+        s.addEventListener("change", refresh); l.appendChild(s); optBox.appendChild(l); sels.push(s);
+      });
+      refresh();
+    }
+    qty.type = "number"; qty.min = 1; qty.max = 20; qty.value = 1; qty.setAttribute("aria-label", "Quantity"); qty.style.cssText = "width:80px;padding:8px;border-radius:8px;font:inherit";
+    var row = document.createElement("div"); row.style.cssText = "display:flex;gap:10px;align-items:center;flex-wrap:wrap";
+    var addB = document.createElement("button"), buyB = document.createElement("button"), btns = [addB, buyB];
+    addB.type = buyB.type = "button"; addB.className = "btn"; buyB.className = "btn primary"; addB.textContent = "Add to cart"; buyB.textContent = "Buy now";
+    function go(now) {
+      var v = variant(), n = Math.max(1, Math.min(20, parseInt(qty.value, 10) || 1)); btns.forEach(function (b) { b.disabled = true; }); status.textContent = "Adding...";
+      add(v.id, n).then(function (c) { if (now) location.href = c.checkoutUrl; else { status.textContent = "Added. Checkout is in the corner."; btns.forEach(function (b) { b.disabled = false; }); } },
+        function (e) { status.textContent = "Sorry, that did not work (" + e.message + "). Try again."; btns.forEach(function (b) { b.disabled = false; }); });
+    }
+    addB.addEventListener("click", function () { go(false); }); buyB.addEventListener("click", function () { go(true); });
+    row.appendChild(qty); row.appendChild(addB); row.appendChild(buyB);
+    price.style.cssText = "font-weight:700;margin:0"; status.style.cssText = "margin:0;color:var(--muted)"; status.setAttribute("aria-live", "polite");
+    box.appendChild(price); box.appendChild(row); box.appendChild(status);
+    build(); host.textContent = ""; host.appendChild(box);
+    var note = document.createElement("p"); note.className = "shop-note"; note.textContent = "Taxes and shipping are shown at checkout. Payment is handled securely by Shopify."; host.appendChild(note);
+  }).catch(function () { host.innerHTML = 'Not available right now. <a href="shop.html">Back to the shop</a>.'; });
+}
+if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", twBuy); else twBuy();

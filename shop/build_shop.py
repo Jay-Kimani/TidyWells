@@ -379,7 +379,7 @@ def listings():
 def store_links(rows):
     """docs/shop-links.js: the Shopify product page for every listing. A Shopify handle is the lower-cased title with
     apostrophes dropped and every other run of non-alphanumerics turned into one hyphen."""
-    base = "https://hwerse-gx.myshopify.com/products/"
+    base = "https://tidywells.myshopify.com/products/"
     handle = lambda t: re.sub(r"[^a-z0-9]+", "-", t.lower().replace("'", "")).strip("-")
     links = {}
     for rid, _type, title, *_ in rows:

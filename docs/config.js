@@ -18,9 +18,11 @@ window.TIDYWELLS_SPONSOR={name:"",url:"",text:""};
 
 // Shop: paste your storefront URL (https only) to switch on "View in store" buttons on shop.html. Optional per-product links:
 // window.TIDYWELLS_SHOP_LINKS = {"poster-ab-oil": "https://..."} (keys are the data-slug values on shop.html).
-window.TIDYWELLS_SHOP_URL = "https://hwerse-gx.myshopify.com";
+window.TIDYWELLS_SHOP_URL = "https://tidywells.myshopify.com";
 // Flip to true when the Shopify store is open to the public (subscribed, payments set up, password removed): every product then shows a buy button (links come from shop-links.js).
 window.TIDYWELLS_SHOP_OPEN = false;
+// Shopify Storefront API (Headless channel). The public token is meant for browsers; it can only read products and build carts.
+window.TIDYWELLS_STOREFRONT = {domain: "tidywells.myshopify.com", token: "e26e1ada9bd12df138df1a75c172300c"};
 
 // Paste your Stripe Payment Link (or similar) here to switch on the Subscribe button on pro.html.
 window.TIDYWELLS_PRO_URL="https://buy.stripe.com/dRmfZjcpdefU00E4251kA00";
