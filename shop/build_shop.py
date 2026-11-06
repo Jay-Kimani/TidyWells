@@ -100,9 +100,11 @@ def body():
         prod(s, "sticker", n, "Die-cut style, 3 inch. Sticks to hard hats, laptops and truck dashboards.", card_img(f"sticker-{s}.png", f"{n} sticker", 600, 600), 600, 600) for s, n in STICKERS) + "".join(
         prod(s, "notebook", n, b, card_img(f"cover-{s}.jpg", f"{n} notebook cover", 600, 928), 600, 928) for s, n, b in NOTEBOOKS) + '</div>')
     # custom
-    o.append('<h2 id="your-well">Your Well poster</h2><div class="strip"><p>Bring your own monthly production for a well you own or have the right to use and make a poster of it, right in your browser. '
-             'The file is read locally and never uploaded. <a class="btn primary" href="your-well.html">Make a Your Well poster</a></p>'
-             '<p class="shop-note">We do not sell prints of other people\'s wells from public files: that needs written confirmation from the regulator, which we do not have yet.</p></div>')
+    o.append('<div class="well-card" id="your-well"><div class="wc-text"><span class="tag">Make your own</span><h2>Your Well poster</h2>'
+             '<p>Turn one well\'s monthly production into a poster, for a well you own or may use. It runs in your browser and the file never leaves your device.</p>'
+             '<p><a class="btn primary" href="your-well.html">Make a poster</a></p>'
+             '<p class="shop-note">We do not sell prints of other people\'s wells from public files; that needs the regulator\'s written confirmation.</p></div>'
+             f'<figure><img src="{IMG}your-well-example.jpg" alt="Example Your Well poster built from synthetic data" width="720" height="960" loading="lazy"><figcaption>Example, made from synthetic data</figcaption></figure></div>')
     # digital
     o.append('<h2 id="downloads">Printable reference sheets</h2><p>Three 11 × 17 inch sheets to pin up beside your screen. Digital download, print them as often as you like for your own use.</p><div class="pgrid">' + "".join(
         prod(s, "sheet", t, b, card_img(f"sheet-{s}.jpg", f"{t} reference sheet", 720, 1118), 720, 1118) for s, t, b in SHEETS) + '</div>')
@@ -128,23 +130,30 @@ def home_strip():
 
 def your_well():
     return """<h1>Your Well poster</h1>
-<p><span class="chip">Runs in your browser; nothing is uploaded</span><span class="chip">For wells you own or may use</span></p>
-<p>Turn one well's monthly production into a poster: a clean line, the peak, the latest month and the change since the start. Paste two columns (month and volume), load a file, or load the output of the <a href="clean.html">File cleaner</a> and choose a well.</p>
-<div class="panel">
-<label for="paste">Monthly production</label>
-<textarea id="paste" style="min-height:140px;font:13px/1.4 ui-monospace,monospace" placeholder="month,volume&#10;2023-01,310&#10;2023-02,295&#10;..."></textarea>
-<div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:8px"><input id="file" type="file" accept=".csv,.txt,.tsv" style="width:auto"><button id="ex" type="button">Try an example (synthetic)</button></div>
+<p class="yw-lead">Turn one well's monthly production into a clean poster. Your data is read in your browser and never uploaded. Use it for wells you own or have the right to use.</p>
+<div class="yw">
+<div class="panel yw-in">
+<h2>1. Add your data</h2>
+<label for="paste">Paste two columns, month and volume, or load a file</label>
+<textarea id="paste" placeholder="month,volume&#10;2023-01,310&#10;2023-02,295"></textarea>
+<div class="yw-row"><input id="file" type="file" accept=".csv,.txt,.tsv"><button id="ex" type="button">Use example data</button></div>
+<p class="shop-note">Also accepts the output of the <a href="clean.html">File cleaner</a>; then pick the well below.</p>
 <div id="msg" class="shop-note" role="status"></div>
-<div id="wellrow" hidden><label for="well">Well</label><select id="well" style="width:100%;padding:7px"></select></div>
-<div id="prodrow" hidden><label for="prod">Product</label><select id="prod" style="width:100%;padding:7px"></select></div>
-<label for="title">Poster title</label><input id="title" placeholder="My Well" maxlength="60">
-<label for="unit">Unit label</label><input id="unit" placeholder="bbl per day" maxlength="40">
-<label for="kind">The numbers are</label><select id="kind" style="width:100%;padding:7px"><option value="vol">monthly volumes (shown as a daily rate)</option><option value="rate">already a daily rate</option></select>
-<label for="theme2">Colourway</label><select id="theme2" style="width:100%;padding:7px"><option value="night">Night</option><option value="paper">Paper</option></select>
+<h2>2. Make it yours</h2>
+<div class="fgrid">
+<div id="wellrow" hidden><label for="well">Well</label><select id="well"></select></div>
+<div id="prodrow" hidden><label for="prod">Product</label><select id="prod"></select></div>
+<div class="wide"><label for="title">Title</label><input id="title" placeholder="My Well" maxlength="60"></div>
+<div><label for="unit">Unit label</label><input id="unit" placeholder="bbl per day" maxlength="40"></div>
+<div><label for="theme2">Colourway</label><select id="theme2"><option value="night">Night</option><option value="paper">Paper</option></select></div>
+<div class="wide"><label for="kind">The numbers are</label><select id="kind"><option value="vol">monthly volumes (shown as a daily rate)</option><option value="rate">already a daily rate</option></select></div>
 </div>
-<div id="out" hidden style="margin-top:14px"><div id="prev" style="max-width:520px;margin:0 auto"></div>
-<p style="text-align:center"><button id="dl" type="button" class="btn primary">Download PNG (3600 × 4800)</button> <button id="dls" type="button">Download SVG</button></p></div>
-<p class="shop-note">Use only data you own or have the right to print. Tidywells does not sell prints of other people's wells made from public files: the regulators' terms need confirming in writing first. The poster uses the fonts on your device, so it can look slightly different from the shop posters.</p>
+</div>
+<div class="yw-out"><div id="ph" class="yw-ph">Your poster appears here</div>
+<div id="out" hidden><div id="prev"></div>
+<p class="yw-btns"><button id="dl" type="button" class="btn primary">Download PNG</button><button id="dls" type="button" class="btn">Download SVG</button></p></div></div>
+</div>
+<p class="shop-note">Tidywells does not sell prints of other people's wells made from public files; the regulators' terms need confirming in writing first. The PNG is 3600 x 4800 pixels. It uses fonts on your device, so it can look slightly different from the shop posters.</p>
 <script src="wellposter.js"></script><script src="your-well.js"></script>"""
 
 
@@ -185,7 +194,7 @@ def main():
     html = page("shop.html", "Shop", "Oil and gas posters drawn from real data, hoodies, tees, stickers and notebooks from Tidywells.", body(),
                 css="article{max-width:none}")
     (DOCS / "shop.html").write_text(html, encoding="utf-8")
-    (DOCS / "your-well.html").write_text(page("your-well.html", "Your Well poster", "Make a poster of your own well's production in your browser. Nothing is uploaded.", your_well(), css="article{max-width:760px}"), encoding="utf-8")
+    (DOCS / "your-well.html").write_text(page("your-well.html", "Your Well poster", "Make a poster of your own well's production in your browser. Nothing is uploaded.", your_well(), css="article{max-width:none}"), encoding="utf-8")
     idx = DOCS / "index.html"
     h = idx.read_text(encoding="utf-8")
     strip = home_strip()

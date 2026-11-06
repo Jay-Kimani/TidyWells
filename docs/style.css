@@ -268,3 +268,30 @@ a.ft:hover{border-color:var(--accent);box-shadow:0 6px 20px rgba(27,95,214,.14);
 .strip .pgrid{grid-template-columns:repeat(auto-fit,minmax(135px,1fr))}
 .strip .prod img{aspect-ratio:1/1;object-fit:cover;object-position:top}
 /*/HOMEORDER*/
+/*YW*/
+.well-card{display:grid;grid-template-columns:1.3fr 1fr;gap:28px;align-items:center;margin:40px 0;padding:28px;border:1px solid var(--line);border-radius:8px;background:var(--soft)}
+.well-card h2{margin:6px 0 8px}.well-card p{margin:0 0 12px;color:var(--muted)}
+.well-card figure{margin:0;text-align:center}.well-card img{width:100%;max-width:240px;border-radius:6px;box-shadow:0 10px 30px rgba(15,31,61,.2);display:block;margin:0 auto}
+.well-card figcaption{font-size:12px;color:var(--muted);margin-top:8px}
+@media(max-width:700px){.well-card{grid-template-columns:1fr;padding:20px}}
+.yw-lead{color:var(--muted);max-width:680px;margin:0 0 18px;font-size:17px}
+.yw{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,400px);gap:28px;align-items:start}
+@media(max-width:860px){.yw{grid-template-columns:1fr}}
+.yw-in h2{font-size:1.1rem;margin:0 0 4px}.yw-in h2:not(:first-child){margin-top:26px}
+.yw-in textarea{min-height:130px;font:13px/1.4 ui-monospace,monospace;resize:vertical}
+.yw-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:10px}.yw-row input{width:auto;flex:1 1 200px}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}.fgrid .wide,.fgrid #wellrow,.fgrid #prodrow{grid-column:1/-1}
+.fgrid select,.yw-in select{width:100%;padding:8px}
+@media(max-width:520px){.fgrid{grid-template-columns:1fr}}
+.yw-out{position:sticky;top:96px}
+.yw-ph{border:2px dashed var(--line);border-radius:8px;aspect-ratio:3/4;display:flex;align-items:center;justify-content:center;color:var(--muted);background:var(--soft);text-align:center;padding:20px}
+#prev svg{display:block;width:100%;height:auto;border:1px solid var(--line);box-shadow:0 10px 30px rgba(15,31,61,.15)}
+.yw-btns{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0 0}.yw-btns .btn{flex:1 1 140px;text-align:center}
+/*/YW*/
+/*YW2*/
+.yw-ph[hidden]{display:none}
+.well-card img{height:auto}
+.yw>*,.yw-in{min-width:0}
+.yw-in input[type=file]{max-width:100%;min-width:0}
+.yw-in textarea{max-width:100%}
+/*/YW2*/

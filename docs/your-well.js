@@ -1,6 +1,7 @@
 (function () {
   "use strict";
   var $ = function (id) { return document.getElementById(id); }, svgText = "";
+  function vis(on) { $("out").hidden = !on; $("ph").hidden = on; }
   function sel(el, vals, all) {
     el.innerHTML = (all ? '<option value="">' + all + "</option>" : "") + vals.map(function (v) { return '<option value="' + v.replace(/"/g, "&quot;") + '">' + v.replace(/</g, "&lt;") + "</option>"; }).join("");
   }
@@ -8,7 +9,7 @@
   function read() {
     var r = WellPoster.parse($("paste").value);
     var msg = $("msg"); msg.textContent = "";
-    if (r.error) { parsed = null; msg.textContent = r.error; $("out").hidden = true; return; }
+    if (r.error) { parsed = null; msg.textContent = r.error; vis(false); return; }
     parsed = r;
     $("wellrow").hidden = !r.wells.length; $("prodrow").hidden = !r.products.length;
     if (r.wells.length) { var cur = $("well").value; sel($("well"), r.wells, r.wells.length > 1 ? "Choose a well" : ""); if (r.wells.indexOf(cur) >= 0) $("well").value = cur; else if (r.wells.length === 1) $("well").value = r.wells[0]; }
@@ -18,11 +19,11 @@
   }
   function draw() {
     if (!parsed) return;
-    if (parsed.wells.length > 1 && !$("well").value) { $("msg").textContent = "This file has " + parsed.wells.length + " wells. Choose one."; $("out").hidden = true; return; }
+    if (parsed.wells.length > 1 && !$("well").value) { $("msg").textContent = "This file has " + parsed.wells.length + " wells. Choose one."; vis(false); return; }
     var s = WellPoster.series(parsed.rows, {well: $("well").value, product: $("prod").value, rate: $("kind").value === "rate"});
-    if (s.length < 3) { $("msg").textContent = "Need at least three months for a poster."; $("out").hidden = true; return; }
+    if (s.length < 3) { $("msg").textContent = "Need at least three months for a poster."; vis(false); return; }
     svgText = WellPoster.poster(s, {title: $("title").value.trim() || "My Well", unit: $("unit").value.trim() || "per day", theme: $("theme2").value});
-    $("prev").innerHTML = svgText; $("out").hidden = false;
+    $("prev").innerHTML = svgText; vis(true);
   }
   function toPng() {
     var img = new Image(), blob = new Blob([svgText], {type: "image/svg+xml;charset=utf-8"}), url = URL.createObjectURL(blob);
