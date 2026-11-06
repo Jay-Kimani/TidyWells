@@ -166,7 +166,7 @@ function twHype() {
                bundle: ["Launch price while it lasts", "More stickers per dollar on the bigger sheets."], sheet: ["Instant download", "Pin it up today. No shipping, no waiting."] };
   function kindOf(slug) { var m = /^(hoodie|tee|toque|hat|mug|poster|bundle|sheet)/.exec(slug); return m ? m[1] : ""; }
   var st = document.createElement("style");
-  st.textContent = ".pimg{position:relative;display:block}.hype{position:absolute;top:10px;left:10px;z-index:2;background:#d6304b;color:#fff;font:800 11px/1 inherit;letter-spacing:.04em;text-transform:uppercase;padding:6px 9px;border-radius:999px;box-shadow:0 2px 8px rgba(0,0,0,.25)}.hype.alt{background:#0f1e45}.hype.hot::before{content:'\\1F525 '}" +
+  st.textContent = ".pimg{position:relative;display:block}.hype{position:absolute;top:10px;left:10px;z-index:2;background:#d6304b;color:#fff;font-size:10.5px;font-weight:800;line-height:1;white-space:nowrap;letter-spacing:.03em;text-transform:uppercase;padding:5px 9px;border-radius:999px;width:max-content;max-width:calc(100% - 20px);box-shadow:0 2px 8px rgba(0,0,0,.25)}.hype.alt{background:#0f1e45}.hype.hot::before{content:'\\1F525 '}" +
     ".cap{font-size:12.5px;color:var(--muted);margin:2px 0 6px}.cap b{color:#d6304b}.proof{font-size:13px;margin:8px 0;padding:8px 10px;border-left:3px solid #d6304b;background:rgba(214,48,75,.07);border-radius:0 6px 6px 0}";
   document.head.appendChild(st);
   document.querySelectorAll(".prod[data-slug]").forEach(function (card) {
