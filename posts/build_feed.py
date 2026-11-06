@@ -237,8 +237,8 @@ if __name__ == "__main__":
             ("your-well.html", "frame", "Your Well poster", "Make a poster from your own well's production data."),
         ]),
         ("Research", [
-            ("analysis.html", "doc", "Analysis", "A new study about every two weeks, plus monthly snapshots."),
             ("data.html", "db", "Open data", "Download the monthly dataset and see how it is checked."),
+            ("analysis.html", "doc", "Analysis", "A new study about every two weeks, plus monthly snapshots."),
             ("scorecard.html", "target", "Forecast scorecard", "Forecasts written down first and graded in public."),
             ("revisions.html", "refresh", "Data revisions", "What the regulators changed after first publishing a month."),
         ]),
@@ -282,8 +282,8 @@ if __name__ == "__main__":
             ("explore.html", "Production explorer", "Charts for AB, SK and BC"),
             ("clean.html", "File cleaner", "Clean a regulator file in your browser")]),
         ("menu", "Research", "research", [
-            ("analysis.html", "Analysis", "Studies and monthly snapshots"),
             ("data.html", "Open data", "Download the data and see the checks"),
+            ("analysis.html", "Analysis", "Studies and monthly snapshots"),
             ("scorecard.html", "Forecast scorecard", "Our forecasts, graded against what happened"),
             ("revisions.html", "Data revisions", "What the regulators changed after publishing"),
             ("didnt-work.html", "What didn't work", "Negative results and mistakes we found")]),
