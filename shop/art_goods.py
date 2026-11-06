@@ -168,6 +168,14 @@ def d_vote(c):
     return bold(["ENERGY", "WORKERS", "VOTE."], 2, c) + brand(c)
 
 
+def d_forty(c):
+    return bold(["-40 AND", "STILL", "WORKING."], 2, c) + brand(c)
+
+
+def d_firstin(c):
+    return bold(["FIRST IN.", "LAST OUT."], 1, c) + brand(c)
+
+
 DESIGNS = [  # slug, name, fn, garment
     ("build-the-pipeline", "Build the Pipeline", d_pipeline, "hoodie"),
     ("ottawa-doesnt-pump-oil", "Ottawa Doesn't Pump Oil", d_ottawa, "hoodie"),
@@ -177,11 +185,14 @@ DESIGNS = [  # slug, name, fn, garment
     ("energy-workers-vote", "Energy Workers Vote", d_vote, "tee"),
     ("scrap-the-tanker-ban", "Scrap the Tanker Ban", d_tanker, "tee"),
     ("pipelines-not-platitudes", "Pipelines, Not Platitudes", d_platitudes, "tee"),
+    ("forty-below", "-40 and Still Working", d_forty, "tee"),
+    ("first-in-last-out", "First In. Last Out.", d_firstin, "tee"),
     ("check-the-units", "Check the Units", d_units, "tee"),
 ]
-STICKER_SLUGS = ["build-the-pipeline", "scrap-the-tanker-ban", "ottawa-doesnt-pump-oil", "pipelines-not-platitudes", "energy-workers-vote", "shut-in-not-shut-down", "hyperbolic-decline"]
+STICKER_SLUGS = ["build-the-pipeline", "scrap-the-tanker-ban", "ottawa-doesnt-pump-oil", "pipelines-not-platitudes", "energy-workers-vote", "shut-in-not-shut-down", "hyperbolic-decline", "forty-below", "first-in-last-out"]
 MUG_SLUGS = ["build-the-pipeline", "ottawa-doesnt-pump-oil", "energy-workers-vote", "hyperbolic-decline", "check-the-units"]
-CAPS = [("build-the-pipeline", ["BUILD THE", "PIPELINE"]), ("ottawa-doesnt-pump-oil", ["OTTAWA DOESN'T", "PUMP OIL."])]
+HATS = [("build-the-pipeline", ["BUILD THE", "PIPELINE"]), ("ottawa-doesnt-pump-oil", ["OTTAWA DOESN'T", "PUMP OIL."])]
+TOQUES = [("build-the-pipeline", ["BUILD THE PIPELINE"]), ("forty-below", ["-40 AND", "STILL WORKING."]), ("first-in-last-out", ["FIRST IN.", "LAST OUT."])]
 STICKERS = STICKER_SLUGS
 GARMENT_COLORS = {"black": "#17191f", "navy": "#16233f", "sand": "#d9cfba", "white": "#f1f1ee", "heather": "#9ca2ab"}
 
@@ -284,7 +295,7 @@ def mug_mockup(slug):
     return _frame(d + body + art + _label(450, "11 OZ MUG, WRAP PRINT"))
 
 
-def cap_art(lines):
+def hat_art(lines):
     n = len(lines)
     size = min(230, 1250 / (0.62 * max(len(l) for l in lines)))
     y0 = 300 - size * n / 2 + size * 0.80
@@ -292,13 +303,39 @@ def cap_art(lines):
     return f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1350 600" width="1350" height="600">{t}</svg>'
 
 
-def cap_mockup(lines, color="#17191f"):
-    sh = '<defs><linearGradient id="cg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".10"/><stop offset="1" stop-color="#000" stop-opacity=".2"/></linearGradient></defs>'
-    crown = f'<path d="M 190 540 C 190 250 330 190 450 190 C 570 190 710 250 710 540 Z" fill="{color}"/><path d="M 190 540 C 190 250 330 190 450 190 C 570 190 710 250 710 540 Z" fill="url(#cg)"/>'
-    seam = '<path d="M 450 195 C 430 300 430 430 450 540" fill="none" stroke="#000" stroke-opacity=".22" stroke-width="5"/><circle cx="450" cy="192" r="14" fill="#101216"/>'
-    brim = f'<path d="M 160 535 C 300 505 600 505 740 535 C 760 610 650 650 450 650 C 250 650 140 610 160 535 Z" fill="{color}"/><path d="M 160 535 C 300 505 600 505 740 535 C 760 610 650 650 450 650 C 250 650 140 610 160 535 Z" fill="url(#cg)"/>'
-    art = f'<svg x="305" y="310" width="290" height="129" viewBox="0 0 1350 600">{cap_art(lines).split(">", 1)[1].rsplit("</svg>", 1)[0]}</svg>'
-    return _frame(sh + '<ellipse cx="450" cy="690" rx="260" ry="22" fill="#000" fill-opacity=".10"/>' + crown + seam + brim + art + _label(450, "EMBROIDERED CAP"))
+def hat_mockup(lines, color="#17191f"):
+    """Three-quarter view of a curved-brim cap: crown, front panel with embroidery, brim projecting forward-left."""
+    fs = min(44, 236 / (0.62 * max(len(l) for l in lines)))
+    t = "".join(text(0, k * fs * 1.18, l.replace("'", "&#39;"), round(fs, 1), "#ffffff", SANS, 800, anchor="middle", spacing=-1) for k, l in enumerate(lines))
+    defs = ('<defs><linearGradient id="cg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".14"/><stop offset="1" stop-color="#000" stop-opacity=".25"/></linearGradient></defs>')
+    crown = ('<path d="M 262 520 C 236 330 330 190 500 188 C 650 186 736 300 730 470 C 728 520 726 540 720 556 C 600 600 400 596 262 520 Z"')
+    brim = ('<path d="M 262 520 C 190 556 120 604 112 650 C 108 676 150 690 230 678 C 360 660 480 626 612 590 C 500 586 380 566 262 520 Z"')
+    pieces = (f'{crown} fill="{color}"/>{crown} fill="url(#cg)"/>'
+              '<path d="M 500 190 C 470 300 480 420 520 590" fill="none" stroke="#000" stroke-opacity=".25" stroke-width="5"/>'
+              '<circle cx="500" cy="188" r="13" fill="#101216"/>'
+              f'{brim} fill="{color}"/>{brim} fill="url(#cg)"/>'
+              '<path d="M 262 520 C 380 566 500 586 612 590" fill="none" stroke="#000" stroke-opacity=".35" stroke-width="7"/>'
+              f'<g transform="translate(410,360) skewY(-5) rotate(-4)">{t.replace("<text ", "<text transform=\"scale(.95,1)\" ")}</g>')
+    return _frame(defs + '<ellipse cx="440" cy="710" rx="290" ry="22" fill="#000" fill-opacity=".10"/>' + pieces + _label(450, "EMBROIDERED HAT"))
+
+
+def toque_art(lines):
+    n = len(lines)
+    size = min(190, 1000 / (0.62 * max(len(l) for l in lines)))
+    y0 = 225 - size * n / 2 + size * 0.80
+    t = "".join(text(525, y0 + i * size * 1.02, l.replace("'", "&#39;"), round(size), "#ffffff", SANS, 800, anchor="middle", spacing=-2) for i, l in enumerate(lines))
+    return f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1050 450" width="1050" height="450">{t}</svg>'
+
+
+def toque_mockup(lines, color="#17191f"):
+    inner = toque_art(lines).split(">", 1)[1].rsplit("</svg>", 1)[0]
+    ribs = "".join(f'<line x1="{x}" y1="330" x2="{x + (x - 450) * 0.04:.0f}" y2="470" stroke="#000" stroke-opacity=".16" stroke-width="4"/>' for x in range(280, 630, 24))
+    defs = '<defs><linearGradient id="cg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".12"/><stop offset="1" stop-color="#000" stop-opacity=".22"/></linearGradient></defs>'
+    body = f'<path d="M 232 500 C 206 270 330 150 450 150 C 570 150 694 270 668 500 Z" fill="{color}"/><path d="M 232 500 C 206 270 330 150 450 150 C 570 150 694 270 668 500 Z" fill="url(#cg)"/>'
+    cuff = f'<rect x="212" y="450" width="476" height="190" rx="34" fill="{color}"/><rect x="212" y="450" width="476" height="190" rx="34" fill="url(#cg)"/>'
+    cuff += '<rect x="212" y="450" width="476" height="190" rx="34" fill="none" stroke="#000" stroke-opacity=".3" stroke-width="5"/>'
+    txt = f'<svg x="300" y="478" width="300" height="129" viewBox="0 0 1050 450">{inner}</svg>'
+    return _frame(defs + '<ellipse cx="450" cy="690" rx="260" ry="22" fill="#000" fill-opacity=".10"/>' + body + ribs + cuff + txt + _label(450, "CUFFED TOQUE, EMBROIDERED"))
 
 
 def mockup(slug, kind, gcolor, light_ink):
@@ -369,11 +406,16 @@ def main(out):
             jobs.append({"src": f"svg/mug-{slug}-{ink}.svg", "out": f"print/mugs/{slug}-{nm}-2475x1155.png", "w": 2475, "h": 1155, "scale": 1, "type": "png", "transparent": True})
         (out / "svg" / f"mug-{slug}-mock.svg").write_text(mug_mockup(slug), encoding="utf-8")
         jobs.append({"src": f"svg/mug-{slug}-mock.svg", "out": f"web/mug-{slug}.jpg", "w": 720, "h": 720, "scale": 1, "type": "jpeg", "quality": 88})
-    for slug, lines in CAPS:
-        (out / "svg" / f"cap-{slug}.svg").write_text(cap_art(lines), encoding="utf-8")
-        jobs.append({"src": f"svg/cap-{slug}.svg", "out": f"print/caps/{slug}-embroidery-1350x600.png", "w": 1350, "h": 600, "scale": 1, "type": "png", "transparent": True})
-        (out / "svg" / f"cap-{slug}-mock.svg").write_text(cap_mockup(lines), encoding="utf-8")
-        jobs.append({"src": f"svg/cap-{slug}-mock.svg", "out": f"web/cap-{slug}.jpg", "w": 720, "h": 720, "scale": 1, "type": "jpeg", "quality": 88})
+    for slug, lines in HATS:
+        (out / "svg" / f"hat-{slug}.svg").write_text(hat_art(lines), encoding="utf-8")
+        jobs.append({"src": f"svg/hat-{slug}.svg", "out": f"print/hats/{slug}-embroidery-1350x600.png", "w": 1350, "h": 600, "scale": 1, "type": "png", "transparent": True})
+        (out / "svg" / f"hat-{slug}-mock.svg").write_text(hat_mockup(lines), encoding="utf-8")
+        jobs.append({"src": f"svg/hat-{slug}-mock.svg", "out": f"web/hat-{slug}.jpg", "w": 720, "h": 720, "scale": 1, "type": "jpeg", "quality": 88})
+    for slug, lines in TOQUES:
+        (out / "svg" / f"toque-{slug}.svg").write_text(toque_art(lines), encoding="utf-8")
+        jobs.append({"src": f"svg/toque-{slug}.svg", "out": f"print/toques/{slug}-embroidery-1050x450.png", "w": 1050, "h": 450, "scale": 1, "type": "png", "transparent": True})
+        (out / "svg" / f"toque-{slug}-mock.svg").write_text(toque_mockup(lines), encoding="utf-8")
+        jobs.append({"src": f"svg/toque-{slug}-mock.svg", "out": f"web/toque-{slug}.jpg", "w": 720, "h": 720, "scale": 1, "type": "jpeg", "quality": 88})
     for slug in STICKERS:
         (out / "svg" / f"sticker-{slug}.svg").write_text(sticker_svg(slug), encoding="utf-8")
         jobs.append({"src": f"svg/sticker-{slug}.svg", "out": f"print/stickers/{slug}-1200x1200.png", "w": 1200, "h": 1200, "scale": 1, "type": "png", "transparent": True})

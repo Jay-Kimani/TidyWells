@@ -30,30 +30,34 @@ APPAREL = [  # slug, name, garment, blurb
     ("energy-workers-vote", "Energy Workers Vote", "tee", "Short, clean, and hard to argue with."),
     ("scrap-the-tanker-ban", "Scrap the Tanker Ban", "tee", "For the west coast export argument."),
     ("pipelines-not-platitudes", "Pipelines, Not Platitudes", "tee", "Less talk, more steel."),
-    ("check-the-units", "Check the Units", "tee", "m³, Mcf, MMcf, boe. Always."),
+    ("forty-below", "-40 and Still Working", "tee", "A winter crew in five words."),
+    ("first-in-last-out", "First In. Last Out.", "tee", "The crew's code, in heavy type."),
 ]
 STICKERS = [("build-the-pipeline", "Build the Pipeline"), ("scrap-the-tanker-ban", "Scrap the Tanker Ban"), ("ottawa-doesnt-pump-oil", "Ottawa Doesn't Pump Oil"),
             ("pipelines-not-platitudes", "Pipelines, Not Platitudes"), ("energy-workers-vote", "Energy Workers Vote"), ("shut-in-not-shut-down", "Shut-In, Not Shut Down"),
-            ("hyperbolic-decline", "Hyperbolic Decline")]
+            ("forty-below", "-40 and Still Working"), ("first-in-last-out", "First In. Last Out."), ("hyperbolic-decline", "Hyperbolic Decline")]
 MUGS = [("build-the-pipeline", "Build the Pipeline", "Three words and a request, for the first coffee of the shift."),
         ("ottawa-doesnt-pump-oil", "Ottawa Doesn't Pump Oil", "A reminder of who does."),
         ("energy-workers-vote", "Energy Workers Vote", "Short, clean, and hard to argue with."),
         ("hyperbolic-decline", "Hyperbolic Decline: My Motivation", "For anyone whose enthusiasm follows an Arps curve."),
         ("check-the-units", "Check the Units", "m³, Mcf, MMcf, boe. Always.")]
-CAPS = [("build-the-pipeline", "Build the Pipeline", "Embroidered text, three words and a request."),
+HATS = [("build-the-pipeline", "Build the Pipeline", "Embroidered text, three words and a request."),
         ("ottawa-doesnt-pump-oil", "Ottawa Doesn't Pump Oil", "Embroidered text, a reminder of who does.")]
+TOQUES = [("forty-below", "-40 and Still Working", "For the winter crew: a toque that says it for you."),
+          ("first-in-last-out", "First In. Last Out.", "The crew's code, embroidered on the cuff."),
+          ("build-the-pipeline", "Build the Pipeline", "Embroidered on the cuff, for the walk to the truck.")]
 SHEETS = [("units-and-conversions", "Units & Conversions", "Oil, gas, energy and pressure factors, plus the rate-from-volume rule.")]
 FEATURED = ["build-the-pipeline", "ottawa-doesnt-pump-oil", "shut-in-not-shut-down", "hyperbolic-decline"]
-BEST = ["hoodie-build-the-pipeline", "hoodie-ottawa-doesnt-pump-oil", "mug-build-the-pipeline", "tee-energy-workers-vote"]
+BEST = ["hoodie-build-the-pipeline", "hoodie-ottawa-doesnt-pump-oil", "toque-forty-below", "mug-build-the-pipeline"]
 
 
 
 LINKJS = ('<script src="shop.js"></script>')
 
 
-PRICE = {"hoodie": 69, "tee": 36, "mug": 22, "cap": 34, "poster": 42, "sticker": 5, "sheet": 8}  # CAD launch prices; confirmed in the store
+PRICE = {"hoodie": 69.99, "tee": 36.99, "mug": 24.99, "hat": 34.99, "toque": 29.99, "poster": 44.99, "sticker": 5.99, "sheet": 8.99}  # CAD launch prices; confirmed in the store
 BUNDLES = [  # id, title, blurb, price, would-be separate total, image
-    ("stickers-three-pack", "Sticker 3-pack", "Pick any three hard-hat stickers from the collection.", 12, 15, "bundle-stickers.jpg"),
+    ("stickers-three-pack", "Sticker 3-pack", "Pick any three hard-hat stickers from the collection.", 14.99, 17.97, "bundle-stickers.jpg"),
 ]
 SPECS = {
     "poster": ["18 x 24 inch print, Night (dark) or Paper (cream) colourway", "Drawn from the open Tidywells dataset, data through September 2026", "Source, method and data window printed on the poster", "Produced and shipped by our fulfilment partner; timing shown at checkout"],
@@ -61,7 +65,8 @@ SPECS = {
     "tee": ["Large design printed on the back, small Tidywells mark on the left chest", "Light-ink design for dark garments", "No oil company names or logos", "Garment colours, sizes and fabric are set in the store listing", "The images above are illustrative mockups of the print placement"],
     "sticker": ["3 inch, die-cut style vinyl sticker", "Made for hard hats, laptops and truck dashboards", "Final material and finish are set in the store listing"],
     "mug": ["11 oz ceramic mug, design wraps around", "Dishwasher and microwave safe (confirm in the store listing)", "No oil company names or logos"],
-    "cap": ["Embroidered text on the front panel", "Adjustable fit; colour set in the store listing", "No oil company names or logos"],
+    "hat": ["Embroidered text on the front panel", "Adjustable fit; colour set in the store listing", "No oil company names or logos"],
+    "toque": ["Cuffed knit toque (beanie) with embroidered cuff", "One size; fabric and lining are set in the store listing", "No oil company names or logos"],
     "sheet": ["11 x 17 inch PDF, instant digital download", "For your own use: print as often as you like", "Standard published conversion factors and public regulator file layouts"],
 }
 
@@ -76,7 +81,6 @@ DESC = {
     "tee-energy-workers-vote": "Three words for the lunchroom, the truck and the polling station. Heavy type on the back, nothing else to explain. Printed in light ink for dark garments. Original design, no company names or logos.",
     "tee-scrap-the-tanker-ban": "A blunt opinion on the west coast export argument, in heavy type. Wear it where the conversation is happening. Printed in light ink for dark garments. Original design, no company names or logos.",
     "tee-pipelines-not-platitudes": "Less talk, more steel. A straight-talking shirt for people who would rather see it built. Printed in light ink for dark garments. Original design, no company names or logos.",
-    "tee-check-the-units": "m³, Mcf, MMcf, boe: always check the units. For the person in the meeting who asks the question that saves the slide. Printed in light ink for dark garments. Original design, no company names or logos.",
     "sticker-build-the-pipeline": "A 3 inch die-cut-style sticker with a three-word request. Made for hard hats, lunch kits, tool boxes and truck dashboards.",
     "sticker-scrap-the-tanker-ban": "A 3 inch die-cut-style sticker with a blunt opinion in heavy type. Made for hard hats, toolboxes and truck dashboards.",
     "sticker-ottawa-doesnt-pump-oil": "A 3 inch die-cut-style sticker that says who actually pumps it. Made for hard hats, lunch kits and truck dashboards.",
@@ -90,8 +94,15 @@ DESC = {
     "mug-energy-workers-vote": "Three words in heavy type on an 11 oz mug. A coffee cup with a point of view. Original design, no company names or logos.",
     "mug-hyperbolic-decline": "A small decline curve under the line, on an 11 oz mug: for anyone whose enthusiasm follows an Arps curve. Original design, no company names or logos.",
     "mug-check-the-units": "m³, Mcf, MMcf, boe: always check the units. An 11 oz mug for the engineer who asks the question that saves the slide. Original design, no company names or logos.",
-    "cap-build-the-pipeline": "Embroidered text on the front of an adjustable cap: three words and a request. Plain, clean, easy to wear to the site, the rink or the pub. Original design, no company names or logos.",
-    "cap-ottawa-doesnt-pump-oil": "Embroidered text on the front of an adjustable cap: a reminder of who actually pumps it. Original design, no company names or logos.",
+    "hat-build-the-pipeline": "Embroidered text on the front of an adjustable hat: three words and a request. Plain, clean, easy to wear to the site, the rink or the pub. Original design, no company names or logos.",
+    "hat-ottawa-doesnt-pump-oil": "Embroidered text on the front of an adjustable hat: a reminder of who actually pumps it. Original design, no company names or logos.",
+    "toque-forty-below": "A cuffed toque with -40 and still working embroidered across the cuff. For the winter crew, the cold start and the long walk to the truck. Original design, no company names or logos.",
+    "toque-first-in-last-out": "A cuffed toque with the crew's code embroidered on the cuff: first in, last out. Original design, no company names or logos.",
+    "toque-build-the-pipeline": "A cuffed toque with Build the Pipeline embroidered on the cuff. Keeps the cold off and the opinion on. Original design, no company names or logos.",
+    "tee-forty-below": "A winter crew in five words, set in heavy type on the back. For anyone who has started a truck at -40 and gone to work anyway. Printed in light ink for dark garments. Original design, no company names or logos.",
+    "tee-first-in-last-out": "The crew's code in heavy type on the back: first in, last out. Printed in light ink for dark garments. Original design, no company names or logos.",
+    "sticker-forty-below": "A 3 inch die-cut-style sticker: -40 and still working. Made for hard hats, lunch kits and truck dashboards.",
+    "sticker-first-in-last-out": "A 3 inch die-cut-style sticker with the crew's code: first in, last out. Made for hard hats, toolboxes and truck dashboards.",
     "poster-record-barrels": "Western Canada's oil, stacked on a zero baseline: Alberta, Saskatchewan and BC from January 2022 to September 2026, with the record month marked. The one to hang where the people who pump it will see it. Four headline figures and the source and method are printed on the sheet. Choose the dark Night edition or the cream Paper edition.",
     "poster-peak-vs-now": "Six streams of oil and gas ranked by how close each one is to its own best month. Alberta oil sits closest to its peak. Gas is seasonal and BC oil is very small, and the poster says so. Bars start at zero, and the source and method are printed on the sheet. Choose the dark Night edition or the cream Paper edition.",
     "poster-86-of-100": "A hundred dots for every hundred barrels of oil produced in Alberta, Saskatchewan and British Columbia: 86 are Alberta's, 14 are Saskatchewan's and BC's share rounds to under one. Real production figures for September 2026, with the source and method printed on the sheet. Choose the dark Night edition or the cream Paper edition.",
@@ -115,9 +126,13 @@ def size_chart(kind):
 
 
 
+def fmt_price(a):
+    return f"{a:.2f}"
+
+
 def price_html(kind=None, amount=None):
     a = PRICE[kind] if amount is None else amount
-    return f'<span class="price">CAD ${a} <small>launch price</small></span>'
+    return f'<span class="price">CAD ${fmt_price(a)} <small>launch price</small></span>'
 
 
 def pid(kind, slug):
@@ -139,8 +154,10 @@ def catalogue():
         out.append(dict(kind="sticker", slug=s, title=f"{n} sticker", short=n, blurb="A hard-hat sticker for people who work with oil and gas data.", images=[(f"sticker-{s}.png", f"{n} sticker", 600, 600)]))
     for s, n, b in MUGS:
         out.append(dict(kind="mug", slug=s, title=f"{n} mug", short=n, blurb=b, images=[(f"mug-{s}.jpg", f"{n} mug", 720, 720)]))
-    for s, n, b in CAPS:
-        out.append(dict(kind="cap", slug=s, title=f"{n} cap", short=n, blurb=b, images=[(f"cap-{s}.jpg", f"{n} cap", 720, 720)]))
+    for s, n, b in HATS:
+        out.append(dict(kind="hat", slug=s, title=f"{n} hat", short=n, blurb=b, images=[(f"hat-{s}.jpg", f"{n} hat", 720, 720)]))
+    for s, n, b in TOQUES:
+        out.append(dict(kind="toque", slug=s, title=f"{n} toque", short=n, blurb=b, images=[(f"toque-{s}.jpg", f"{n} toque", 720, 720)]))
     for s, t, b in SHEETS:
         out.append(dict(kind="sheet", slug=s, title=f"{t} reference sheet", short=t, blurb=b, images=[(f"sheet-{s}.jpg", f"{t} reference sheet", 720, 1118)]))
     for it in out:
@@ -171,7 +188,7 @@ def card_of(it):
 
 
 def kind_label(k):
-    return {"poster": "Data-art poster", "hoodie": "Hoodie", "tee": "T-shirt", "sticker": "Sticker", "sheet": "Digital download", "mug": "Mug", "cap": "Cap"}[k]
+    return {"poster": "Data-art poster", "hoodie": "Hoodie", "tee": "T-shirt", "sticker": "Sticker", "sheet": "Digital download", "mug": "Mug", "hat": "Hat", "toque": "Toque"}[k]
 
 
 def body():
@@ -182,16 +199,17 @@ def body():
     o = []
     o.append('<div class="shop-hero"><span class="badge">Launch collection · opening soon</span>'
              '<h1>The Tidywells <span class="grad">shop</span></h1>'
-             '<p>Hoodies, mugs, caps and stickers for people who work in oil and gas, and posters drawn from the open data.</p>'
+             '<p>Hoodies, toques, hats, mugs and stickers for people who work in oil and gas, and posters drawn from the open data.</p>'
              '<div id="waitlist" class="waitlist"></div>'
              '<p class="shop-note">Launch prices in Canadian dollars. Shipping and tax are added at checkout.</p>'
-             '<nav class="chips" aria-label="Shop sections"><a href="#apparel">Apparel</a><a href="#drinkware">Mugs and caps</a><a href="#stickers">Stickers</a>'
+             '<nav class="chips" aria-label="Shop sections"><a href="#apparel">Apparel</a><a href="#headwear">Toques and hats</a><a href="#drinkware">Mugs</a><a href="#stickers">Stickers</a>'
              '<a href="#posters">Posters</a><a href="#downloads">Digital</a><a href="#your-well">Make your own</a></nav></div>')
     o.append('<h2 id="best">Best sellers to start with</h2>' + grid([by[i] for i in BEST], "pgrid four"))
     o.append('<h2 id="apparel">Apparel</h2><p>Heavy type on the back, a small Tidywells mark on the left chest. True to size, with a size guide on every page.</p>' + grid(of("hoodie", "tee")))
-    o.append('<h2 id="drinkware">Mugs and caps</h2>' + grid(of("mug", "cap")))
+    o.append('<h2 id="headwear">Toques and hats</h2><p>Embroidered text. Warm toques for the winter crew, adjustable hats for the rest of the year.</p>' + grid(of("toque", "hat")))
+    o.append('<h2 id="drinkware">Mugs</h2>' + grid(of("mug")))
     stick = [f'<div class="prod" data-slug="bundle-{b[0]}"><div class="pimg">{card_img(b[5], b[1], 720, 720)}</div><div class="pi"><span class="tag">Best value</span><h3>{esc(b[1])}</h3><p>{esc(b[2])}</p>'
-             f'{price_html(amount=b[3])}<span class="shop-note">Separately CAD ${b[4]}: you save ${b[4] - b[3]}.</span><span class="go soon">Opening soon</span></div></div>' for b in BUNDLES]
+             f'{price_html(amount=b[3])}<span class="shop-note">Separately CAD ${fmt_price(b[4])}: you save ${fmt_price(b[4] - b[3])}.</span><span class="go soon">Opening soon</span></div></div>' for b in BUNDLES]
     o.append('<h2 id="stickers">Hard-hat stickers</h2><p>3 inch, die-cut style. For hard hats, toolboxes, lunch kits and truck dashboards.</p><div class="pgrid">' + "".join(stick) + "".join(card_of(x) for x in of("sticker")) + '</div>')
     ps = []
     for it in of("poster"):
@@ -216,7 +234,7 @@ def body():
 
 def home_strip():
     items = {it["id"]: it for it in catalogue()}
-    pick = ["hoodie-build-the-pipeline", "hoodie-ottawa-doesnt-pump-oil", "mug-build-the-pipeline", "cap-build-the-pipeline", "tee-energy-workers-vote", "poster-record-barrels"]
+    pick = ["hoodie-build-the-pipeline", "hoodie-ottawa-doesnt-pump-oil", "mug-build-the-pipeline", "toque-forty-below", "hat-build-the-pipeline", "poster-record-barrels"]
     cards = ""
     for i in pick:
         it = items[i]
@@ -224,9 +242,9 @@ def home_strip():
         cards += (f'<a class="prod" href="{it["page"]}" style="text-decoration:none;color:inherit"><img src="{IMG}{f}" alt="{esc(alt)}" width="{w}" height="{h}" loading="lazy">'
                   f'<div class="pi"><span class="tag">{esc(kind_label(it["kind"]))}</span><h3>{esc(it["short"])}</h3></div></a>')
     return ('<!--SHOP--><section class="strip"><span class="badge">Launch collection · opening soon</span>'
-            '<h2>The Tidywells shop</h2><p>Hoodies, mugs, caps and stickers for people who work in oil and gas, plus posters drawn from real data.</p>'
+            '<h2>The Tidywells shop</h2><p>Hoodies, toques, hats, mugs and stickers for people who work in oil and gas, plus posters drawn from real data.</p>'
             f'<div class="pgrid">{cards}</div>'
-            f'<p class="shop-note">Hoodies from CAD ${PRICE["hoodie"]} · mugs from CAD ${PRICE["mug"]} · stickers from CAD ${PRICE["sticker"]} (launch prices)</p>'
+            f'<p class="shop-note">Hoodies from CAD ${fmt_price(PRICE["hoodie"])} · toques from CAD ${fmt_price(PRICE["toque"])} · mugs from CAD ${fmt_price(PRICE["mug"])} (launch prices)</p>'
             '<p><a class="btn primary" href="shop.html">See the collection</a> <a class="btn" href="shop.html#posters">Data-art posters</a></p></section><!--/SHOP-->')
 
 
@@ -317,9 +335,12 @@ def listings():
     for s, n, b in MUGS:
         rows.append((f"mug-{s}", "Mug 11oz", f"{n} Mug, Oilfield Coffee Mug, Oil and Gas Gift",
                      DESC[pid("mug", s)], TAGS_BASE + ["coffee mug", "oilfield mug", "gift for him", "work mug", "oil and gas"]))
-    for s, n, b in CAPS:
-        rows.append((f"cap-{s}", "Cap", f"{n} Embroidered Cap, Oilfield Hat, Oil and Gas Gift",
-                     DESC[pid("cap", s)], TAGS_BASE + ["embroidered hat", "dad hat", "oilfield hat", "gift for him", "oil and gas"]))
+    for s, n, b in HATS:
+        rows.append((f"hat-{s}", "Hat", f"{n} Embroidered Hat, Oilfield Hat, Oil and Gas Gift",
+                     DESC[pid("hat", s)], TAGS_BASE + ["embroidered hat", "dad hat", "oilfield hat", "gift for him", "oil and gas"]))
+    for s, n, b in TOQUES:
+        rows.append((f"toque-{s}", "Toque", f"{n} Toque Beanie, Embroidered Winter Hat, Oilfield Gift",
+                     DESC[pid("toque", s)], TAGS_BASE + ["toque", "beanie", "winter hat", "oilfield", "gift for him"]))
     for s, t, b in SHEETS:
         rows.append((f"sheet-{s}", "Digital download PDF 11x17", f"{t} Cheat Sheet PDF, Oil and Gas Reference, Printable 11x17",
                      DESC[pid("sheet", s)], TAGS_BASE + ["cheat sheet", "printable", "pdf download", "reference", "digital download"]))
@@ -333,7 +354,7 @@ def listings():
 
 def main():
     listings()
-    html = page("shop.html", "Shop", "Oil and gas hoodies, mugs, caps, stickers and posters drawn from real data from Tidywells.", body(),
+    html = page("shop.html", "Shop", "Oil and gas hoodies, toques, hats, mugs, stickers and posters drawn from real data from Tidywells.", body(),
                 css="article{max-width:none}")
     (DOCS / "shop.html").write_text(html, encoding="utf-8")
     (DOCS / "your-well.html").write_text(page("your-well.html", "Your Well poster", "Make a poster of your own well's production in your browser. Nothing is uploaded.", your_well(), css="article{max-width:none}"), encoding="utf-8")
