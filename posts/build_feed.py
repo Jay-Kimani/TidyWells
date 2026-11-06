@@ -306,6 +306,8 @@ if __name__ == "__main__":
         grp = GROUP_OF.get(cur) or ("shop.html" if cur.startswith("product-") else None)
         out = [f'<div class="util"><div><a href="{prefix}data.html">Open data</a><a href="{prefix}pro.html">Pro data pack</a><a href="{prefix}corrections.html">Corrections</a>'
                f'<a href="https://github.com/Jay-Kimani/TidyWells" target="_blank" rel="noopener">GitHub</a>'
+               f'<a href="https://doi.org/10.5281/zenodo.23969867" target="_blank" rel="noopener" title="Cite the Tidywells dataset (Zenodo DOI 10.5281/zenodo.23969867)">Cite (DOI)</a>'
+               f'<a href="https://medium.com/@tidywells" target="_blank" rel="noopener">Medium</a>'
                f'<a href="https://tidywells.substack.com/" target="_blank" rel="noopener">Substack</a></div></div>'
                f'<header><nav><a class="brand" href="{prefix}index.html" aria-label="Tidywells home">'
                f'<img class="logo-l" src="{prefix}img/logo.png" alt="Tidywells" height="44">'
