@@ -58,9 +58,9 @@ BUNDLES = [  # id, title, blurb, price, would-be separate total, image
     ("stickers-three-pack", "Sticker 3-pack", "Pick any three hard-hat stickers from the collection.", 12, 15, "bundle-stickers.jpg"),
 ]
 SPECS = {
-    "poster": ["18 x 24 inch print, Night (dark) or Paper (cream) colourway", "Drawn from the open Tidywells dataset, data through September 2026", "Source, method and data window printed on the poster", "Printed on demand by a print partner confirmed at store opening"],
-    "hoodie": ["Design printed on demand; light ink for dark garments", "No company names or logos", "Garment colours, sizes and fabric are set in the store listing", "The image above is an illustrative mockup of the print placement"],
-    "tee": ["Design printed on demand; light ink for dark garments", "No company names or logos", "Garment colours, sizes and fabric are set in the store listing", "The image above is an illustrative mockup of the print placement"],
+    "poster": ["18 x 24 inch print, Night (dark) or Paper (cream) colourway", "Drawn from the open Tidywells dataset, data through September 2026", "Source, method and data window printed on the poster", "Produced and shipped by our fulfilment partner; timing shown at checkout"],
+    "hoodie": ["Light-ink design for dark garments", "No company names or logos", "Garment colours, sizes and fabric are set in the store listing", "The image above is an illustrative mockup of the print placement"],
+    "tee": ["Light-ink design for dark garments", "No company names or logos", "Garment colours, sizes and fabric are set in the store listing", "The image above is an illustrative mockup of the print placement"],
     "sticker": ["3 inch, die-cut style vinyl sticker", "Made for hard hats, laptops and truck dashboards", "Final material and finish are set in the store listing"],
     "notebook": ["Printed cover design; paper type and page count are set in the store listing", "Made for field notes and well logs"],
     "sheet": ["11 x 17 inch PDF, instant digital download", "For your own use: print as often as you like", "Standard published conversion factors and public regulator file layouts"],
@@ -123,7 +123,7 @@ def body():
              '<h1>The Tidywells <span class="grad">shop</span></h1>'
              '<p>Oil and gas, in the places it belongs: on your wall, your chest and your hard hat. Posters drawn from the open dataset, '
              'apparel only people who have fought a regulator file will get, stickers, notebooks and printable reference sheets.</p>'
-             '<p class="shop-note">Made on demand, so nothing sits in a warehouse. Prices are launch prices in Canadian dollars; shipping and tax are added at checkout, and the store confirms the final price.</p>'
+             '<p class="shop-note">Prices are launch prices in Canadian dollars; shipping and tax are added at checkout, and the store confirms the final price.</p>'
              '<div id="waitlist" class="waitlist"></div></div>')
     # featured hoodies
     feat = [a for a in APPAREL if a[0] in FEATURED]
@@ -162,7 +162,7 @@ def body():
         prod(s, "sheet", t, b, card_img(f"sheet-{s}.jpg", f"{t} reference sheet", 720, 1118), 720, 1118) for s, t, b in SHEETS) + '</div>')
     o.append('<h2>Good to know</h2><div class="faq"><p><b>Is this affiliated with a regulator or an operator?</b><br>No. The art uses public regulator data and original wording. No company names or logos appear on any product.</p>'
              '<p><b>Are the numbers on the posters right?</b><br>They are computed from the open dataset and checked against it in our tests. Oil and gas are the Petrinex conventional volumetrics products, so totals can differ from other published provincial figures. The posters are not investment advice.</p>'
-             '<p><b>Who makes and ships the products?</b><br>A print-on-demand partner, confirmed when the store opens. Sizes, delivery times and prices will be on each listing.</p>'
+             '<p><b>Who makes and ships the products?</b><br>Products are produced and shipped by our fulfilment partner. Production and delivery times follow the partner schedule and are shown at checkout.</p>'
              '<p><b>Where does the money go?</b><br>It helps keep the open data, tools and analysis free. Tidywells is built by one person; see <a href="about.html">About</a>.</p></div>')
     o.append(LINKJS)
     return "\n".join(o)
@@ -255,10 +255,10 @@ def listings():
         for cw in ("Night", "Paper"):
             rows.append((f"poster-{s}-{cw.lower()}", "Poster 18x24in", f"{t} Poster, Canadian Oil and Gas Data Art, {cw} Edition, 18x24 Print",
                          f"{b} Generated from the open Tidywells dataset (Petrinex and BC Energy Regulator public data); the figures match the CSV at tidywells.com/data.html. "
-                         "Not investment advice. Printed on demand.", TAGS_BASE + ["data art", "wall art", "office decor", "poster", "chart print"]))
+                         "Not investment advice.", TAGS_BASE + ["data art", "wall art", "office decor", "poster", "chart print"]))
     for s, n, k, b in APPAREL:
         rows.append((f"{k}-{s}", "Hoodie" if k == "hoodie" else "T-shirt", f"{n} {'Hoodie' if k == 'hoodie' else 'T-Shirt'}, Oil and Gas Humor, Decline Curve Gift",
-                     f"{b} Design by Tidywells. No company logos. Printed on demand.", TAGS_BASE + ["funny shirt", "decline curve", "roughneck", "oilfield humor", "gift for him"]))
+                     f"{b} Design by Tidywells. No company logos.", TAGS_BASE + ["funny shirt", "decline curve", "roughneck", "oilfield humor", "gift for him"]))
     for s, n in STICKERS:
         rows.append((f"sticker-{s}", "Sticker 3in", f"{n} Sticker, Hard Hat Sticker, Oil and Gas Humor, Laptop Decal",
                      "Hard-hat and laptop sticker with an oil-and-gas data joke. Design by Tidywells.", TAGS_BASE + ["hard hat sticker", "laptop sticker", "vinyl sticker", "decal", "oilfield"]))
