@@ -143,6 +143,7 @@ def mini_bars(cats, series, cap, hi=None):
     step = hi / 2
     pct = "%" in cap
     fmt = (lambda v: f"{v:g}%" if pct else (f"{v:g}" if v == int(v) or v >= 10 else f"{v:.1f}"))
+    val = (lambda v: f"{v:.0f}%" if pct else (f"{v:.0f}" if v >= 10 else f"{v:.1f}"))
     o = ""
     for k in range(3):
         v = step * k
@@ -159,7 +160,7 @@ def mini_bars(cats, series, cap, hi=None):
             bx = gx - bw * len(series) / 2 + j * bw
             o += f'<rect x="{bx:.1f}" y="{y1 - h:.1f}" width="{bw - 2:.1f}" height="{h:.1f}" rx="2.5" fill="{col}"/>'
             if len(series) == 1 or bw >= 14:
-                o += f'<text x="{bx + (bw - 2) / 2:.1f}" y="{y1 - h - 3:.1f}" font-size="{8.5 if len(series) == 1 else 6.5}" font-weight="700" text-anchor="middle" fill="var(--fg)" {F}>{fmt(vals[i])}</text>'
+                o += f'<text x="{bx + (bw - 2) / 2:.1f}" y="{y1 - h - 3:.1f}" font-size="{8.5 if len(series) == 1 else 6.5}" font-weight="700" text-anchor="middle" fill="var(--fg)" {F}>{val(vals[i])}</text>'
         o += f'<text x="{gx:.1f}" y="{y1 + 11}" font-size="8.5" text-anchor="middle" fill="var(--muted)" {F}>{c}</text>'
     return thumb_frame(o, cap)
 
