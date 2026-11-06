@@ -197,9 +197,8 @@ def build_page(data, bt, log):
             f'<tr><td>{METHODS[m][0]}</td><td class="num">{len(v)}</td><td class="num">{sum(v) / len(v):.1f}%</td></tr>' for m, v in by2.items()) + '</table></div>')
     main = (f'<h2>Live forecasts<span class="sub">Written before the data exists. {len(ent)} logged, {len(graded)} graded, {len(pend)} waiting. Latest data used: {latest}.</span></h2>' + live +
             f'<h2>What the backtest shows</h2><div class="callout">Across {n} series and horizons the lowest error went to: {verdict}. Averaged over everything, the best method was <b>{METHODS[bestm][0].lower()}</b> at {allm[bestm]:.1f}% mean error ({others}). If a fancier method cannot beat these, it has not earned your trust.</div>'
-            f'<h2>One month ahead, {METHODS[bestm][0].lower()}<span class="sub">The method with the lowest average error. Grey is the reported rate, dashed blue is the forecast made one month earlier.</span></h2><div class="cgrid">'
-            + "".join(f'<div><b>{PROV[k[0]]} {k[1].lower()} ({UNIT[k[1]]})</b>{chart(data, bt, k, bestm)}</div>' for k in SERIES) + '</div>' +
-            fold(f'Full backtest table ({len(SERIES) * 2 * len(METHODS)} rows)', '<p>Calculated after the fact, not a live record: for every past month, each method forecasts 1 and 3 months ahead using only the data up to then, and we score it against what was reported. The history is short (monthly data from 2022), so treat the numbers as indicative.</p><div class="tw">' + "".join(body) + '</div>'))
+            f'<h2>Full backtest<span class="sub">{len(SERIES) * 2 * len(METHODS)} rows: every series, method and horizon.</span></h2>'
+            '<p>Calculated after the fact, not a live record: for every past month, each method forecasts 1 and 3 months ahead using only the data up to then, and we score it against what was reported. The history is short (monthly data from 2022), so treat the numbers as indicative.</p><div class="tw">' + "".join(body) + '</div>')
     side = (bubble("The rules",
                    '<ul><li>Forecasts are written to an append-only <a href="data/forecasts.json">log</a>. Each commit is dated by GitHub, so none can be quietly rewritten.</li>'
                    '<li>A script, not a person, fills in the actual number when the month appears in the <a href="data.html">open data</a>.</li>'
