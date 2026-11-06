@@ -66,6 +66,57 @@ SPECS = {
     "sheet": ["11 x 17 inch PDF, instant digital download", "For your own use: print as often as you like", "Standard published conversion factors and public regulator file layouts"],
 }
 
+POSTER_TAIL = " Four headline figures sit under the chart, and the source, method and data window are printed at the foot, so it reads like a figure from a report rather than decoration. Choose the dark Night edition or the cream Paper edition."
+DESC = {
+    "poster-ab-oil": "Alberta's monthly oil production from January 2022 to September 2026 as one clean line, with the peak month and the latest month marked." + POSTER_TAIL,
+    "poster-ab-gas": "Alberta gas production over the same window, showing the winter peaks that come back every year and where the latest month sits against them." + POSTER_TAIL,
+    "poster-sk-oil": "Five years of Saskatchewan oil production, with the peak and the latest month labelled so the shape of the recovery is easy to read from across a room." + POSTER_TAIL,
+    "poster-sk-gas": "Saskatchewan gas production on a daily-rate basis, drawn from public regulator files and labelled with its peak and latest month." + POSTER_TAIL,
+    "poster-bc-oil": "British Columbia oil production from the BC Energy Regulator files, including the dip and the recovery that follows." + POSTER_TAIL,
+    "poster-bc-gas": "British Columbia gas production over five years, with the peak month and the latest month marked on the line." + POSTER_TAIL,
+    "poster-five-years": "Oil and gas in Alberta, Saskatchewan and British Columbia as six small charts on one sheet, so the three provinces can be compared at a glance. Source, method and data window are printed at the foot. Choose the dark Night edition or the cream Paper edition.",
+    "poster-gas-season": "A radar chart of the calendar-month pattern in Alberta and British Columbia gas: the seasonal wave that every analyst learns to expect. Source, method and data window are printed at the foot. Choose the dark Night edition or the cream Paper edition.",
+    "poster-decline-shape": "The Arps family of decline curves from b = 0 to b = 1.5 on one sheet: exponential, hyperbolic and harmonic, the shapes every well-file reader should be able to recognise. Equations and a short reading guide are printed on the poster. Choose the dark Night edition or the cream Paper edition.",
+    "hoodie-hyperbolic-decline": "A hoodie for anyone whose enthusiasm follows an Arps curve: a steep start, a long flattening tail, and a small curve drawn under the headline. Printed in light ink for dark garments. Original design, no company names or logos.",
+    "hoodie-arps-was-right": "The 1945 decline equation, set large and left to speak for itself. For engineers, analysts and anyone who has fit a curve to a well and been quietly proven right. Printed in light ink for dark garments. Original design, no company names or logos.",
+    "hoodie-shut-in-not-shut-down": "A valve wheel and a distinction that matters: a shut-in well is paused, not finished. A hoodie for people who know the difference. Printed in light ink for dark garments. Original design, no company names or logos.",
+    "hoodie-wells-dont-retire": "Wells do not retire, they decline, and this hoodie says so with a small decline curve under the line. Respect the curve. Printed in light ink for dark garments. Original design, no company names or logos.",
+    "tee-b-equals-1": "Harmonic decline, in monospace: b = 1.0, nothing more. A quiet t-shirt for people who will get the joke and people who will ask. Printed in light ink for dark garments. Original design, no company names or logos.",
+    "tee-arps-equation": "The Arps equation, q(t) = qi / (1 + b·Di·t)^(1/b), set in type like a line from a textbook. Printed in light ink for dark garments. Original design, no company names or logos.",
+    "tee-leading-zeros-matter": "For everyone who has watched a spreadsheet quietly eat the leading zeros off a well ID and then spent an afternoon finding out why. Printed in light ink for dark garments. Original design, no company names or logos.",
+    "tee-check-the-units": "m³, Mcf, MMcf, boe: always check the units. A t-shirt for the person in the meeting who asks the question that saves the slide. Printed in light ink for dark garments. Original design, no company names or logos.",
+    "tee-gas-has-a-season": "Winter demand, drawn as a wave across the chest. Gas has a season and so does this shirt. Printed in light ink for dark garments. Original design, no company names or logos.",
+    "tee-bounded-optimism": "A decline fit with the exponent held between 0 and 2, because a fit should be bounded and so should optimism. Printed in light ink for dark garments. Original design, no company names or logos.",
+    "tee-p50-energy": "Not optimistic, not pessimistic, just the median. A t-shirt for people who report the P50 and mean it. Printed in light ink for dark garments. Original design, no company names or logos.",
+    "tee-licensed-not-producing": "A licence is not a production report. A t-shirt for anyone who has had to explain that a well on the list is not a well on the pad. Printed in light ink for dark garments. Original design, no company names or logos.",
+    "sticker-hyperbolic-decline": "A 3 inch die-cut-style sticker with the steep start and long tail of a hyperbolic decline. Made for hard hats, laptop lids and truck dashboards.",
+    "sticker-b-equals-1": "A 3 inch die-cut-style sticker that says b = 1.0, the harmonic decline, in monospace. Made for hard hats, laptops and truck dashboards.",
+    "sticker-shut-in-not-shut-down": "A 3 inch die-cut-style sticker of a valve wheel with the line shut-in, not shut down. Made for hard hats, laptops and truck dashboards.",
+    "sticker-arps-was-right": "A 3 inch die-cut-style sticker with the Arps equation and the verdict. Made for hard hats, laptops and truck dashboards.",
+    "sticker-leading-zeros-matter": "A 3 inch die-cut-style sticker for anyone who has lost a well ID's leading zeros to a spreadsheet. Made for hard hats, laptops and truck dashboards.",
+    "sticker-check-the-units": "A 3 inch die-cut-style sticker with the one habit that prevents most reporting errors: check the units. Made for hard hats, laptops and truck dashboards.",
+    "notebook-decline-log": "A field notebook with a decline-curve cover, for the numbers you keep meaning to track: rates, pressures, dates and the odd well-site thought. Original cover design, no company names or logos.",
+    "notebook-well-file": "A notebook with a well-file cover: notes, numbers and nonsense, all in one place. Original cover design, no company names or logos.",
+    "sheet-units-and-conversions": "A one-page, 11 x 17 inch PDF of oil, gas, energy and pressure conversion factors, plus the rule for turning a volume into a daily rate. Print it for your desk or your truck; for your own use. Instant download.",
+    "sheet-decline-curves-one-page": "Exponential, hyperbolic and harmonic decline on one 11 x 17 inch PDF page, with the habits that keep a fit honest: what b means, where the fit breaks and what to check first. Print it for your own use. Instant download.",
+    "sheet-regulator-data-gotchas": "Seven ways public well data quietly breaks an analysis, on one 11 x 17 inch PDF page: units, identifiers, reporting lags, and the other traps that catch careful people. Print it for your own use. Instant download.",
+}
+SIZES = {
+    "tee": ("Unisex t-shirt", ["S", "M", "L", "XL", "2XL", "3XL"], [(18, 28), (20, 29), (22, 30), (24, 31), (26, 32), (28, 33)]),
+    "hoodie": ("Unisex hoodie", ["S", "M", "L", "XL", "2XL", "3XL"], [(20, 27), (22, 28), (24, 29), (26, 30), (28, 31), (30, 32)]),
+}
+
+
+def size_chart(kind):
+    """Generic unisex size table (flat garment measurements). The final chart comes from the supplier listing."""
+    name, labels, dims = SIZES[kind]
+    rows = "".join(f"<tr><th scope='row'>{l}</th><td>{w}</td><td>{round(w * 2.54)}</td><td>{h}</td><td>{round(h * 2.54)}</td></tr>" for l, (w, h) in zip(labels, dims))
+    return (f'<h2>Size guide</h2><div class="sizes"><table><caption>{name}, flat garment measurements</caption>'
+            '<thead><tr><th scope="col">Size</th><th scope="col">Chest width (in)</th><th scope="col">Chest width (cm)</th><th scope="col">Length (in)</th><th scope="col">Length (cm)</th></tr></thead>'
+            f'<tbody>{rows}</tbody></table></div>'
+            '<p class="shop-note">Typical unisex fit. Measurements are approximate and vary slightly by garment maker; the final size guide appears in the store listing. Between sizes, size up for a relaxed fit.</p>')
+
+
 
 def price_html(kind=None, amount=None):
     a = PRICE[kind] if amount is None else amount
@@ -193,12 +244,13 @@ def product_page(it, items):
     specs = "".join(f"<li>{esc(x)}</li>" for x in SPECS[kind])
     related = [x for x in items if x["kind"] == kind and x["id"] != it["id"]][:4]
     rel = "".join(f'<a class="prod" href="{r["page"]}" style="text-decoration:none;color:inherit"><img src="{IMG}{r["images"][0][0]}" alt="{esc(r["images"][0][1])}" width="{r["images"][0][2]}" height="{r["images"][0][3]}" loading="lazy"><div class="pi"><h3>{esc(r["short"])}</h3>{price_html(kind)}</div></a>' for r in related)
-    ld = {"@context": "https://schema.org", "@type": "Product", "name": t, "description": it["blurb"], "sku": it["id"], "brand": {"@type": "Brand", "name": "Tidywells"},
+    ld = {"@context": "https://schema.org", "@type": "Product", "name": t, "description": DESC[it["id"]], "sku": it["id"], "brand": {"@type": "Brand", "name": "Tidywells"},
           "image": [f"https://tidywells.com/{IMG}{f}" for f, *_ in imgs], "url": f"https://tidywells.com/{it['page']}"}
     body_ = (f'<p class="crumb"><a href="shop.html">Shop</a> &rsaquo; {esc(kind_label(kind))}</p>'
              f'<div class="ppage"><div class="pview">{pics}{sw}</div><div class="pdet" data-slug="{esc(it["id"])}"><span class="tag">{esc(kind_label(kind))}</span><h1>{esc(t)}</h1>'
              f'<p class="plead">{esc(it["blurb"])}</p><p>{price_html(kind)}</p><p class="go soon">Opening soon. <a href="shop.html#waitlist">Get an email when the shop opens</a>.</p>'
-             f'<h2>Details</h2><ul class="specs">{specs}</ul>'
+             f'<h2>About this design</h2><p>{esc(DESC[it["id"]])}</p>'
+             f'<h2>Details</h2><ul class="specs">{specs}</ul>{size_chart(kind) if kind in SIZES else ""}'
              '<p class="shop-note">Launch price in Canadian dollars; shipping and tax are added at checkout and the store confirms the final price. Tidywells is not affiliated with any regulator or operator.</p></div></div>'
              f'<h2>More from this range</h2><div class="pgrid">{rel}</div>')
     body_ += f'<script type="application/ld+json">{json.dumps(ld)}</script><script src="shop.js"></script>'
@@ -254,20 +306,20 @@ def listings():
     for s, t, b in POSTERS:
         for cw in ("Night", "Paper"):
             rows.append((f"poster-{s}-{cw.lower()}", "Poster 18x24in", f"{t} Poster, Canadian Oil and Gas Data Art, {cw} Edition, 18x24 Print",
-                         f"{b} Generated from the open Tidywells dataset (Petrinex and BC Energy Regulator public data); the figures match the CSV at tidywells.com/data.html. "
+                         f"{DESC[pid('poster', s)]} Generated from the open Tidywells dataset (Petrinex and BC Energy Regulator public data); the figures match the CSV at tidywells.com/data.html. "
                          "Not investment advice.", TAGS_BASE + ["data art", "wall art", "office decor", "poster", "chart print"]))
     for s, n, k, b in APPAREL:
         rows.append((f"{k}-{s}", "Hoodie" if k == "hoodie" else "T-shirt", f"{n} {'Hoodie' if k == 'hoodie' else 'T-Shirt'}, Oil and Gas Humor, Decline Curve Gift",
-                     f"{b} Design by Tidywells. No company logos.", TAGS_BASE + ["funny shirt", "decline curve", "roughneck", "oilfield humor", "gift for him"]))
+                     f"{DESC[pid(k, s)]}", TAGS_BASE + ["funny shirt", "decline curve", "roughneck", "oilfield humor", "gift for him"]))
     for s, n in STICKERS:
         rows.append((f"sticker-{s}", "Sticker 3in", f"{n} Sticker, Hard Hat Sticker, Oil and Gas Humor, Laptop Decal",
-                     "Hard-hat and laptop sticker with an oil-and-gas data joke. Design by Tidywells.", TAGS_BASE + ["hard hat sticker", "laptop sticker", "vinyl sticker", "decal", "oilfield"]))
+                     DESC[pid("sticker", s)], TAGS_BASE + ["hard hat sticker", "laptop sticker", "vinyl sticker", "decal", "oilfield"]))
     for s, n, b in NOTEBOOKS:
         rows.append((f"notebook-{s}", "Notebook", f"{n} Notebook, Oilfield Field Notebook, Gift for Petroleum Engineer",
-                     f"{b} Design by Tidywells.", TAGS_BASE + ["field notebook", "journal", "notebook", "log book", "work gift"]))
+                     DESC[pid("notebook", s)], TAGS_BASE + ["field notebook", "journal", "notebook", "log book", "work gift"]))
     for s, t, b in SHEETS:
         rows.append((f"sheet-{s}", "Digital download PDF 11x17", f"{t} Cheat Sheet PDF, Oil and Gas Reference, Printable 11x17",
-                     f"{b} Instant PDF download, print for your own use. By Tidywells.", TAGS_BASE + ["cheat sheet", "printable", "pdf download", "reference", "digital download"]))
+                     DESC[pid("sheet", s)], TAGS_BASE + ["cheat sheet", "printable", "pdf download", "reference", "digital download"]))
     with open(ROOT / "shop" / "listings.csv", "w", newline="", encoding="utf-8") as f:
         w = csv.writer(f)
         w.writerow(["id", "type", "title", "description", "tags"])
