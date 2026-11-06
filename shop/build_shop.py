@@ -27,28 +27,29 @@ APPAREL = [  # slug, name, garment, blurb
     ("shut-in-not-shut-down", "Shut-In, Not Shut Down", "hoodie", "A valve wheel and a distinction that matters."),
     ("hyperbolic-decline", "Hyperbolic Decline: My Motivation", "hoodie", "For anyone whose enthusiasm follows an Arps curve."),
     ("arps-was-right", "Arps Was Right", "hoodie", "The 1945 equation, still undefeated."),
-    ("energy-workers-vote", "Energy Workers Vote", "tee", "Short, clean, and hard to argue with."),
+    ("powered-by-oil-money", "Powered by Oil Money", "tee", "Short, clean, and true."),
     ("scrap-the-tanker-ban", "Scrap the Tanker Ban", "tee", "For the west coast export argument."),
-    ("pipelines-not-platitudes", "Pipelines, Not Platitudes", "tee", "Less talk, more steel."),
-    ("forty-below", "-40 and Still Working", "tee", "A winter crew in five words."),
-    ("first-in-last-out", "First In. Last Out.", "tee", "The crew's code, in heavy type."),
+    ("pipeline-or-quiet", "Pipeline or Quiet. Pick One.", "tee", "A fair question, bluntly put."),
+    ("camp-life", "Camp Life", "tee", "Two words for the rotation."),
+    ("darcys-law", "Darcy's Law", "tee", "How fluid moves through rock."),
+    ("pv-znrt", "pV = znRT", "tee", "The real gas law, with the z-factor."),
 ]
 STICKERS = [("build-the-pipeline", "Build the Pipeline"), ("scrap-the-tanker-ban", "Scrap the Tanker Ban"), ("ottawa-doesnt-pump-oil", "Ottawa Doesn't Pump Oil"),
-            ("pipelines-not-platitudes", "Pipelines, Not Platitudes"), ("energy-workers-vote", "Energy Workers Vote"), ("shut-in-not-shut-down", "Shut-In, Not Shut Down"),
-            ("forty-below", "-40 and Still Working"), ("first-in-last-out", "First In. Last Out."), ("hyperbolic-decline", "Hyperbolic Decline")]
+            ("pipeline-or-quiet", "Pipeline or Quiet. Pick One."), ("powered-by-oil-money", "Powered by Oil Money"), ("shut-in-not-shut-down", "Shut-In, Not Shut Down"),
+            ("camp-life", "Camp Life"), ("darcys-law", "Darcy's Law"), ("pv-znrt", "pV = znRT"), ("hyperbolic-decline", "Hyperbolic Decline")]
 MUGS = [("build-the-pipeline", "Build the Pipeline", "Three words and a request, for the first coffee of the shift."),
         ("ottawa-doesnt-pump-oil", "Ottawa Doesn't Pump Oil", "A reminder of who does."),
-        ("energy-workers-vote", "Energy Workers Vote", "Short, clean, and hard to argue with."),
+        ("powered-by-oil-money", "Powered by Oil Money", "Short, clean, and true."),
         ("hyperbolic-decline", "Hyperbolic Decline: My Motivation", "For anyone whose enthusiasm follows an Arps curve."),
         ("check-the-units", "Check the Units", "m³, Mcf, MMcf, boe. Always.")]
 HATS = [("build-the-pipeline", "Build the Pipeline", "Embroidered text, three words and a request."),
         ("ottawa-doesnt-pump-oil", "Ottawa Doesn't Pump Oil", "Embroidered text, a reminder of who does.")]
-TOQUES = [("forty-below", "-40 and Still Working", "For the winter crew: a toque that says it for you."),
-          ("first-in-last-out", "First In. Last Out.", "The crew's code, embroidered on the cuff."),
+TOQUES = [("camp-life", "Camp Life", "For the winter rotation: a toque that says it for you."),
+          ("powered-by-oil-money", "Powered by Oil Money", "Embroidered on the cuff, for the long walk to the truck."),
           ("build-the-pipeline", "Build the Pipeline", "Embroidered on the cuff, for the walk to the truck.")]
 SHEETS = [("units-and-conversions", "Units & Conversions", "Oil, gas, energy and pressure factors, plus the rate-from-volume rule.")]
 FEATURED = ["build-the-pipeline", "ottawa-doesnt-pump-oil", "shut-in-not-shut-down", "hyperbolic-decline"]
-BEST = ["hoodie-build-the-pipeline", "hoodie-ottawa-doesnt-pump-oil", "toque-forty-below", "mug-build-the-pipeline"]
+BEST = ["hoodie-build-the-pipeline", "hoodie-ottawa-doesnt-pump-oil", "toque-camp-life", "mug-build-the-pipeline"]
 
 
 
@@ -78,31 +79,33 @@ DESC = {
     "hoodie-shut-in-not-shut-down": "A valve wheel and a distinction that matters: a shut-in well is paused, not finished. A hoodie for people who know the difference. Printed in light ink for dark garments. Original design, no company names or logos.",
     "hoodie-hyperbolic-decline": "A hoodie for anyone whose enthusiasm follows an Arps curve: a steep start, a long flattening tail, and a small curve drawn under the headline. Printed in light ink for dark garments. Original design, no company names or logos.",
     "hoodie-arps-was-right": "The 1945 decline equation, set large and left to speak for itself. For engineers and analysts who have fit a curve to a well and been quietly proven right. Printed in light ink for dark garments. Original design, no company names or logos.",
-    "tee-energy-workers-vote": "Three words for the lunchroom, the truck and the polling station. Heavy type on the back, nothing else to explain. Printed in light ink for dark garments. Original design, no company names or logos.",
     "tee-scrap-the-tanker-ban": "A blunt opinion on the west coast export argument, in heavy type. Wear it where the conversation is happening. Printed in light ink for dark garments. Original design, no company names or logos.",
-    "tee-pipelines-not-platitudes": "Less talk, more steel. A straight-talking shirt for people who would rather see it built. Printed in light ink for dark garments. Original design, no company names or logos.",
     "sticker-build-the-pipeline": "A 3 inch die-cut-style sticker with a three-word request. Made for hard hats, lunch kits, tool boxes and truck dashboards.",
     "sticker-scrap-the-tanker-ban": "A 3 inch die-cut-style sticker with a blunt opinion in heavy type. Made for hard hats, toolboxes and truck dashboards.",
     "sticker-ottawa-doesnt-pump-oil": "A 3 inch die-cut-style sticker that says who actually pumps it. Made for hard hats, lunch kits and truck dashboards.",
-    "sticker-pipelines-not-platitudes": "A 3 inch die-cut-style sticker: less talk, more steel. Made for hard hats, toolboxes and truck dashboards.",
-    "sticker-energy-workers-vote": "A 3 inch die-cut-style sticker in heavy type. Made for hard hats, lunch kits and truck dashboards.",
     "sticker-shut-in-not-shut-down": "A 3 inch die-cut-style sticker of a valve wheel with the line shut-in, not shut down. Made for hard hats, laptops and truck dashboards.",
     "sticker-hyperbolic-decline": "A 3 inch die-cut-style sticker with the steep start and long tail of a hyperbolic decline. For the engineers' laptop lid.",
     "sticker-check-the-units": "A 3 inch die-cut-style sticker with the one habit that prevents most reporting errors: check the units. For the engineers' laptop lid.",
     "mug-build-the-pipeline": "Three words and a request, wrapped around an 11 oz mug. For the first coffee of the shift and the desk it ends up on. Original design, no company names or logos.",
     "mug-ottawa-doesnt-pump-oil": "A short reminder of who actually pumps it, in heavy type on an 11 oz mug. Good for the crew room and the office kitchen. Original design, no company names or logos.",
-    "mug-energy-workers-vote": "Three words in heavy type on an 11 oz mug. A coffee cup with a point of view. Original design, no company names or logos.",
     "mug-hyperbolic-decline": "A small decline curve under the line, on an 11 oz mug: for anyone whose enthusiasm follows an Arps curve. Original design, no company names or logos.",
     "mug-check-the-units": "m³, Mcf, MMcf, boe: always check the units. An 11 oz mug for the engineer who asks the question that saves the slide. Original design, no company names or logos.",
     "hat-build-the-pipeline": "Embroidered text on the front of an adjustable hat: three words and a request. Plain, clean, easy to wear to the site, the rink or the pub. Original design, no company names or logos.",
     "hat-ottawa-doesnt-pump-oil": "Embroidered text on the front of an adjustable hat: a reminder of who actually pumps it. Original design, no company names or logos.",
-    "toque-forty-below": "A cuffed toque with -40 and still working embroidered across the cuff. For the winter crew, the cold start and the long walk to the truck. Original design, no company names or logos.",
-    "toque-first-in-last-out": "A cuffed toque with the crew's code embroidered on the cuff: first in, last out. Original design, no company names or logos.",
     "toque-build-the-pipeline": "A cuffed toque with Build the Pipeline embroidered on the cuff. Keeps the cold off and the opinion on. Original design, no company names or logos.",
-    "tee-forty-below": "A winter crew in five words, set in heavy type on the back. For anyone who has started a truck at -40 and gone to work anyway. Printed in light ink for dark garments. Original design, no company names or logos.",
-    "tee-first-in-last-out": "The crew's code in heavy type on the back: first in, last out. Printed in light ink for dark garments. Original design, no company names or logos.",
-    "sticker-forty-below": "A 3 inch die-cut-style sticker: -40 and still working. Made for hard hats, lunch kits and truck dashboards.",
-    "sticker-first-in-last-out": "A 3 inch die-cut-style sticker with the crew's code: first in, last out. Made for hard hats, toolboxes and truck dashboards.",
+    "tee-powered-by-oil-money": "Four words and a fact, in heavy type on the back. For the lunchroom, the truck and anyone who has looked at what the provincial budget runs on. Printed in light ink for dark garments. Original design, no company names or logos.",
+    "tee-pipeline-or-quiet": "A blunt question in heavy type on the back: build the pipeline, or accept the quiet. Wear it where the conversation is happening. Printed in light ink for dark garments. Original design, no company names or logos.",
+    "tee-camp-life": "Two words for anyone who has done the rotation: the bunkhouse, the cafeteria, the long drive in and the longer one home. Heavy type on the back. Printed in light ink for dark garments. Original design, no company names or logos.",
+    "tee-darcys-law": "Darcy's law, set large on the back: flow rate equals permeability times area times pressure difference, over viscosity times length. How fluid moves through rock, first written down in 1856. For engineers, geologists and anyone who has argued about permeability. Printed in light ink for dark garments. Original design, no company names or logos.",
+    "tee-pv-znrt": "The real gas law on the back: pV = znRT. The z-factor is the part the textbook ideal gas law leaves out, and the reason gas is never quite as simple as it looks. For engineers who have fought a compressibility chart. Printed in light ink for dark garments. Original design, no company names or logos.",
+    "sticker-powered-by-oil-money": "A 3 inch die-cut-style sticker in heavy type. Made for hard hats, lunch kits and truck dashboards.",
+    "sticker-pipeline-or-quiet": "A 3 inch die-cut-style sticker: pipeline or quiet, pick one. Made for hard hats, toolboxes and truck dashboards.",
+    "sticker-camp-life": "A 3 inch die-cut-style sticker for the rotation: camp life. Made for hard hats, lunch kits and truck dashboards.",
+    "sticker-darcys-law": "A 3 inch die-cut-style sticker with Darcy's law. For the engineers' laptop lid.",
+    "sticker-pv-znrt": "A 3 inch die-cut-style sticker with the real gas law, pV = znRT. For the engineers' laptop lid.",
+    "mug-powered-by-oil-money": "Four words in heavy type on an 11 oz mug. A coffee cup with a point of view. Original design, no company names or logos.",
+    "toque-camp-life": "A cuffed toque with Camp Life embroidered on the cuff. For the winter rotation and the long walk to the truck. Original design, no company names or logos.",
+    "toque-powered-by-oil-money": "A cuffed toque with Powered by Oil Money embroidered on the cuff. Keeps the cold off and the point made. Original design, no company names or logos.",
     "poster-record-barrels": "Western Canada's oil, stacked on a zero baseline: Alberta, Saskatchewan and BC from January 2022 to September 2026, with the record month marked. The one to hang where the people who pump it will see it. Four headline figures and the source and method are printed on the sheet. Choose the dark Night edition or the cream Paper edition.",
     "poster-peak-vs-now": "Six streams of oil and gas ranked by how close each one is to its own best month. Alberta oil sits closest to its peak. Gas is seasonal and BC oil is very small, and the poster says so. Bars start at zero, and the source and method are printed on the sheet. Choose the dark Night edition or the cream Paper edition.",
     "poster-86-of-100": "A hundred dots for every hundred barrels of oil produced in Alberta, Saskatchewan and British Columbia: 86 are Alberta's, 14 are Saskatchewan's and BC's share rounds to under one. Real production figures for September 2026, with the source and method printed on the sheet. Choose the dark Night edition or the cream Paper edition.",
@@ -234,7 +237,7 @@ def body():
 
 def home_strip():
     items = {it["id"]: it for it in catalogue()}
-    pick = ["hoodie-build-the-pipeline", "hoodie-ottawa-doesnt-pump-oil", "mug-build-the-pipeline", "toque-forty-below", "hat-build-the-pipeline", "poster-record-barrels"]
+    pick = ["hoodie-build-the-pipeline", "hoodie-ottawa-doesnt-pump-oil", "mug-build-the-pipeline", "toque-camp-life", "hat-build-the-pipeline", "poster-record-barrels"]
     cards = ""
     for i in pick:
         it = items[i]

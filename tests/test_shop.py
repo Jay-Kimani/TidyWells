@@ -62,7 +62,7 @@ def test_prices_are_labelled_and_no_sale_claims():
 def test_every_product_has_a_page_a_price_and_clean_structured_data():
     import json
     items = shop.catalogue()
-    assert len(items) == 35 and len({i["page"] for i in items}) == 35
+    assert len(items) == 37 and len({i["page"] for i in items}) == 37
     sitemap = (DOCS / "sitemap.xml").read_text(encoding="utf-8")
     for it in items:
         html = (DOCS / it["page"]).read_text(encoding="utf-8")
@@ -104,7 +104,7 @@ def test_no_company_names_in_products_or_art():
 
 def test_catalogue_is_consistent():
     slugs = [d[0] for d in goods.DESIGNS]
-    assert len(slugs) == len(set(slugs)) == 11
+    assert len(slugs) == len(set(slugs)) == 12
     assert {a[0] for a in shop.APPAREL} <= set(slugs)
     assert set(goods.MUG_SLUGS) <= set(slugs) and {m[0] for m in shop.MUGS} == set(goods.MUG_SLUGS)
     assert {c[0] for c in shop.HATS} == {c[0] for c in goods.HATS} and {c[0] for c in shop.TOQUES} == {c[0] for c in goods.TOQUES}
@@ -179,7 +179,7 @@ console.log(JSON.stringify({{bad:p.bad,n:s.length,v0:s[0].v,wells:c.wells,s1:s1.
 def test_listing_copy_fits_store_limits():
     import csv
     rows = list(csv.DictReader(open(ROOT / "shop" / "listings.csv", encoding="utf-8")))
-    assert len(rows) == 40  # 10 posters + 10 apparel + 9 stickers + 5 mugs + 2 hats + 3 toques + 1 sheet
+    assert len(rows) == 42  # 10 posters + 11 apparel + 10 stickers + 5 mugs + 2 hats + 3 toques + 1 sheet
     for r in rows:
         tags = r["tags"].split("|")
         assert len(r["title"]) <= 140 and len(tags) <= 13 and all(len(t) <= 20 for t in tags), r["id"]

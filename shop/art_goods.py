@@ -160,20 +160,32 @@ def d_ottawa(c):
     return bold(["OTTAWA", "DOESN'T", "PUMP", "OIL."], 3, c) + brand(c)
 
 
-def d_platitudes(c):
-    return bold(["PIPELINES", "NOT", "PLATITUDES"], 0, c) + brand(c)
+def d_quiet(c):
+    return bold(["PIPELINE", "OR QUIET.", "PICK ONE."], 2, c) + brand(c)
 
 
-def d_vote(c):
-    return bold(["ENERGY", "WORKERS", "VOTE."], 2, c) + brand(c)
+def d_money(c):
+    return bold(["POWERED", "BY OIL", "MONEY."], 2, c) + brand(c)
 
 
-def d_forty(c):
-    return bold(["-40 AND", "STILL", "WORKING."], 2, c) + brand(c)
+def d_camp(c):
+    return bold(["CAMP", "LIFE."], 1, c) + brand(c)
 
 
-def d_firstin(c):
-    return bold(["FIRST IN.", "LAST OUT."], 1, c) + brand(c)
+def d_darcy(c):
+    return (text(600, 500, "DARCY&#39;S LAW", 120, c["ink"], SANS, 800, anchor="middle", spacing=8) +
+            text(330, 800, "q =", 150, c["ink"], SERIF, 600, style="italic") +
+            text(830, 725, "k · A · ΔP", 130, c["ink"], SERIF, 600, anchor="middle", style="italic") +
+            f'<line x1="520" y1="790" x2="1140" y2="790" stroke="{c["accent"]}" stroke-width="12" stroke-linecap="round"/>' +
+            text(830, 925, "μ · L", 130, c["ink"], SERIF, 600, anchor="middle", style="italic") +
+            text(600, 1100, "HOW FLUID MOVES THROUGH ROCK", 46, c["accent"], SANS, 700, anchor="middle", spacing=10) +
+            text(600, 1170, "H. Darcy · 1856", 44, c["muted"], SERIF, 400, anchor="middle", style="italic") + brand(c))
+
+
+def d_gaslaw(c):
+    return (text(600, 700, "pV = znRT", 230, c["ink"], SERIF, 600, anchor="middle", style="italic") +
+            text(600, 860, "THE REAL GAS LAW", 70, c["accent"], SANS, 800, anchor="middle", spacing=12) +
+            text(600, 960, "z is the part the textbook leaves out", 50, c["muted"], SERIF, 400, anchor="middle", style="italic") + brand(c))
 
 
 DESIGNS = [  # slug, name, fn, garment
@@ -182,17 +194,18 @@ DESIGNS = [  # slug, name, fn, garment
     ("shut-in-not-shut-down", "Shut-In, Not Shut Down", d_shutin, "hoodie"),
     ("hyperbolic-decline", "Hyperbolic Decline: My Motivation", d_hyperbolic, "hoodie"),
     ("arps-was-right", "Arps Was Right", d_arps, "hoodie"),
-    ("energy-workers-vote", "Energy Workers Vote", d_vote, "tee"),
+    ("powered-by-oil-money", "Powered by Oil Money", d_money, "tee"),
     ("scrap-the-tanker-ban", "Scrap the Tanker Ban", d_tanker, "tee"),
-    ("pipelines-not-platitudes", "Pipelines, Not Platitudes", d_platitudes, "tee"),
-    ("forty-below", "-40 and Still Working", d_forty, "tee"),
-    ("first-in-last-out", "First In. Last Out.", d_firstin, "tee"),
+    ("pipeline-or-quiet", "Pipeline or Quiet. Pick One.", d_quiet, "tee"),
+    ("camp-life", "Camp Life", d_camp, "tee"),
+    ("darcys-law", "Darcy's Law", d_darcy, "tee"),
+    ("pv-znrt", "pV = znRT", d_gaslaw, "tee"),
     ("check-the-units", "Check the Units", d_units, "tee"),
 ]
-STICKER_SLUGS = ["build-the-pipeline", "scrap-the-tanker-ban", "ottawa-doesnt-pump-oil", "pipelines-not-platitudes", "energy-workers-vote", "shut-in-not-shut-down", "hyperbolic-decline", "forty-below", "first-in-last-out"]
-MUG_SLUGS = ["build-the-pipeline", "ottawa-doesnt-pump-oil", "energy-workers-vote", "hyperbolic-decline", "check-the-units"]
+STICKER_SLUGS = ["build-the-pipeline", "scrap-the-tanker-ban", "ottawa-doesnt-pump-oil", "pipeline-or-quiet", "powered-by-oil-money", "shut-in-not-shut-down", "hyperbolic-decline", "camp-life", "darcys-law", "pv-znrt"]
+MUG_SLUGS = ["build-the-pipeline", "ottawa-doesnt-pump-oil", "powered-by-oil-money", "hyperbolic-decline", "check-the-units"]
 HATS = [("build-the-pipeline", ["BUILD THE", "PIPELINE"]), ("ottawa-doesnt-pump-oil", ["OTTAWA DOESN'T", "PUMP OIL."])]
-TOQUES = [("build-the-pipeline", ["BUILD THE PIPELINE"]), ("forty-below", ["-40 AND", "STILL WORKING."]), ("first-in-last-out", ["FIRST IN.", "LAST OUT."])]
+TOQUES = [("build-the-pipeline", ["BUILD THE PIPELINE"]), ("camp-life", ["CAMP LIFE."]), ("powered-by-oil-money", ["POWERED BY", "OIL MONEY."])]
 STICKERS = STICKER_SLUGS
 GARMENT_COLORS = {"black": "#17191f", "navy": "#16233f", "sand": "#d9cfba", "white": "#f1f1ee", "heather": "#9ca2ab"}
 
