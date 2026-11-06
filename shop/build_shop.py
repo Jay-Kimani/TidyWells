@@ -57,7 +57,7 @@ BEST = ["hoodie-build-the-pipeline", "hoodie-ottawa-doesnt-pump-oil", "toque-cam
 LINKJS = ('<script src="shop.js"></script>')
 
 
-PRICE = {"hoodie": 69.99, "tee": 36.99, "mug": 24.99, "hat": 34.99, "toque": 29.99, "poster": 44.99, "sticker": 5.99, "sheet": 8.99}  # CAD launch prices; confirmed in the store
+PRICE = {"hoodie": 69.99, "tee": 36.99, "mug": 24.99, "hat": 39.99, "toque": 34.99, "poster": 44.99, "sticker": 5.99, "sheet": 8.99}  # CAD launch prices; confirmed in the store
 BUNDLES = [  # id, title, blurb, price, would-be separate total, image
     ("stickers-three-pack", "Sticker 3-pack", "Pick any three hard-hat stickers from the collection.", 14.99, 17.97, "bundle-stickers.jpg"),
 ]
