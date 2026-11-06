@@ -36,6 +36,7 @@
   var open = window.TIDYWELLS_SHOP_OPEN === true;
   if (open) {
     document.querySelectorAll(".badge").forEach(function (b) { b.textContent = "Now open"; });
+    twHype();
     var st = document.createElement("style"); st.textContent = "#waitlist,#waitlist2,.waitlist-end{display:none!important}"; document.head.appendChild(st);
     document.querySelectorAll(".prod .go").forEach(function (go) {
       var a = go.parentNode.querySelector("h3 a");
@@ -155,3 +156,36 @@ function twBuy() {
   }).catch(function () { host.innerHTML = 'Not available right now. <a href="shop.html">Back to the shop</a>.'; });
 }
 if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", twBuy); else twBuy();
+
+// Marketing labels on the shop: ribbons, one-line captions and button wording. Honest claims only: no fake stock counts, no invented sales numbers.
+function twHype() {
+  var HOT = { "hoodie-build-the-pipeline": "Hot pick", "hoodie-ottawa-doesnt-pump-oil": "Crowd favourite", "toque-camp-life": "Cold-snap essential", "mug-build-the-pipeline": "Hot pick",
+              "tee-darcys-law": "Nerd approved", "tee-pv-znrt": "Nerd approved", "hoodie-arps-was-right": "Engineers love this one", "poster-decline-shape": "Wall-worthy", "poster-record-barrels": "Wall-worthy",
+              "bundle-stickers-complete-set": "Best value", "sheet-units-and-conversions": "Instant download", "hoodie-hyperbolic-decline": "Relatable", "mug-hyperbolic-decline": "Relatable" };
+  var KIND = { hoodie: ["Fresh drop", "Heavy, warm, printed to order. Hoodie season is here."], tee: ["Fresh drop", "Soft tee, loud back print. Printed to order."], toque: ["Winter-ready", "Warm toque with an embroidered line. Printed to order."],
+               hat: ["Fresh drop", "Embroidered, adjustable, one size fits most."], mug: ["Gift-ready", "The coffee mug your crew will fight over."], poster: ["Launch price while it lasts", "18 x 24 in. Real data, drawn clean."],
+               bundle: ["Launch price while it lasts", "More stickers per dollar on the bigger sheets."], sheet: ["Instant download", "Pin it up today. No shipping, no waiting."] };
+  function kindOf(slug) { var m = /^(hoodie|tee|toque|hat|mug|poster|bundle|sheet)/.exec(slug); return m ? m[1] : ""; }
+  var st = document.createElement("style");
+  st.textContent = ".pimg{position:relative;display:block}.hype{position:absolute;top:10px;left:10px;z-index:2;background:#d6304b;color:#fff;font:800 11px/1 inherit;letter-spacing:.04em;text-transform:uppercase;padding:6px 9px;border-radius:999px;box-shadow:0 2px 8px rgba(0,0,0,.25)}.hype.alt{background:#0f1e45}.hype.hot::before{content:'\\1F525 '}" +
+    ".cap{font-size:12.5px;color:var(--muted);margin:2px 0 6px}.cap b{color:#d6304b}.proof{font-size:13px;margin:8px 0;padding:8px 10px;border-left:3px solid #d6304b;background:rgba(214,48,75,.07);border-radius:0 6px 6px 0}";
+  document.head.appendChild(st);
+  document.querySelectorAll(".prod[data-slug]").forEach(function (card) {
+    var slug = card.getAttribute("data-slug"), k = KIND[kindOf(slug)], hot = HOT[slug];
+    var box = card.querySelector(".pimg"); if (box && !box.querySelector(".hype")) {
+      var r = document.createElement("span"); r.className = "hype" + (hot ? " hot" : " alt"); r.textContent = hot || (k && k[0]) || ""; if (r.textContent) box.appendChild(r);
+    }
+    var price = card.querySelector(".price"); if (price && k && !card.querySelector(".cap")) {
+      var c = document.createElement("p"); c.className = "cap"; c.textContent = k[1]; price.parentNode.insertBefore(c, price);
+    }
+    var btn = card.querySelector(".go a.btn"); if (btn) btn.textContent = kindOf(slug) === "sheet" ? "Get it now" : hot ? "Grab yours" : "Choose options";
+  });
+  document.querySelectorAll("h2#best").forEach(function (h) { h.textContent = "Crew favourites"; });
+  document.querySelectorAll(".go[data-slug]").forEach(function (go) {
+    var slug = go.getAttribute("data-slug"), k = KIND[kindOf(slug)], hot = HOT[slug];
+    if (!k || go.previousElementSibling && go.previousElementSibling.classList.contains("proof")) return;
+    var d = document.createElement("p"); d.className = "proof";
+    d.innerHTML = "<b>" + (hot || k[0]) + ".</b> " + k[1] + " Launch price while it lasts.";
+    go.parentNode.insertBefore(d, go);
+  });
+}
