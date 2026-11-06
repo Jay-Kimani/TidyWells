@@ -25,26 +25,25 @@ POSTERS = [  # slug, title, blurb
     ("decline-shape", "Shape of a Decline", "The Arps family b = 0 to 1.5, the curve every well-file reader should know."),
 ]
 APPAREL = [  # slug, name, garment, blurb
+    ("build-the-pipeline", "Build the Pipeline", "hoodie", "Three words and a request."),
+    ("ottawa-doesnt-pump-oil", "Ottawa Doesn't Pump Oil", "hoodie", "A reminder of who does."),
+    ("shut-in-not-shut-down", "Shut-In, Not Shut Down", "hoodie", "A valve wheel and a distinction that matters."),
     ("hyperbolic-decline", "Hyperbolic Decline: My Motivation", "hoodie", "For anyone whose enthusiasm follows an Arps curve."),
     ("arps-was-right", "Arps Was Right", "hoodie", "The 1945 equation, still undefeated."),
-    ("shut-in-not-shut-down", "Shut-In, Not Shut Down", "hoodie", "A valve wheel and a distinction that matters."),
-    ("wells-dont-retire", "Wells Don't Retire. They Decline.", "hoodie", "Respect the curve."),
+    ("energy-workers-vote", "Energy Workers Vote", "tee", "Short, clean, and hard to argue with."),
+    ("scrap-the-tanker-ban", "Scrap the Tanker Ban", "tee", "For the west coast export argument."),
+    ("pipelines-not-platitudes", "Pipelines, Not Platitudes", "tee", "Less talk, more steel."),
     ("b-equals-1", "b = 1.0", "tee", "Harmonic decline, in monospace."),
-    ("arps-equation", "The Arps Equation", "tee", "q(t) = qᵢ / (1 + b·Dᵢ·t)^(1/b), set in type."),
-    ("leading-zeros-matter", "Leading Zeros Matter", "tee", "For everyone who has watched a spreadsheet eat a well ID."),
     ("check-the-units", "Check the Units", "tee", "m³, Mcf, MMcf, boe. Always."),
-    ("gas-has-a-season", "Gas Has a Season", "tee", "Winter demand, drawn as a wave."),
-    ("bounded-optimism", "Bounded Fit. Bounded Optimism.", "tee", "0 ≤ b ≤ 2."),
-    ("p50-energy", "P50 Energy", "tee", "Not optimistic. Not pessimistic. Just the median."),
-    ("licensed-not-producing", "Licensed ≠ Producing", "tee", "A licence is not a production report."),
 ]
-STICKERS = [("hyperbolic-decline", "Hyperbolic Decline"), ("b-equals-1", "b = 1.0"), ("shut-in-not-shut-down", "Shut-In, Not Shut Down"),
-            ("arps-was-right", "Arps Was Right"), ("leading-zeros-matter", "Leading Zeros Matter"), ("check-the-units", "Check the Units")]
+STICKERS = [("build-the-pipeline", "Build the Pipeline"), ("scrap-the-tanker-ban", "Scrap the Tanker Ban"), ("ottawa-doesnt-pump-oil", "Ottawa Doesn't Pump Oil"),
+            ("pipelines-not-platitudes", "Pipelines, Not Platitudes"), ("energy-workers-vote", "Energy Workers Vote"), ("shut-in-not-shut-down", "Shut-In, Not Shut Down"),
+            ("hyperbolic-decline", "Hyperbolic Decline"), ("check-the-units", "Check the Units")]
 NOTEBOOKS = [("decline-log", "Decline Log", "A field notebook for the numbers you keep meaning to track."), ("well-file", "Well File", "Notes, numbers, nonsense.")]
 SHEETS = [("units-and-conversions", "Units & Conversions", "Oil, gas, energy and pressure factors, plus the rate-from-volume rule."),
           ("decline-curves-one-page", "Decline Curves, One Page", "Exponential, hyperbolic and harmonic, with the habits that keep a fit honest."),
           ("regulator-data-gotchas", "Regulator Data Gotchas", "Seven ways public well data quietly breaks an analysis.")]
-FEATURED = ["hyperbolic-decline", "arps-was-right", "shut-in-not-shut-down", "wells-dont-retire"]
+FEATURED = ["build-the-pipeline", "ottawa-doesnt-pump-oil", "shut-in-not-shut-down", "hyperbolic-decline"]
 
 
 
@@ -68,6 +67,24 @@ SPECS = {
 POSTER_TAIL = " Four headline figures sit under the chart, and the source, method and data window are printed at the foot, so it reads like a figure from a report rather than decoration. Choose the dark Night edition or the cream Paper edition."
 DESC = {
     "poster-ab-oil": "Alberta's monthly oil production from January 2022 to September 2026 as one clean line, with the peak month and the latest month marked." + POSTER_TAIL,
+    "hoodie-build-the-pipeline": "Three words and a request, set large on the back. For everyone who has been waiting on a pipeline long enough to have an opinion about it. Printed in light ink for dark garments. Original design, no company names or logos.",
+    "hoodie-ottawa-doesnt-pump-oil": "A short reminder of who actually pumps it. Bold type on the back for the crew, the office and the family barbecue. Printed in light ink for dark garments. Original design, no company names or logos.",
+    "hoodie-shut-in-not-shut-down": "A valve wheel and a distinction that matters: a shut-in well is paused, not finished. A hoodie for people who know the difference. Printed in light ink for dark garments. Original design, no company names or logos.",
+    "hoodie-hyperbolic-decline": "A hoodie for anyone whose enthusiasm follows an Arps curve: a steep start, a long flattening tail, and a small curve drawn under the headline. Printed in light ink for dark garments. Original design, no company names or logos.",
+    "hoodie-arps-was-right": "The 1945 decline equation, set large and left to speak for itself. For engineers and analysts who have fit a curve to a well and been quietly proven right. Printed in light ink for dark garments. Original design, no company names or logos.",
+    "tee-energy-workers-vote": "Three words for the lunchroom, the truck and the polling station. Heavy type on the back, nothing else to explain. Printed in light ink for dark garments. Original design, no company names or logos.",
+    "tee-scrap-the-tanker-ban": "A blunt opinion on the west coast export argument, in heavy type. Wear it where the conversation is happening. Printed in light ink for dark garments. Original design, no company names or logos.",
+    "tee-pipelines-not-platitudes": "Less talk, more steel. A straight-talking shirt for people who would rather see it built. Printed in light ink for dark garments. Original design, no company names or logos.",
+    "tee-b-equals-1": "Harmonic decline, in monospace: b = 1.0, nothing more. A quiet shirt for the engineers who will get the joke. Printed in light ink for dark garments. Original design, no company names or logos.",
+    "tee-check-the-units": "m³, Mcf, MMcf, boe: always check the units. For the person in the meeting who asks the question that saves the slide. Printed in light ink for dark garments. Original design, no company names or logos.",
+    "sticker-build-the-pipeline": "A 3 inch die-cut-style sticker with a three-word request. Made for hard hats, lunch kits, tool boxes and truck dashboards.",
+    "sticker-scrap-the-tanker-ban": "A 3 inch die-cut-style sticker with a blunt opinion in heavy type. Made for hard hats, toolboxes and truck dashboards.",
+    "sticker-ottawa-doesnt-pump-oil": "A 3 inch die-cut-style sticker that says who actually pumps it. Made for hard hats, lunch kits and truck dashboards.",
+    "sticker-pipelines-not-platitudes": "A 3 inch die-cut-style sticker: less talk, more steel. Made for hard hats, toolboxes and truck dashboards.",
+    "sticker-energy-workers-vote": "A 3 inch die-cut-style sticker in heavy type. Made for hard hats, lunch kits and truck dashboards.",
+    "sticker-shut-in-not-shut-down": "A 3 inch die-cut-style sticker of a valve wheel with the line shut-in, not shut down. Made for hard hats, laptops and truck dashboards.",
+    "sticker-hyperbolic-decline": "A 3 inch die-cut-style sticker with the steep start and long tail of a hyperbolic decline. For the engineers' laptop lid.",
+    "sticker-check-the-units": "A 3 inch die-cut-style sticker with the one habit that prevents most reporting errors: check the units. For the engineers' laptop lid.",
     "poster-record-barrels": "Western Canada's oil, stacked on a zero baseline: Alberta, Saskatchewan and BC from January 2022 to September 2026, with the record month marked. The one to hang where the people who pump it will see it. Four headline figures and the source and method are printed on the sheet. Choose the dark Night edition or the cream Paper edition.",
     "poster-peak-vs-now": "Six streams of oil and gas ranked by how close each one is to its own best month. Alberta oil sits closest to its peak. Gas is seasonal and BC oil is very small, and the poster says so. Bars start at zero, and the source and method are printed on the sheet. Choose the dark Night edition or the cream Paper edition.",
     "poster-86-of-100": "A hundred dots for every hundred barrels of oil produced in Alberta, Saskatchewan and British Columbia: 86 are Alberta's, 14 are Saskatchewan's and BC's share rounds to under one. Real production figures for September 2026, with the source and method printed on the sheet. Choose the dark Night edition or the cream Paper edition.",
@@ -75,24 +92,6 @@ DESC = {
     "poster-five-years": "Oil and gas in Alberta, Saskatchewan and British Columbia as six small charts on one sheet, so the three provinces can be compared at a glance. Source, method and data window are printed at the foot. Choose the dark Night edition or the cream Paper edition.",
     "poster-gas-season": "A radar chart of the calendar-month pattern in Alberta and British Columbia gas: the seasonal wave that every analyst learns to expect. Source, method and data window are printed at the foot. Choose the dark Night edition or the cream Paper edition.",
     "poster-decline-shape": "The Arps family of decline curves from b = 0 to b = 1.5 on one sheet: exponential, hyperbolic and harmonic, the shapes every well-file reader should be able to recognise. Equations and a short reading guide are printed on the poster. Choose the dark Night edition or the cream Paper edition.",
-    "hoodie-hyperbolic-decline": "A hoodie for anyone whose enthusiasm follows an Arps curve: a steep start, a long flattening tail, and a small curve drawn under the headline. Printed in light ink for dark garments. Original design, no company names or logos.",
-    "hoodie-arps-was-right": "The 1945 decline equation, set large and left to speak for itself. For engineers, analysts and anyone who has fit a curve to a well and been quietly proven right. Printed in light ink for dark garments. Original design, no company names or logos.",
-    "hoodie-shut-in-not-shut-down": "A valve wheel and a distinction that matters: a shut-in well is paused, not finished. A hoodie for people who know the difference. Printed in light ink for dark garments. Original design, no company names or logos.",
-    "hoodie-wells-dont-retire": "Wells do not retire, they decline, and this hoodie says so with a small decline curve under the line. Respect the curve. Printed in light ink for dark garments. Original design, no company names or logos.",
-    "tee-b-equals-1": "Harmonic decline, in monospace: b = 1.0, nothing more. A quiet t-shirt for people who will get the joke and people who will ask. Printed in light ink for dark garments. Original design, no company names or logos.",
-    "tee-arps-equation": "The Arps equation, q(t) = qi / (1 + b·Di·t)^(1/b), set in type like a line from a textbook. Printed in light ink for dark garments. Original design, no company names or logos.",
-    "tee-leading-zeros-matter": "For everyone who has watched a spreadsheet quietly eat the leading zeros off a well ID and then spent an afternoon finding out why. Printed in light ink for dark garments. Original design, no company names or logos.",
-    "tee-check-the-units": "m³, Mcf, MMcf, boe: always check the units. A t-shirt for the person in the meeting who asks the question that saves the slide. Printed in light ink for dark garments. Original design, no company names or logos.",
-    "tee-gas-has-a-season": "Winter demand, drawn as a wave across the chest. Gas has a season and so does this shirt. Printed in light ink for dark garments. Original design, no company names or logos.",
-    "tee-bounded-optimism": "A decline fit with the exponent held between 0 and 2, because a fit should be bounded and so should optimism. Printed in light ink for dark garments. Original design, no company names or logos.",
-    "tee-p50-energy": "Not optimistic, not pessimistic, just the median. A t-shirt for people who report the P50 and mean it. Printed in light ink for dark garments. Original design, no company names or logos.",
-    "tee-licensed-not-producing": "A licence is not a production report. A t-shirt for anyone who has had to explain that a well on the list is not a well on the pad. Printed in light ink for dark garments. Original design, no company names or logos.",
-    "sticker-hyperbolic-decline": "A 3 inch die-cut-style sticker with the steep start and long tail of a hyperbolic decline. Made for hard hats, laptop lids and truck dashboards.",
-    "sticker-b-equals-1": "A 3 inch die-cut-style sticker that says b = 1.0, the harmonic decline, in monospace. Made for hard hats, laptops and truck dashboards.",
-    "sticker-shut-in-not-shut-down": "A 3 inch die-cut-style sticker of a valve wheel with the line shut-in, not shut down. Made for hard hats, laptops and truck dashboards.",
-    "sticker-arps-was-right": "A 3 inch die-cut-style sticker with the Arps equation and the verdict. Made for hard hats, laptops and truck dashboards.",
-    "sticker-leading-zeros-matter": "A 3 inch die-cut-style sticker for anyone who has lost a well ID's leading zeros to a spreadsheet. Made for hard hats, laptops and truck dashboards.",
-    "sticker-check-the-units": "A 3 inch die-cut-style sticker with the one habit that prevents most reporting errors: check the units. Made for hard hats, laptops and truck dashboards.",
     "notebook-decline-log": "A field notebook with a decline-curve cover, for the numbers you keep meaning to track: rates, pressures, dates and the odd well-site thought. Original cover design, no company names or logos.",
     "notebook-well-file": "A notebook with a well-file cover: notes, numbers and nonsense, all in one place. Original cover design, no company names or logos.",
     "sheet-units-and-conversions": "A one-page, 11 x 17 inch PDF of oil, gas, energy and pressure conversion factors, plus the rule for turning a volume into a daily rate. Print it for your desk or your truck; for your own use. Instant download.",
@@ -177,7 +176,7 @@ def body():
     # featured hoodies
     feat = [a for a in APPAREL if a[0] in FEATURED]
     o.append('<h2 id="hoodies">Featured hoodies</h2><div class="pgrid four">' + "".join(
-        prod(s, k, n, b, card_img(f"mockup-{s}.jpg", f"{n} {k} mockup", 720, 720), 720, 720) for s, n, k, b in feat) + '</div>'
+        prod(s, k, n, b, card_img(f"mockup-{s}-back.jpg", f"{n} {k}, back print", 720, 720), 720, 720) for s, n, k, b in feat) + '</div>'
         '<p class="shop-note">Garment images are illustrative mockups of the print placement. Final garment colours and fit follow the store listing.</p>')
     # posters
     ps = []
@@ -191,7 +190,7 @@ def body():
     # apparel (all)
     rest = [a for a in APPAREL if a[0] not in FEATURED]
     o.append('<h2 id="apparel">Apparel</h2><p>Insider humour, no company logos. Each design is made in a light ink for dark garments and a dark ink for light ones.</p><div class="pgrid">' + "".join(
-        prod(s, k, n, b, card_img(f"mockup-{s}.jpg", f"{n} {k} mockup", 720, 720), 720, 720) for s, n, k, b in rest) + '</div>')
+        prod(s, k, n, b, card_img(f"mockup-{s}-back.jpg", f"{n} {k}, back print", 720, 720), 720, 720) for s, n, k, b in rest) + '</div>')
     # stickers and notebooks
     o.append('<h2 id="stickers">Hard-hat stickers and field notebooks</h2><div class="pgrid">' + "".join(
         prod(s, "sticker", n, "Die-cut style, 3 inch. Sticks to hard hats, laptops and truck dashboards.", card_img(f"sticker-{s}.png", f"{n} sticker", 600, 600), 600, 600) for s, n in STICKERS) + "".join(
@@ -219,7 +218,7 @@ def body():
 
 def home_strip():
     feat = [a for a in APPAREL if a[0] in FEATURED]
-    cards = "".join(f'<a class="prod" href="{page_name("hoodie", s)}" style="text-decoration:none;color:inherit"><img src="{IMG}mockup-{s}.jpg" alt="{esc(n)} hoodie mockup" width="720" height="720" loading="lazy"><div class="pi"><span class="tag">Hoodie</span><h3>{esc(n)}</h3></div></a>'
+    cards = "".join(f'<a class="prod" href="{page_name("hoodie", s)}" style="text-decoration:none;color:inherit"><img src="{IMG}mockup-{s}-back.jpg" alt="{esc(n)} hoodie, back print" width="720" height="720" loading="lazy"><div class="pi"><span class="tag">Hoodie</span><h3>{esc(n)}</h3></div></a>'
                     for s, n, k, b in feat)
     pcards = "".join(f'<a class="prod" href="{page_name("poster", s)}" style="text-decoration:none;color:inherit"><img src="{IMG}poster-{s}-night.jpg" alt="{esc(t)} poster" width="720" height="960" loading="lazy"><div class="pi"><span class="tag">Poster</span><h3>{esc(t)}</h3></div></a>'
                      for s, t in (("record-barrels", "Record Barrels"), ("86-of-100", "86 of Every 100")))
@@ -243,7 +242,7 @@ def product_page(it, items):
     tts = '<p class="tts"><strong>True to size.</strong> Order the size you normally wear; the size guide below shows the flat measurements.</p>'
     specs = "".join(f"<li>{esc(x)}</li>" for x in SPECS[kind])
     related = [x for x in items if x["kind"] == kind and x["id"] != it["id"]][:4]
-    rel = "".join(f'<a class="prod" href="{r["page"]}" style="text-decoration:none;color:inherit"><img src="{IMG}{r["images"][0][0]}" alt="{esc(r["images"][0][1])}" width="{r["images"][0][2]}" height="{r["images"][0][3]}" loading="lazy"><div class="pi"><h3>{esc(r["short"])}</h3>{price_html(kind)}</div></a>' for r in related)
+    rel = "".join(f'<a class="prod" href="{r["page"]}" style="text-decoration:none;color:inherit"><img src="{IMG}{r["images"][1 if r["kind"] in SIZES else 0][0]}" alt="{esc(r["images"][1 if r["kind"] in SIZES else 0][1])}" width="{r["images"][1 if r["kind"] in SIZES else 0][2]}" height="{r["images"][1 if r["kind"] in SIZES else 0][3]}" loading="lazy"><div class="pi"><h3>{esc(r["short"])}</h3>{price_html(kind)}</div></a>' for r in related)
     ld = {"@context": "https://schema.org", "@type": "Product", "name": t, "description": DESC[it["id"]], "sku": it["id"], "brand": {"@type": "Brand", "name": "Tidywells"},
           "image": [f"https://tidywells.com/{IMG}{f}" for f, *_ in imgs], "url": f"https://tidywells.com/{it['page']}"}
     body_ = (f'<p class="crumb"><a href="shop.html">Shop</a> &rsaquo; {esc(kind_label(kind))}</p>'

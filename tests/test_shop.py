@@ -105,7 +105,7 @@ def test_no_company_names_in_products_or_art():
 
 def test_catalogue_is_consistent():
     slugs = [d[0] for d in goods.DESIGNS]
-    assert len(slugs) == len(set(slugs)) == 12
+    assert len(slugs) == len(set(slugs)) == 10
     assert {a[0] for a in shop.APPAREL} == set(slugs)
     assert set(goods.STICKERS) <= set(slugs) and {s[0] for s in shop.STICKERS} == set(goods.STICKERS)
     for s, _n, kind, _b in shop.APPAREL:
@@ -178,7 +178,7 @@ console.log(JSON.stringify({{bad:p.bad,n:s.length,v0:s[0].v,wells:c.wells,s1:s1.
 def test_listing_copy_fits_store_limits():
     import csv
     rows = list(csv.DictReader(open(ROOT / "shop" / "listings.csv", encoding="utf-8")))
-    assert len(rows) == 39  # 16 posters (2 colourways x 8) + 12 apparel + 6 stickers + 2 notebooks + 3 sheets
+    assert len(rows) == 39  # 16 posters (2 colourways x 8) + 10 apparel + 8 stickers + 2 notebooks + 3 sheets
     for r in rows:
         tags = r["tags"].split("|")
         assert len(r["title"]) <= 140 and len(tags) <= 13 and all(len(t) <= 20 for t in tags), r["id"]

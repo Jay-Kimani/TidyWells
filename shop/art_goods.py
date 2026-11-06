@@ -135,21 +135,53 @@ def d_licensed(c):
             text(600, 1160, "a licence is not a production report.", 46, c["muted"], SERIF, 400, anchor="middle", style="italic") + brand(c))
 
 
-DESIGNS = [  # slug, name, fn, garment, tagline
-    ("hyperbolic-decline", "Hyperbolic Decline: My Motivation", d_hyperbolic, "hoodie"),
-    ("b-equals-1", "b = 1.0", d_b1, "tee"),
+def bold(lines, acc, c, size_cap=250):
+    """Clean stacked slogan: heavy Inter caps, one accent line, thin rule. Fits a 1000px box."""
+    n = len(lines)
+    size = min(size_cap, 1000 / (0.64 * max(len(l) for l in lines)), 900 / (n * 1.0))
+    y = 700 - size * n / 2 + size * 0.80
+    o = []
+    for i, l in enumerate(lines):
+        o.append(text(600, y + i * size, l.replace("'", "&#39;"), round(size), c["accent"] if i == acc else c["ink"], SANS, 800, anchor="middle", spacing=-round(size * 0.01)))
+    ry = y + (n - 1) * size + size * 0.40
+    o.append(f'<line x1="470" y1="{ry:.0f}" x2="730" y2="{ry:.0f}" stroke="{c["muted"]}" stroke-width="6" stroke-linecap="round"/>')
+    return "".join(o)
+
+
+def d_pipeline(c):
+    return bold(["BUILD", "THE", "PIPELINE"], 2, c) + brand(c)
+
+
+def d_tanker(c):
+    return bold(["SCRAP", "THE", "TANKER", "BAN"], 3, c) + brand(c)
+
+
+def d_ottawa(c):
+    return bold(["OTTAWA", "DOESN'T", "PUMP", "OIL."], 3, c) + brand(c)
+
+
+def d_platitudes(c):
+    return bold(["PIPELINES", "NOT", "PLATITUDES"], 0, c) + brand(c)
+
+
+def d_vote(c):
+    return bold(["ENERGY", "WORKERS", "VOTE."], 2, c) + brand(c)
+
+
+DESIGNS = [  # slug, name, fn, garment
+    ("build-the-pipeline", "Build the Pipeline", d_pipeline, "hoodie"),
+    ("ottawa-doesnt-pump-oil", "Ottawa Doesn't Pump Oil", d_ottawa, "hoodie"),
     ("shut-in-not-shut-down", "Shut-In, Not Shut Down", d_shutin, "hoodie"),
+    ("hyperbolic-decline", "Hyperbolic Decline: My Motivation", d_hyperbolic, "hoodie"),
     ("arps-was-right", "Arps Was Right", d_arps, "hoodie"),
-    ("arps-equation", "The Arps Equation", d_equation, "tee"),
-    ("leading-zeros-matter", "Leading Zeros Matter", d_zeros, "tee"),
+    ("energy-workers-vote", "Energy Workers Vote", d_vote, "tee"),
+    ("scrap-the-tanker-ban", "Scrap the Tanker Ban", d_tanker, "tee"),
+    ("pipelines-not-platitudes", "Pipelines, Not Platitudes", d_platitudes, "tee"),
+    ("b-equals-1", "b = 1.0", d_b1, "tee"),
     ("check-the-units", "Check the Units", d_units, "tee"),
-    ("gas-has-a-season", "Gas Has a Season", d_season, "tee"),
-    ("wells-dont-retire", "Wells Don't Retire. They Decline.", d_retire, "hoodie"),
-    ("bounded-optimism", "Bounded Fit. Bounded Optimism.", d_bounded, "tee"),
-    ("p50-energy", "P50 Energy", d_p50, "tee"),
-    ("licensed-not-producing", "Licensed ≠ Producing", d_licensed, "tee"),
 ]
-STICKERS = ["hyperbolic-decline", "b-equals-1", "shut-in-not-shut-down", "arps-was-right", "leading-zeros-matter", "check-the-units"]
+STICKER_SLUGS = ["build-the-pipeline", "scrap-the-tanker-ban", "ottawa-doesnt-pump-oil", "pipelines-not-platitudes", "energy-workers-vote", "shut-in-not-shut-down", "hyperbolic-decline", "check-the-units"]
+STICKERS = STICKER_SLUGS
 GARMENT_COLORS = {"black": "#17191f", "navy": "#16233f", "sand": "#d9cfba", "white": "#f1f1ee", "heather": "#9ca2ab"}
 
 
@@ -286,7 +318,7 @@ def main(out):
             svg = design_svg(fn(INKS[ink]))
             (out / "svg" / f"apparel-{slug}-{ink}.svg").write_text(svg, encoding="utf-8")
             jobs.append({"src": f"svg/apparel-{slug}-{ink}.svg", "out": f"print/apparel/{slug}-{ink}-ink-3600x4800.png", "w": 1200, "h": 1600, "scale": 3, "type": "png", "transparent": True})
-        gc = "black" if slug not in ("arps-was-right", "gas-has-a-season") else "navy"
+        gc = "navy" if slug in ("arps-was-right", "build-the-pipeline") else "black"
         for suffix, fn_ in (("", mockup_both), ("-back", mockup_back), ("-front", mockup_front)):
             (out / "svg" / f"mockup-{slug}{suffix}.svg").write_text(fn_(slug, kind, gc), encoding="utf-8")
             jobs.append({"src": f"svg/mockup-{slug}{suffix}.svg", "out": f"web/mockup-{slug}{suffix}.jpg", "w": 720, "h": 720, "scale": 1, "type": "jpeg", "quality": 88})
