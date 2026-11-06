@@ -16,10 +16,6 @@ IMG = "img/shop/"
 
 POSTERS = [  # slug, title, blurb
     ("ab-oil", "Alberta Oil", "Monthly oil production, January 2022 to September 2026, with the peak month marked."),
-    ("ab-gas", "Alberta Gas", "Alberta gas production through the winter peaks, drawn from the open dataset."),
-    ("sk-oil", "Saskatchewan Oil", "Five years of Saskatchewan oil, the peak and the latest month labelled."),
-    ("sk-gas", "Saskatchewan Gas", "Saskatchewan gas production, daily-rate basis."),
-    ("bc-oil", "British Columbia Oil", "BC oil from the BC Energy Regulator files: the 2023 dip and the recovery."),
     ("bc-gas", "British Columbia Gas", "BC gas production, the sharpest growth of the three provinces."),
     ("five-years", "Five Years, Six Lines", "Oil and gas in three provinces as six small multiples on one sheet."),
     ("gas-season", "Gas Has a Season", "A radar of the calendar-month pattern in Alberta and BC gas."),
@@ -69,10 +65,6 @@ SPECS = {
 POSTER_TAIL = " Four headline figures sit under the chart, and the source, method and data window are printed at the foot, so it reads like a figure from a report rather than decoration. Choose the dark Night edition or the cream Paper edition."
 DESC = {
     "poster-ab-oil": "Alberta's monthly oil production from January 2022 to September 2026 as one clean line, with the peak month and the latest month marked." + POSTER_TAIL,
-    "poster-ab-gas": "Alberta gas production over the same window, showing the winter peaks that come back every year and where the latest month sits against them." + POSTER_TAIL,
-    "poster-sk-oil": "Five years of Saskatchewan oil production, with the peak and the latest month labelled so the shape of the recovery is easy to read from across a room." + POSTER_TAIL,
-    "poster-sk-gas": "Saskatchewan gas production on a daily-rate basis, drawn from public regulator files and labelled with its peak and latest month." + POSTER_TAIL,
-    "poster-bc-oil": "British Columbia oil production from the BC Energy Regulator files, including the dip and the recovery that follows." + POSTER_TAIL,
     "poster-bc-gas": "British Columbia gas production over five years, with the peak month and the latest month marked on the line." + POSTER_TAIL,
     "poster-five-years": "Oil and gas in Alberta, Saskatchewan and British Columbia as six small charts on one sheet, so the three provinces can be compared at a glance. Source, method and data window are printed at the foot. Choose the dark Night edition or the cream Paper edition.",
     "poster-gas-season": "A radar chart of the calendar-month pattern in Alberta and British Columbia gas: the seasonal wave that every analyst learns to expect. Source, method and data window are printed at the foot. Choose the dark Night edition or the cream Paper edition.",
@@ -259,7 +251,7 @@ def product_page(it, items):
 
 def posterbox(prefix, topic):
     """'Hang this chart' strip for articles: three matched posters with prices, linking to their product pages."""
-    sets = {"snapshot": ["ab-oil", "ab-gas", "bc-gas"], "gas": ["gas-season", "ab-gas", "sk-gas"], "decline": ["decline-shape", "ab-oil", "five-years"], "default": ["five-years", "ab-oil", "decline-shape"]}
+    sets = {"snapshot": ["ab-oil", "bc-gas", "five-years"], "gas": ["gas-season", "bc-gas", "five-years"], "decline": ["decline-shape", "ab-oil", "five-years"], "default": ["five-years", "ab-oil", "decline-shape"]}
     names = {s: t for s, t, _ in POSTERS}
     cards = "".join(f'<a class="prod" href="{prefix}{page_name("poster", s)}" style="text-decoration:none;color:inherit"><img src="{prefix}{IMG}poster-{s}-night.jpg" alt="{esc(names[s])} poster" width="720" height="960" loading="lazy"><div class="pi"><h3>{esc(names[s])}</h3>{price_html("poster")}</div></a>' for s in sets.get(topic, sets["default"]))
     return ('<!--POSTERBOX--><section class="posterbox"><div class="pb-t"><span class="tag">From the Tidywells shop</span><h2>Hang the data on your wall</h2>'
