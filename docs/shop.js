@@ -201,3 +201,37 @@ function twHype() {
     go.parentNode.insertBefore(d, go);
   });
 }
+
+// Product gallery: thumbnail strip, colour dots and a caption instead of a row of text buttons.
+(function () {
+  "use strict";
+  var COL = { black: "#15171c", charcoal: "#454a52", navy: "#1c2c52" };
+  function build(v) {
+    var btns = [].slice.call(v.querySelectorAll(".sw button")), imgs = [].slice.call(v.querySelectorAll("img[data-pi]"));
+    if (btns.length < 2 || !imgs.length) return;
+    var cap = document.createElement("p"); cap.className = "vcap"; cap.setAttribute("aria-live", "polite");
+    var strip = document.createElement("div"); strip.className = "thumbs"; strip.setAttribute("role", "group"); strip.setAttribute("aria-label", "Product views");
+    var dots = document.createElement("div"); dots.className = "dots";
+    var ths = [];
+    function pick(i) {
+      btns[i].click();
+      ths.forEach(function (t, j) { t.setAttribute("aria-pressed", j === i ? "true" : "false"); });
+      [].forEach.call(dots.querySelectorAll("button"), function (d) { d.setAttribute("aria-pressed", d.getAttribute("data-i") === String(i) ? "true" : "false"); });
+      cap.textContent = btns[i].textContent.trim();
+      if (ths[i].scrollIntoView) { try { strip.scrollTo({ left: ths[i].offsetLeft - 8, behavior: "smooth" }); } catch (e) {} }
+    }
+    btns.forEach(function (b, i) {
+      var t = document.createElement("button"), im = new Image(); t.type = "button"; t.className = "th"; t.setAttribute("aria-label", b.textContent.trim());
+      var src = imgs.filter(function (x) { return x.getAttribute("data-pi") === b.getAttribute("data-pi"); })[0]; im.src = src ? src.getAttribute("src") : ""; im.alt = ""; im.loading = "lazy"; im.width = im.height = 68;
+      t.appendChild(im); t.addEventListener("click", function () { pick(i); }); strip.appendChild(t); ths.push(t);
+      var m = /back,\s*(black|charcoal|navy)/i.exec(b.textContent) || (/^(black|charcoal|navy)$/i.exec(b.textContent.trim()));
+      if (m) { var d = document.createElement("button"), c = m[1].toLowerCase(); d.type = "button"; d.setAttribute("data-i", i); d.setAttribute("aria-label", "Colour " + c); d.title = c.charAt(0).toUpperCase() + c.slice(1); d.style.background = COL[c]; d.className = "dot"; d.addEventListener("click", function () { pick(i); }); dots.appendChild(d); }
+    });
+    var sw = v.querySelector(".sw"); sw.style.display = "none";
+    v.appendChild(strip);
+    if (dots.children.length > 1) { var lab = document.createElement("span"); lab.textContent = "Colour"; lab.className = "dl"; dots.insertBefore(lab, dots.firstChild); v.appendChild(dots); }
+    v.appendChild(cap); pick(0);
+  }
+  function run() { document.querySelectorAll(".pview").forEach(build); }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run); else run();
+})();
