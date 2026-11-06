@@ -276,14 +276,13 @@ if __name__ == "__main__":
     # grouped site navigation, rebuilt on every page (header block is replaced wholesale)
     NAV = [
         ("link", "Home", "index.html", None),
+        ("link", "Analysis", "analysis.html", None),
         ("menu", "Tools", "tools", [
             ("tools.html", "All tools and guides", "Start here: tools and learning"),
             ("decline.html", "Decline curve", "Fit a curve to one well"),
             ("explore.html", "Production explorer", "Charts for AB, SK and BC"),
             ("clean.html", "File cleaner", "Clean a regulator file in your browser")]),
-        ("menu", "Research", "research", [
-            ("data.html", "Open data", "Download the data and see the checks"),
-            ("analysis.html", "Analysis", "Studies and monthly snapshots"),
+        ("menu", "Track record", "research", [
             ("scorecard.html", "Forecast scorecard", "Our forecasts, graded against what happened"),
             ("revisions.html", "Data revisions", "What the regulators changed after publishing"),
             ("didnt-work.html", "What didn't work", "Negative results and mistakes we found")]),
@@ -298,8 +297,8 @@ if __name__ == "__main__":
             ("corrections.html", "Corrections", "Mistakes we found and fixed"),
             ("terms.html", "Terms and privacy", "Disclaimer and data use")]),
     ]
-    GROUP_OF = {"index.html": "index.html", "tools.html": "tools", "decline.html": "tools", "explore.html": "tools", "clean.html": "tools", "scorecard.html": "research", "revisions.html": "research", "didnt-work.html": "research", "analysis.html": "research",
-                "data.html": "research", "methods.html": "learn", "guide.html": "learn", "glossary.html": "learn",
+    GROUP_OF = {"index.html": "index.html", "tools.html": "tools", "decline.html": "tools", "explore.html": "tools", "clean.html": "tools", "scorecard.html": "research", "revisions.html": "research", "didnt-work.html": "research", "analysis.html": "analysis.html",
+                "methods.html": "learn", "guide.html": "learn", "glossary.html": "learn",
                 "about.html": "about", "corrections.html": "about", "terms.html": "about",
                 "sponsor.html": "about", "shop.html": "shop.html", "your-well.html": "shop.html"}
     def nav_html(prefix, cur):
