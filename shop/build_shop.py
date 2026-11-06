@@ -158,7 +158,13 @@ def spi(key, picks, alt):
     return imgs, [lab for _i, lab in picks]
 
 
-APP_PICKS = [(4, "Back, black"), (8, "Worn, black"), (7, "Lifestyle"), (9, "Back, charcoal"), (13, "Worn, charcoal"), (14, "Back, navy"), (19, "Worn, navy"), (1, "Front, chest logo"), (6, "Folded")]
+HOODIE_PICKS = [(1, "Front, black"), (4, "Back, black"), (11, "Worn, black"), (9, "Worn, black, back"), (10, "Worn, black (2)"), (8, "Worn, black (3)"), (7, "Lifestyle, black"), (6, "Folded, black"),
+                (2, "Front, charcoal"), (12, "Back, charcoal"), (19, "Worn, charcoal"), (17, "Worn, charcoal, back"), (18, "Worn, charcoal (2)"), (16, "Worn, charcoal (3)"),
+                (3, "Front, navy"), (20, "Back, navy"), (28, "Worn, navy"), (26, "Worn, navy, back"), (27, "Worn, navy (2)"), (25, "Worn, navy (3)")]
+TEE_PICKS = [(1, "Front, black"), (4, "Back, black"), (9, "Worn, black"), (10, "Worn, black, back"), (8, "Worn, black (3)"), (7, "Lifestyle, black"), (6, "Folded, black"),
+             (2, "Front, charcoal"), (11, "Back, charcoal"), (16, "Worn, charcoal"), (17, "Worn, charcoal, back"),
+             (3, "Front, navy"), (18, "Back, navy"), (24, "Worn, navy"), (25, "Worn, navy, back"), (23, "Worn, navy (3)")]
+APP_PICKS = HOODIE_PICKS
 MUG_PICKS = [(1, "Front"), (5, "On the desk"), (6, "On the table"), (2, "Side"), (3, "Handle")]
 HAT_PICKS = [(1, "Front, black"), (6, "Worn, black"), (7, "Worn, black, back"), (2, "Front, charcoal"), (12, "Worn, charcoal"), (13, "Worn, charcoal, back"), (3, "Back"), (4, "Side")]
 TOQUE_PICKS = [(1, "Black"), (2, "Charcoal"), (4, "Worn"), (5, "Worn, back"), (7, "Worn, charcoal"), (8, "Worn, charcoal back")]
@@ -172,7 +178,7 @@ def catalogue():
         imgs = [(f"sp-poster-{s}-{ed}-{i}.jpg", f"{t} poster, {lab.lower()}", 1000, 1000) for ed, i, lab in POSTER_PICKS]
         out.append(dict(kind="poster", slug=s, title=t + " poster", short=t, blurb=b, images=imgs, labels=[x[2] for x in POSTER_PICKS]))
     for s, n, k, b in APPAREL:
-        imgs, labs = spi(f"{k}-{s}", APP_PICKS, f"{n} {k}")
+        imgs, labs = spi(f"{k}-{s}", HOODIE_PICKS if k == "hoodie" else TEE_PICKS, f"{n} {k}")
         out.append(dict(kind=k, slug=s, title=f"{n} {'hoodie' if k == 'hoodie' else 't-shirt'}", short=n, blurb=b, images=imgs, labels=labs))
     for s, n, b in MUGS:
         imgs, labs = spi(f"mug-{s}", MUG_PICKS, f"{n} mug")

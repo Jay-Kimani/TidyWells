@@ -478,6 +478,11 @@ ul.toc{list-style:none;padding:0;margin:0}ul.toc li{margin:0;border-bottom:1px s
 .pview .th{flex:0 0 68px;width:68px;height:68px;padding:0;border:2px solid var(--line);border-radius:10px;overflow:hidden;background:#fff;cursor:pointer;transition:border-color .15s,transform .15s}
 .pview .th img{width:100%;height:100%;object-fit:cover;border:0;border-radius:0;box-shadow:none;display:block}
 .pview .th:hover{transform:translateY(-1px)}.pview .th[aria-pressed=true]{border-color:var(--accent);box-shadow:0 0 0 2px rgba(214,48,75,.18)}
-.dots{display:flex;align-items:center;gap:10px;margin-top:10px}.dots .dl{font-size:12.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
-.dots .dot{width:26px;height:26px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1.5px var(--line);cursor:pointer;padding:0}.dots .dot[aria-pressed=true]{box-shadow:0 0 0 2.5px var(--accent)}
+.stage{position:relative}
+.stage .arr{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;border:0;background:#1b5fd6;color:#fff;font-size:30px;line-height:1;padding:0 0 4px;cursor:pointer;box-shadow:0 3px 12px rgba(10,30,80,.35);display:flex;align-items:center;justify-content:center;z-index:2;transition:background .15s,transform .15s}
+.stage .arr:hover{background:#0f48b0;transform:translateY(-50%) scale(1.07)}.stage .arr.prev{left:10px}.stage .arr.next{right:10px}
+.cols{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-top:12px}.cols .collab{font-size:12.5px;font-weight:800;color:#fff;background:#1b5fd6;text-transform:uppercase;letter-spacing:.06em;padding:8px 14px;border-radius:8px}
+.cols .colbtn{display:inline-flex;align-items:center;gap:8px;font:700 14px Inter,sans-serif;padding:8px 16px 8px 10px;border-radius:999px;border:2px solid #1b5fd6;background:#fff;color:#1b5fd6;cursor:pointer;transition:background .15s,color .15s}
+.cols .colbtn i{width:18px;height:18px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1.5px rgba(0,0,0,.25);display:block}
+.cols .colbtn:hover{background:#e4edfc}.cols .colbtn[aria-pressed=true]{background:#1b5fd6;color:#fff;box-shadow:0 4px 14px rgba(27,95,214,.4)}
 .vcap{margin:6px 0 0;font-size:13px;color:var(--muted)}
