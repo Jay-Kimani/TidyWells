@@ -155,9 +155,9 @@ def spi(key, picks, alt):
     return imgs, [lab for _i, lab in picks]
 
 
-APP_PICKS = [(4, "Back, black"), (7, "Back, charcoal"), (10, "Back, navy"), (1, "Front, chest logo"), (6, "Folded")]
-MUG_PICKS = [(1, "Front"), (2, "Side"), (3, "Handle"), (4, "Other side")]
-HAT_PICKS = [(1, "Front, black"), (2, "Front, charcoal"), (3, "Back"), (4, "Side"), (5, "Other side")]
+APP_PICKS = [(4, "Back, black"), (8, "Worn, black"), (7, "Lifestyle"), (9, "Back, charcoal"), (13, "Worn, charcoal"), (14, "Back, navy"), (19, "Worn, navy"), (1, "Front, chest logo"), (6, "Folded")]
+MUG_PICKS = [(1, "Front"), (5, "On the desk"), (6, "On the table"), (2, "Side"), (3, "Handle")]
+HAT_PICKS = [(1, "Front, black"), (6, "Worn, black"), (7, "Worn, black, back"), (2, "Front, charcoal"), (12, "Worn, charcoal"), (13, "Worn, charcoal, back"), (3, "Back"), (4, "Side")]
 TOQUE_PICKS = [(1, "Black"), (2, "Charcoal"), (4, "Worn"), (5, "Worn, back"), (7, "Worn, charcoal"), (8, "Worn, charcoal back")]
 POSTER_PICKS = [("night", 1, "Night"), ("paper", 1, "Paper"), ("night", 4, "Night, on the wall"), ("paper", 4, "Paper, on the wall"), ("night", 3, "Rolled")]
 
