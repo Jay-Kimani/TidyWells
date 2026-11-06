@@ -57,7 +57,7 @@ BEST = ["hoodie-build-the-pipeline", "hoodie-ottawa-doesnt-pump-oil", "toque-cam
 LINKJS = ('<script src="shop.js"></script>')
 
 
-PRICE = {"hoodie": 74.99, "tee": 36.99, "mug": 24.99, "hat": 39.99, "toque": 34.99, "poster": 44.99, "sheet": 8.99}  # CAD launch prices; confirmed in the store
+PRICE = {"hoodie": 74.99, "tee": 36.99, "mug": 24.99, "hat": 49.99, "toque": 39.99, "poster": 44.99, "sheet": 8.99}  # CAD launch prices; confirmed in the store
 BUNDLES = [  # id, title, blurb, price, stickers in pack, image. Stickers are sold only in packs: one sticker alone costs about as much to ship as it earns.
     ("stickers-3-pack", "Sticker 3-pack", "Pick any three hard-hat stickers from the collection.", 16.99, 3, "bundle-stickers-3.jpg"),
     ("stickers-6-pack", "Sticker 6-pack", "Pick any six. For the hard hat, the toolbox and the truck.", 31.99, 6, "bundle-stickers-6.jpg"),
