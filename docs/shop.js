@@ -32,13 +32,19 @@
     wl.innerHTML = '<p class="shop-note">Follow on <a href="https://tidywells.substack.com/" target="_blank" rel="noopener">Substack</a> to hear when the shop opens.</p>';
   }
   });
-  var store = window.TIDYWELLS_SHOP_URL, links = window.TIDYWELLS_SHOP_LINKS || {};
+  // Store links: shown only once config.js sets TIDYWELLS_SHOP_OPEN = true (the Shopify store is password-protected until then).
+  var links = window.TIDYWELLS_SHOP_LINKS || {}, open = window.TIDYWELLS_SHOP_OPEN === true;
   function ok(u) { return typeof u === "string" && /^https:\/\//.test(u); }
-  if (ok(store) || Object.keys(links).length) {
+  if (open) {
     document.querySelectorAll(".badge").forEach(function (b) { b.textContent = "Now open"; });
-    document.querySelectorAll(".prod").forEach(function (card) {
-      var u = links[card.getAttribute("data-slug")] || store, go = card.querySelector(".go");
-      if (go && ok(u)) { go.className = "go"; go.innerHTML = '<a href="' + u + '" target="_blank" rel="noopener">View in store</a>'; }
+    document.querySelectorAll("[data-slug]").forEach(function (el) {
+      var u = links[el.getAttribute("data-slug")], go = el.classList.contains("go") ? el : el.querySelector(".go");
+      if (!go || !u) return;
+      var one = function (url, label) { return '<a class="btn primary" href="' + url + '" target="_blank" rel="noopener">' + label + '</a>'; };
+      var html = "";
+      if (typeof u === "object") { if (ok(u.night)) html += one(u.night, "Night edition in the store "); if (ok(u.paper)) html += " " + one(u.paper, "Paper edition in the store"); }
+      else if (ok(u)) html = one(u, "Buy in the store");
+      if (html) { go.className = "go"; go.innerHTML = html; }
     });
   }
   });

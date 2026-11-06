@@ -19,6 +19,8 @@ window.TIDYWELLS_SPONSOR={name:"",url:"",text:""};
 // Shop: paste your storefront URL (https only) to switch on "View in store" buttons on shop.html. Optional per-product links:
 // window.TIDYWELLS_SHOP_LINKS = {"poster-ab-oil": "https://..."} (keys are the data-slug values on shop.html).
 window.TIDYWELLS_SHOP_URL = "https://hwerse-gx.myshopify.com";
+// Flip to true when the Shopify store is open to the public (subscribed, payments set up, password removed): every product then shows a buy button (links come from shop-links.js).
+window.TIDYWELLS_SHOP_OPEN = false;
 
 // Paste your Stripe Payment Link (or similar) here to switch on the Subscribe button on pro.html.
 window.TIDYWELLS_PRO_URL="https://buy.stripe.com/dRmfZjcpdefU00E4251kA00";
