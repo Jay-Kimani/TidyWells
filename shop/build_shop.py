@@ -118,9 +118,11 @@ def home_strip():
     feat = [a for a in APPAREL if a[0] in FEATURED]
     cards = "".join(f'<a class="prod" href="shop.html#hoodies" style="text-decoration:none;color:inherit"><img src="{IMG}mockup-{s}.jpg" alt="{esc(n)} hoodie mockup" width="720" height="720" loading="lazy"><div class="pi"><span class="tag">Hoodie</span><h3>{esc(n)}</h3></div></a>'
                     for s, n, k, b in feat)
+    pcards = "".join(f'<a class="prod" href="shop.html#posters" style="text-decoration:none;color:inherit"><img src="{IMG}poster-{s}-night.jpg" alt="{esc(t)} poster" width="720" height="960" loading="lazy"><div class="pi"><span class="tag">Poster</span><h3>{esc(t)}</h3></div></a>'
+                     for s, t in (("ab-oil", "Alberta Oil"), ("gas-season", "Gas Has a Season")))
     return ('<!--SHOP--><section class="strip"><span class="badge">Launch collection · opening soon</span>'
             '<h2>The Tidywells shop</h2><p>Hoodies, posters drawn from real data, stickers and notebooks for people who work with Canadian oil and gas.</p>'
-            f'<div class="pgrid">{cards}</div>'
+            f'<div class="pgrid">{cards}{pcards}</div>'
             '<p><a class="btn primary" href="shop.html">See the collection</a> <a class="btn" href="shop.html#posters">Data-art posters</a></p></section><!--/SHOP-->')
 
 

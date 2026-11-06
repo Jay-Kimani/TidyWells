@@ -263,3 +263,8 @@ a.ft:hover{border-color:var(--accent);box-shadow:0 6px 20px rgba(27,95,214,.14);
 @media(max-width:1032px){.pro-box{margin-left:16px;margin-right:16px}}
 /*/PROSTRIP*/
 
+/*HOMEORDER*/
+.strip{background:var(--soft);border-color:var(--line)}
+.strip .pgrid{grid-template-columns:repeat(auto-fit,minmax(135px,1fr))}
+.strip .prod img{aspect-ratio:1/1;object-fit:cover;object-position:top}
+/*/HOMEORDER*/
