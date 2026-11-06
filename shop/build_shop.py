@@ -199,7 +199,7 @@ def card_img(src, alt, w, h):
 def prod(slug, kind, title, blurb, img, w, h, extra=""):
     href = page_name(kind, slug)
     return (f'<div class="prod" data-slug="{esc(pid(kind, slug))}"><a class="pimg" href="{href}">{img}</a><div class="pi"><span class="tag">{esc(kind_label(kind))}</span>'
-            f'<h3><a href="{href}">{esc(title)}</a></h3>{extra}{price_html(kind)}<span class="go soon">Opening soon</span></div></div>')
+            f'<h3><a href="{href}">{esc(title)}</a></h3>{extra}{price_html(kind)}<span class="go"><a class="btn primary" href="{href}">Choose options</a></span></div></div>')
 
 
 def card_of(it):
@@ -219,21 +219,20 @@ def body():
     of = lambda *kinds: [it for it in items if it["kind"] in kinds]
     grid = lambda lst, cls="pgrid": f'<div class="{cls}">' + "".join(card_of(x) for x in lst) + '</div>'
     o = []
-    o.append('<div class="shop-hero"><span class="badge">Launch collection · opening soon</span>'
+    o.append('<div class="shop-hero"><span class="badge">Now open</span>'
              '<h1>The Tidywells <span class="grad">shop</span></h1>'
              '<p>Hoodies, toques, hats, mugs and sticker packs for people who work in oil and gas, and posters drawn from the open data.</p>'
-             '<div id="waitlist" class="waitlist"></div>'
-             '<p class="shop-note">Launch prices in Canadian dollars. Shipping and tax are added at checkout.</p>'
+             '<ul class="trust"><li>Printed to order</li><li>Secure checkout by Shopify</li><li>Prices in CAD, launch price while it lasts</li><li>Size guide on every page</li></ul>'
              '<nav class="chips" aria-label="Shop sections"><a href="#apparel">Apparel</a><a href="#headwear">Toques and hats</a><a href="#drinkware">Mugs</a><a href="#stickers">Sticker packs</a>'
              '<a href="#posters">Posters</a><a href="#downloads">Digital</a><a href="#your-well">Make your own</a></nav></div>')
-    o.append('<h2 id="best">Best sellers to start with</h2>' + grid([by[i] for i in BEST], "pgrid four"))
+    o.append('<h2 id="best">Crew favourites</h2>' + grid([by[i] for i in BEST], "pgrid four"))
     o.append('<h2 id="apparel">Apparel</h2><p>Heavy type on the back, a small Tidywells mark on the left chest. True to size, with a size guide on every page.</p>' + grid(of("hoodie", "tee")))
     o.append('<h2 id="headwear">Toques and hats</h2><p>Embroidered text. Warm toques for the winter crew, adjustable hats for the rest of the year.</p>' + grid(of("toque", "hat")))
     o.append('<h2 id="drinkware">Mugs</h2>' + grid(of("mug")))
     stick = [f'<div class="prod" data-slug="bundle-{b[0]}"><div class="pimg">{card_img(b[5], b[1], 1000, 1000)}</div><div class="pi"><span class="tag">{"Most designs" if b[4] == 9 else "Sticker sheet"}</span><h3>{esc(b[1])}</h3><p>{esc(b[2])}</p>'
-             f'{price_html(amount=b[3])}<span class="shop-note">About CAD ${fmt_price(b[3] / b[4])} a sticker.</span><span class="go soon">Opening soon</span></div></div>' for b in BUNDLES]
+             f'{price_html(amount=b[3])}<span class="shop-note">About CAD ${fmt_price(b[3] / b[4])} a sticker.</span><span class="go">Ordering needs JavaScript.</span></div></div>' for b in BUNDLES]
     names = "".join(f'<li>{esc(n)}</li>' for _s, n in STICKERS)
-    o.append('<h2 id="stickers">Hard-hat sticker sheets</h2><p>Kiss-cut A5 sheets (5.8 × 8.3 inch) with the stickers already laid out: peel one off and stick it on a hard hat, toolbox, lunch kit or truck dashboard. Fixed designs per sheet; sizes shrink as the sheet fits more.</p><div class="pgrid">' + "".join(stick) + '</div>'
+    o.append('<h2 id="stickers">Hard-hat sticker sheets</h2><p>Kiss-cut A5 sheets, ready to peel and stick on a hard hat, toolbox or truck dash. Fixed designs per sheet; the bigger sheets fit more, smaller.</p><div class="pgrid">' + "".join(stick) + '</div>'
              f'<details class="fold"><summary>The nine designs</summary><ul class="stk">{names}</ul></details>')
     ps = []
     for it in of("poster"):
@@ -241,17 +240,16 @@ def body():
         ps.append(prod(s, "poster", it["short"], it["blurb"], f'<img src="{IMG}sp-poster-{s}-night-1.jpg" alt="{esc(it["short"])} poster, 18 by 24 inch" width="1000" height="1000" loading="lazy">', 1000, 1000))
     o.append('<h2 id="posters">Data-art posters</h2><p>18 × 24 inch, drawn from the open Tidywells dataset. The numbers match <a href="data.html">the CSV you can download</a> and the poster says where they come from. Each comes as a dark Night edition and a cream Paper edition.</p>'
              '<div class="pgrid">' + "".join(ps) + '</div>')
+    o.append('<h2 id="downloads">Digital download</h2><p>An 11 × 17 inch sheet to pin up beside your screen. Print it as often as you like for your own use.</p>' + grid(of("sheet")))
     o.append('<div class="well-card" id="your-well"><div class="wc-text"><span class="tag">Make your own</span><h2>Your Well poster</h2>'
              '<p>Turn one well\'s monthly production into a poster, for a well you own or may use. It runs in your browser and the file never leaves your device.</p>'
              '<p><a class="btn primary" href="your-well.html">Make a poster</a></p>'
              '<p class="shop-note">We do not sell prints of other people\'s wells from public files; that needs the regulator\'s written confirmation.</p></div>'
              f'<figure><img src="{IMG}your-well-example.jpg" alt="Example Your Well poster built from synthetic data" width="720" height="960" loading="lazy"><figcaption>Example, made from synthetic data</figcaption></figure></div>')
-    o.append('<h2 id="downloads">Digital download</h2><p>An 11 × 17 inch sheet to pin up beside your screen. Print it as often as you like for your own use.</p>' + grid(of("sheet")))
     o.append('<h2>Good to know</h2><div class="faq"><p><b>How do sizes fit?</b><br>True to size. Every hoodie and tee page has a size guide with flat measurements.</p>'
              '<p><b>Who makes and ships the products?</b><br>Our fulfilment partner. Production and delivery times follow the partner schedule and are shown at checkout.</p>'
              '<p><b>Is this affiliated with a regulator or an operator?</b><br>No. The posters use public regulator data and original wording, and no company names or logos appear on any product. Posters are not investment advice.</p>'
              '<p><b>Where does the money go?</b><br>It helps keep the open data, tools and analysis free. Tidywells is built by one person; see <a href="about.html">About</a>.</p></div>')
-    o.append('<div class="waitlist-end"><h2>Get an email when the shop opens</h2><div id="waitlist2" class="waitlist"></div></div>')
     o.append(LINKJS)
     return "\n".join(o)
 
@@ -265,7 +263,7 @@ def home_strip():
         f, alt, w, h = it["images"][0]
         cards += (f'<a class="prod" href="{it["page"]}" style="text-decoration:none;color:inherit"><img src="{IMG}{f}" alt="{esc(alt)}" width="{w}" height="{h}" loading="lazy">'
                   f'<div class="pi"><span class="tag">{esc(kind_label(it["kind"]))}</span><h3>{esc(it["short"])}</h3></div></a>')
-    return ('<!--SHOP--><section class="strip"><span class="badge">Launch collection · opening soon</span>'
+    return ('<!--SHOP--><section class="strip"><span class="badge">Now open</span>'
             '<h2>The Tidywells shop</h2><p>Hoodies, toques, hats, mugs and sticker packs for people who work in oil and gas, plus posters drawn from real data.</p>'
             f'<div class="pgrid">{cards}</div>'
             f'<p class="shop-note">Hoodies from CAD ${fmt_price(PRICE["hoodie"])} · toques from CAD ${fmt_price(PRICE["toque"])} · mugs from CAD ${fmt_price(PRICE["mug"])} (launch prices)</p>'

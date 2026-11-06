@@ -56,7 +56,7 @@ def test_prices_are_labelled_and_no_sale_claims():
         if "$" in t:
             assert "launch price" in t, page
     strip = re.search(r"<!--SHOP-->.*?<!--/SHOP-->", (DOCS / "index.html").read_text(encoding="utf-8"), re.S).group(0).lower()
-    assert " sale" not in strip and "opening soon" in strip and "launch prices" in strip
+    assert " sale" not in strip and "now open" in strip and "launch prices" in strip
 
 
 def test_every_product_has_a_page_a_price_and_clean_structured_data():

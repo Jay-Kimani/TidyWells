@@ -102,6 +102,18 @@ function twBuy() {
   }
   var saved = store(KEY);
   if (saved) gql("query($id:ID!){cart(id:$id){id checkoutUrl totalQuantity}}", { id: saved }).then(function (d) { if (d.cart) bar(d.cart); else store(KEY, null); }, function () {});
+  // shop page: sticker sheets have no page of their own, so they get a direct Add to cart button
+  document.querySelectorAll(".prod[data-slug]").forEach(function (card) {
+    var go = card.querySelector(".go"), u = links[card.getAttribute("data-slug")];
+    if (!go || card.querySelector("h3 a") || typeof u !== "string") return;
+    gql('{product(handle:"' + u.split("/products/")[1] + '"){variants(first:1){nodes{id availableForSale}}}}').then(function (d) {
+      var v = d.product && d.product.variants.nodes[0]; if (!v || !v.availableForSale) return;
+      go.className = "go"; go.textContent = "";
+      var b = document.createElement("button"); b.type = "button"; b.className = "btn primary"; b.textContent = "Add to cart";
+      b.addEventListener("click", function () { b.disabled = true; b.textContent = "Adding..."; add(v.id, 1).then(function () { b.disabled = false; b.textContent = "Added. Add another"; }, function () { b.disabled = false; b.textContent = "Try again"; }); });
+      go.appendChild(b);
+    }, function () {});
+  });
   var host = document.querySelector(".go[data-slug]");
   if (!host) return;
   var u = links[host.getAttribute("data-slug")];

@@ -472,3 +472,5 @@ ul.toc{list-style:none;padding:0;margin:0}ul.toc li{margin:0;border-bottom:1px s
 .lb.zoom .lb-s img{max-width:none;max-height:none;width:auto;height:auto;transform:none;min-width:150%;cursor:zoom-out}
 .lb-x{position:absolute;top:10px;right:14px;z-index:2;width:44px;height:44px;border:0;border-radius:50%;background:#fff;color:#1a2238;font:400 28px/1 Inter,sans-serif;cursor:pointer}
 .lb-h{position:absolute;bottom:10px;left:0;right:0;margin:0;text-align:center;color:#d8d4c8;font-size:13px;pointer-events:none}
+
+.trust{display:flex;flex-wrap:wrap;gap:8px 18px;list-style:none;padding:0;margin:14px 0 4px;font-size:13.5px;color:var(--muted)}.trust li::before{content:'\2713\00a0';color:#1a8a4a;font-weight:800}
