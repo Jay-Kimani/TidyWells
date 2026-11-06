@@ -7,7 +7,7 @@ raw = os.path.join(os.path.dirname(__file__), "_sp")
 for key, names in m.items():
     for i, n in enumerate(names):
         dst = os.path.join(out, f"sp-{key}-{i+1}.jpg")
-        if os.path.exists(dst): continue
+        if os.path.exists(dst) and not os.environ.get("FORCE_KEY") == key: continue
         tmp = os.path.join(raw, f"{key}-{i+1}.jpg")
         r = subprocess.run(["curl", "-sSfL", "-o", tmp, base + n + ".jpg"])
         if r.returncode: print("FAIL", key, n); continue
