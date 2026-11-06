@@ -29,6 +29,8 @@ dr = AB["by_drill"]
 vt = "".join(f'<tr><td>{n}</td>' + "".join(f'<td>{pc(d[y]["median"])} <small>(n {d[y]["n"]:,})</small></td>' for y in yrs) + "</tr>"
              for n, d in (("Alberta oil", ao), ("Alberta gas", ag), ("Alberta bitumen", ab_), ("Saskatchewan oil", so)))
 AOR, SOR = AB["by_class"]["oil"]["median"], SK["by_class"]["oil"]["median"]
+TK_F1 = f"A typical new Alberta oil well is at {pc(AOR)} of its early peak a year in; Saskatchewan oil {pc(SOR)}, Alberta gas {pc(AB['by_class']['gas']['median'])}."
+TK_F2 = "Wells that started in 2025 declined about as much as those that started in 2022, in every group."
 body = f'''<h1>How fast do new wells decline in their first year?</h1>{CHIPS}
 <p>A decline curve starts with a big number and a steep fall. How steep is the first year in practice? We followed new wells in Alberta and Saskatchewan and compared each well's rate in months 10 to 12 with its early peak.</p>
 <h2>What we did</h2>
@@ -39,10 +41,10 @@ body = f'''<h1>How fast do new wells decline in their first year?</h1>{CHIPS}
 <li><b>Survivors only:</b> the median covers wells that produced in all three of months 10 to 12; the table shows how many that was.</li></ul>
 <h2>1. A typical new oil well is at about 40% of its early peak a year in</h2>
 <div class="tw"><table><tr><th>Group</th><th>New wells</th><th>Producing in all of months 10 to 12</th><th>Median, % of early peak</th><th>Middle half of wells</th></tr>{trs}</table></div>
-{fig(f1, "<b>Figure 1.</b> Rate in months 10 to 12 as a share of the early peak: median with the 25th and 75th percentiles. Real data, Alberta and Saskatchewan new wells.")}
+{fig(f1, "<b>Figure 1.</b> Rate in months 10 to 12 as a share of the early peak: median with the 25th and 75th percentiles. Real data, Alberta and Saskatchewan new wells.", take=TK_F1)}
 <p>At the median, Alberta oil wells are producing {pc(AOR)} of their early peak a year in, Saskatchewan oil {pc(SOR)}, Alberta gas {pc(AB["by_class"]["gas"]["median"])} and Alberta bitumen wells {pc(AB["by_class"]["bitumen"]["median"])}. Bitumen wells hold up best, which may reflect a more gradual ramp-up, though we did not test that. The spread is wide: the middle half of Alberta bitumen wells runs from {pc(AB["by_class"]["bitumen"]["p25"])} to {pc(AB["by_class"]["bitumen"]["p75"])}, so more than a quarter of them are above their early peak a year in, while the middle half of Alberta gas wells runs from {pc(AB["by_class"]["gas"]["p25"])} to {pc(AB["by_class"]["gas"]["p75"])}.</p>
 <h2>2. The shape has not changed, even where starting rates have</h2>
-{fig(f2, "<b>Figure 2.</b> Median month 10 to 12 rate as a share of the early peak, by the year a well first produced. Real data.")}
+{fig(f2, "<b>Figure 2.</b> Median month 10 to 12 rate as a share of the early peak, by the year a well first produced. Real data.", take=TK_F2)}
 <div class="tw"><table><tr><th>Group</th><th>2022</th><th>2023</th><th>2024</th><th>2025</th></tr>{vt}</table></div>
 <p>Wells that started in 2025 declined about as much as those that started in 2022 in every group. Our <a href="new-wells-by-vintage.html">new-well vintage post</a> found Alberta oil wells (there including bitumen) starting stronger each year. That means newer wells start higher and still fall by a similar share, not that they hold their rate better.</p>
 <h2>3. Horizontal versus other wells</h2>

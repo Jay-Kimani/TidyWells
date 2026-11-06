@@ -35,8 +35,9 @@ def page(slug, title, body):
     (ROOT / "docs" / "posts" / f"{slug}.html").write_text(pre + "<article>" + body + POST, encoding="utf-8")
 
 
-def fig(svg, cap):
-    return f'<figure class="fig"><div class="tw">{svg}</div><figcaption>{cap}</figcaption></figure>'
+def fig(svg, cap, take=None):
+    tk = f'<p class="take">{take}</p>' if take else ""
+    return f'<figure class="fig">{tk}<div class="tw">{svg}</div><figcaption>{cap}</figcaption></figure>'
 
 
 def pct(x, d=0, sign=True):
@@ -103,11 +104,12 @@ def lines_chart(series, xlabels, W=720, H=300, ylab="", ypct=True, colors=None, 
         pts = " ".join(f"{X(i):.1f},{Y(v):.1f}" for i, v in enumerate(s) if v is not None)
         o.append(f'<polyline points="{pts}" fill="none" stroke="{col}" stroke-width="2.4" stroke-linejoin="round"/>')
         last = max(i for i, v in enumerate(s) if v is not None)
-        ends.append((Y(s[last]), name, col))
+        ends.append((Y(s[last]), name + " " + ((f"{round(s[last]):+d}%" if round(s[last]) else "0%") if ypct else f"{s[last]:,.0f}"), col))
+        o.append(f'<circle cx="{X(last):.1f}" cy="{Y(s[last]):.1f}" r="3.4" fill="{col}"/>')
     ends.sort(); prev = -99
     for yy, name, col in ends:
         yy = max(yy, prev + 15); prev = yy
-        o.append(f'<text x="{x1 + 10}" y="{yy + 4:.1f}" font-size="12" fill="{col}" {F}>{name}</text>')
+        o.append(f'<text x="{x1 + 10}" y="{yy + 4:.1f}" font-size="12" font-weight="600" fill="{col}" {F}>{name}</text>')
     return "".join(o) + "</svg>"
 
 
@@ -170,7 +172,8 @@ def fig_hist():
     for i in range(nb):
         gx = x0 + gw * i
         for j, (s, col) in enumerate(((dec, "var(--accent)"), (rec, "#e0a458"))):
-            o.append(f'<rect x="{gx + 6 + j * (gw - 12) / 2:.1f}" y="{Y(s[i]):.1f}" width="{(gw - 14) / 2:.1f}" height="{y1 - Y(s[i]):.1f}" rx="2" fill="{col}"/>')
+            o.append(f'<rect x="{gx + 6 + j * (gw - 12) / 2:.1f}" y="{Y(s[i]):.1f}" width="{(gw - 14) / 2:.1f}" height="{y1 - Y(s[i]):.1f}" rx="2" fill="{col}"/>'
+                     f'<text x="{gx + 6 + j * (gw - 12) / 2 + (gw - 14) / 4:.1f}" y="{Y(s[i]) - 4:.1f}" font-size="10" text-anchor="middle" fill="var(--fg)" {F}>{s[i]:.0f}%</text>')
         o.append(f'<text x="{gx + gw / 2:.1f}" y="{y1 + 16}" font-size="10.5" text-anchor="middle" fill="var(--muted)" {F}>{BL[i]}</text>')
     o.append(f'<text x="{(x0 + W) / 2}" y="{y1 + 34}" font-size="11.5" text-anchor="middle" fill="var(--muted)" {F}>forecast error on the 12-month volume (forecast vs reported)</text>'
              f'<rect x="{x0}" y="{H - 16}" width="12" height="12" rx="2" fill="var(--accent)"/><text x="{x0 + 18}" y="{H - 6}" font-size="12" fill="var(--fg)" {F}>wells that kept declining ({nd})</text>'
@@ -178,6 +181,8 @@ def fig_hist():
     return "".join(o)
 
 
+TK_BARS = f"For wells with a low month in the last six months of history, the typical forecast ran {abs(max(R[k]['err_dip'] for k, _ in ORDER)):.0f}% to {abs(min(R[k]['err_dip'] for k, _ in ORDER)):.0f}% low."
+TK_HIST = "Wells that kept declining cluster around zero error; wells that recovered are shifted toward under-forecasts."
 rec_body = f'''<h1>Why the decline curve runs low: wells that bounce back</h1>
 <p><span class="chip">November 2026</span><span class="chip">Illustrative, not for reserves or investment decisions</span></p>
 <p>In the <a href="decline-backtest.html">first backtest</a> every group of wells was forecast a little low, and nearly all of that miss sat in wells whose rate went back up after the training window. Here we look closer: how big is the bounce, and can anything in the history <i>before</i> the forecast warn you? We reuse the same wells and fits as the first post.</p>
@@ -189,12 +194,12 @@ rec_body = f'''<h1>Why the decline curve runs low: wells that bounce back</h1>
 <h2>2. A low month just before the forecast</h2>
 <p>One thing you <i>can</i> see at forecast time is a dip in the history. We flagged a well if its lowest month in the last six months of history was below half of its median rate over the last twelve. That is a rough sign of downtime, a curtailment or a data gap right where the curve is anchored.</p>
 <div class="tw"><table><tr><th>Group</th><th>Wells with a low month</th><th>Median error: with a low month</th><th>Median error: without</th></tr>{t_dip}</table></div>
-{fig(fig_bars(), "<b>Figure 1.</b> Median forecast error on the 12-month volume, for wells with and without a low month in the last six months of history. Real data, same wells as the first post.")}
+{fig(fig_bars(), "<b>Figure 1.</b> Median forecast error on the 12-month volume, for wells with and without a low month in the last six months of history. Real data, same wells as the first post.", take=TK_BARS)}
 <p>Only {rng("dip_share_all")}% of wells had such a month, yet for them the typical forecast ran {abs(max(R[k]["err_dip"] for k, _ in ORDER)):.0f}% to {abs(min(R[k]["err_dip"] for k, _ in ORDER)):.0f}% low, two to five times the miss of the other wells ({abs(max(R[k]["err_nodip"] for k, _ in ORDER)):.0f}% to {abs(min(R[k]["err_nodip"] for k, _ in ORDER)):.0f}% low). A fit that starts from a depressed final stretch tends to extrapolate a rate that is too low.</p>
 <h2>3. The dip is only part of the story</h2>
 <p>Recovered wells also ran low when there was <i>no</i> low month in the history, so the dip does not explain everything.</p>
 <div class="tw"><table><tr><th>Group</th><th>Recovered, with low month</th><th>Median error</th><th>Recovered, no low month</th><th>Median error</th></tr>{t_rd}</table></div>
-{fig(fig_hist(), "<b>Figure 2.</b> Distribution of forecast errors, all four groups pooled. Wells that kept declining cluster around zero; wells that recovered spread toward under-forecasts. Real data.")}
+{fig(fig_hist(), "<b>Figure 2.</b> Distribution of forecast errors, all four groups pooled. Wells that kept declining cluster around zero; wells that recovered spread toward under-forecasts. Real data.", take=TK_HIST)}
 <p>Wells that kept declining are centred on zero error. Recovered wells are shifted toward under-forecasts, with or without a visible dip. We cannot see why a well recovered from this data; restarts, workovers, new completions and operating changes would all look alike here.</p>
 <h2>What this means in practice</h2>
 <ul><li>Before trusting a fit, look at the last six months of history. A low month right at the end is a warning that the forecast will probably run low.</li><li>Treat a recovery allowance as a normal part of a portfolio forecast: {rng("recovered_share")}% of wells in these samples ended up above their recent rate.</li><li>We have not tested a fix. Two obvious experiments are fitting with the dip months removed, and anchoring on a median instead of the last months. They are candidates for a future post.</li></ul>
@@ -222,16 +227,18 @@ def swing_row(n):
 t_sw = "".join(swing_row(n) for n in SERIES)
 ag, bg, sg, ao, so = (AVG[key[n]] for n in ("Alberta gas", "BC gas", "Saskatchewan gas", "Alberta oil", "Saskatchewan oil"))
 sw = lambda a: max(a.values()) - min(a.values())
+TK_S1 = f"Alberta gas runs about {abs(ag[1]):.0f}% above trend in January and {abs(ag[5]):.0f}% below it in May; Alberta oil swings only about {sw(ao):.0f} points over the year."
+TK_S2 = f"Peak to trough, Alberta gas swings about {sw(ag):.0f} points between calendar months."
 seas_body = f'''<h1>Gas has a season. Oil mostly doesn't.</h1>
 <p><span class="chip">November 2026</span><span class="chip">Illustrative, not for reserves or investment decisions</span></p>
 <p>Before comparing one month of production with another, it helps to know what is normal for that month. We added up reported production for Alberta, Saskatchewan and BC from January 2022 to September 2026 and measured how far each calendar month usually sits above or below its own yearly trend. The answer is very different for gas and for oil.</p>
 <h2>What we did</h2>
 <ul><li><b>Data:</b> province-wide monthly totals from the same public files as the other posts (Petrinex for Alberta and Saskatchewan, the BC Energy Regulator for BC). Totals are a sum of well-level rows, so they are not official provincial statistics.</li><li><b>Rate:</b> monthly volume divided by calendar days, so short months do not look low.</li><li><b>Seasonal effect:</b> each month's rate divided by a centred 12-month moving average, minus one. We average that for each calendar month across the years where it can be computed (four years, 2022 to 2025).</li></ul>
 <h2>1. Gas moves with the seasons</h2>
-{fig(fa, "<b>Figure 1.</b> Average distance of each calendar month from its 12-month trend, 2022 to 2025. Real data.")}
+{fig(fa, "<b>Figure 1.</b> Average distance of each calendar month from its 12-month trend, 2022 to 2025. Real data.", take=TK_S1)}
 <p>Alberta gas runs about {abs(ag[1]):.0f}% above trend in January and {abs(ag[12]):.0f}% in December, and about {abs(ag[5]):.0f}% below it in May and {abs(ag[9]):.0f}% in September. BC gas follows the same shape ({abs(bg[1]):.0f}% above in January, {abs(bg[9]):.0f}% below in September). Saskatchewan gas barely has a season (between {pct(sg[4])} and {pct(sg[1])}).</p>
 <div class="tw"><table><tr><th>Series</th><th>Highest month</th><th>Lowest month</th><th>Swing</th></tr>{t_sw}</table></div>
-{fig(fb, "<b>Figure 2.</b> Alberta gas production by calendar month, one line per year. Real data.")}
+{fig(fb, "<b>Figure 2.</b> Alberta gas production by calendar month, one line per year. Real data.", take=TK_S2)}
 <p>The winter peak and late-spring to autumn trough are consistent with winter demand and summer maintenance, but this data shows what happened, not why. The Alberta gas swing is about {sw(ag):.0f} points from peak to trough month.</p>
 <h2>2. Oil is much flatter</h2>
 <p>Alberta oil moves within about {sw(ao):.0f} points over the year (weakest in {SHORT[min(ao, key=ao.get) - 1]} at {pct(min(ao.values()), 1)}, strongest in {SHORT[max(ao, key=ao.get) - 1]} at {pct(max(ao.values()), 1)}), and Saskatchewan oil within about {sw(so):.0f} points. Those are small next to the gas swings, and with four years of data a single unusual month can move them. We left BC oil out because its totals are small and noisy.</p>

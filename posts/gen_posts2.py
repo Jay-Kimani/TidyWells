@@ -34,7 +34,7 @@ def nice_ticks(lo, hi, n=5):
     return out
 
 
-def chart(series, xl, W=720, H=300, ylab="", yfmt=lambda v: f"{v:g}", lo=None, hi=None, right=150):
+def chart(series, xl, W=720, H=300, ylab="", yfmt=lambda v: f"{v:g}", lo=None, hi=None, right=150, vlabels=True):
     x0, x1, y0, y1 = 70, W - right, 16, H - 46
     allv = [v for s in series for v in s[1] if v is not None]
     lo = min(allv) if lo is None else lo
@@ -59,11 +59,13 @@ def chart(series, xl, W=720, H=300, ylab="", yfmt=lambda v: f"{v:g}", lo=None, h
         pts = " ".join(f"{X(i):.1f},{Y(v):.1f}" for i, v in enumerate(vals) if v is not None)
         o.append(f'<polyline points="{pts}" fill="none" stroke="{col}" stroke-width="2.4" stroke-linejoin="round"' + (f' stroke-dasharray="{dash}"' if dash else "") + "/>")
         last = max(i for i, v in enumerate(vals) if v is not None)
-        ends.append((Y(vals[last]), name, col))
+        ends.append((Y(vals[last]), name + (" " + yfmt(round(vals[last], 1) + 0.0) if vlabels else ""), col))
+        if vlabels:
+            o.append(f'<circle cx="{X(last):.1f}" cy="{Y(vals[last]):.1f}" r="3.4" fill="{col}"/>')
     ends.sort(); prev = -99
     for yy, name, col in ends:
         yy = max(yy, prev + 15); prev = yy
-        o.append(f'<text x="{x1 + 10}" y="{yy + 4:.1f}" font-size="12" fill="{col}" {F}>{name}</text>')
+        o.append(f'<text x="{x1 + 10}" y="{yy + 4:.1f}" font-size="12" font-weight="600" fill="{col}" {F}>{name}</text>')
     return "".join(o) + "</svg>"
 
 
@@ -83,6 +85,8 @@ def gbars(cats, series, ylab="", yfmt=lambda v: f"{v:g}", W=720, H=320, hi=None)
         for j, (name, vals, col) in enumerate(series):
             bx = gx - bw * k / 2 + j * bw
             o.append(f'<rect x="{bx:.1f}" y="{Y(vals[i]):.1f}" width="{bw - 3:.1f}" height="{y1 - Y(vals[i]):.1f}" rx="2" fill="{col}"/>')
+            if bw >= 24:
+                o.append(f'<text x="{bx + (bw - 3) / 2:.1f}" y="{Y(vals[i]) - 5:.1f}" font-size="11" font-weight="600" text-anchor="middle" fill="var(--fg)" {F}>{yfmt(round(vals[i], 1) + 0.0)}</text>')
         o.append(f'<text x="{gx:.1f}" y="{y1 + 16}" font-size="11" text-anchor="middle" fill="var(--muted)" {F}>{c}</text>')
     o.append(f'<text x="12" y="{(y0 + y1) / 2}" font-size="11.5" text-anchor="middle" fill="var(--muted)" transform="rotate(-90 12 {(y0 + y1) / 2})" {F}>{ylab}</text>')
     lx = x0
@@ -163,6 +167,8 @@ st_items = [(r["status"].replace("(blank)", "(blank status)"), r["n"], r["produc
 sk_items = [(r["status"].replace("(blank)", "(blank status)"), r["n"], r["producing"]) for r in si["by_status"][:6]] + [("all other", si["total"] - sum(r["n"] for r in si["by_status"][:6]), si["producing_last12"] - sum(r["producing"] for r in si["by_status"][:6]))]
 ab_prod_status = {r["status"]: r for r in ai["by_status"]}
 flow, pump = ab_prod_status["FLOW"], ab_prod_status["PUMP"]
+TK_I1 = f"Only {100 * ai['producing_last12'] / ai['total']:.0f}% of Alberta's {n0(ai['total'])} licensed wells reported production in the last 12 months."
+TK_I2 = f"In Saskatchewan, {100 * si['producing_last12'] / si['total']:.0f}% of {n0(si['total'])} wells did."
 body = f'''<h1>Most licensed wells aren't producing</h1>{CHIPS}
 <p>"Alberta has 668,000 wells" is a common line, and it is true of the regulator's well file. It is a poor guide to how many wells make anything. We matched the Well Infrastructure files for Alberta and Saskatchewan against the production files, and counted which wells reported production in the last 12 months (October 2025 to September 2026).</p>
 <h2>1. The headline</h2>
@@ -172,9 +178,9 @@ body = f'''<h1>Most licensed wells aren't producing</h1>{CHIPS}
 <p><small>"Producing" means a positive oil or gas volume in at least one of the last 12 months in the public production files. Injection and disposal wells are not production wells.</small></p>
 <p>About one well in five in Alberta, and one in four in Saskatchewan, reported production in the past year. The rest are abandoned, suspended, being drilled, injectors or simply idle.</p>
 <h2>2. What the status field says</h2>
-{fig(hbars(st_items), "<b>Figure 1.</b> Alberta wells by status in the infrastructure file, and how many reported production in the last 12 months. Bar length is on a square-root scale so small groups stay visible. Real data.")}
+{fig(hbars(st_items), "<b>Figure 1.</b> Alberta wells by status in the infrastructure file, and how many reported production in the last 12 months. Bar length is on a square-root scale so small groups stay visible. Real data.", take=TK_I1)}
 <p>The status codes are a good guide where they exist. Wells listed as flowing or pumping reported production {100 * flow["producing"] / flow["n"]:.0f}% and {100 * pump["producing"] / pump["n"]:.0f}% of the time; suspended and abandoned wells almost never did. But {n0(ai["blank_producing"])} wells with a <i>blank</i> status did report production, so filtering on status alone would drop them.</p>
-{fig(hbars(sk_items, label_w=130), "<b>Figure 2.</b> The same view for Saskatchewan. Real data.")}
+{fig(hbars(sk_items, label_w=130), "<b>Figure 2.</b> The same view for Saskatchewan. Real data.", take=TK_I2)}
 <h2>3. What is inside Alberta's "oil"</h2>
 <p>Of Alberta's {n0(ai["producing_last12"])} producing wells, {n0(bit["producing_wells_bitumen"])} ({100 * bit["producing_wells_bitumen"] / ai["producing_last12"]:.0f}%) are licensed for crude bitumen, yet those wells account for about {bit["oil_volume_share_bitumen"]:.0f}% of the oil-product volume they reported over the last 12 months. In other words, a total labelled "Alberta oil" in the public volumetrics is mostly bitumen. That matters for every other post on this site: our Alberta oil numbers mix conventional oil and bitumen wells, and we did not separate them.</p>
 <h2>What this means in practice</h2>
@@ -211,10 +217,12 @@ for i, v in enumerate(rs):
     mon_rs.setdefault((i + 12) % 12, []).append(v)
 top_stop = max(mon_stop, key=lambda k: mean(mon_stop[k])); top_rs = max(mon_rs, key=lambda k: mean(mon_rs[k]))
 gb = lambda s: s["gap_buckets"]
+TK_H1 = f"{sa['cohort_survival'][-1]:.0f}% of Alberta's January 2022 producers, {ss['cohort_survival'][-1]:.0f}% of Saskatchewan's and {sb['cohort_survival'][-1]:.0f}% of BC's still report production in September 2026."
+TK_H2 = f"In an average month about {mean(sp):.1f}% of producing Alberta wells stop and {mean(rs):.1f}% restart."
 body = f'''<h1>Shut-ins and restarts: how many wells stop, and do they come back?</h1>{CHIPS}
 <p>Production files only show wells that are producing, so a well that stops simply disappears from the data. Here we follow wells month by month to see how many stop, how often a stop is temporary, and how long the gaps last. A well counts as producing in a month if it reported a positive oil or gas volume.</p>
 <h2>1. Wells that were producing in January 2022</h2>
-{fig(f1, f"<b>Figure 1.</b> Share of the wells that produced in January 2022 that were still producing in each later month. Real data: Alberta {n0(sa['cohort_n'])} wells, Saskatchewan {n0(ss['cohort_n'])}, BC {n0(sb['cohort_n'])}.")}
+{fig(f1, f"<b>Figure 1.</b> Share of the wells that produced in January 2022 that were still producing in each later month. Real data: Alberta {n0(sa['cohort_n'])} wells, Saskatchewan {n0(ss['cohort_n'])}, BC {n0(sb['cohort_n'])}.", take=TK_H1)}
 <p>By September 2026, {sa["cohort_survival"][-1]:.0f}% of the Alberta group, {ss["cohort_survival"][-1]:.0f}% of Saskatchewan and {sb["cohort_survival"][-1]:.0f}% of BC were still reporting production. The curves are not smooth declines: they wobble as wells stop and come back.</p>
 <h2>2. How common are interruptions?</h2>
 <div class="tw"><table><tr><th>Province</th><th>Wells that ever produced</th><th>Not producing in the last 6 months</th><th>Interrupted at least once (3+ months)</th></tr>
@@ -231,7 +239,7 @@ body = f'''<h1>Shut-ins and restarts: how many wells stop, and do they come back
 <p><small>Number of gaps (a well can have more than one), not number of wells.</small></p>
 <p>Among the idle spells that ended with a restart, most were short. In Alberta, {100 * gb(sa)["m3_5"] / sum(gb(sa).values()):.0f}% were under six months and only {100 * gb(sa)["m24plus"] / sum(gb(sa).values()):.0f}% lasted two years or more. Wells that stopped and never came back are not in this table, so it says how long restarts take, not how likely they are.</p>
 <h2>4. Stops and restarts through time</h2>
-{fig(f2, "<b>Figure 2.</b> Alberta: wells that stopped (no production for the next three months) and wells that restarted (producing after at least three idle months), each as a share of wells producing the month before. Real data.")}
+{fig(f2, "<b>Figure 2.</b> Alberta: wells that stopped (no production for the next three months) and wells that restarted (producing after at least three idle months), each as a share of wells producing the month before. Real data.", take=TK_H2)}
 <p>From January 2023, in an average month about {mean(sp):.1f}% of producing Alberta wells stopped and about {mean(rs):.1f}% restarted (restarts cannot be seen in 2022 because we need earlier production inside the window). Stops were most common in {SHORT[top_stop - 1 if top_stop else 11]} on average and restarts in {SHORT[top_rs - 1 if top_rs else 11]}; with under five years of data we would not call that a pattern.</p>
 <h2>What this means in practice</h2>
 <ul><li>A well missing from a month's data is sometimes back soon: among wells that did restart, most idle spells were under six months.</li><li>Counts of "producing wells" move around by a percent or so a month for reasons that have nothing to do with drilling.</li><li>When you build a decline curve, expect a few wells in ten to have gaps that a smooth curve will not capture. See the <a href="recovery-low-forecasts.html">recovery post</a>.</li></ul>
@@ -256,13 +264,14 @@ trs = ""
 for pn, dd, unit in (("Alberta oil", va_o, "bbl/d"), ("Alberta gas", va_g, "Mcf/d"), ("Saskatchewan oil", vs_o, "bbl/d")):
     trs += f'<tr><td>{pn} ({unit})</td>' + "".join((f'<td>{dd[y]["median"]:,.0f} <small>(n {dd[y]["n"]:,})</small></td>' if y in dd else "<td>n/a</td>") for y in (2022, 2023, 2024, 2025, 2026)) + "</tr>"
 hz = AB["vintage"]["by_drill"]
+TK_V1 = f"Alberta oil wells that first produced in 2025 started {100 * (va_o[2025]['median'] / va_o[2022]['median'] - 1):.0f}% stronger than 2022 starters at the median."
 body = f'''<h1>Are new wells getting better? First-six-month rates by year</h1>{CHIPS}
 <p class="muted"><b>Correction, 4 November 2026.</b> An earlier version of this post sorted wells into "oil" and "gas" with a rule that labelled most Alberta and Saskatchewan oil wells that also produce gas as gas wells. That mixed the groups and its headline (Alberta gas wells starting 19% stronger) was wrong. The numbers and conclusions below use a corrected rule.</p>
 <p>Drillers talk about better completions and longer laterals. If that is working, wells that start producing later should start stronger. We looked at the first six producing months of new wells in Alberta and Saskatchewan, grouped by the year they first produced.</p>
 <h2>What we did</h2>
 <ul><li><b>New wells:</b> spud date in 2021 or later, and not already producing in January 2022, so older wells returning from a shut-in are left out.</li><li><b>Measure:</b> average daily rate over each well's first six producing months (oil in bbl/d, gas in Mcf/d). A well is "oil" if oil is at least half of its output on an energy basis (6 Mcf of gas counts as 1 bbl), otherwise "gas". We report medians.</li><li><b>Groups:</b> by the calendar year of the first producing month. Groups with fewer than 30 wells are dropped.</li></ul>
 <h2>1. Newer Alberta oil wells start stronger; gas is noisier; Saskatchewan oil edges up</h2>
-{fig(f1, "<b>Figure 1.</b> Median first-six-month rate for wells that first produced in each year, with 2022 set to 100. Real data; counts in the table below.")}
+{fig(f1, "<b>Figure 1.</b> Median first-six-month rate for wells that first produced in each year, with 2022 set to 100. Real data; counts in the table below.", take=TK_V1)}
 <div class="tw"><table><tr><th>Group (median)</th><th>2022</th><th>2023</th><th>2024</th><th>2025</th><th>2026 (first produced Jan to Mar)</th></tr>{trs}</table></div>
 <p>Alberta oil wells that first produced in 2025 started at a median of {va_o[2025]["median"]:,.0f} bbl/d against {va_o[2022]["median"]:,.0f} in 2022, a rise of {100 * (va_o[2025]["median"] / va_o[2022]["median"] - 1):.0f}%, and the median rose in every year in between. Alberta gas wells moved from {va_g[2022]["median"]:,.0f} to {va_g[2025]["median"]:,.0f} Mcf/d ({100 * (va_g[2025]["median"] / va_g[2022]["median"] - 1):+.0f}%), but not steadily: the 2024 group was the highest at {va_g[2024]["median"]:,.0f}. Saskatchewan oil went from {vs_o[2022]["median"]:,.0f} to {vs_o[2025]["median"]:,.0f} bbl/d ({100 * (vs_o[2025]["median"] / vs_o[2022]["median"] - 1):+.0f}%). Saskatchewan has too few new gas wells under this rule to report (fewer than 30 in every year but one).</p>
 <h2>2. Horizontal wells dominate new Alberta wells</h2>
@@ -283,11 +292,12 @@ oa, os_ = AB["operators"], SK["operators"]
 labs = [("1" if i == 0 else str(i + 1) if (i + 1) in (10, 25, 50, 75, 100) else "") for i in range(100)]
 f1 = chart([("Alberta wells", oa["curve_wells"], PAL[0]), ("Alberta oil volume", oa["curve_oil"], PAL[3]),
             ("Saskatchewan wells", os_["curve_wells"], PAL[1]), ("Saskatchewan oil volume", os_["curve_oil"], PAL[2])],
-           labs, ylab="share held by the top licensees", yfmt=lambda v: f"{v:g}%", lo=0, hi=100, right=185)
+           labs, ylab="share held by the top licensees", yfmt=lambda v: f"{v:g}%", lo=0, hi=100, right=185, vlabels=False)
 rows_t = ""
 for nm, o in (("Alberta", oa), ("Saskatchewan", os_)):
     for n in ("1", "5", "10", "20", "50"):
         rows_t += f'<tr><td>{nm}, top {n}</td><td>{o["top_wells"][n]:.0f}%</td><td>{o["top_oil"][n]:.0f}%</td><td>{o["top_gas"][n]:.0f}%</td></tr>'
+TK_C1 = f"The five largest licensees hold {oa['top_wells']['5']:.0f}% of Alberta's producing wells and {os_['top_wells']['5']:.0f}% of Saskatchewan's."
 body = f'''<h1>How concentrated is production? Licensee shares in Alberta and Saskatchewan</h1>{CHIPS}
 <p>A few large companies drill and own much of Canada's production, and a long tail of small ones own the rest. We measured how concentrated it is using the licensee on each well's licence, counting only wells that reported production in the last 12 months. We do not name companies: this is about the shape of the industry, not who is who.</p>
 <h2>1. The numbers</h2>
@@ -295,7 +305,7 @@ body = f'''<h1>How concentrated is production? Licensee shares in Alberta and Sa
 <p><small>{n0(oa["licensees"])} licensees hold Alberta's {n0(oa["wells"])} producing wells; {n0(os_["licensees"])} hold Saskatchewan's {n0(os_["wells"])}.</small></p>
 <p>The five largest licensees hold {oa["top_wells"]["5"]:.0f}% of Alberta's producing wells and {os_["top_wells"]["5"]:.0f}% of Saskatchewan's. Saskatchewan is much more concentrated: its largest licensee alone holds {os_["top_wells"]["1"]:.0f}% of wells and {os_["top_oil"]["1"]:.0f}% of oil volume, against {oa["top_wells"]["1"]:.0f}% and {oa["top_oil"]["1"]:.0f}% in Alberta.</p>
 <h2>2. How fast do the shares build up?</h2>
-{fig(f1, "<b>Figure 1.</b> Cumulative share of producing wells and of oil volume held by the largest licensees (largest first, up to 100). Real data.")}
+{fig(f1, "<b>Figure 1.</b> Cumulative share of producing wells and of oil volume held by the largest licensees (largest first, up to 100). Real data.", take=TK_C1)}
 <p>The tail is long. {oa["small_licensees"]} Alberta licensees and {os_["small_licensees"]} in Saskatchewan have fewer than ten producing wells, and together they hold {oa["small_share"]:.1f}% and {os_["small_share"]:.1f}% of producing wells. Concentration in volume is higher than in wells in both provinces (clearly so in Alberta), which suggests the biggest licensees' wells are on average more productive.</p>
 <h2>What this means in practice</h2>
 <ul><li>In Saskatchewan, a handful of licensees decide most of the activity; in Alberta the same is true to a lesser degree.</li><li>Counting companies tells you little: hundreds exist, but ten of them hold {oa["top_wells"]["10"]:.0f}% (Alberta) and {os_["top_wells"]["10"]:.0f}% (Saskatchewan) of producing wells.</li><li>If you are building a data tool, expect to join on licensee code, not name, and expect the same company to appear under several names.</li></ul>
@@ -312,11 +322,12 @@ GB = ["no gas", "under 100", "100 to 300", "300 to 1,000", "1,000 to 3,000", "3,
 grp = [("Alberta crude oil", AB["gor"]["oil"], PAL[0]), ("Alberta bitumen", AB["gor"]["bitumen"], PAL[3]), ("Saskatchewan oil", SK["gor"]["oil"], PAL[1]), ("BC oil", BC["gor"]["oil"], PAL[2])]
 f1 = gbars(GB, [(n, [100 * c / d["n"] for c in d["hist"]], col) for n, d, col in grp], ylab="share of wells", yfmt=lambda v: f"{v:g}%", H=340)
 rows_t = "".join(f'<tr><td>{n}</td><td>{d["n"]:,}</td><td>{d["median_with_gas"]:,.0f}</td><td>{100 * d["no_gas"] / d["n"]:.0f}%</td></tr>' for n, d, _ in grp)
+TK_G1 = f"Alberta crude-oil wells have a median gas-oil ratio of {AB['gor']['oil']['median_with_gas']:,.0f} scf/bbl, against {SK['gor']['oil']['median_with_gas']:,.0f} in Saskatchewan."
 body = f'''<h1>Gas-oil ratios: an "oil well" is not the same everywhere</h1>{CHIPS}
 <p>The gas-oil ratio (GOR) is how much gas a well makes for each barrel of oil, in standard cubic feet per barrel (scf/bbl). It drives pipeline needs, flaring and economics, and it differs a lot between provinces and well types. We computed it for every well that reported oil in the last 12 months (October 2025 to September 2026) as its total gas volume divided by its total oil volume.</p>
 <h2>1. The numbers</h2>
 <div class="tw"><table><tr><th>Group</th><th>Oil wells</th><th>Median GOR, wells that report gas (scf/bbl)</th><th>Wells with no gas reported</th></tr>{rows_t}</table></div>
-{fig(f1, "<b>Figure 1.</b> Distribution of well gas-oil ratios by group, as a share of the wells in each group. Real data.")}
+{fig(f1, "<b>Figure 1.</b> Distribution of well gas-oil ratios by group, as a share of the wells in each group. Real data.", take=TK_G1)}
 <p>Alberta crude-oil wells have a median ratio of {AB["gor"]["oil"]["median_with_gas"]:,.0f} scf/bbl, about {AB["gor"]["oil"]["median_with_gas"] / SK["gor"]["oil"]["median_with_gas"]:.1f} times Saskatchewan's {SK["gor"]["oil"]["median_with_gas"]:,.0f}. BC oil wells ({BC["gor"]["oil"]["n"]:,} of them) look like Alberta crude oil at {BC["gor"]["oil"]["median_with_gas"]:,.0f}. Alberta wells licensed for bitumen sit at {AB["gor"]["bitumen"]["median_with_gas"]:,.0f}, far lower.</p>
 <h2>2. The spread is wide</h2>
 <p>Within each group the ratio spans two orders of magnitude. {100 * sum(AB["gor"]["oil"]["hist"][5:]) / AB["gor"]["oil"]["n"]:.0f}% of Alberta crude-oil wells make more than 3,000 scf/bbl, against {100 * sum(SK["gor"]["oil"]["hist"][5:]) / SK["gor"]["oil"]["n"]:.0f}% in Saskatchewan. A median hides this, so a "typical" oil well in a province is a poor stand-in for any one well.</p>
@@ -337,6 +348,8 @@ cats = ["duplicate well rows", "blank well status", "licence rows repeated", "mi
 vals = lambda d: [100 * d["infra_duplicate_rows"] / d["infra_rows"], 100 * d["blank_status_mode"] / d["infra_rows"], 100 * d["licence_duplicate_rows"] / d["licence_rows"], 100 * d["missing_spud"] / d["infra_rows"]]
 f1 = gbars(cats, [("Alberta", vals(dA), PAL[0]), ("Saskatchewan", vals(dS), PAL[1])], ylab="share of file rows", yfmt=lambda v: f"{v:g}%")
 zr = lambda d: "".join(f"<li><code>{k}</code>: {v['values_with_leading_zeros']:,} of {v['of']:,} values</li>" for k, v in list(d.items())[:4])
+_ia = max(range(4), key=lambda i: vals(dA)[i])
+TK_N1 = f"The most common problem in the Alberta well file is {cats[_ia]}: {max(vals(dA)):.0f}% of rows."
 body = f'''<h1>What a naive load gets wrong: traps in Canadian well files</h1>{CHIPS}
 <p>Most of the work in oil and gas data is cleaning, not analysis. We counted what goes wrong when you open the Alberta, Saskatchewan and BC regulator files with a default spreadsheet or <code>pandas.read_csv</code>, and what the Tidywells loaders do about each one. These are counts from the files we downloaded in November 2026.</p>
 <h2>1. Codes lose their leading zeros</h2>
@@ -346,7 +359,7 @@ body = f'''<h1>What a naive load gets wrong: traps in Canadian well files</h1>{C
 <p><b>BC production file, 2025 onward</b> ({dB["zone_rows_2025_on"]:,} rows):</p><ul>{zr(dB["lost_zero_zone"])}</ul>
 <p>Tidywells reads every column as text and pads licence numbers to seven characters.</p>
 <h2>2. Repeated rows</h2>
-{fig(f1, "<b>Figure 1.</b> Share of file rows affected by each problem, Alberta and Saskatchewan. Real counts from the downloaded files.")}
+{fig(f1, "<b>Figure 1.</b> Share of file rows affected by each problem, Alberta and Saskatchewan. Real counts from the downloaded files.", take=TK_N1)}
 <div class="tw"><table><tr><th>Problem</th><th>Alberta</th><th>Saskatchewan</th></tr>
 <tr><td>Rows in the Well Infrastructure file</td><td>{dA["infra_rows"]:,}</td><td>{dS["infra_rows"]:,}</td></tr>
 <tr><td>Distinct wells</td><td>{dA["infra_unique_wells"]:,}</td><td>{dS["infra_unique_wells"]:,}</td></tr>

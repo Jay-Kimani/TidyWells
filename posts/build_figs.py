@@ -75,14 +75,15 @@ def fig_b():
     return "".join(o)
 
 
-def put(s, key, svg, cap):
-    html = f'<figure class="fig"><div class="tw">{svg}</div><figcaption>{cap}</figcaption></figure>'
+def put(s, key, svg, cap, take=None):
+    tk = f'<p class="take">{take}</p>' if take else ""
+    html = f'<figure class="fig">{tk}<div class="tw">{svg}</div><figcaption>{cap}</figcaption></figure>'
     return re.sub(rf"<!--{key}-->.*?<!--/{key}-->", lambda m: f"<!--{key}-->{html}<!--/{key}-->", s, flags=re.S)
 
 
 p = ROOT / "docs" / "posts" / "decline-backtest.html"
 s = p.read_text(encoding="utf-8")
-s = put(s, "FIGA", fig_a(), "<b>Figure 1.</b> Median reported rate and median forecast for each group, with every well scaled to its own peak in the first 45 months. The forecast was fitted on months 0 to 45 only; the dashed part is the 12-month prediction. The forecast ends up below the reported curve in all four groups. Real data from the wells tested above.")
-s = put(s, "FIGB", fig_b(), "<b>Figure 2.</b> Typical miss on the 12-month volume when the curve is fitted on 24, 36 or 45 months of history. More history cuts the miss in every group (values from the table above).")
+s = put(s, "FIGA", fig_a(), "<b>Figure 1.</b> Median reported rate and median forecast for each group, with every well scaled to its own peak in the first 45 months. The forecast was fitted on months 0 to 45 only; the dashed part is the 12-month prediction. The forecast ends up below the reported curve in all four groups. Real data from the wells tested above.", take="In all four groups the forecast ends up below what was actually reported.")
+s = put(s, "FIGB", fig_b(), "<b>Figure 2.</b> Typical miss on the 12-month volume when the curve is fitted on 24, 36 or 45 months of history. More history cuts the miss in every group (values from the table above).", take="More history cuts the typical miss in every group.")
 p.write_text(s, encoding="utf-8")
 print("figures written")

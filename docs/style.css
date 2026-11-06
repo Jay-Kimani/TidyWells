@@ -451,3 +451,5 @@ body.rp .num{text-align:right;font-variant-numeric:tabular-nums}
 .cgrid b{font-size:14px}
 @media(max-width:900px){.rpg{grid-template-columns:minmax(0,1fr)}.rps{position:static}}
 /*/RESEARCH*/
+/* chart takeaway */
+article .fig .take{font:600 17px/1.4 var(--serif);color:var(--fg);margin:0 0 12px;max-width:62ch}
