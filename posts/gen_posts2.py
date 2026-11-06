@@ -134,17 +134,33 @@ def mini_lines(series, lo, hi, cap, ylab=lambda v: f"{v:g}", ticks=3):
 
 
 def mini_bars(cats, series, cap, hi=None):
-    x0, x1, y0, y1 = 30, 230, 12, 104
-    hi = hi or max(v for s in series for v in s[1]) * 1.1
+    """Small bar chart for the home-page and index cards: zero baseline, three gridlines with tick labels, and a value on each bar."""
+    x0, x1, y0, y1 = 34, 232, 14, 104
+    if not hi:
+        top = max(v for s in series for v in s[1]) * 1.05
+        mag = 10 ** math.floor(math.log10(top))
+        hi = next(m * mag for m in (1, 2, 2.5, 4, 5, 8, 10) if m * mag >= top)
+    step = hi / 2
+    pct = "%" in cap
+    fmt = (lambda v: f"{v:g}%" if pct else (f"{v:g}" if v == int(v) or v >= 10 else f"{v:.1f}"))
+    o = ""
+    for k in range(3):
+        v = step * k
+        y = y1 - (y1 - y0) * v / hi
+        dash = "" if k == 0 else ' stroke-dasharray="2 3"'
+        o += f'<line x1="{x0}" y1="{y:.1f}" x2="{x1}" y2="{y:.1f}" stroke="var(--line)" stroke-width="{1 if k == 0 else .6}"{dash}/>'
+        o += f'<text x="{x0 - 4}" y="{y + 3:.1f}" font-size="7.5" text-anchor="end" fill="var(--muted)" {F}>{fmt(v)}</text>'
     gw = (x1 - x0) / len(cats)
-    bw = min(16, (gw - 4) / len(series))
-    o = f'<line x1="{x0}" y1="{y1}" x2="{x1}" y2="{y1}" stroke="var(--line)"/>'
+    bw = min(34, (gw - 10) / len(series))
     for i, c in enumerate(cats):
         gx = x0 + gw * i + gw / 2
         for j, (n, vals, col) in enumerate(series):
             h = (y1 - y0) * vals[i] / hi
-            o += f'<rect x="{gx - bw * len(series) / 2 + j * bw:.1f}" y="{y1 - h:.1f}" width="{bw - 2:.1f}" height="{h:.1f}" rx="2" fill="{col}"/>'
-        o += f'<text x="{gx:.1f}" y="{y1 + 11}" font-size="8" text-anchor="middle" fill="var(--muted)" {F}>{c}</text>'
+            bx = gx - bw * len(series) / 2 + j * bw
+            o += f'<rect x="{bx:.1f}" y="{y1 - h:.1f}" width="{bw - 2:.1f}" height="{h:.1f}" rx="2.5" fill="{col}"/>'
+            if len(series) == 1 or bw >= 14:
+                o += f'<text x="{bx + (bw - 2) / 2:.1f}" y="{y1 - h - 3:.1f}" font-size="{8.5 if len(series) == 1 else 6.5}" font-weight="700" text-anchor="middle" fill="var(--fg)" {F}>{fmt(vals[i])}</text>'
+        o += f'<text x="{gx:.1f}" y="{y1 + 11}" font-size="8.5" text-anchor="middle" fill="var(--muted)" {F}>{c}</text>'
     return thumb_frame(o, cap)
 
 
