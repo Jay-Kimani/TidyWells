@@ -382,8 +382,12 @@ def store_links(rows):
     base = "https://tidywells.myshopify.com/products/"
     handle = lambda t: re.sub(r"[^a-z0-9]+", "-", t.lower().replace("'", "")).strip("-")
     links = {}
+    # Shopify handles that differ from the listing title (a duplicated product, a retitled sheet)
+    fix = {"scrap-the-tanker-ban-t-shirt-oil-and-gas-humor-decline-curve-gift": "copy-of-powered-by-oil-t-shirt-oil-and-gas-humor-decline-curve-gift",
+           "complete-sheet-of-9-hard-hat-stickers-oil-and-gas-humor-laptop-decals": "sticker-sheet-of-9-complete-hard-hat-sticker-set-oil-and-gas-humor-laptop-decals"}
     for rid, _type, title, *_ in rows:
-        h = base + handle(title)
+        h0 = handle(title)
+        h = base + fix.get(h0, h0)
         if rid.startswith("poster-") and rid.endswith(("-night", "-paper")):
             slug, ed = rid[:-6] if rid.endswith("-night") else rid[:-6], rid.rsplit("-", 1)[1]
             links.setdefault(slug, {})[ed] = h
