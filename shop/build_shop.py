@@ -181,7 +181,7 @@ def catalogue():
         imgs, labs = spi(f"toque-{s}", TOQUE_PICKS, f"{n} toque")
         out.append(dict(kind="toque", slug=s, title=f"{n} toque", short=n, blurb=b, images=imgs, labels=labs))
     for s, t, b in SHEETS:
-        out.append(dict(kind="sheet", slug=s, title=f"{t} reference sheet", short=t, blurb=b, images=[(f"sheet-{s}.jpg", f"{t} reference sheet", 720, 1118)]))
+        out.append(dict(kind="sheet", slug=s, title=f"{t} reference sheet", short=t, blurb=b, images=[(f"sheet-{s}.jpg", f"{t} reference sheet", 1000, 1545)]))
     for it in out:
         it["id"] = pid(it["kind"], it["slug"])
         it["page"] = page_name(it["kind"], it["slug"])
