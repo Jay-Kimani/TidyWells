@@ -71,7 +71,7 @@ if __name__ == "__main__":
     a.write_text(t[:i] + "\n" + snaps_html(snaps) + "\n" + t[j:], encoding="utf-8")
     # sitemap + robots (search engines)
     base = "https://tidywells.com"
-    pages = ["", "decline.html", "explore.html", "analysis.html", "glossary.html", "methods.html", "guide.html", "about.html", "data.html", "clean.html", "scorecard.html", "revisions.html", "didnt-work.html", "corrections.html", "terms.html", "shop.html", "your-well.html"]
+    pages = ["", "decline.html", "explore.html", "analysis.html", "glossary.html", "methods.html", "guide.html", "pro.html", "about.html", "data.html", "clean.html", "scorecard.html", "revisions.html", "didnt-work.html", "corrections.html", "terms.html", "shop.html", "your-well.html"]
     urls = [(f"{base}/{pg}", None) for pg in pages] + [(f"{base}/posts/{p['slug']}.html", p["date"]) for p in posts]
     sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
     for u, d in urls:
@@ -228,7 +228,7 @@ if __name__ == "__main__":
                 "sponsor.html": "about", "shop.html": "shop.html", "your-well.html": "shop.html"}
     def nav_html(prefix, cur):
         grp = GROUP_OF.get(cur)
-        out = [f'<div class="util"><div><a href="{prefix}data.html">Open data</a><a href="{prefix}corrections.html">Corrections</a>'
+        out = [f'<div class="util"><div><a href="{prefix}data.html">Open data</a><a href="{prefix}pro.html">Pro data pack</a><a href="{prefix}corrections.html">Corrections</a>'
                f'<a href="https://github.com/Jay-Kimani/TidyWells" target="_blank" rel="noopener">GitHub</a>'
                f'<a href="https://tidywells.substack.com/" target="_blank" rel="noopener">Substack</a></div></div>'
                f'<header><nav><a class="brand" href="{prefix}index.html" aria-label="Tidywells home">'
@@ -279,6 +279,14 @@ if __name__ == "__main__":
         if sub_a not in t:
             t = t.replace(med_a, med_a + " · " + sub_a)
         pref = "../" if f.parent.name == "posts" else ("/" if f.name == "404.html" else "")
+        # secondary Pro mention: a slim strip at the end of the main content, plus a footer link
+        if f.name not in ("pro.html", "404.html", "sponsor.html", "shop.html", "your-well.html"):
+            strip = (f'<!--PRO--><p class="pro-strip"><b>Tidywells Pro</b> &middot; tidy monthly data packs as CSV files, CAD $4.99 a month with a 3-day free trial. '
+                     f'<a href="{pref}pro.html">Learn more</a></p><!--/PRO-->')
+            t = re.sub(r"<!--PRO-->.*?<!--/PRO-->", lambda m: strip, t, flags=re.S) if "<!--PRO-->" in t else t.replace("</main>", "</main>\n" + strip, 1)
+        if "<footer" in t and 'pro.html">Pro' not in t.rsplit("<footer", 1)[1]:
+            head_, foot_ = t.rsplit("<footer", 1)
+            t = head_ + "<footer" + foot_.replace(">Shop</a>", f'>Shop</a> · <a href="{pref}pro.html">Pro data pack</a>', 1)
         if "<footer" in t and f'>Shop</a>' not in t.rsplit("<footer", 1)[1]:
             head_, foot_ = t.rsplit("<footer", 1)
             t = head_ + "<footer" + foot_.replace(sub_a, sub_a + f' · <a href="{pref}shop.html">Shop</a>', 1)

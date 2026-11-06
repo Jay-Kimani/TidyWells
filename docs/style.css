@@ -245,3 +245,7 @@ footer .btn{background:#fff;color:#14285a!important}
 @media(max-width:900px){.pgrid.four{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:640px){header{padding:6px 14px}.util div{padding:9px 14px;gap:16px}.hero2-in{padding:56px 16px 40px}.hero2-links{padding:0 16px 26px}.brand img,nav a.brand img{height:46px}}
 /*/THEME*/
+/*PROSTRIP*/
+.pro-strip{max-width:1000px;margin:0 auto;padding:14px 16px 0;font-size:13.5px;color:var(--muted)}
+.pro-strip b{color:var(--navy)}
+/*/PROSTRIP*/
