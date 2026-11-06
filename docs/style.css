@@ -309,7 +309,7 @@ a.ft:hover{border-color:var(--accent);box-shadow:0 6px 20px rgba(27,95,214,.14);
 .tts{font-size:1.05em}.sizes{overflow-x:auto;margin:6px 0 10px}.sizes table{border-collapse:collapse;width:100%;font-size:14px}.sizes caption{text-align:left;color:var(--muted,#5b6785);padding-bottom:6px}.sizes th,.sizes td{border-bottom:1px solid var(--line,#dfe4ef);padding:7px 10px;text-align:right}.sizes th:first-child{text-align:left}.sizes thead th{font-weight:600}.specs{padding-left:20px;margin:0 0 14px}.specs li{margin:4px 0}
 .posterbox{max-width:968px;margin:30px auto 0;padding:22px;border:1px solid var(--line);border-radius:8px;background:var(--soft)}
 .posterbox h2{margin:4px 0 4px;font-size:1.35rem}.posterbox p{margin:0 0 6px;color:var(--muted)}
-.posterbox .pgrid{grid-template-columns:repeat(3,minmax(0,1fr))}.posterbox .prod img{aspect-ratio:3/4;object-fit:cover;object-position:top}
+.posterbox .pgrid{grid-template-columns:repeat(3,minmax(0,1fr))}.posterbox .prod img{aspect-ratio:1/1;object-fit:cover}
 @media(max-width:1032px){.posterbox{margin-left:16px;margin-right:16px}}
 @media(max-width:560px){.posterbox .pgrid{grid-template-columns:repeat(2,minmax(0,1fr))}.posterbox .prod:nth-child(3){display:none}}
 /*/SHOP2*/
