@@ -20,7 +20,7 @@ window.TIDYWELLS_SPONSOR={name:"",url:"",text:""};
 // window.TIDYWELLS_SHOP_LINKS = {"poster-ab-oil": "https://..."} (keys are the data-slug values on shop.html).
 window.TIDYWELLS_SHOP_URL = "https://tidywells.myshopify.com";
 // Flip to true when the Shopify store is open to the public (subscribed, payments set up, password removed): every product then shows a buy button (links come from shop-links.js).
-window.TIDYWELLS_SHOP_OPEN = false;
+window.TIDYWELLS_SHOP_OPEN = true;
 // Shopify Storefront API (Headless channel). The public token is meant for browsers; it can only read products and build carts.
 window.TIDYWELLS_STOREFRONT = {domain: "tidywells.myshopify.com", token: "e26e1ada9bd12df138df1a75c172300c"};
 
