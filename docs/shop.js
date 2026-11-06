@@ -164,7 +164,7 @@ function twBuy() {
     price.style.cssText = "font-weight:700;margin:0"; status.style.cssText = "margin:0;color:var(--muted)"; status.setAttribute("aria-live", "polite");
     box.appendChild(price); box.appendChild(row); box.appendChild(status);
     build(); host.textContent = ""; host.appendChild(box);
-    var note = document.createElement("p"); note.className = "shop-note"; note.textContent = "Taxes and shipping are shown at checkout. Payment is handled securely by Shopify."; host.appendChild(note);
+    var note = document.createElement("p"); note.className = "shop-note"; note.textContent = (/sheet-/.test(host.getAttribute("data-slug")) ? "Instant download after payment. " : "Printed to order, delivered in about 5 to 10 business days. ") + "Taxes and shipping are shown at checkout. Payment is handled securely by Shopify."; host.appendChild(note);
   }).catch(function () { host.innerHTML = 'Not available right now. <a href="shop.html">Back to the shop</a>.'; });
 }
 if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", twBuy); else twBuy();
