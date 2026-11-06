@@ -109,6 +109,11 @@ def main():
            '<a href="https://github.com/Jay-Kimani/TidyWells/blob/main/posts/verify_site.py">the checking script</a>. '
            'This confirms the pages match the data file. It does not prove the regulator files themselves are right, which is why the caveats above matter.</p><!--/CHECKS-->')
     t = t.replace("<h2>Cite it</h2>", blk + "<h2>Cite it</h2>", 1)
+    strip = ('<!--STATS--><div class="stats">'
+             f'<div class="st"><b>{integrity:,}</b><span>rows in the file</span></div><div class="st"><b>{len(series)}</b><span>series (AB, SK, BC; oil and gas)</span></div>'
+             f'<div class="st"><b>{months[0]}</b><span>first month, through {months[-1]}</span></div>'
+             f'<div class="st"><b>{manifest["failures"]}</b><span>mismatches in the last check of {manifest["numbers_checked_against_data"]:,} figures</span></div></div><!--/STATS-->')
+    t = re.sub(r"<!--STATS-->.*?<!--/STATS-->", strip, t, flags=re.S)
     p.write_text(t, encoding="utf-8")
     print(f"checked {checked} figures; {len(fails)} failures")
     for x in fails[:30]:

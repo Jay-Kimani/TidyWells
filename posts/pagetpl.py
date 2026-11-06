@@ -6,7 +6,29 @@ HEAD = '<!doctype html>\n<html lang="en"><head><meta charset="utf-8"><meta name=
 FOOT = '<footer><div id="subscribe"></div><small>Not affiliated with any regulator. Provided as is, no warranty. <a href="feed.xml">RSS</a> · <a href="https://medium.com/@tidywells" target="_blank" rel="noopener">Medium</a> · <a href="https://tidywells.substack.com/" target="_blank" rel="noopener">Substack</a> · <a href="terms.html">Terms and privacy</a> · <a href="shop.html">Shop</a> · <a href="pro.html">Pro data pack</a> · <a href="sponsor.html">Sponsor</a> · <a href="data.html">Open data</a> · <a href="glossary.html">Glossary</a> · <a href="corrections.html">Corrections</a> · <a href="https://github.com/Jay-Kimani/TidyWells">Code</a></small></footer>\n<script src="config.js"></script><script src="subscribe.js"></script><script src="site.js"></script>\n<script>document.getElementById("theme").onclick=()=>{const r=document.documentElement;r.dataset.theme=r.dataset.theme==="dark"?"light":"dark"}</script>\n</body></html>\n'
 
 
-def page(name, title, desc, body, css=""):
+def page(name, title, desc, body, css="", cls=""):
     head = (HEAD.replace("{title}", escape(title)).replace("{desc}", escape(desc, quote=True))
             .replace("{css}", css).replace("{page}", name))
-    return head + "<body>\n<header><nav></nav></header>\n<main><article>\n" + body + "\n</article></main>\n\n" + FOOT
+    return head + (f'<body class="{cls}">' if cls else "<body>") + "\n<header><nav></nav></header>\n<main><article>\n" + body + "\n</article></main>\n\n" + FOOT
+
+
+# ---- shared layout pieces for the Research pages (styled in style.css under /*RESEARCH*/) ----
+def hero(kick, title, dek):
+    return f'<div class="rph"><p class="kick">{kick}</p><h1>{title}</h1><p class="dek">{dek}</p></div>'
+
+
+def stats(items):
+    """items: [(big, small), ...]"""
+    return '<div class="stats">' + "".join(f'<div class="st"><b>{b}</b><span>{t}</span></div>' for b, t in items) + "</div>"
+
+
+def bubble(title, inner, tone=""):
+    return f'<aside class="bubble {tone}"><h3>{title}</h3>{inner}</aside>'
+
+
+def fold(summary, inner, open_=False):
+    return f'<details class="fold"{" open" if open_ else ""}><summary>{summary}</summary><div class="fb">{inner}</div></details>'
+
+
+def layout(main, side):
+    return f'<div class="rpg"><div class="rpm">{main}</div><div class="rps">{side}</div></div>'

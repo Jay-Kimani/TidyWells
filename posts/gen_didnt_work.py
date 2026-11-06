@@ -3,7 +3,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from pagetpl import page  # noqa: E402
+from pagetpl import page, hero, stats as stats_strip, bubble, layout  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
 ENTRIES = [
@@ -19,18 +19,25 @@ ENTRIES = [
 ]
 
 
+TAGS = ["Wrong headline", "Partial explanation", "Lost to baseline"]
+
+
 def build():
-    h = ["<h1>What didn't work</h1>",
-         "<p>Most sites show only the analyses that worked. This page lists the ones that did not, the mistakes we made and the methods that lost. Each entry says what we expected, what happened and where the evidence is. "
-         "If something is missing, <a href=\"https://github.com/Jay-Kimani/TidyWells/issues\">tell us</a>.</p>"]
-    for d, t, body, links in ENTRIES:
-        h.append(f'<h2>{t}</h2><p class="muted" style="margin:-8px 0 8px;font-size:13px">{d}</p><p>{body}</p><p>' +
-                 " · ".join(f'<a href="{u}">{n}</a>' for n, u in links) + "</p>")
-    h.append('<p class="muted" style="margin-top:22px;font-size:14px">Informational only, not investment, legal or engineering advice. Entries are written by hand in <code>posts/gen_didnt_work.py</code>.</p>')
+    cards = "".join(
+        f'<div class="ecard"><div class="meta"><span class="pill {"bad" if k == 0 else ""}">{TAGS[k]}</span><span>{d}</span></div><h2>{t}</h2><p>{body}</p>'
+        '<div class="lk">' + " ".join(f'<a href="{u}">{n} &rarr;</a>' for n, u in links) + "</div></div>"
+        for k, (d, t, body, links) in enumerate(ENTRIES))
+    side = (bubble("How to read this page", "<p>Each entry says what we expected, what happened and where the evidence is. Newest first.</p>") +
+            bubble("Spotted something?", '<p>If a mistake is missing here, <a href="https://github.com/Jay-Kimani/TidyWells/issues">tell us</a>. Fixed errors are also listed on <a href="corrections.html">Corrections</a>.</p>'))
+    h = [hero("Research · Negative results", "What didn't work",
+              "Most sites show only the analyses that worked. This page lists the ones that did not: the mistakes we made and the methods that lost."),
+         stats_strip([(str(len(ENTRIES)), "entries so far"), (ENTRIES[0][0].split(" to ")[-1], "most recent entry")]),
+         layout(cards, side),
+         '<p class="muted" style="margin-top:28px;font-size:14px">Informational only, not investment, legal or engineering advice. Entries are written by hand in <code>posts/gen_didnt_work.py</code>.</p>']
     return "\n".join(h)
 
 
 if __name__ == "__main__":
     (ROOT / "docs" / "didnt-work.html").write_text(
         page("didnt-work.html", "What didn't work", "Mistakes we made and methods that lost, with links to the evidence: corrected headlines, partial explanations and forecasts that did not beat the baseline.",
-             build()), encoding="utf-8")
+             build(), cls="rp"), encoding="utf-8")

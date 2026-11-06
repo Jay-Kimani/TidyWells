@@ -16,7 +16,7 @@ from html import escape
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from pagetpl import page  # noqa: E402
+from pagetpl import page, hero, stats as stats_strip, bubble, fold, layout  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
 CSV = ROOT / "docs" / "data" / "tidywells-monthly-production.csv"
@@ -147,38 +147,12 @@ def fmt(v, d=1):
 
 def build_page(data, bt, log):
     latest = ms(max(data[SERIES[0]]))
-    h = ['<h1>Forecast scorecard</h1>',
-         '<p>Most sites show forecasts and never check them. Here we write simple forecasts of provincial oil and gas production down <b>before</b> the data exists, then grade them against what the regulators later report. '
-         'The methods are deliberately plain, so you can see how hard the problem really is.</p>',
-         '<h2>The rules</h2><ul>'
-         '<li>Forecasts are made from the latest published month and written to an append-only <a href="data/forecasts.json">log</a>. Each commit is dated by GitHub, so we cannot quietly rewrite one.</li>'
-         '<li>A script, not a person, fills in the actual number when the month appears in the <a href="data.html">open data</a>, and calculates the error.</li>'
-         '<li>Errors are absolute percentage errors on the daily rate. The data can be revised after first publication; see <a href="revisions.html">Data revisions</a>.</li></ul>',
-         '<h2>The three methods</h2><ul>' + "".join(f'<li><b>{n}.</b> {d}</li>' for n, d in METHODS.values()) + '</ul>']
-    # live
     ent = log["entries"]
     graded = [e for e in ent if e["actual"] is not None]
     pend = [e for e in ent if e["actual"] is None]
-    h.append(f'<h2>Live forecasts</h2><p>{len(ent)} forecasts logged, {len(graded)} graded, {len(pend)} waiting for data. Latest data used: {latest}.</p>')
-    if graded:
-        by = {}
-        for e in graded:
-            by.setdefault(e["method"], []).append(e["ape_pct"])
-        h.append('<div class="tw"><table><tr><th>Method</th><th>Graded forecasts</th><th>Mean error</th></tr>' + "".join(
-            f'<tr><td>{METHODS[m][0]}</td><td>{len(v)}</td><td>{sum(v) / len(v):.1f}%</td></tr>' for m, v in by.items()) + '</table></div>')
-    first = sorted({e["data_through"] for e in ent})
-    rows = [e for e in ent if e["method"] == "seasonal_trend" and e["data_through"] == first[-1]] if first else []
-    if rows:
-        h.append(f'<p class="muted">Latest batch (data through {first[-1]}), seasonal trend method. “Pending” means the regulator has not yet published that month.</p>'
-                 '<div class="tw"><table><tr><th>Series</th><th>Month</th><th>Forecast</th><th>Actual</th><th>Error</th></tr>' + "".join(
-                     f'<tr><td>{PROV[e["series"][:2]]} {e["series"][3:].lower()} ({e["unit"]})</td><td>{e["target"]}</td><td>{fmt(e["forecast"], 1 if e["series"].endswith("OIL") else 0)}</td>'
-                     f'<td>{fmt(e["actual"], 1 if e["series"].endswith("OIL") else 0) if e["actual"] is not None else "Pending"}</td>'
-                     f'<td>{(str(e["ape_pct"]) + "%") if e["ape_pct"] is not None else "–"}</td></tr>' for e in rows) + '</table></div>')
-    # backtest
-    h.append('<h2>Backtest</h2><p>This part is calculated after the fact, not a live record: for every past month, each method forecasts 1 and 3 months ahead using only the data up to then, and we score it against what was reported. '
-             'The history is short (monthly data from 2022), so treat the numbers as indicative.</p>')
+    # ---- backtest numbers
     tot = {}
-    body = ['<div class="tw"><table><tr><th>Series</th><th>Method</th><th>Months ahead</th><th>Mean error</th><th>Bias</th><th>Forecasts</th></tr>']
+    body = ['<table><tr><th>Series</th><th>Method</th><th class="num">Months ahead</th><th class="num">Mean error</th><th class="num">Bias</th><th class="num">Forecasts</th></tr>']
     for key in SERIES:
         for hz in (1, 3):
             best = min(METHODS, key=lambda m: stats(bt[(key, m, hz)])["mape"])
@@ -187,23 +161,56 @@ def build_page(data, bt, log):
                 st = stats(bt[(key, m, hz)])
                 b = "<b>" if m == best else ""
                 e = "</b>" if m == best else ""
-                body.append(f'<tr><td>{PROV[key[0]]} {key[1].lower()}</td><td>{b}{METHODS[m][0]}{e}</td><td>{hz}</td><td>{b}{st["mape"]:.1f}%{e}</td><td>{st["bias"]:+.1f}%</td><td>{st["n"]}</td></tr>')
-    body.append('</table></div><p class="muted" style="font-size:13px">Bold marks the lowest mean error for each series and horizon. Bias is the average signed error; above zero means the method ran high.</p>')
-    h.append("".join(body))
+                body.append(f'<tr><td>{PROV[key[0]]} {key[1].lower()}</td><td>{b}{METHODS[m][0]}{e}</td><td class="num">{hz}</td><td class="num">{b}{st["mape"]:.1f}%{e}</td><td class="num">{st["bias"]:+.1f}%</td><td class="num">{st["n"]}</td></tr>')
+    body.append('</table><p class="muted" style="font-size:13px">Bold marks the lowest mean error for each series and horizon. Bias is the average signed error; above zero means the method ran high.</p>')
     wins = {m: sum(1 for v in tot.values() if v == m) for m in METHODS}
     n = len(tot)
     verdict = ", ".join(f"{METHODS[m][0].lower()} {w}" for m, w in sorted(wins.items(), key=lambda x: -x[1]))
     allm = {m: [r for key in SERIES for hz in (1, 3) for r in bt[(key, m, hz)]] for m in METHODS}
     allm = {m: stats(v)["mape"] for m, v in allm.items()}
     bestm = min(allm, key=allm.get)
-    h.append(f'<h2>What this shows</h2><p>Across {n} series and horizon combinations the lowest error went to: {verdict}. '
-             f'Averaged over everything, the best method was <b>{METHODS[bestm][0].lower()}</b> at {allm[bestm]:.1f}% mean error '
-             f'(' + ", ".join(f"{METHODS[m][0].lower()} {v:.1f}%" for m, v in allm.items() if m != bestm) + '). '
-             'If a fancier method cannot beat these, it has not earned your trust.</p>')
-    h.append(f'<h2>One month ahead, {METHODS[bestm][0].lower()}</h2><p class="muted" style="font-size:13px">The method with the lowest average error. Grey is the reported rate, dashed blue is the forecast made one month earlier.</p><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px">'
-             + "".join(f'<div><b style="font-size:14px">{PROV[k[0]]} {k[1].lower()} ({UNIT[k[1]]})</b>{chart(data, bt, k, bestm)}</div>' for k in SERIES) + '</div>')
-    h.append('<p class="muted" style="margin-top:22px;font-size:14px">Informational only, not investment, legal or engineering advice. '
-             f'Held to account by the <a href="https://github.com/Jay-Kimani/TidyWells/commits/main/docs/data/forecasts.json">commit history</a> of the forecast log. Code: <code>posts/scorecard.py</code>.</p>')
+    others = ", ".join(f"{METHODS[m][0].lower()} {v:.1f}%" for m, v in allm.items() if m != bestm)
+    # ---- live batch, one row per series, one column per target month
+    first = sorted({e["data_through"] for e in ent})
+    rows = [e for e in ent if e["method"] == "seasonal_trend" and e["data_through"] == first[-1]] if first else []
+    live = ""
+    if rows:
+        months = sorted({e["target"] for e in rows})
+        order = []
+        for e in rows:
+            if e["series"] not in order:
+                order.append(e["series"])
+        by = {(e["series"], e["target"]): e for e in rows}
+        def cell(e):
+            d = 1 if e["series"].endswith("OIL") else 0
+            if e["actual"] is None:
+                return f'{fmt(e["forecast"], d)} <span class="pill pend">pending</span>'
+            return f'{fmt(e["forecast"], d)} &rarr; {fmt(e["actual"], d)} <span class="pill {"ok" if e["ape_pct"] < 5 else "bad"}">{e["ape_pct"]}% off</span>'
+        live = ('<div class="tw"><table><tr><th>Series</th>' + "".join(f'<th class="num">{m}</th>' for m in months) + '</tr>' + "".join(
+            f'<tr><td>{PROV[k[:2]]} {k[3:].lower()} <span class="muted">({UNIT[k[3:]]})</span></td>' + "".join(f'<td class="num">{cell(by[(k, m)]) if (k, m) in by else "–"}</td>' for m in months) + '</tr>' for k in order) + '</table></div>'
+                f'<p class="muted" style="font-size:13px">Seasonal trend method, written down from data through {first[-1]}. Pending means the regulator has not yet published that month.</p>')
+    if graded:
+        by2 = {}
+        for e in graded:
+            by2.setdefault(e["method"], []).append(e["ape_pct"])
+        live += ('<div class="tw"><table><tr><th>Method</th><th class="num">Graded forecasts</th><th class="num">Mean error</th></tr>' + "".join(
+            f'<tr><td>{METHODS[m][0]}</td><td class="num">{len(v)}</td><td class="num">{sum(v) / len(v):.1f}%</td></tr>' for m, v in by2.items()) + '</table></div>')
+    main = (f'<h2>Live forecasts<span class="sub">Written before the data exists. {len(ent)} logged, {len(graded)} graded, {len(pend)} waiting. Latest data used: {latest}.</span></h2>' + live +
+            f'<h2>What the backtest shows</h2><div class="callout">Across {n} series and horizons the lowest error went to: {verdict}. Averaged over everything, the best method was <b>{METHODS[bestm][0].lower()}</b> at {allm[bestm]:.1f}% mean error ({others}). If a fancier method cannot beat these, it has not earned your trust.</div>'
+            f'<h2>One month ahead, {METHODS[bestm][0].lower()}<span class="sub">The method with the lowest average error. Grey is the reported rate, dashed blue is the forecast made one month earlier.</span></h2><div class="cgrid">'
+            + "".join(f'<div><b>{PROV[k[0]]} {k[1].lower()} ({UNIT[k[1]]})</b>{chart(data, bt, k, bestm)}</div>' for k in SERIES) + '</div>' +
+            fold(f'Full backtest table ({len(SERIES) * 2 * len(METHODS)} rows)', '<p>Calculated after the fact, not a live record: for every past month, each method forecasts 1 and 3 months ahead using only the data up to then, and we score it against what was reported. The history is short (monthly data from 2022), so treat the numbers as indicative.</p><div class="tw">' + "".join(body) + '</div>'))
+    side = (bubble("The rules",
+                   '<ul><li>Forecasts are written to an append-only <a href="data/forecasts.json">log</a>. Each commit is dated by GitHub, so none can be quietly rewritten.</li>'
+                   '<li>A script, not a person, fills in the actual number when the month appears in the <a href="data.html">open data</a>.</li>'
+                   '<li>Error is absolute percentage error on the daily rate. Data can be revised; see <a href="revisions.html">Data revisions</a>.</li></ul>') +
+            bubble("The three methods", "<ul>" + "".join(f'<li><b>{nm}.</b> {d}</li>' for nm, d in METHODS.values()) + "</ul>"))
+    h = [hero("Research · Accountability", "Forecast scorecard",
+              "Most sites show forecasts and never check them. We write simple forecasts of provincial oil and gas production <b>before</b> the data exists, then grade them against what the regulators report. The methods are deliberately plain, so you can see how hard the problem is."),
+         stats_strip([(str(len(ent)), "forecasts logged"), (str(len(graded)), "graded so far"), (str(len(pend)), "waiting for data"), (f"{allm[bestm]:.1f}%", f"mean error, best method ({METHODS[bestm][0].lower()})")]),
+         layout(main, side),
+         '<p class="muted" style="margin-top:28px;font-size:14px">Informational only, not investment, legal or engineering advice. '
+         f'Held to account by the <a href="https://github.com/Jay-Kimani/TidyWells/commits/main/docs/data/forecasts.json">commit history</a> of the forecast log. Code: <code>posts/scorecard.py</code>.</p>']
     return "\n".join(h)
 
 
@@ -215,5 +222,5 @@ if __name__ == "__main__":
     (ROOT / "docs" / "scorecard.html").write_text(
         page("scorecard.html", "Forecast scorecard",
              "Simple forecasts of Alberta, Saskatchewan and BC oil and gas production, written down before the data exists and graded against what the regulators later reported.",
-             build_page(data, bt, log), css=".tw{overflow-x:auto}"), encoding="utf-8")
+             build_page(data, bt, log), css=".tw{overflow-x:auto}", cls="rp"), encoding="utf-8")
     print("entries", len(log["entries"]), "backtest cells", len(bt))
