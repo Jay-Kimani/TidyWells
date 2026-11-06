@@ -177,10 +177,11 @@ DESIGNS = [  # slug, name, fn, garment
     ("energy-workers-vote", "Energy Workers Vote", d_vote, "tee"),
     ("scrap-the-tanker-ban", "Scrap the Tanker Ban", d_tanker, "tee"),
     ("pipelines-not-platitudes", "Pipelines, Not Platitudes", d_platitudes, "tee"),
-    ("b-equals-1", "b = 1.0", d_b1, "tee"),
     ("check-the-units", "Check the Units", d_units, "tee"),
 ]
-STICKER_SLUGS = ["build-the-pipeline", "scrap-the-tanker-ban", "ottawa-doesnt-pump-oil", "pipelines-not-platitudes", "energy-workers-vote", "shut-in-not-shut-down", "hyperbolic-decline", "check-the-units"]
+STICKER_SLUGS = ["build-the-pipeline", "scrap-the-tanker-ban", "ottawa-doesnt-pump-oil", "pipelines-not-platitudes", "energy-workers-vote", "shut-in-not-shut-down", "hyperbolic-decline"]
+MUG_SLUGS = ["build-the-pipeline", "ottawa-doesnt-pump-oil", "energy-workers-vote", "hyperbolic-decline", "check-the-units"]
+CAPS = [("build-the-pipeline", ["BUILD THE", "PIPELINE"]), ("ottawa-doesnt-pump-oil", ["OTTAWA DOESN'T", "PUMP OIL."])]
 STICKERS = STICKER_SLUGS
 GARMENT_COLORS = {"black": "#17191f", "navy": "#16233f", "sand": "#d9cfba", "white": "#f1f1ee", "heather": "#9ca2ab"}
 
@@ -261,6 +262,45 @@ def mockup_both(slug, kind, gcolor):
     return _frame(L + R + _label(216, "FRONT", 790) + _label(661, "BACK PRINT", 790))
 
 
+def _fn(slug):
+    return [d for d in DESIGNS if d[0] == slug][0][2]
+
+
+def mug_art(slug, ink):
+    """11 oz mug wrap, 2475 x 1155: the portrait design centred."""
+    c = INKS[ink]
+    return (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2475 1155" width="2475" height="1155">'
+            f'<svg x="{(2475 - 866) / 2:.0f}" y="0" width="866" height="1155" viewBox="0 0 1200 1600">{_fn(slug)(c)}</svg></svg>')
+
+
+def mug_mockup(slug):
+    c = INKS["light"]
+    d = ('<defs><linearGradient id="mg" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#2a2d35"/><stop offset=".45" stop-color="#1b1d23"/><stop offset="1" stop-color="#0f1013"/></linearGradient></defs>')
+    body = ('<ellipse cx="430" cy="800" rx="230" ry="26" fill="#000" fill-opacity=".12"/>'
+            '<path d="M 600 330 C 720 330 720 560 600 560" fill="none" stroke="#17191f" stroke-width="40" stroke-linecap="round"/>'
+            '<path d="M 262 270 L 262 740 Q 262 790 430 790 Q 598 790 598 740 L 598 270 Z" fill="url(#mg)"/>'
+            '<ellipse cx="430" cy="270" rx="168" ry="30" fill="#2f333c"/><ellipse cx="430" cy="270" rx="150" ry="22" fill="#0b0c0e"/>')
+    art = f'<svg x="320" y="330" width="220" height="293" viewBox="0 0 1200 1600">{_fn(slug)(c)}</svg>'
+    return _frame(d + body + art + _label(450, "11 OZ MUG, WRAP PRINT"))
+
+
+def cap_art(lines):
+    n = len(lines)
+    size = min(230, 1250 / (0.62 * max(len(l) for l in lines)))
+    y0 = 300 - size * n / 2 + size * 0.80
+    t = "".join(text(675, y0 + i * size * 1.02, l.replace("'", "&#39;"), round(size), "#ffffff", SANS, 800, anchor="middle", spacing=-3) for i, l in enumerate(lines))
+    return f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1350 600" width="1350" height="600">{t}</svg>'
+
+
+def cap_mockup(lines, color="#17191f"):
+    sh = '<defs><linearGradient id="cg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".10"/><stop offset="1" stop-color="#000" stop-opacity=".2"/></linearGradient></defs>'
+    crown = f'<path d="M 190 540 C 190 250 330 190 450 190 C 570 190 710 250 710 540 Z" fill="{color}"/><path d="M 190 540 C 190 250 330 190 450 190 C 570 190 710 250 710 540 Z" fill="url(#cg)"/>'
+    seam = '<path d="M 450 195 C 430 300 430 430 450 540" fill="none" stroke="#000" stroke-opacity=".22" stroke-width="5"/><circle cx="450" cy="192" r="14" fill="#101216"/>'
+    brim = f'<path d="M 160 535 C 300 505 600 505 740 535 C 760 610 650 650 450 650 C 250 650 140 610 160 535 Z" fill="{color}"/><path d="M 160 535 C 300 505 600 505 740 535 C 760 610 650 650 450 650 C 250 650 140 610 160 535 Z" fill="url(#cg)"/>'
+    art = f'<svg x="305" y="310" width="290" height="129" viewBox="0 0 1350 600">{cap_art(lines).split(">", 1)[1].rsplit("</svg>", 1)[0]}</svg>'
+    return _frame(sh + '<ellipse cx="450" cy="690" rx="260" ry="22" fill="#000" fill-opacity=".10"/>' + crown + seam + brim + art + _label(450, "EMBROIDERED CAP"))
+
+
 def mockup(slug, kind, gcolor, light_ink):
     c = INKS["light" if light_ink else "dark"]
     fn = [d for d in DESIGNS if d[0] == slug][0][2]
@@ -323,6 +363,17 @@ def main(out):
             (out / "svg" / f"mockup-{slug}{suffix}.svg").write_text(fn_(slug, kind, gc), encoding="utf-8")
             jobs.append({"src": f"svg/mockup-{slug}{suffix}.svg", "out": f"web/mockup-{slug}{suffix}.jpg", "w": 720, "h": 720, "scale": 1, "type": "jpeg", "quality": 88})
         BRAND_ON = True
+    for slug in MUG_SLUGS:
+        for ink, nm in (("light", "black-mug"), ("dark", "white-mug")):
+            (out / "svg" / f"mug-{slug}-{ink}.svg").write_text(mug_art(slug, ink), encoding="utf-8")
+            jobs.append({"src": f"svg/mug-{slug}-{ink}.svg", "out": f"print/mugs/{slug}-{nm}-2475x1155.png", "w": 2475, "h": 1155, "scale": 1, "type": "png", "transparent": True})
+        (out / "svg" / f"mug-{slug}-mock.svg").write_text(mug_mockup(slug), encoding="utf-8")
+        jobs.append({"src": f"svg/mug-{slug}-mock.svg", "out": f"web/mug-{slug}.jpg", "w": 720, "h": 720, "scale": 1, "type": "jpeg", "quality": 88})
+    for slug, lines in CAPS:
+        (out / "svg" / f"cap-{slug}.svg").write_text(cap_art(lines), encoding="utf-8")
+        jobs.append({"src": f"svg/cap-{slug}.svg", "out": f"print/caps/{slug}-embroidery-1350x600.png", "w": 1350, "h": 600, "scale": 1, "type": "png", "transparent": True})
+        (out / "svg" / f"cap-{slug}-mock.svg").write_text(cap_mockup(lines), encoding="utf-8")
+        jobs.append({"src": f"svg/cap-{slug}-mock.svg", "out": f"web/cap-{slug}.jpg", "w": 720, "h": 720, "scale": 1, "type": "jpeg", "quality": 88})
     for slug in STICKERS:
         (out / "svg" / f"sticker-{slug}.svg").write_text(sticker_svg(slug), encoding="utf-8")
         jobs.append({"src": f"svg/sticker-{slug}.svg", "out": f"print/stickers/{slug}-1200x1200.png", "w": 1200, "h": 1200, "scale": 1, "type": "png", "transparent": True})

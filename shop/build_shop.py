@@ -19,9 +19,6 @@ POSTERS = [  # slug, title, blurb
     ("record-barrels", "Record Barrels", "Alberta, Saskatchewan and BC oil stacked on one chart, with the highest month since January 2022 marked."),
     ("peak-vs-now", "Peak vs Now", "Six oil and gas streams ranked by how close they are to their own best month."),
     ("86-of-100", "86 of Every 100", "A hundred dots, one for every 100 barrels: who produces what in the three provinces."),
-    ("bc-gas", "British Columbia Gas", "BC gas production, the sharpest growth of the three provinces."),
-    ("five-years", "Five Years, Six Lines", "Oil and gas in three provinces as six small multiples on one sheet."),
-    ("gas-season", "Gas Has a Season", "A radar of the calendar-month pattern in Alberta and BC gas."),
     ("decline-shape", "Shape of a Decline", "The Arps family b = 0 to 1.5, the curve every well-file reader should know."),
 ]
 APPAREL = [  # slug, name, garment, blurb
@@ -33,26 +30,29 @@ APPAREL = [  # slug, name, garment, blurb
     ("energy-workers-vote", "Energy Workers Vote", "tee", "Short, clean, and hard to argue with."),
     ("scrap-the-tanker-ban", "Scrap the Tanker Ban", "tee", "For the west coast export argument."),
     ("pipelines-not-platitudes", "Pipelines, Not Platitudes", "tee", "Less talk, more steel."),
-    ("b-equals-1", "b = 1.0", "tee", "Harmonic decline, in monospace."),
     ("check-the-units", "Check the Units", "tee", "m³, Mcf, MMcf, boe. Always."),
 ]
 STICKERS = [("build-the-pipeline", "Build the Pipeline"), ("scrap-the-tanker-ban", "Scrap the Tanker Ban"), ("ottawa-doesnt-pump-oil", "Ottawa Doesn't Pump Oil"),
             ("pipelines-not-platitudes", "Pipelines, Not Platitudes"), ("energy-workers-vote", "Energy Workers Vote"), ("shut-in-not-shut-down", "Shut-In, Not Shut Down"),
-            ("hyperbolic-decline", "Hyperbolic Decline"), ("check-the-units", "Check the Units")]
-NOTEBOOKS = [("decline-log", "Decline Log", "A field notebook for the numbers you keep meaning to track."), ("well-file", "Well File", "Notes, numbers, nonsense.")]
-SHEETS = [("units-and-conversions", "Units & Conversions", "Oil, gas, energy and pressure factors, plus the rate-from-volume rule."),
-          ("decline-curves-one-page", "Decline Curves, One Page", "Exponential, hyperbolic and harmonic, with the habits that keep a fit honest."),
-          ("regulator-data-gotchas", "Regulator Data Gotchas", "Seven ways public well data quietly breaks an analysis.")]
+            ("hyperbolic-decline", "Hyperbolic Decline")]
+MUGS = [("build-the-pipeline", "Build the Pipeline", "Three words and a request, for the first coffee of the shift."),
+        ("ottawa-doesnt-pump-oil", "Ottawa Doesn't Pump Oil", "A reminder of who does."),
+        ("energy-workers-vote", "Energy Workers Vote", "Short, clean, and hard to argue with."),
+        ("hyperbolic-decline", "Hyperbolic Decline: My Motivation", "For anyone whose enthusiasm follows an Arps curve."),
+        ("check-the-units", "Check the Units", "m³, Mcf, MMcf, boe. Always.")]
+CAPS = [("build-the-pipeline", "Build the Pipeline", "Embroidered text, three words and a request."),
+        ("ottawa-doesnt-pump-oil", "Ottawa Doesn't Pump Oil", "Embroidered text, a reminder of who does.")]
+SHEETS = [("units-and-conversions", "Units & Conversions", "Oil, gas, energy and pressure factors, plus the rate-from-volume rule.")]
 FEATURED = ["build-the-pipeline", "ottawa-doesnt-pump-oil", "shut-in-not-shut-down", "hyperbolic-decline"]
+BEST = ["hoodie-build-the-pipeline", "hoodie-ottawa-doesnt-pump-oil", "mug-build-the-pipeline", "tee-energy-workers-vote"]
 
 
 
 LINKJS = ('<script src="shop.js"></script>')
 
 
-PRICE = {"hoodie": 69, "tee": 36, "poster": 42, "sticker": 5, "notebook": 19, "sheet": 8}  # CAD launch prices; confirmed in the store
+PRICE = {"hoodie": 69, "tee": 36, "mug": 22, "cap": 34, "poster": 42, "sticker": 5, "sheet": 8}  # CAD launch prices; confirmed in the store
 BUNDLES = [  # id, title, blurb, price, would-be separate total, image
-    ("sheets-all-three", "Reference sheet set", "All three 11 x 17 reference sheets: units and conversions, decline curves, and regulator data gotchas.", 19, 24, "bundle-sheets.jpg"),
     ("stickers-three-pack", "Sticker 3-pack", "Pick any three hard-hat stickers from the collection.", 12, 15, "bundle-stickers.jpg"),
 ]
 SPECS = {
@@ -60,7 +60,8 @@ SPECS = {
     "hoodie": ["Large design printed on the back, small Tidywells mark on the left chest", "Light-ink design for dark garments", "No oil company names or logos", "Garment colours, sizes and fabric are set in the store listing", "The images above are illustrative mockups of the print placement"],
     "tee": ["Large design printed on the back, small Tidywells mark on the left chest", "Light-ink design for dark garments", "No oil company names or logos", "Garment colours, sizes and fabric are set in the store listing", "The images above are illustrative mockups of the print placement"],
     "sticker": ["3 inch, die-cut style vinyl sticker", "Made for hard hats, laptops and truck dashboards", "Final material and finish are set in the store listing"],
-    "notebook": ["Printed cover design; paper type and page count are set in the store listing", "Made for field notes and well logs"],
+    "mug": ["11 oz ceramic mug, design wraps around", "Dishwasher and microwave safe (confirm in the store listing)", "No oil company names or logos"],
+    "cap": ["Embroidered text on the front panel", "Adjustable fit; colour set in the store listing", "No oil company names or logos"],
     "sheet": ["11 x 17 inch PDF, instant digital download", "For your own use: print as often as you like", "Standard published conversion factors and public regulator file layouts"],
 }
 
@@ -75,7 +76,6 @@ DESC = {
     "tee-energy-workers-vote": "Three words for the lunchroom, the truck and the polling station. Heavy type on the back, nothing else to explain. Printed in light ink for dark garments. Original design, no company names or logos.",
     "tee-scrap-the-tanker-ban": "A blunt opinion on the west coast export argument, in heavy type. Wear it where the conversation is happening. Printed in light ink for dark garments. Original design, no company names or logos.",
     "tee-pipelines-not-platitudes": "Less talk, more steel. A straight-talking shirt for people who would rather see it built. Printed in light ink for dark garments. Original design, no company names or logos.",
-    "tee-b-equals-1": "Harmonic decline, in monospace: b = 1.0, nothing more. A quiet shirt for the engineers who will get the joke. Printed in light ink for dark garments. Original design, no company names or logos.",
     "tee-check-the-units": "m³, Mcf, MMcf, boe: always check the units. For the person in the meeting who asks the question that saves the slide. Printed in light ink for dark garments. Original design, no company names or logos.",
     "sticker-build-the-pipeline": "A 3 inch die-cut-style sticker with a three-word request. Made for hard hats, lunch kits, tool boxes and truck dashboards.",
     "sticker-scrap-the-tanker-ban": "A 3 inch die-cut-style sticker with a blunt opinion in heavy type. Made for hard hats, toolboxes and truck dashboards.",
@@ -85,18 +85,18 @@ DESC = {
     "sticker-shut-in-not-shut-down": "A 3 inch die-cut-style sticker of a valve wheel with the line shut-in, not shut down. Made for hard hats, laptops and truck dashboards.",
     "sticker-hyperbolic-decline": "A 3 inch die-cut-style sticker with the steep start and long tail of a hyperbolic decline. For the engineers' laptop lid.",
     "sticker-check-the-units": "A 3 inch die-cut-style sticker with the one habit that prevents most reporting errors: check the units. For the engineers' laptop lid.",
+    "mug-build-the-pipeline": "Three words and a request, wrapped around an 11 oz mug. For the first coffee of the shift and the desk it ends up on. Original design, no company names or logos.",
+    "mug-ottawa-doesnt-pump-oil": "A short reminder of who actually pumps it, in heavy type on an 11 oz mug. Good for the crew room and the office kitchen. Original design, no company names or logos.",
+    "mug-energy-workers-vote": "Three words in heavy type on an 11 oz mug. A coffee cup with a point of view. Original design, no company names or logos.",
+    "mug-hyperbolic-decline": "A small decline curve under the line, on an 11 oz mug: for anyone whose enthusiasm follows an Arps curve. Original design, no company names or logos.",
+    "mug-check-the-units": "m³, Mcf, MMcf, boe: always check the units. An 11 oz mug for the engineer who asks the question that saves the slide. Original design, no company names or logos.",
+    "cap-build-the-pipeline": "Embroidered text on the front of an adjustable cap: three words and a request. Plain, clean, easy to wear to the site, the rink or the pub. Original design, no company names or logos.",
+    "cap-ottawa-doesnt-pump-oil": "Embroidered text on the front of an adjustable cap: a reminder of who actually pumps it. Original design, no company names or logos.",
     "poster-record-barrels": "Western Canada's oil, stacked on a zero baseline: Alberta, Saskatchewan and BC from January 2022 to September 2026, with the record month marked. The one to hang where the people who pump it will see it. Four headline figures and the source and method are printed on the sheet. Choose the dark Night edition or the cream Paper edition.",
     "poster-peak-vs-now": "Six streams of oil and gas ranked by how close each one is to its own best month. Alberta oil sits closest to its peak. Gas is seasonal and BC oil is very small, and the poster says so. Bars start at zero, and the source and method are printed on the sheet. Choose the dark Night edition or the cream Paper edition.",
     "poster-86-of-100": "A hundred dots for every hundred barrels of oil produced in Alberta, Saskatchewan and British Columbia: 86 are Alberta's, 14 are Saskatchewan's and BC's share rounds to under one. Real production figures for September 2026, with the source and method printed on the sheet. Choose the dark Night edition or the cream Paper edition.",
-    "poster-bc-gas": "British Columbia gas production over five years, with the peak month and the latest month marked on the line." + POSTER_TAIL,
-    "poster-five-years": "Oil and gas in Alberta, Saskatchewan and British Columbia as six small charts on one sheet, so the three provinces can be compared at a glance. Source, method and data window are printed at the foot. Choose the dark Night edition or the cream Paper edition.",
-    "poster-gas-season": "A radar chart of the calendar-month pattern in Alberta and British Columbia gas: the seasonal wave that every analyst learns to expect. Source, method and data window are printed at the foot. Choose the dark Night edition or the cream Paper edition.",
     "poster-decline-shape": "The Arps family of decline curves from b = 0 to b = 1.5 on one sheet: exponential, hyperbolic and harmonic, the shapes every well-file reader should be able to recognise. Equations and a short reading guide are printed on the poster. Choose the dark Night edition or the cream Paper edition.",
-    "notebook-decline-log": "A field notebook with a decline-curve cover, for the numbers you keep meaning to track: rates, pressures, dates and the odd well-site thought. Original cover design, no company names or logos.",
-    "notebook-well-file": "A notebook with a well-file cover: notes, numbers and nonsense, all in one place. Original cover design, no company names or logos.",
     "sheet-units-and-conversions": "A one-page, 11 x 17 inch PDF of oil, gas, energy and pressure conversion factors, plus the rule for turning a volume into a daily rate. Print it for your desk or your truck; for your own use. Instant download.",
-    "sheet-decline-curves-one-page": "Exponential, hyperbolic and harmonic decline on one 11 x 17 inch PDF page, with the habits that keep a fit honest: what b means, where the fit breaks and what to check first. Print it for your own use. Instant download.",
-    "sheet-regulator-data-gotchas": "Seven ways public well data quietly breaks an analysis, on one 11 x 17 inch PDF page: units, identifiers, reporting lags, and the other traps that catch careful people. Print it for your own use. Instant download.",
 }
 SIZES = {
     "tee": ("Unisex t-shirt", ["S", "M", "L", "XL", "2XL", "3XL"], [(18, 28), (20, 29), (22, 30), (24, 31), (26, 32), (28, 33)]),
@@ -137,8 +137,10 @@ def catalogue():
         out.append(dict(kind=k, slug=s, title=f"{n} {'hoodie' if k == 'hoodie' else 't-shirt'}", short=n, blurb=b, images=[(f"mockup-{s}.jpg", f"{n} {k}, front and back", 720, 720), (f"mockup-{s}-back.jpg", f"{n} {k}, back print", 720, 720), (f"mockup-{s}-front.jpg", f"{n} {k}, front with Tidywells chest logo", 720, 720)]))
     for s, n in STICKERS:
         out.append(dict(kind="sticker", slug=s, title=f"{n} sticker", short=n, blurb="A hard-hat sticker for people who work with oil and gas data.", images=[(f"sticker-{s}.png", f"{n} sticker", 600, 600)]))
-    for s, n, b in NOTEBOOKS:
-        out.append(dict(kind="notebook", slug=s, title=f"{n} notebook", short=n, blurb=b, images=[(f"cover-{s}.jpg", f"{n} notebook cover", 600, 928)]))
+    for s, n, b in MUGS:
+        out.append(dict(kind="mug", slug=s, title=f"{n} mug", short=n, blurb=b, images=[(f"mug-{s}.jpg", f"{n} mug", 720, 720)]))
+    for s, n, b in CAPS:
+        out.append(dict(kind="cap", slug=s, title=f"{n} cap", short=n, blurb=b, images=[(f"cap-{s}.jpg", f"{n} cap", 720, 720)]))
     for s, t, b in SHEETS:
         out.append(dict(kind="sheet", slug=s, title=f"{t} reference sheet", short=t, blurb=b, images=[(f"sheet-{s}.jpg", f"{t} reference sheet", 720, 1118)]))
     for it in out:
@@ -158,74 +160,73 @@ def card_img(src, alt, w, h):
 def prod(slug, kind, title, blurb, img, w, h, extra=""):
     href = page_name(kind, slug)
     return (f'<div class="prod" data-slug="{esc(pid(kind, slug))}"><a class="pimg" href="{href}">{img}</a><div class="pi"><span class="tag">{esc(kind_label(kind))}</span>'
-            f'<h3><a href="{href}">{esc(title)}</a></h3><p>{esc(blurb)}</p>{extra}{price_html(kind)}<span class="go soon">Opening soon</span></div></div>')
+            f'<h3><a href="{href}">{esc(title)}</a></h3>{extra}{price_html(kind)}<span class="go soon">Opening soon</span></div></div>')
+
+
+def card_of(it):
+    """Card for a catalogue item: the showcase image is the back print for apparel, the night colourway for posters."""
+    k = it["kind"]
+    f, alt, w, h = it["images"][1 if k in SIZES else 0]
+    return prod(it["slug"], k, it["short"], it["blurb"], card_img(f, alt, w, h), w, h)
 
 
 def kind_label(k):
-    return {"poster": "Data-art poster", "hoodie": "Hoodie", "tee": "T-shirt", "sticker": "Sticker", "notebook": "Notebook", "sheet": "Digital download"}[k]
+    return {"poster": "Data-art poster", "hoodie": "Hoodie", "tee": "T-shirt", "sticker": "Sticker", "sheet": "Digital download", "mug": "Mug", "cap": "Cap"}[k]
 
 
 def body():
+    items = catalogue()
+    by = {it["id"]: it for it in items}
+    of = lambda *kinds: [it for it in items if it["kind"] in kinds]
+    grid = lambda lst, cls="pgrid": f'<div class="{cls}">' + "".join(card_of(x) for x in lst) + '</div>'
     o = []
     o.append('<div class="shop-hero"><span class="badge">Launch collection · opening soon</span>'
              '<h1>The Tidywells <span class="grad">shop</span></h1>'
-             '<p>Oil and gas, in the places it belongs: on your wall, your chest and your hard hat. Posters drawn from the open dataset, '
-             'apparel only people who have fought a regulator file will get, stickers, notebooks and printable reference sheets.</p>'
-             '<p class="shop-note">Prices are launch prices in Canadian dollars; shipping and tax are added at checkout, and the store confirms the final price.</p>'
-             '<div id="waitlist" class="waitlist"></div></div>')
-    # featured hoodies
-    feat = [a for a in APPAREL if a[0] in FEATURED]
-    o.append('<h2 id="hoodies">Featured hoodies</h2><div class="pgrid four">' + "".join(
-        prod(s, k, n, b, card_img(f"mockup-{s}-back.jpg", f"{n} {k}, back print", 720, 720), 720, 720) for s, n, k, b in feat) + '</div>'
-        '<p class="shop-note">Garment images are illustrative mockups of the print placement. Final garment colours and fit follow the store listing.</p>')
-    # posters
+             '<p>Hoodies, mugs, caps and stickers for people who work in oil and gas, and posters drawn from the open data.</p>'
+             '<div id="waitlist" class="waitlist"></div>'
+             '<p class="shop-note">Launch prices in Canadian dollars. Shipping and tax are added at checkout.</p>'
+             '<nav class="chips" aria-label="Shop sections"><a href="#apparel">Apparel</a><a href="#drinkware">Mugs and caps</a><a href="#stickers">Stickers</a>'
+             '<a href="#posters">Posters</a><a href="#downloads">Digital</a><a href="#your-well">Make your own</a></nav></div>')
+    o.append('<h2 id="best">Best sellers to start with</h2>' + grid([by[i] for i in BEST], "pgrid four"))
+    o.append('<h2 id="apparel">Apparel</h2><p>Heavy type on the back, a small Tidywells mark on the left chest. True to size, with a size guide on every page.</p>' + grid(of("hoodie", "tee")))
+    o.append('<h2 id="drinkware">Mugs and caps</h2>' + grid(of("mug", "cap")))
+    stick = [f'<div class="prod" data-slug="bundle-{b[0]}"><div class="pimg">{card_img(b[5], b[1], 720, 720)}</div><div class="pi"><span class="tag">Best value</span><h3>{esc(b[1])}</h3><p>{esc(b[2])}</p>'
+             f'{price_html(amount=b[3])}<span class="shop-note">Separately CAD ${b[4]}: you save ${b[4] - b[3]}.</span><span class="go soon">Opening soon</span></div></div>' for b in BUNDLES]
+    o.append('<h2 id="stickers">Hard-hat stickers</h2><p>3 inch, die-cut style. For hard hats, toolboxes, lunch kits and truck dashboards.</p><div class="pgrid">' + "".join(stick) + "".join(card_of(x) for x in of("sticker")) + '</div>')
     ps = []
-    for s, t, b in POSTERS:
-        sw = ('<div class="sw" role="group" aria-label="Colourway"><button type="button" data-cw="night" aria-pressed="true">Night</button>'
-              '<button type="button" data-cw="paper" aria-pressed="false">Paper</button></div>')
-        ps.append(prod(s, "poster", t, b, f'<img src="{IMG}poster-{s}-night.jpg" data-base="{IMG}poster-{s}-" alt="{esc(t)} poster, 18 by 24 inch" width="720" height="960" loading="lazy">', 720, 960, sw))
-    o.append('<h2 id="posters">Data-art posters</h2><p>Every poster is generated from the open Tidywells dataset: the numbers printed on it match '
-             '<a href="data.html">the CSV you can download</a>, and the footer says what they are. 18 × 24 inch, in a dark Night or a cream Paper colourway.</p>'
+    for it in of("poster"):
+        s = it["slug"]
+        ps.append(prod(s, "poster", it["short"], it["blurb"], f'<img src="{IMG}poster-{s}-night.jpg" alt="{esc(it["short"])} poster, 18 by 24 inch" width="720" height="960" loading="lazy">', 720, 960))
+    o.append('<h2 id="posters">Data-art posters</h2><p>18 × 24 inch, drawn from the open Tidywells dataset. The numbers match <a href="data.html">the CSV you can download</a> and the poster says where they come from. Choose a dark Night or cream Paper edition on each page.</p>'
              '<div class="pgrid">' + "".join(ps) + '</div>')
-    # apparel (all)
-    rest = [a for a in APPAREL if a[0] not in FEATURED]
-    o.append('<h2 id="apparel">Apparel</h2><p>Insider humour, no company logos. Each design is made in a light ink for dark garments and a dark ink for light ones.</p><div class="pgrid">' + "".join(
-        prod(s, k, n, b, card_img(f"mockup-{s}-back.jpg", f"{n} {k}, back print", 720, 720), 720, 720) for s, n, k, b in rest) + '</div>')
-    # stickers and notebooks
-    o.append('<h2 id="stickers">Hard-hat stickers and field notebooks</h2><div class="pgrid">' + "".join(
-        prod(s, "sticker", n, "Die-cut style, 3 inch. Sticks to hard hats, laptops and truck dashboards.", card_img(f"sticker-{s}.png", f"{n} sticker", 600, 600), 600, 600) for s, n in STICKERS) + "".join(
-        prod(s, "notebook", n, b, card_img(f"cover-{s}.jpg", f"{n} notebook cover", 600, 928), 600, 928) for s, n, b in NOTEBOOKS) + '</div>')
-    # custom
     o.append('<div class="well-card" id="your-well"><div class="wc-text"><span class="tag">Make your own</span><h2>Your Well poster</h2>'
              '<p>Turn one well\'s monthly production into a poster, for a well you own or may use. It runs in your browser and the file never leaves your device.</p>'
              '<p><a class="btn primary" href="your-well.html">Make a poster</a></p>'
              '<p class="shop-note">We do not sell prints of other people\'s wells from public files; that needs the regulator\'s written confirmation.</p></div>'
              f'<figure><img src="{IMG}your-well-example.jpg" alt="Example Your Well poster built from synthetic data" width="720" height="960" loading="lazy"><figcaption>Example, made from synthetic data</figcaption></figure></div>')
-    o.append('<h2 id="bundles">Bundles</h2><div class="pgrid">' + "".join(
-        f'<div class="prod" data-slug="bundle-{i}"><div class="pimg">{card_img(img, t, 720, 720)}</div><div class="pi"><span class="tag">Bundle</span><h3>{esc(t)}</h3><p>{esc(b)}</p>'
-        f'{price_html(amount=p)}<span class="shop-note">Separately CAD ${full}: you save ${full - p}.</span><span class="go soon">Opening soon</span></div></div>'
-        for i, t, b, p, full, img in BUNDLES) + '</div>')
-    # digital
-    o.append('<h2 id="downloads">Printable reference sheets</h2><p>Three 11 × 17 inch sheets to pin up beside your screen. Digital download, print them as often as you like for your own use.</p><div class="pgrid">' + "".join(
-        prod(s, "sheet", t, b, card_img(f"sheet-{s}.jpg", f"{t} reference sheet", 720, 1118), 720, 1118) for s, t, b in SHEETS) + '</div>')
-    o.append('<h2>Good to know</h2><div class="faq"><p><b>Is this affiliated with a regulator or an operator?</b><br>No. The art uses public regulator data and original wording. No company names or logos appear on any product.</p>'
-             '<p><b>Are the numbers on the posters right?</b><br>They are computed from the open dataset and checked against it in our tests. Oil and gas are the Petrinex conventional volumetrics products, so totals can differ from other published provincial figures. The posters are not investment advice.</p>'
-             '<p><b>Who makes and ships the products?</b><br>Products are produced and shipped by our fulfilment partner. Production and delivery times follow the partner schedule and are shown at checkout.</p>'
+    o.append('<h2 id="downloads">Digital download</h2><p>An 11 × 17 inch sheet to pin up beside your screen. Print it as often as you like for your own use.</p>' + grid(of("sheet")))
+    o.append('<h2>Good to know</h2><div class="faq"><p><b>How do sizes fit?</b><br>True to size. Every hoodie and tee page has a size guide with flat measurements.</p>'
+             '<p><b>Who makes and ships the products?</b><br>Our fulfilment partner. Production and delivery times follow the partner schedule and are shown at checkout.</p>'
+             '<p><b>Is this affiliated with a regulator or an operator?</b><br>No. The posters use public regulator data and original wording, and no company names or logos appear on any product. Posters are not investment advice.</p>'
              '<p><b>Where does the money go?</b><br>It helps keep the open data, tools and analysis free. Tidywells is built by one person; see <a href="about.html">About</a>.</p></div>')
+    o.append('<div class="waitlist-end"><h2>Get an email when the shop opens</h2><div id="waitlist2" class="waitlist"></div></div>')
     o.append(LINKJS)
     return "\n".join(o)
 
 
 def home_strip():
-    feat = [a for a in APPAREL if a[0] in FEATURED]
-    cards = "".join(f'<a class="prod" href="{page_name("hoodie", s)}" style="text-decoration:none;color:inherit"><img src="{IMG}mockup-{s}-back.jpg" alt="{esc(n)} hoodie, back print" width="720" height="720" loading="lazy"><div class="pi"><span class="tag">Hoodie</span><h3>{esc(n)}</h3></div></a>'
-                    for s, n, k, b in feat)
-    pcards = "".join(f'<a class="prod" href="{page_name("poster", s)}" style="text-decoration:none;color:inherit"><img src="{IMG}poster-{s}-night.jpg" alt="{esc(t)} poster" width="720" height="960" loading="lazy"><div class="pi"><span class="tag">Poster</span><h3>{esc(t)}</h3></div></a>'
-                     for s, t in (("record-barrels", "Record Barrels"), ("86-of-100", "86 of Every 100")))
+    items = {it["id"]: it for it in catalogue()}
+    pick = ["hoodie-build-the-pipeline", "hoodie-ottawa-doesnt-pump-oil", "mug-build-the-pipeline", "cap-build-the-pipeline", "tee-energy-workers-vote", "poster-record-barrels"]
+    cards = ""
+    for i in pick:
+        it = items[i]
+        f, alt, w, h = it["images"][1 if it["kind"] in SIZES else 0]
+        cards += (f'<a class="prod" href="{it["page"]}" style="text-decoration:none;color:inherit"><img src="{IMG}{f}" alt="{esc(alt)}" width="{w}" height="{h}" loading="lazy">'
+                  f'<div class="pi"><span class="tag">{esc(kind_label(it["kind"]))}</span><h3>{esc(it["short"])}</h3></div></a>')
     return ('<!--SHOP--><section class="strip"><span class="badge">Launch collection · opening soon</span>'
-            '<h2>The Tidywells shop</h2><p>Hoodies, posters drawn from real data, stickers and notebooks for people who work with Canadian oil and gas.</p>'
-            f'<div class="pgrid">{cards}{pcards}</div>'
-            f'<p class="shop-note">Hoodies from CAD ${PRICE["hoodie"]} · posters from CAD ${PRICE["poster"]} · stickers from CAD ${PRICE["sticker"]} (launch prices)</p>'
+            '<h2>The Tidywells shop</h2><p>Hoodies, mugs, caps and stickers for people who work in oil and gas, plus posters drawn from real data.</p>'
+            f'<div class="pgrid">{cards}</div>'
+            f'<p class="shop-note">Hoodies from CAD ${PRICE["hoodie"]} · mugs from CAD ${PRICE["mug"]} · stickers from CAD ${PRICE["sticker"]} (launch prices)</p>'
             '<p><a class="btn primary" href="shop.html">See the collection</a> <a class="btn" href="shop.html#posters">Data-art posters</a></p></section><!--/SHOP-->')
 
 
@@ -258,7 +259,7 @@ def product_page(it, items):
 
 def posterbox(prefix, topic):
     """'Hang this chart' strip for articles: three matched posters with prices, linking to their product pages."""
-    sets = {"snapshot": ["record-barrels", "peak-vs-now", "86-of-100"], "gas": ["gas-season", "bc-gas", "five-years"], "decline": ["decline-shape", "record-barrels", "five-years"], "default": ["record-barrels", "86-of-100", "decline-shape"]}
+    sets = {"snapshot": ["record-barrels", "peak-vs-now", "86-of-100"], "gas": ["peak-vs-now", "record-barrels", "decline-shape"], "decline": ["decline-shape", "record-barrels", "ab-oil"], "default": ["record-barrels", "86-of-100", "decline-shape"]}
     names = {s: t for s, t, _ in POSTERS}
     cards = "".join(f'<a class="prod" href="{prefix}{page_name("poster", s)}" style="text-decoration:none;color:inherit"><img src="{prefix}{IMG}poster-{s}-night.jpg" alt="{esc(names[s])} poster" width="720" height="960" loading="lazy"><div class="pi"><h3>{esc(names[s])}</h3>{price_html("poster")}</div></a>' for s in sets.get(topic, sets["default"]))
     return ('<!--POSTERBOX--><section class="posterbox"><div class="pb-t"><span class="tag">From the Tidywells shop</span><h2>Hang the data on your wall</h2>'
@@ -313,9 +314,12 @@ def listings():
     for s, n in STICKERS:
         rows.append((f"sticker-{s}", "Sticker 3in", f"{n} Sticker, Hard Hat Sticker, Oil and Gas Humor, Laptop Decal",
                      DESC[pid("sticker", s)], TAGS_BASE + ["hard hat sticker", "laptop sticker", "vinyl sticker", "decal", "oilfield"]))
-    for s, n, b in NOTEBOOKS:
-        rows.append((f"notebook-{s}", "Notebook", f"{n} Notebook, Oilfield Field Notebook, Gift for Petroleum Engineer",
-                     DESC[pid("notebook", s)], TAGS_BASE + ["field notebook", "journal", "notebook", "log book", "work gift"]))
+    for s, n, b in MUGS:
+        rows.append((f"mug-{s}", "Mug 11oz", f"{n} Mug, Oilfield Coffee Mug, Oil and Gas Gift",
+                     DESC[pid("mug", s)], TAGS_BASE + ["coffee mug", "oilfield mug", "gift for him", "work mug", "oil and gas"]))
+    for s, n, b in CAPS:
+        rows.append((f"cap-{s}", "Cap", f"{n} Embroidered Cap, Oilfield Hat, Oil and Gas Gift",
+                     DESC[pid("cap", s)], TAGS_BASE + ["embroidered hat", "dad hat", "oilfield hat", "gift for him", "oil and gas"]))
     for s, t, b in SHEETS:
         rows.append((f"sheet-{s}", "Digital download PDF 11x17", f"{t} Cheat Sheet PDF, Oil and Gas Reference, Printable 11x17",
                      DESC[pid("sheet", s)], TAGS_BASE + ["cheat sheet", "printable", "pdf download", "reference", "digital download"]))
@@ -329,7 +333,7 @@ def listings():
 
 def main():
     listings()
-    html = page("shop.html", "Shop", "Oil and gas posters drawn from real data, hoodies, tees, stickers and notebooks from Tidywells.", body(),
+    html = page("shop.html", "Shop", "Oil and gas hoodies, mugs, caps, stickers and posters drawn from real data from Tidywells.", body(),
                 css="article{max-width:none}")
     (DOCS / "shop.html").write_text(html, encoding="utf-8")
     (DOCS / "your-well.html").write_text(page("your-well.html", "Your Well poster", "Make a poster of your own well's production in your browser. Nothing is uploaded.", your_well(), css="article{max-width:none}"), encoding="utf-8")
