@@ -16,6 +16,9 @@ IMG = "img/shop/"
 
 POSTERS = [  # slug, title, blurb
     ("ab-oil", "Alberta Oil", "Monthly oil production, January 2022 to September 2026, with the peak month marked."),
+    ("record-barrels", "Record Barrels", "Alberta, Saskatchewan and BC oil stacked on one chart, with the highest month since January 2022 marked."),
+    ("peak-vs-now", "Peak vs Now", "Six oil and gas streams ranked by how close they are to their own best month."),
+    ("86-of-100", "86 of Every 100", "A hundred dots, one for every 100 barrels: who produces what in the three provinces."),
     ("bc-gas", "British Columbia Gas", "BC gas production, the sharpest growth of the three provinces."),
     ("five-years", "Five Years, Six Lines", "Oil and gas in three provinces as six small multiples on one sheet."),
     ("gas-season", "Gas Has a Season", "A radar of the calendar-month pattern in Alberta and BC gas."),
@@ -65,6 +68,9 @@ SPECS = {
 POSTER_TAIL = " Four headline figures sit under the chart, and the source, method and data window are printed at the foot, so it reads like a figure from a report rather than decoration. Choose the dark Night edition or the cream Paper edition."
 DESC = {
     "poster-ab-oil": "Alberta's monthly oil production from January 2022 to September 2026 as one clean line, with the peak month and the latest month marked." + POSTER_TAIL,
+    "poster-record-barrels": "Western Canada's oil, stacked on a zero baseline: Alberta, Saskatchewan and BC from January 2022 to September 2026, with the record month marked. The one to hang where the people who pump it will see it. Four headline figures and the source and method are printed on the sheet. Choose the dark Night edition or the cream Paper edition.",
+    "poster-peak-vs-now": "Six streams of oil and gas ranked by how close each one is to its own best month. Alberta oil sits closest to its peak. Gas is seasonal and BC oil is very small, and the poster says so. Bars start at zero, and the source and method are printed on the sheet. Choose the dark Night edition or the cream Paper edition.",
+    "poster-86-of-100": "A hundred dots for every hundred barrels of oil produced in Alberta, Saskatchewan and British Columbia: 86 are Alberta's, 14 are Saskatchewan's and BC's share rounds to under one. Real production figures for September 2026, with the source and method printed on the sheet. Choose the dark Night edition or the cream Paper edition.",
     "poster-bc-gas": "British Columbia gas production over five years, with the peak month and the latest month marked on the line." + POSTER_TAIL,
     "poster-five-years": "Oil and gas in Alberta, Saskatchewan and British Columbia as six small charts on one sheet, so the three provinces can be compared at a glance. Source, method and data window are printed at the foot. Choose the dark Night edition or the cream Paper edition.",
     "poster-gas-season": "A radar chart of the calendar-month pattern in Alberta and British Columbia gas: the seasonal wave that every analyst learns to expect. Source, method and data window are printed at the foot. Choose the dark Night edition or the cream Paper edition.",
@@ -216,7 +222,7 @@ def home_strip():
     cards = "".join(f'<a class="prod" href="{page_name("hoodie", s)}" style="text-decoration:none;color:inherit"><img src="{IMG}mockup-{s}.jpg" alt="{esc(n)} hoodie mockup" width="720" height="720" loading="lazy"><div class="pi"><span class="tag">Hoodie</span><h3>{esc(n)}</h3></div></a>'
                     for s, n, k, b in feat)
     pcards = "".join(f'<a class="prod" href="{page_name("poster", s)}" style="text-decoration:none;color:inherit"><img src="{IMG}poster-{s}-night.jpg" alt="{esc(t)} poster" width="720" height="960" loading="lazy"><div class="pi"><span class="tag">Poster</span><h3>{esc(t)}</h3></div></a>'
-                     for s, t in (("ab-oil", "Alberta Oil"), ("gas-season", "Gas Has a Season")))
+                     for s, t in (("record-barrels", "Record Barrels"), ("86-of-100", "86 of Every 100")))
     return ('<!--SHOP--><section class="strip"><span class="badge">Launch collection · opening soon</span>'
             '<h2>The Tidywells shop</h2><p>Hoodies, posters drawn from real data, stickers and notebooks for people who work with Canadian oil and gas.</p>'
             f'<div class="pgrid">{cards}{pcards}</div>'
@@ -251,7 +257,7 @@ def product_page(it, items):
 
 def posterbox(prefix, topic):
     """'Hang this chart' strip for articles: three matched posters with prices, linking to their product pages."""
-    sets = {"snapshot": ["ab-oil", "bc-gas", "five-years"], "gas": ["gas-season", "bc-gas", "five-years"], "decline": ["decline-shape", "ab-oil", "five-years"], "default": ["five-years", "ab-oil", "decline-shape"]}
+    sets = {"snapshot": ["record-barrels", "peak-vs-now", "86-of-100"], "gas": ["gas-season", "bc-gas", "five-years"], "decline": ["decline-shape", "record-barrels", "five-years"], "default": ["record-barrels", "86-of-100", "decline-shape"]}
     names = {s: t for s, t, _ in POSTERS}
     cards = "".join(f'<a class="prod" href="{prefix}{page_name("poster", s)}" style="text-decoration:none;color:inherit"><img src="{prefix}{IMG}poster-{s}-night.jpg" alt="{esc(names[s])} poster" width="720" height="960" loading="lazy"><div class="pi"><h3>{esc(names[s])}</h3>{price_html("poster")}</div></a>' for s in sets.get(topic, sets["default"]))
     return ('<!--POSTERBOX--><section class="posterbox"><div class="pb-t"><span class="tag">From the Tidywells shop</span><h2>Hang the data on your wall</h2>'

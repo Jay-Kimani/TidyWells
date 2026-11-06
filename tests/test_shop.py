@@ -62,7 +62,7 @@ def test_prices_are_labelled_and_no_sale_claims():
 def test_every_product_has_a_page_a_price_and_clean_structured_data():
     import json
     items = shop.catalogue()
-    assert len(items) == 28 and len({i["page"] for i in items}) == 28
+    assert len(items) == 31 and len({i["page"] for i in items}) == 31
     sitemap = (DOCS / "sitemap.xml").read_text(encoding="utf-8")
     for it in items:
         html = (DOCS / it["page"]).read_text(encoding="utf-8")
@@ -117,7 +117,7 @@ def test_catalogue_is_consistent():
 def test_poster_numbers_match_the_open_data():
     data = art.load()
     svgs = art.posters(data)
-    assert len(svgs) == 18
+    assert len(svgs) == 24
     for (prov, prod), name in [(("AB", "OIL"), "poster-ab-oil-night"), (("BC", "GAS"), "poster-bc-gas-paper"), (("SK", "OIL"), "poster-sk-oil-night")]:
         s = data[(prov, prod)]
         last = max(s)
@@ -130,6 +130,18 @@ def test_poster_numbers_match_the_open_data():
     r = max(rows, key=lambda r: r["month"])
     expect = float(r["volume"]) / float(r["days_in_month"]) * 6.2898 / 1000
     assert f"{expect:,.0f}" in svgs["poster-ab-oil-night"]
+    # new oil posters: recompute from the CSV independently
+    import csv as _csv
+    rows_ = [r for r in _csv.DictReader(open(ROOT / "docs" / "data" / "tidywells-monthly-production.csv")) if r["product"] == "OIL"]
+    by = {}
+    for r in rows_:
+        by.setdefault(r["month"], 0.0)
+        by[r["month"]] += float(r["volume"]) / float(r["days_in_month"]) * 6.2898 / 1000
+    last_m = max(by)
+    assert f"{by[last_m]:,.0f}" in svgs["poster-record-barrels-night"] and f"{by[last_m]:,.0f}" in svgs["poster-86-of-100-night"]
+    assert f"{max(by.values()):,.0f}" in svgs["poster-record-barrels-night"]
+    ab = sum(float(r["volume"]) / float(r["days_in_month"]) * 6.2898 / 1000 for r in rows_ if r["province"] == "AB" and r["month"] == last_m)
+    assert f"{ab / by[last_m] * 100:.1f}%" in svgs["poster-86-of-100-night"]
 
 
 def test_posters_are_well_formed_svg():
@@ -166,7 +178,7 @@ console.log(JSON.stringify({{bad:p.bad,n:s.length,v0:s[0].v,wells:c.wells,s1:s1.
 def test_listing_copy_fits_store_limits():
     import csv
     rows = list(csv.DictReader(open(ROOT / "shop" / "listings.csv", encoding="utf-8")))
-    assert len(rows) == 33  # 10 posters (2 colourways x 5) + 12 apparel + 6 stickers + 2 notebooks + 3 sheets
+    assert len(rows) == 39  # 16 posters (2 colourways x 8) + 12 apparel + 6 stickers + 2 notebooks + 3 sheets
     for r in rows:
         tags = r["tags"].split("|")
         assert len(r["title"]) <= 140 and len(tags) <= 13 and all(len(t) <= 20 for t in tags), r["id"]

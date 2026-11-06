@@ -281,6 +281,133 @@ def decline_poster(t, data):
                  "Four members of the Arps family, same start, different futures", "".join(b), stats, foot, "q = qi / (1 + b · Di · t)^(1/b)"), {}
 
 
+OIL3 = ("AB", "SK", "BC")
+AMBER = "#f2a93b"
+FOOT_ZERO = ["Source: Petrinex (Alberta, Saskatchewan) and BC Energy Regulator public data, aggregated by Tidywells.",
+             "Rate = monthly volume divided by days in the month. Oil is the OIL product in the regulators' files; totals can differ from",
+             "other published provincial figures. 'Record' means the highest month in this dataset, January 2022 onward."]
+
+
+def oil_total(data, ym):
+    return sum(data[(p, "OIL")][ym] for p in OIL3)
+
+
+def record_poster(t, data):
+    """Stacked area of the three provinces' oil, zero baseline."""
+    months = sorted(data[("AB", "OIL")])
+    n = len(months)
+    tot = [oil_total(data, m) for m in months]
+    x0, x1, y0, y1 = 190, 1650, 650, 1620
+    ticks = [0, 500, 1000, 1500, 2000, 2500, 3000, 3500]
+    hi = ticks[-1]
+    X = lambda i: x0 + (x1 - x0) * i / (n - 1)
+    Y = lambda v: y1 - (y1 - y0) * v / hi
+    b = []
+    for v in ticks:
+        b.append(f'<line x1="{x0}" y1="{Y(v):.1f}" x2="{x1}" y2="{Y(v):.1f}" stroke="{t["line"]}" stroke-width="1.5"/>')
+        b.append(text(x0 - 20, Y(v) + 10, f"{v:,.0f}", 28, t["muted"], MONO, 500, anchor="end"))
+    cols = {"AB": t["accent"], "SK": AMBER, "BC": t["accent2"]}
+    base = [0.0] * n
+    for p in OIL3:
+        top = [base[i] + data[(p, "OIL")][months[i]] for i in range(n)]
+        up = " ".join(f"{X(i):.1f},{Y(top[i]):.1f}" for i in range(n))
+        dn = " ".join(f"{X(i):.1f},{Y(base[i]):.1f}" for i in range(n - 1, -1, -1))
+        b.append(f'<polygon points="{up} {dn}" fill="{cols[p]}" fill-opacity=".85"/>')
+        base = top
+    for i, m in enumerate(months):
+        if m[1] == 1:
+            b.append(f'<line x1="{X(i):.1f}" y1="{y1}" x2="{X(i):.1f}" y2="{y1 + 18}" stroke="{t["muted"]}" stroke-width="2"/>')
+            b.append(text(X(i), y1 + 62, str(m[0]), 32, t["muted"], MONO, 500, anchor="middle"))
+    b.append(text(x0, y0 - 40, "THOUSAND BARRELS PER DAY, THREE PROVINCES STACKED", 26, t["muted"], SANS, 600, spacing=4))
+    ip = max(range(n), key=lambda i: tot[i])
+    b.append(f'<circle cx="{X(ip):.1f}" cy="{Y(tot[ip]):.1f}" r="13" fill="{t["bg"]}" stroke="{t["ink"]}" stroke-width="6"/>')
+    b.append(text(X(ip) - 24, Y(tot[ip]) - 30, f"Record {MS[months[ip][1] - 1]} {months[ip][0]}: {tot[ip]:,.0f}", 32, t["ink"], SANS, 700, anchor="end"))
+    ab_mid = (Y(data[("AB", "OIL")][months[n // 2]] / 2))
+    b.append(text(X(n // 2), ab_mid + 14, "ALBERTA", 40, t["bg"], SANS, 800, anchor="middle", spacing=8))
+    sk_mid = Y(data[("AB", "OIL")][months[n // 4]] + data[("SK", "OIL")][months[n // 4]] / 2)
+    b.append(text(X(n // 4), sk_mid + 12, "SASKATCHEWAN", 28, t["bg"], SANS, 800, anchor="middle", spacing=5))
+    last = tot[-1]
+    first = tot[0]
+    since = (last / first - 1) * 100
+    ab_share = data[("AB", "OIL")][months[-1]] / last * 100
+    stats = [(f"{last:,.0f}", f"thousand bbl/d\n{MON[months[-1][1] - 1]} {months[-1][0]}"),
+             (f"+{since:.1f}%", f"since {MON[months[0][1] - 1]} {months[0][0]}"),
+             (f"{tot[ip]:,.0f}", f"record month\n{MON[months[ip][1] - 1]} {months[ip][0]}"),
+             (f"{ab_share:.0f}%", "of it is Alberta")]
+    return shell(t, "Tidywells · Canadian oil & gas data", "Record Barrels",
+                 "Alberta, Saskatchewan and BC oil, stacked: the highest month since January 2022",
+                 "".join(b), stats, FOOT_ZERO, f"DATA THROUGH {MON[months[-1][1] - 1].upper()} {months[-1][0]}"), {}
+
+
+def peak_now(data):
+    rows = []
+    for key, s in data.items():
+        months = sorted(s)
+        vals = [s[m] for m in months]
+        ip = max(range(len(vals)), key=lambda i: vals[i])
+        rows.append((vals[-1] / vals[ip] * 100, key, months[ip]))
+    rows.sort(reverse=True)
+    return rows
+
+
+def peak_now_poster(t, data):
+    rows = peak_now(data)
+    x0, x1 = 700, 1600
+    b = [text(150, 600, "LATEST MONTH AS A SHARE OF EACH STREAM'S OWN BEST MONTH", 26, t["muted"], SANS, 600, spacing=4),
+         f'<line x1="{x1}" y1="650" x2="{x1}" y2="1690" stroke="{t["ink"]}" stroke-width="3" stroke-dasharray="10 8"/>',
+         text(x1, 640, "PEAK = 100%", 22, t["ink"], SANS, 700, anchor="end", spacing=2)]
+    for i, (pct, (prov, prod), pm) in enumerate(rows):
+        y = 700 + i * 160
+        col = AMBER if prod == "OIL" else t["muted"]
+        b.append(f'<rect x="{x0}" y="{y}" width="{x1 - x0}" height="96" rx="10" fill="{t["panel"]}"/>')
+        b.append(f'<rect x="{x0}" y="{y}" width="{(x1 - x0) * pct / 100:.1f}" height="96" rx="10" fill="{col}"/>')
+        b.append(text(150, y + 46, f"{PROV[prov]} {PNAME[prod]}", 40, t["ink"], SANS, 800 if prod == "OIL" else 600))
+        b.append(text(150, y + 86, f"peak {MON[pm[1] - 1]} {pm[0]}", 26, t["muted"], SANS, 500))
+        b.append(text(x0 + (x1 - x0) * pct / 100 - 22, y + 66, f"{pct:.0f}%", 52, "#14213d" if prod == "OIL" else t["bg"], SERIF, 700, anchor="end"))
+    top = rows[0]
+    oil = [r for r in rows if r[1][1] == "OIL"]
+    stats = [(f"{rows[0][0]:.1f}%", f"{PROV[rows[0][1][0]]} {PNAME[rows[0][1][1]].lower()}\nvs its peak"),
+             (f"{oil[1][0]:.1f}%", f"{PROV[oil[1][1][0]]} {PNAME[oil[1][1][1]].lower()}\nvs its peak"),
+             (f"{rows[-1][0]:.1f}%", f"{PROV[rows[-1][1][0]]} {PNAME[rows[-1][1][1]].lower()}\nvs its peak"),
+             ("6", "streams: three oil,\nthree gas")]
+    foot = ["Source: Petrinex (Alberta, Saskatchewan) and BC Energy Regulator public data, aggregated by Tidywells.",
+            "Peak = the highest monthly rate of that stream since January 2022; latest = September 2026. Gas is seasonal, so winter",
+            "peaks flatter the comparison against gas. BC oil is a very small stream. Bars start at zero."]
+    return shell(t, "Tidywells · Canadian oil & gas data", "Peak vs Now", "How close each stream is to its own best month",
+                 "".join(b), stats, foot, "DATA THROUGH SEPTEMBER 2026"), {}
+
+
+def share_poster(t, data):
+    last = (2026, 9)
+    vals = {p: data[(p, "OIL")][last] for p in OIL3}
+    tot = sum(vals.values())
+    share = {p: vals[p] / tot * 100 for p in OIL3}
+    # largest-remainder allocation of 100 dots
+    dots = {p: int(share[p]) for p in OIL3}
+    for p in sorted(OIL3, key=lambda q: share[q] - int(share[q]), reverse=True)[: 100 - sum(dots.values())]:
+        dots[p] += 1
+    seq = ["AB"] * dots["AB"] + ["SK"] * dots["SK"] + ["BC"] * dots["BC"]
+    cols = {"AB": t["accent"], "SK": AMBER, "BC": t["accent2"]}
+    b = [text(150, 600, "EACH DOT IS ONE BARREL IN EVERY 100 PRODUCED, SEPTEMBER 2026", 26, t["muted"], SANS, 600, spacing=4)]
+    for k, p in enumerate(seq):
+        r, c = divmod(k, 10)
+        b.append(f'<circle cx="{225 + c * 97}" cy="{730 + r * 97}" r="38" fill="{cols[p]}"/>')
+    lx = 1250
+    for j, (p, lab) in enumerate((("AB", "Alberta"), ("SK", "Saskatchewan"), ("BC", "British Columbia"))):
+        y = 760 + j * 260
+        big = f"{dots[p]}" if dots[p] else "&lt;1"
+        b.append(f'<circle cx="{lx}" cy="{y - 24}" r="18" fill="{cols[p]}"/>')
+        b.append(text(lx + 40, y + 10, big, 110, t["ink"], SERIF, 700))
+        b.append(text(lx + 40, y + 62, f"{lab}: {share[p]:.1f}%", 32, t["muted"], SANS, 600))
+    stats = [(f"{vals['AB']:,.0f}", "Alberta, thousand\nbbl/d"), (f"{vals['SK']:,.0f}", "Saskatchewan,\nthousand bbl/d"),
+             (f"{vals['BC']:,.1f}", "British Columbia,\nthousand bbl/d"), (f"{tot:,.0f}", "three provinces,\nthousand bbl/d")]
+    foot = ["Source: Petrinex (Alberta, Saskatchewan) and BC Energy Regulator public data, aggregated by Tidywells.",
+            "Rate = monthly volume divided by days in the month; dots are rounded to 100 by largest remainder, so BC oil rounds to under",
+            "one dot. Oil is the OIL product in the regulators' files; totals can differ from other published provincial figures."]
+    return shell(t, "Tidywells · Canadian oil & gas data", "86 of Every 100", "Barrels of oil per day: who produces what in the three provinces",
+                 "".join(b), stats, foot, "DATA THROUGH SEPTEMBER 2026"), {}
+
+
 def posters(data):
     out = {}
     series = [("AB", "OIL"), ("AB", "GAS"), ("SK", "OIL"), ("SK", "GAS"), ("BC", "OIL"), ("BC", "GAS")]
@@ -291,6 +418,9 @@ def posters(data):
         out[f"poster-five-years-{th}"] = multiples_poster(t, data)[0]
         out[f"poster-gas-season-{th}"] = season_poster(t, data)[0]
         out[f"poster-decline-shape-{th}"] = decline_poster(t, data)[0]
+        out[f"poster-record-barrels-{th}"] = record_poster(t, data)[0]
+        out[f"poster-peak-vs-now-{th}"] = peak_now_poster(t, data)[0]
+        out[f"poster-86-of-100-{th}"] = share_poster(t, data)[0]
     return out
 
 
