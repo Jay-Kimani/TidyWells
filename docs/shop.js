@@ -43,3 +43,32 @@
   }
   });
 })();
+
+// product page: click the picture for a larger preview; click again to zoom in, Esc or the x to close
+(function () {
+  "use strict";
+  var view = document.querySelector(".pview");
+  if (!view) return;
+  var box, img, zoomed = false;
+  function build() {
+    box = document.createElement("div");
+    box.className = "lb"; box.hidden = true; box.setAttribute("role", "dialog"); box.setAttribute("aria-modal", "true"); box.setAttribute("aria-label", "Larger picture");
+    box.innerHTML = '<button type="button" class="lb-x" aria-label="Close">&times;</button><div class="lb-s"><img alt=""></div><p class="lb-h">Click the picture to zoom, Esc to close</p>';
+    document.body.appendChild(box);
+    img = box.querySelector("img");
+    box.addEventListener("click", function (e) { if (e.target === img) { zoomed = !zoomed; box.classList.toggle("zoom", zoomed); } else close(); });
+    document.addEventListener("keydown", function (e) { if (!box.hidden && e.key === "Escape") close(); });
+  }
+  function open(src, alt) {
+    if (!box) build();
+    img.src = src; img.alt = alt || ""; zoomed = false; box.classList.remove("zoom"); box.hidden = false;
+    document.documentElement.style.overflow = "hidden"; box.querySelector(".lb-x").focus();
+  }
+  function close() { box.hidden = true; document.documentElement.style.overflow = ""; }
+  view.querySelectorAll("img").forEach(function (im) {
+    im.tabIndex = 0; im.setAttribute("role", "button"); im.style.cursor = "zoom-in";
+    function go() { open(im.getAttribute("data-full") || im.currentSrc || im.src, im.alt); }
+    im.addEventListener("click", go);
+    im.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } });
+  });
+})();
