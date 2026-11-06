@@ -71,7 +71,7 @@ if __name__ == "__main__":
     a.write_text(t[:i] + "\n" + snaps_html(snaps) + "\n" + t[j:], encoding="utf-8")
     # sitemap + robots (search engines)
     base = "https://tidywells.com"
-    pages = ["", "decline.html", "explore.html", "analysis.html", "glossary.html", "methods.html", "guide.html", "pro.html", "about.html", "data.html", "clean.html", "scorecard.html", "revisions.html", "didnt-work.html", "corrections.html", "terms.html", "shop.html", "your-well.html"] + sorted(x.name for x in (ROOT / "docs").glob("product-*.html"))
+    pages = ["", "tools.html", "decline.html", "explore.html", "analysis.html", "glossary.html", "methods.html", "guide.html", "pro.html", "about.html", "data.html", "clean.html", "scorecard.html", "revisions.html", "didnt-work.html", "corrections.html", "terms.html", "shop.html", "your-well.html"] + sorted(x.name for x in (ROOT / "docs").glob("product-*.html"))
     urls = [(f"{base}/{pg}", None) for pg in pages] + [(f"{base}/posts/{p['slug']}.html", p["date"]) for p in posts]
     sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
     for u, d in urls:
@@ -266,6 +266,7 @@ if __name__ == "__main__":
     NAV = [
         ("link", "Home", "index.html", None),
         ("menu", "Tools", "tools", [
+            ("tools.html", "All tools and guides", "Start here: tools and learning"),
             ("decline.html", "Decline curve", "Fit a curve to one well"),
             ("explore.html", "Production explorer", "Charts for AB, SK and BC"),
             ("clean.html", "File cleaner", "Clean a regulator file in your browser")]),
@@ -286,7 +287,7 @@ if __name__ == "__main__":
             ("corrections.html", "Corrections", "Mistakes we found and fixed"),
             ("terms.html", "Terms and privacy", "Disclaimer and data use")]),
     ]
-    GROUP_OF = {"index.html": "index.html", "decline.html": "tools", "explore.html": "tools", "clean.html": "tools", "scorecard.html": "research", "revisions.html": "research", "didnt-work.html": "research", "analysis.html": "research",
+    GROUP_OF = {"index.html": "index.html", "tools.html": "tools", "decline.html": "tools", "explore.html": "tools", "clean.html": "tools", "scorecard.html": "research", "revisions.html": "research", "didnt-work.html": "research", "analysis.html": "research",
                 "data.html": "research", "methods.html": "learn", "guide.html": "learn", "glossary.html": "learn",
                 "about.html": "about", "corrections.html": "about", "terms.html": "about",
                 "sponsor.html": "about", "shop.html": "shop.html", "your-well.html": "shop.html"}
