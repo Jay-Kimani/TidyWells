@@ -282,7 +282,7 @@ if __name__ == "__main__":
             ("decline.html", "Decline curve", "Fit a curve to one well"),
             ("explore.html", "Production explorer", "Charts for AB, SK and BC"),
             ("clean.html", "File cleaner", "Clean a regulator file in your browser")]),
-        ("menu", "Track record", "research", [
+        ("menu", "Research", "research", [
             ("scorecard.html", "Forecast scorecard", "Our forecasts, graded against what happened"),
             ("revisions.html", "Data revisions", "What the regulators changed after publishing"),
             ("didnt-work.html", "What didn't work", "Negative results and mistakes we found")]),
