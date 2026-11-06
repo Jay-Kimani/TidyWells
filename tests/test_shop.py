@@ -62,7 +62,7 @@ def test_prices_are_labelled_and_no_sale_claims():
 def test_every_product_has_a_page_a_price_and_clean_structured_data():
     import json
     items = shop.catalogue()
-    assert len(items) == 37 and len({i["page"] for i in items}) == 37
+    assert len(items) == 28 and len({i["page"] for i in items}) == 28
     sitemap = (DOCS / "sitemap.xml").read_text(encoding="utf-8")
     for it in items:
         html = (DOCS / it["page"]).read_text(encoding="utf-8")
@@ -74,10 +74,11 @@ def test_every_product_has_a_page_a_price_and_clean_structured_data():
         assert ld["@type"] == "Product" and "offers" not in ld  # no price/availability claims in search data until a store exists
 
 
-def test_bundles_really_save_money():
-    for _i, _t, _b, price, full, img in shop.BUNDLES:
-        assert price < full and (DOCS / "img" / "shop" / img).exists()
-    assert abs(shop.BUNDLES[0][4] - 3 * shop.PRICE["sticker"]) < 0.005
+def test_sticker_packs_are_priced_per_pack():
+    for _i, _t, _b, price, n, img in shop.BUNDLES:
+        assert price / n >= 4.9 and (DOCS / "img" / "shop" / img).exists()
+    assert shop.BUNDLES[-1][4] == len(shop.STICKERS) == 9
+    assert not any(i["kind"] == "sticker" for i in shop.catalogue())
 
 
 def test_dataset_structured_data_matches_manifest():
@@ -179,7 +180,7 @@ console.log(JSON.stringify({{bad:p.bad,n:s.length,v0:s[0].v,wells:c.wells,s1:s1.
 def test_listing_copy_fits_store_limits():
     import csv
     rows = list(csv.DictReader(open(ROOT / "shop" / "listings.csv", encoding="utf-8")))
-    assert len(rows) == 42  # 10 posters + 11 apparel + 10 stickers + 5 mugs + 2 hats + 3 toques + 1 sheet
+    assert len(rows) == 36  # 10 posters + 11 apparel + 3 sticker packs + 5 mugs + 2 hats + 3 toques + 1 sheet + 1 Your Well
     for r in rows:
         tags = r["tags"].split("|")
         assert len(r["title"]) <= 140 and len(tags) <= 13 and all(len(t) <= 20 for t in tags), r["id"]

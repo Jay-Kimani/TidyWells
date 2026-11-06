@@ -57,9 +57,11 @@ BEST = ["hoodie-build-the-pipeline", "hoodie-ottawa-doesnt-pump-oil", "toque-cam
 LINKJS = ('<script src="shop.js"></script>')
 
 
-PRICE = {"hoodie": 69.99, "tee": 36.99, "mug": 24.99, "hat": 39.99, "toque": 34.99, "poster": 44.99, "sticker": 5.99, "sheet": 8.99}  # CAD launch prices; confirmed in the store
-BUNDLES = [  # id, title, blurb, price, would-be separate total, image
-    ("stickers-three-pack", "Sticker 3-pack", "Pick any three hard-hat stickers from the collection.", 14.99, 17.97, "bundle-stickers.jpg"),
+PRICE = {"hoodie": 69.99, "tee": 36.99, "mug": 24.99, "hat": 39.99, "toque": 34.99, "poster": 44.99, "sheet": 8.99}  # CAD launch prices; confirmed in the store
+BUNDLES = [  # id, title, blurb, price, stickers in pack, image. Stickers are sold only in packs: one sticker alone costs about as much to ship as it earns.
+    ("stickers-3-pack", "Sticker 3-pack", "Pick any three hard-hat stickers from the collection.", 16.99, 3, "bundle-stickers-3.jpg"),
+    ("stickers-6-pack", "Sticker 6-pack", "Pick any six. For the hard hat, the toolbox and the truck.", 31.99, 6, "bundle-stickers-6.jpg"),
+    ("stickers-complete-set", "Complete set of 9", "Every design in the collection, one of each.", 44.99, 9, "bundle-stickers-9.jpg"),
 ]
 SPECS = {
     "poster": ["18 x 24 inch print, Night (dark) or Paper (cream) colourway", "Drawn from the open Tidywells dataset, data through September 2026", "Source, method and data window printed on the poster", "Produced and shipped by our fulfilment partner; timing shown at checkout"],
@@ -154,8 +156,6 @@ def catalogue():
         out.append(dict(kind="poster", slug=s, title=t + " poster", short=t, blurb=b, images=[(f"poster-{s}-night.jpg", f"{t} poster, Night colourway", 720, 960), (f"poster-{s}-paper.jpg", f"{t} poster, Paper colourway", 720, 960)]))
     for s, n, k, b in APPAREL:
         out.append(dict(kind=k, slug=s, title=f"{n} {'hoodie' if k == 'hoodie' else 't-shirt'}", short=n, blurb=b, images=[(f"mockup-{s}.jpg", f"{n} {k}, front and back", 720, 720), (f"mockup-{s}-back.jpg", f"{n} {k}, back print", 720, 720), (f"mockup-{s}-front.jpg", f"{n} {k}, front with Tidywells chest logo", 720, 720)]))
-    for s, n in STICKERS:
-        out.append(dict(kind="sticker", slug=s, title=f"{n} sticker", short=n, blurb="A hard-hat sticker for people who work with oil and gas data.", images=[(f"sticker-{s}.png", f"{n} sticker", 600, 600)]))
     for s, n, b in MUGS:
         out.append(dict(kind="mug", slug=s, title=f"{n} mug", short=n, blurb=b, images=[(f"mug-{s}.jpg", f"{n} mug", 720, 720)]))
     for s, n, b in HATS:
@@ -203,18 +203,20 @@ def body():
     o = []
     o.append('<div class="shop-hero"><span class="badge">Launch collection · opening soon</span>'
              '<h1>The Tidywells <span class="grad">shop</span></h1>'
-             '<p>Hoodies, toques, hats, mugs and stickers for people who work in oil and gas, and posters drawn from the open data.</p>'
+             '<p>Hoodies, toques, hats, mugs and sticker packs for people who work in oil and gas, and posters drawn from the open data.</p>'
              '<div id="waitlist" class="waitlist"></div>'
              '<p class="shop-note">Launch prices in Canadian dollars. Shipping and tax are added at checkout.</p>'
-             '<nav class="chips" aria-label="Shop sections"><a href="#apparel">Apparel</a><a href="#headwear">Toques and hats</a><a href="#drinkware">Mugs</a><a href="#stickers">Stickers</a>'
+             '<nav class="chips" aria-label="Shop sections"><a href="#apparel">Apparel</a><a href="#headwear">Toques and hats</a><a href="#drinkware">Mugs</a><a href="#stickers">Sticker packs</a>'
              '<a href="#posters">Posters</a><a href="#downloads">Digital</a><a href="#your-well">Make your own</a></nav></div>')
     o.append('<h2 id="best">Best sellers to start with</h2>' + grid([by[i] for i in BEST], "pgrid four"))
     o.append('<h2 id="apparel">Apparel</h2><p>Heavy type on the back, a small Tidywells mark on the left chest. True to size, with a size guide on every page.</p>' + grid(of("hoodie", "tee")))
     o.append('<h2 id="headwear">Toques and hats</h2><p>Embroidered text. Warm toques for the winter crew, adjustable hats for the rest of the year.</p>' + grid(of("toque", "hat")))
     o.append('<h2 id="drinkware">Mugs</h2>' + grid(of("mug")))
-    stick = [f'<div class="prod" data-slug="bundle-{b[0]}"><div class="pimg">{card_img(b[5], b[1], 720, 720)}</div><div class="pi"><span class="tag">Best value</span><h3>{esc(b[1])}</h3><p>{esc(b[2])}</p>'
-             f'{price_html(amount=b[3])}<span class="shop-note">Separately CAD ${fmt_price(b[4])}: you save ${fmt_price(b[4] - b[3])}.</span><span class="go soon">Opening soon</span></div></div>' for b in BUNDLES]
-    o.append('<h2 id="stickers">Hard-hat stickers</h2><p>3 inch, die-cut style. For hard hats, toolboxes, lunch kits and truck dashboards.</p><div class="pgrid">' + "".join(stick) + "".join(card_of(x) for x in of("sticker")) + '</div>')
+    stick = [f'<div class="prod" data-slug="bundle-{b[0]}"><div class="pimg">{card_img(b[5], b[1], 720, 720)}</div><div class="pi"><span class="tag">{"Best value" if b[4] == 9 else "Sticker pack"}</span><h3>{esc(b[1])}</h3><p>{esc(b[2])}</p>'
+             f'{price_html(amount=b[3])}<span class="shop-note">About CAD ${fmt_price(b[3] / b[4])} a sticker.</span><span class="go soon">Opening soon</span></div></div>' for b in BUNDLES]
+    names = "".join(f'<li>{esc(n)}</li>' for _s, n in STICKERS)
+    o.append('<h2 id="stickers">Hard-hat sticker packs</h2><p>3 inch, die-cut style. For hard hats, toolboxes, lunch kits and truck dashboards. Sold in packs, so shipping is shared across the stickers.</p><div class="pgrid">' + "".join(stick) + '</div>'
+             f'<details class="fold"><summary>The nine designs to choose from</summary><ul class="stk">{names}</ul></details>')
     ps = []
     for it in of("poster"):
         s = it["slug"]
@@ -246,7 +248,7 @@ def home_strip():
         cards += (f'<a class="prod" href="{it["page"]}" style="text-decoration:none;color:inherit"><img src="{IMG}{f}" alt="{esc(alt)}" width="{w}" height="{h}" loading="lazy">'
                   f'<div class="pi"><span class="tag">{esc(kind_label(it["kind"]))}</span><h3>{esc(it["short"])}</h3></div></a>')
     return ('<!--SHOP--><section class="strip"><span class="badge">Launch collection · opening soon</span>'
-            '<h2>The Tidywells shop</h2><p>Hoodies, toques, hats, mugs and stickers for people who work in oil and gas, plus posters drawn from real data.</p>'
+            '<h2>The Tidywells shop</h2><p>Hoodies, toques, hats, mugs and sticker packs for people who work in oil and gas, plus posters drawn from real data.</p>'
             f'<div class="pgrid">{cards}</div>'
             f'<p class="shop-note">Hoodies from CAD ${fmt_price(PRICE["hoodie"])} · toques from CAD ${fmt_price(PRICE["toque"])} · mugs from CAD ${fmt_price(PRICE["mug"])} (launch prices)</p>'
             '<p><a class="btn primary" href="shop.html">See the collection</a> <a class="btn" href="shop.html#posters">Data-art posters</a></p></section><!--/SHOP-->')
@@ -333,9 +335,9 @@ def listings():
     for s, n, k, b in APPAREL:
         rows.append((f"{k}-{s}", "Hoodie" if k == "hoodie" else "T-shirt", f"{n} {'Hoodie' if k == 'hoodie' else 'T-Shirt'}, Oil and Gas Humor, Decline Curve Gift",
                      f"{DESC[pid(k, s)]} True to size. Large back print with a small Tidywells mark on the left chest.", TAGS_BASE + ["funny shirt", "decline curve", "roughneck", "oilfield humor", "gift for him"]))
-    for s, n in STICKERS:
-        rows.append((f"sticker-{s}", "Sticker 3in", f"{n} Sticker, Hard Hat Sticker, Oil and Gas Humor, Laptop Decal",
-                     DESC[pid("sticker", s)], TAGS_BASE + ["hard hat sticker", "laptop sticker", "vinyl sticker", "decal", "oilfield"]))
+    for bid, bt, bb, bp, bn, _img in BUNDLES:
+        rows.append((bid, f"Sticker pack {bn}", f"{bt}, Hard Hat Stickers, Oil and Gas Humor, Laptop Decals",
+                     f"{bb} 3 inch die-cut style vinyl stickers made for hard hats, laptops and truck dashboards. No oil company names or logos.", TAGS_BASE + ["hard hat sticker", "laptop sticker", "vinyl sticker", "sticker pack", "oilfield"]))
     for s, n, b in MUGS:
         rows.append((f"mug-{s}", "Mug 11oz", f"{n} Mug, Oilfield Coffee Mug, Oil and Gas Gift",
                      DESC[pid("mug", s)], TAGS_BASE + ["coffee mug", "oilfield mug", "gift for him", "work mug", "oil and gas"]))
