@@ -22,16 +22,10 @@ POSTERS = [  # slug, title, blurb
     ("decline-shape", "Shape of a Decline", "The Arps family b = 0 to 1.5, the curve every well-file reader should know."),
 ]
 APPAREL = [  # slug, name, garment, blurb
-    ("build-the-pipeline", "Build the Pipeline", "hoodie", "Three words and a request."),
-    ("ottawa-doesnt-pump-oil", "Ottawa Doesn't Pump Oil", "hoodie", "A reminder of who does."),
-    ("shut-in-not-shut-down", "Shut-In, Not Shut Down", "hoodie", "A valve wheel and a distinction that matters."),
-    ("oil-and-gas", "Oil & Gas", "hoodie", "The industry's name, big and plain."),
     ("hyperbolic-decline", "Hyperbolic Decline: My Motivation", "hoodie", "For anyone whose enthusiasm follows an Arps curve."),
-    ("arps-was-right", "Arps Was Right", "hoodie", "The 1945 equation, still undefeated."),
     ("powered-by-oil", "Powered by Oil", "tee", "Short, clean, and true."),
     ("scrap-the-tanker-ban", "Scrap the Tanker Ban", "tee", "For the west coast export argument."),
     ("camp-life", "Camp Life", "tee", "Two words for the rotation."),
-    ("oil-and-gas-crew", "Oil & Gas Crew", "tee", "Plain type, plain pride."),
     ("darcys-law", "Darcy's Law", "tee", "How fluid moves through rock."),
     ("pv-znrt", "pV = znRT", "tee", "The real gas law, with the z-factor."),
 ]
@@ -59,8 +53,8 @@ LEDUC = [  # slug, kind, short name, exact store title, blurb
     ("leduc-pumpjack", "print", "Leduc Pumpjack", "Leduc Pumpjack Poster, Alberta Oilfield Wall Art, 18x24 Print", "Where Alberta's modern oil industry began in 1947, in red, black and cream."),
 ]
 SHEETS = [("units-and-conversions", "Units & Conversions", "Oil, gas, energy and pressure factors, plus the rate-from-volume rule.")]
-FEATURED = ["build-the-pipeline", "ottawa-doesnt-pump-oil", "shut-in-not-shut-down", "hyperbolic-decline"]
-BEST = ["hoodie-build-the-pipeline", "hoodie-ottawa-doesnt-pump-oil", "toque-fire-rescue-blowout", "mug-leduc"]
+FEATURED = ["hyperbolic-decline"]
+BEST = ["hoodie-leduc-pumpjack", "toque-fire-rescue-blowout", "mug-leduc", "hoodie-hyperbolic-decline"]
 
 
 
@@ -351,7 +345,7 @@ def body():
 
 def home_strip():
     items = {it["id"]: it for it in catalogue()}
-    pick = ["hoodie-build-the-pipeline", "hoodie-ottawa-doesnt-pump-oil", "mug-leduc", "toque-fire-rescue-blowout", "hat-build-the-pipeline", "poster-record-barrels"]
+    pick = ["hoodie-leduc-pumpjack", "hoodie-hyperbolic-decline", "mug-leduc", "toque-fire-rescue-blowout", "hat-build-the-pipeline", "poster-record-barrels"]
     cards = ""
     for i in pick:
         it = items[i]
