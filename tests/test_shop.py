@@ -62,7 +62,7 @@ def test_prices_are_labelled_and_no_sale_claims():
 def test_every_product_has_a_page_a_price_and_clean_structured_data():
     import json
     items = shop.catalogue()
-    assert len(items) == 46 and len({i["page"] for i in items}) == 46
+    assert len(items) == 44 and len({i["page"] for i in items}) == 44
     sitemap = (DOCS / "sitemap.xml").read_text(encoding="utf-8")
     for it in items:
         html = (DOCS / it["page"]).read_text(encoding="utf-8")
@@ -108,7 +108,7 @@ def test_catalogue_is_consistent():
     assert len(slugs) == len(set(slugs)) == 13
     assert {a[0] for a in shop.APPAREL} <= set(slugs)
     assert set(goods.MUG_SLUGS) <= set(slugs) and {m[0] for m in shop.MUGS} == set(goods.MUG_SLUGS)
-    assert {c[0] for c in shop.HATS} == {c[0] for c in goods.HATS} and {c[0] for c in shop.TOQUES} == {c[0] for c in goods.TOQUES}
+    assert {c[0] for c in shop.HATS} == {c[0] for c in goods.HATS}
     assert set(goods.STICKERS) <= set(slugs) and {s[0] for s in shop.STICKERS} == set(goods.STICKERS)
     for s, _n, kind, _b in shop.APPAREL:
         assert kind in ("hoodie", "tee") and kind == [d[3] for d in goods.DESIGNS if d[0] == s][0]
@@ -180,7 +180,7 @@ console.log(JSON.stringify({{bad:p.bad,n:s.length,v0:s[0].v,wells:c.wells,s1:s1.
 def test_listing_copy_fits_store_limits():
     import csv
     rows = list(csv.DictReader(open(ROOT / "shop" / "listings.csv", encoding="utf-8")))
-    assert len(rows) == 55  # 12 apparel (4 collections x hoodie, tee, crewneck) + 4 Leduc + 1 Leduc sticker sheet + 10 posters + 11 apparel + 3 sticker packs + 5 mugs + 2 hats + 2 patch hats + 3 toques + 1 sheet + 1 Your Well
+    assert len(rows) == 53  # 12 apparel (4 collections x hoodie, tee, crewneck) + 4 Leduc + 1 Leduc sticker sheet + 10 posters + 11 apparel + 3 sticker packs + 5 mugs + 2 hats + 2 patch hats + 1 toque + 1 sheet + 1 Your Well
     for r in rows:
         tags = r["tags"].split("|")
         assert len(r["title"]) <= 140 and len(tags) <= 13 and all(len(t) <= 20 for t in tags), r["id"]

@@ -61,8 +61,6 @@ window.TIDYWELLS_SHOP_LINKS = {
  "hat-powered-by-oil": "https://tidywells.myshopify.com/products/powered-by-oil-embroidered-hat-oilfield-hat-oil-and-gas-gift",
  "hat-patch-oval": "https://tidywells.myshopify.com/products/tidywells-patch-trucker-hat-oilfield-hat-oil-and-gas-gift",
  "hat-patch-square": "https://tidywells.myshopify.com/products/tidywells-square-patch-trucker-hat-oilfield-hat-oil-and-gas-gift",
- "toque-camp-life": "https://tidywells.myshopify.com/products/camp-life-toque-beanie-embroidered-winter-hat-oilfield-gift",
- "toque-powered-by-oil": "https://tidywells.myshopify.com/products/powered-by-oil-toque-beanie-embroidered-winter-hat-oilfield-gift",
- "toque-build-the-pipeline": "https://tidywells.myshopify.com/products/build-the-pipeline-toque-beanie-embroidered-winter-hat-oilfield-gift",
+ "toque-fire-rescue-blowout": "https://tidywells.myshopify.com/products/camp-life-toque-beanie-embroidered-winter-hat-oilfield-gift",
  "sheet-units-and-conversions": "https://tidywells.myshopify.com/products/units-conversions-cheat-sheet-pdf-oil-and-gas-reference-printable-11x17"
 };
