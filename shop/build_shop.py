@@ -198,6 +198,41 @@ TOQUE_PICKS = [(1, "Black"), (2, "Charcoal"), (4, "Worn"), (5, "Worn, back"), (7
 POSTER_PICKS = [("night", 1, "Night"), ("paper", 1, "Paper"), ("night", 4, "Night, on the wall"), ("paper", 4, "Paper, on the wall"), ("night", 3, "Rolled")]
 
 
+NEWSETS = [  # slug, short name, {kind: exact store title}, blurb, colours, tags
+    ("oil-gas-commission", "Oil and Gas Commission", {"hoodie": "Tidywells Oil and Gas Commission Hoodie, Alberta Oilfield Gift, Oil and Gas Hoodie", "tee": "Tidywells Oil and Gas Commission T-Shirt, Alberta Oilfield Gift, Oil and Gas Tee", "crewneck": "Tidywells Oil and Gas Commission Crewneck Sweatshirt, Alberta Oilfield Gift, Oil and Gas Sweater"},
+     "A cartoon badge of the Tidywells Oil and Gas Commission across the back, a small Tidywells logo on the chest.", "black, navy and white", ["cartoon", "oilfield humor", "gift for him"]),
+    ("drilling-gear", "Drilling Gear", {"hoodie": "Tidywells Drilling Gear Hoodie, Sasquatch Pumpjack, Alberta Oilfield Gift", "tee": "Tidywells Drilling Gear T-Shirt, Sasquatch Pumpjack, Alberta Oilfield Gift", "crewneck": "Tidywells Drilling Gear Crewneck Sweatshirt, Sasquatch Pumpjack, Alberta Oilfield Gift"},
+     "A Sasquatch walking past a pumpjack under a retro sunset, Drilling Gear across the back.", "black and navy", ["sasquatch", "pumpjack", "retro sunset"]),
+    ("support-natural-resources", "Support Natural Resources", {"hoodie": "Tidywells Support Natural Resources Hoodie, Pumpjack and Rig Graphic, Alberta Oilfield Gift", "tee": "Tidywells Support Natural Resources T-Shirt, Pumpjack and Rig Graphic, Alberta Oilfield Gift", "crewneck": "Tidywells Support Natural Resources Crewneck Sweatshirt, Pumpjack and Rig Graphic, Alberta Oilfield Gift"},
+     "A pumpjack, a rig and a service truck under a rust-orange sun, Support Natural Resources across the back.", "black and navy", ["pumpjack", "service truck", "oilfield gift"]),
+    ("boom-bust-repeat", "Boom Bust Repeat", {"hoodie": "Boom Bust Repeat Alberta Hoodie, Pumpjack Graphic, Oilfield Gift, Oil and Gas Hoodie", "tee": "Boom Bust Repeat Alberta T-Shirt, Pumpjack Graphic, Oilfield Gift, Oil and Gas Tee", "crewneck": "Boom Bust Repeat Alberta Crewneck Sweatshirt, Pumpjack Graphic, Oilfield Gift"},
+     "Boom. Bust. Repeat. Alberta. A pumpjack in front of a red sun, on white.", "white", ["boom and bust", "alberta pride", "pumpjack"]),
+]
+_KIND_W = {"hoodie": "hoodie", "tee": "t-shirt", "crewneck": "crewneck"}
+_KIND_LABEL = {"hoodie": "Hoodie", "tee": "T-shirt", "crewneck": "Crewneck"}
+_P1 = {"hoodie": [(4, "Back, black"), (1, "Front, black"), (11, "Worn, black"), (9, "Worn, black, back"), (12, "Back, navy"), (2, "Front, navy"), (19, "Worn, navy"), (17, "Worn, navy, back"), (20, "Back, white"), (3, "Front, white")],
+       "tee": [(4, "Back, black"), (1, "Front, black"), (9, "Worn, black"), (10, "Worn, black, back"), (11, "Back, navy"), (2, "Front, navy"), (16, "Worn, navy"), (17, "Worn, navy, back"), (18, "Back, white"), (3, "Front, white")],
+       "crewneck": [(8, "Back, black"), (2, "Front, black"), (11, "Worn, black"), (12, "Back, navy"), (3, "Front, navy"), (16, "Worn, navy"), (4, "Back, white"), (1, "Front, white"), (7, "Worn, white")]}
+_P2 = {"hoodie": [(4, "Back, black"), (1, "Front, black"), (7, "Worn, black"), (8, "Worn, black, back"), (12, "Back, navy"), (2, "Front, navy"), (15, "Worn, navy"), (16, "Worn, navy, back")],
+       "tee": [(3, "Back, black"), (1, "Front, black"), (8, "Worn, black"), (9, "Worn, black, back"), (10, "Back, navy"), (2, "Front, navy"), (15, "Worn, navy"), (16, "Worn, navy, back")],
+       "crewneck": [(3, "Back, black"), (1, "Front, black"), (6, "Worn, black"), (7, "Back, navy"), (2, "Front, navy"), (10, "Worn, navy")]}
+_P3 = {"hoodie": [(2, "Back"), (3, "Back, hood up"), (1, "Front"), (4, "Folded")], "tee": [(2, "Back"), (1, "Front"), (4, "Folded")], "crewneck": [(2, "Back"), (1, "Front"), (5, "Worn"), (3, "Folded"), (4, "Flat lay")]}
+NEW_PICKS = {"oil-gas-commission": _P1, "drilling-gear": _P2, "support-natural-resources": _P2, "boom-bust-repeat": _P3}
+_FAB = {"hoodie": "A heavy blend hooded sweatshirt, 50% cotton and 50% polyester.", "tee": "A soft, lightweight unisex tee in ring-spun cotton.", "crewneck": "A heavy blend crewneck, 50% cotton and 50% polyester."}
+_ART = {"oil-gas-commission": "A cartoon badge of the Tidywells Oil and Gas Commission across the back, crowded with oilfield characters and equipment.",
+        "drilling-gear": "A retro sunset graphic of a Sasquatch walking past a pumpjack, the Rockies and a maple leaf behind, with Tidywells across the top and Drilling Gear across the bottom.",
+        "support-natural-resources": "A bold Support Natural Resources graphic across the back: a pumpjack, a drilling rig, storage tanks, mountains and pines, with a service truck in front, under a rust-orange sun.",
+        "boom-bust-repeat": "A distressed Boom. Bust. Repeat. Alberta graphic across the back: a pumpjack in front of a red sun with radiating lines, mountains, pines and maple leaves."}
+for _s, _n, _t, _b, _c, _tg in NEWSETS:
+    for _k in _t:
+        DESC[pid(_k, _s)] = f"{_ART[_s]} A small Tidywells decline-curve logo sits on the left chest. Available in {_c}. {_FAB[_k]} Original artwork, no company names or logos."
+SPECS.update({
+    "hoodie-art": ["Large design printed on the back, small Tidywells logo on the left chest", "Heavy blend hooded sweatshirt, 50% cotton and 50% polyester", "Original artwork, no company names or logos", "Garment colours and sizes are set in the store listing"],
+    "tee-art": ["Large design printed on the back, small Tidywells logo on the left chest", "Soft lightweight unisex tee, ring-spun cotton", "Original artwork, no company names or logos", "Garment colours and sizes are set in the store listing"],
+    "crewneck-art": ["Large design printed on the back, small Tidywells logo on the left chest", "Heavy blend crewneck, 50% cotton and 50% polyester", "Original artwork, no company names or logos", "Garment colours and sizes are set in the store listing"],
+})
+
+
 def catalogue():
     """Every product as a dict: id, kind, slug, title, blurb, images [(file, alt, w, h)], page."""
     out = []
@@ -209,7 +244,11 @@ def catalogue():
         out.append(dict(kind=k, slug=s, title=f"{n} {'hoodie' if k == 'hoodie' else 't-shirt'}", short=n, blurb=b, images=imgs, labels=labs))
     for s, k, n, t, b in LEDUC:
         imgs, labs = spi(f"{k}-{s}", LEDUC_PICKS[k], f"{n} {k}")
-        out.append(dict(kind=k, slug=s, title=t if False else f"{n} " + {"hoodie": "hoodie", "tee": "t-shirt", "crewneck": "crewneck", "print": "poster"}[k], short=n, blurb=b, images=imgs, labels=labs))
+        out.append(dict(kind=k, slug=s, title=t if False else f"{n} " + {"hoodie": "hoodie", "tee": "t-shirt", "crewneck": "crewneck", "print": "poster"}[k], short=n, blurb=b, images=imgs, labels=labs, **({"specs": f"{k}-art"} if k != "print" else {})))
+    for s, n, tl, b, _c, _tg in NEWSETS:
+        for k in tl:
+            imgs, labs = spi(f"{k}-{s}", NEW_PICKS[s][k], f"{n} {k}")
+            out.append(dict(kind=k, slug=s, title=f"{n} {_KIND_W[k]}", short=n, blurb=b, images=imgs, labels=labs, specs=f"{k}-art"))
     for s, n, b in MUGS:
         imgs, labs = spi(f"mug-{s}", MUG_PICKS, f"{n} mug")
         out.append(dict(kind="mug", slug=s, title=f"{n} mug", short=n, blurb=b, images=imgs, labels=labs))
@@ -403,6 +442,9 @@ def listings():
                          "Not investment advice.", TAGS_BASE + ["data art", "wall art", "office decor", "poster", "chart print"]))
     for s, k, n, t, b in LEDUC:
         rows.append((f"{k}-{s}", {"hoodie": "Hoodie", "tee": "T-shirt", "crewneck": "Crewneck", "print": "Poster 18x24in"}[k], t, DESC[pid(k, s)], TAGS_BASE + ["leduc", "pumpjack", "alberta", "oilfield gift", "gift for him"]))
+    for s, n, tl, b, _c, tg in NEWSETS:
+        for k, t in tl.items():
+            rows.append((f"{k}-{s}", _KIND_LABEL[k], t, DESC[pid(k, s)], TAGS_BASE + tg + ["oilfield gift", "gift for him"]))
     for s, n, k, b in APPAREL:
         rows.append((f"{k}-{s}", "Hoodie" if k == "hoodie" else "T-shirt", f"{n} {'Hoodie' if k == 'hoodie' else 'T-Shirt'}, Oil and Gas Humor, Decline Curve Gift",
                      f"{DESC[pid(k, s)]} True to size. Large back print with a small Tidywells mark on the left chest.", TAGS_BASE + ["funny shirt", "decline curve", "roughneck", "oilfield humor", "gift for him"]))
