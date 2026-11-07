@@ -45,6 +45,8 @@ MUGS = [("build-the-pipeline", "Build the Pipeline", "Three words and a request,
         ("check-the-units", "Check the Units", "m³, Mcf, MMcf, boe. Always.")]
 HATS = [("build-the-pipeline", "Build the Pipeline", "Embroidered text, three words and a request."),
         ("powered-by-oil", "Powered by Oil", "Embroidered text, three words and a fact.")]
+PATCH_HATS = [("patch-oval", "Oval Patch Trucker", "Tidywells Patch Trucker Hat, Oilfield Hat, Oil and Gas Gift", "A retro oilfield patch, oval, on a foam-front trucker."),
+              ("patch-square", "Square Patch Trucker", "Tidywells Square Patch Trucker Hat, Oilfield Hat, Oil and Gas Gift", "The same flare-stack scene on a square patch.")]
 TOQUES = [("camp-life", "Camp Life", "For the winter rotation: a toque that says it for you."),
           ("powered-by-oil", "Powered by Oil", "Embroidered on the cuff, for the long walk to the truck."),
           ("build-the-pipeline", "Build the Pipeline", "Embroidered on the cuff, for the walk to the truck.")]
@@ -69,6 +71,7 @@ SPECS = {
     "tee": ["Large design printed on the back, small Tidywells mark on the left chest", "Light-ink design for dark garments", "No oil company names or logos", "Garment colours, sizes and fabric are set in the store listing", "The images above are illustrative mockups of the print placement"],
     "sticker": ["A5 kiss-cut sheet, 5.8 x 8.3 inch, with the stickers already laid out", "Peel one off for a hard hat, laptop, toolbox or truck dash", "Fixed designs per sheet; no oil company names or logos", "Final material and finish are set in the store listing"],
     "mug": ["11 oz ceramic mug, design wraps around", "Dishwasher and microwave safe (confirm in the store listing)", "No oil company names or logos"],
+    "patchhat": ["Full-colour printed patch design on the front panel of a foam-front mesh-back trucker", "Adjustable snapback; one size fits most (22.8 inch)", "Colour combinations are set in the store listing", "Original artwork, no oil company names or logos"],
     "hat": ["Embroidered text on the front panel", "Adjustable fit; colour set in the store listing", "No oil company names or logos"],
     "toque": ["Cuffed knit toque (beanie) with embroidered cuff", "One size; fabric and lining are set in the store listing", "No oil company names or logos"],
     "sheet": ["11 x 17 inch PDF, instant digital download", "For your own use: print as often as you like", "Standard published conversion factors and public regulator file layouts"],
@@ -108,6 +111,8 @@ DESC = {
     "sticker-darcys-law": "A 3 inch die-cut-style sticker with Darcy's law. For the engineers' laptop lid.",
     "sticker-pv-znrt": "A 3 inch die-cut-style sticker with the real gas law, pV = znRT. For the engineers' laptop lid.",
     "mug-powered-by-oil": "Three words in heavy type on an 11 oz mug. A coffee cup with a point of view. Original design, no company names or logos.",
+    "hat-patch-oval": "A retro oilfield patch on a foam-front mesh-back trucker: a burning derrick against the mountains, Tidywells in bold type, Firefighting and Blowout Specialist across the top and Alberta, BC and Sask underneath. Full-colour print, adjustable snapback. Original artwork, no company names or logos.",
+    "hat-patch-square": "The same flare-stack scene on a square patch, on a foam-front mesh-back trucker with an adjustable snapback. Full-colour print. Original artwork, no company names or logos.",
     "toque-camp-life": "A cuffed toque with Camp Life embroidered on the cuff. For the winter rotation and the long walk to the truck. Original design, no company names or logos.",
     "toque-powered-by-oil": "A cuffed toque with Powered by Oil embroidered on the cuff. Keeps the cold off and the point made. Original design, no company names or logos.",
     "hoodie-oil-and-gas": "Just the industry's name, big and plain on the back: Oil & Gas. A heavyweight hoodie for the crew, the office and the drive home. Printed in light ink for dark garments. Original design, no company names or logos.",
@@ -165,6 +170,7 @@ TEE_PICKS = [(1, "Front, black"), (4, "Back, black"), (9, "Worn, black"), (10, "
              (2, "Front, charcoal"), (11, "Back, charcoal"), (16, "Worn, charcoal"), (17, "Worn, charcoal, back"),
              (3, "Front, navy"), (18, "Back, navy"), (24, "Worn, navy"), (25, "Worn, navy, back"), (23, "Worn, navy (3)")]
 APP_PICKS = HOODIE_PICKS
+PATCH_PICKS = [(1, "Black, front"), (5, "Black, worn"), (3, "Black, side"), (4, "Black, back"), (2, "Navy, front"), (8, "Navy, worn"), (6, "Navy, side"), (7, "Navy, back")]
 MUG_PICKS = [(1, "Front"), (5, "On the desk"), (6, "On the table"), (2, "Side"), (3, "Handle")]
 HAT_PICKS = [(1, "Front, black"), (6, "Worn, black"), (7, "Worn, black, back"), (2, "Front, charcoal"), (12, "Worn, charcoal"), (13, "Worn, charcoal, back"), (3, "Back"), (4, "Side")]
 TOQUE_PICKS = [(1, "Black"), (2, "Charcoal"), (4, "Worn"), (5, "Worn, back"), (7, "Worn, charcoal"), (8, "Worn, charcoal back")]
@@ -186,6 +192,9 @@ def catalogue():
     for s, n, b in HATS:
         imgs, labs = spi(f"hat-{s}", HAT_PICKS, f"{n} hat")
         out.append(dict(kind="hat", slug=s, title=f"{n} hat", short=n, blurb=b, images=imgs, labels=labs))
+    for s, n, _t, b in PATCH_HATS:
+        imgs, labs = spi(f"hat-{s}", PATCH_PICKS, f"{n} hat")
+        out.append(dict(kind="hat", slug=s, title=f"{n} hat", short=n, blurb=b, images=imgs, labels=labs, specs="patchhat"))
     for s, n, b in TOQUES:
         imgs, labs = spi(f"toque-{s}", TOQUE_PICKS, f"{n} toque")
         out.append(dict(kind="toque", slug=s, title=f"{n} toque", short=n, blurb=b, images=imgs, labels=labs))
@@ -245,7 +254,7 @@ def body():
              '<a href="#posters">Posters</a><a href="#downloads">Digital</a><a href="#your-well">Make your own</a></nav></div>')
     o.append('<h2 id="best">Crew favourites</h2>' + grid([by[i] for i in BEST], "pgrid four"))
     o.append('<h2 id="apparel">Apparel</h2><p>Heavy type on the back, a small Tidywells mark on the left chest. True to size, with a size guide on every page.</p>' + grid(of("hoodie", "tee")))
-    o.append('<h2 id="headwear">Toques and hats</h2><p>Embroidered text. Warm toques for the winter crew, adjustable hats for the rest of the year.</p>' + grid(of("toque", "hat")))
+    o.append('<h2 id="headwear">Toques and hats</h2><p>Embroidered text and printed patches. Warm toques for the winter crew, adjustable hats for the rest of the year.</p>' + grid(of("toque", "hat")))
     o.append('<h2 id="drinkware">Mugs</h2>' + grid(of("mug")))
     stick = [f'<div class="prod" data-quick="1" data-slug="bundle-{b[0]}"><a class="pimg" href="product-bundle-{b[0]}.html">{card_img(b[5], b[1], 1000, 1000)}</a><div class="pi"><span class="tag">{"Most designs" if b[4] == 9 else "Sticker sheet"}</span><h3><a href="product-bundle-{b[0]}.html">{esc(b[1])}</a></h3><p>{esc(b[2])}</p>'
              f'{price_html(amount=b[3])}<span class="shop-note">About CAD ${fmt_price(b[3] / b[4])} a sticker.</span><span class="go"><a class="btn primary" href="product-bundle-{b[0]}.html">Choose options</a></span></div></div>' for b in BUNDLES]
@@ -299,7 +308,7 @@ def product_page(it, items):
         labels = it.get("labels") or ("Night", "Paper")
         sw = '<div class="sw" role="group" aria-label="View">' + "".join(f'<button type="button" data-pi="{i}" aria-pressed="{"true" if i == 0 else "false"}">{l}</button>' for i, l in enumerate(labels[:len(imgs)])) + '</div>'
     tts = '<p class="tts"><strong>True to size.</strong> Order the size you normally wear; the size guide below shows the flat measurements.</p>'
-    specs = "".join(f"<li>{esc(x)}</li>" for x in SPECS[kind])
+    specs = "".join(f"<li>{esc(x)}</li>" for x in SPECS[it.get("specs") or kind])
     related = [x for x in items if x["kind"] == kind and x["id"] != it["id"]][:4]
     rel = "".join(f'<a class="prod" href="{r["page"]}" style="text-decoration:none;color:inherit"><img src="{IMG}{r["images"][0][0]}" alt="{esc(r["images"][0][1])}" width="{r["images"][0][2]}" height="{r["images"][0][3]}" loading="lazy"><div class="pi"><h3>{esc(r["short"])}</h3>{price_html(kind, r.get("price"))}</div></a>' for r in related)
     ld = {"@context": "https://schema.org", "@type": "Product", "name": t, "description": DESC[it["id"]], "sku": it["id"], "brand": {"@type": "Brand", "name": "Tidywells"},
@@ -378,6 +387,8 @@ def listings():
     for s, n, b in HATS:
         rows.append((f"hat-{s}", "Hat", f"{n} Embroidered Hat, Oilfield Hat, Oil and Gas Gift",
                      DESC[pid("hat", s)], TAGS_BASE + ["embroidered hat", "dad hat", "oilfield hat", "gift for him", "oil and gas"]))
+    for s, n, t, b in PATCH_HATS:
+        rows.append((f"hat-{s}", "Hat", t, DESC[pid("hat", s)], TAGS_BASE + ["trucker hat", "patch hat", "oilfield hat", "gift for him", "oil and gas"]))
     for s, n, b in TOQUES:
         rows.append((f"toque-{s}", "Toque", f"{n} Toque Beanie, Embroidered Winter Hat, Oilfield Gift",
                      DESC[pid("toque", s)], TAGS_BASE + ["toque", "beanie", "winter hat", "oilfield", "gift for him"]))
