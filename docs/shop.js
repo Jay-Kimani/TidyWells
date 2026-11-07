@@ -205,7 +205,7 @@ function twHype() {
 // Product gallery: arrows, thumbnail strip, colour buttons and a caption.
 (function () {
   "use strict";
-  var COL = { black: "#15171c", charcoal: "#454a52", navy: "#1c2c52" };
+  var COL = { black: "#15171c", charcoal: "#454a52", navy: "#1c2c52", white: "#ffffff" };
   function build(v) {
     var btns = [].slice.call(v.querySelectorAll(".sw button")), imgs = [].slice.call(v.querySelectorAll("img[data-pi]"));
     if (btns.length < 2 || !imgs.length) return;
@@ -236,7 +236,7 @@ function twHype() {
     stage.addEventListener("touchstart", function (e) { tx = e.touches[0].clientX; }, { passive: true });
     stage.addEventListener("touchend", function (e) { if (tx === null) return; var dx = e.changedTouches[0].clientX - tx; tx = null; if (Math.abs(dx) > 40) pick(cur + (dx < 0 ? 1 : -1)); });
     btns.forEach(function (b, i) {
-      var cm = /(black|charcoal|navy)/i.exec(b.textContent); if (cm) last = cm[1].toLowerCase(); colOf.push(last);
+      var cm = /(black|charcoal|navy|white)/i.exec(b.textContent); if (cm) last = cm[1].toLowerCase(); colOf.push(last);
       var t = document.createElement("button"), im = new Image(); t.type = "button"; t.className = "th"; t.setAttribute("aria-label", b.textContent.trim());
       var src = imgs.filter(function (x) { return x.getAttribute("data-pi") === b.getAttribute("data-pi"); })[0]; im.src = src ? src.getAttribute("src") : ""; im.alt = ""; im.loading = "lazy"; im.width = im.height = 68;
       t.appendChild(im); t.addEventListener("click", function () { pick(i); }); strip.appendChild(t); ths.push(t);

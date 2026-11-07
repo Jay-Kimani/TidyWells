@@ -20,6 +20,10 @@ window.TIDYWELLS_SHOP_LINKS = {
   "night": "https://tidywells.myshopify.com/products/shape-of-a-decline-poster-canadian-oil-and-gas-data-art-night-edition-18x24-print",
   "paper": "https://tidywells.myshopify.com/products/shape-of-a-decline-poster-canadian-oil-and-gas-data-art-paper-edition-18x24-print"
  },
+ "hoodie-leduc-pumpjack": "https://tidywells.myshopify.com/products/leduc-pumpjack-hoodie-alberta-oilfield-gift-oil-and-gas-hoodie",
+ "tee-leduc-pumpjack": "https://tidywells.myshopify.com/products/leduc-pumpjack-t-shirt-alberta-oilfield-gift-oil-and-gas-tee",
+ "crewneck-leduc-pumpjack": "https://tidywells.myshopify.com/products/leduc-pumpjack-crewneck-sweatshirt-alberta-oilfield-gift-oil-and-gas-sweater",
+ "print-leduc-pumpjack": "https://tidywells.myshopify.com/products/leduc-pumpjack-poster-alberta-oilfield-wall-art-18x24-print",
  "hoodie-build-the-pipeline": "https://tidywells.myshopify.com/products/build-the-pipeline-hoodie-oil-and-gas-humor-decline-curve-gift",
  "hoodie-ottawa-doesnt-pump-oil": "https://tidywells.myshopify.com/products/ottawa-doesnt-pump-oil-hoodie-oil-and-gas-humor-decline-curve-gift",
  "hoodie-shut-in-not-shut-down": "https://tidywells.myshopify.com/products/shut-in-not-shut-down-hoodie-oil-and-gas-humor-decline-curve-gift",
@@ -32,6 +36,7 @@ window.TIDYWELLS_SHOP_LINKS = {
  "tee-oil-and-gas-crew": "https://tidywells.myshopify.com/products/oil-gas-crew-t-shirt-oil-and-gas-humor-decline-curve-gift",
  "tee-darcys-law": "https://tidywells.myshopify.com/products/darcys-law-t-shirt-oil-and-gas-humor-decline-curve-gift",
  "tee-pv-znrt": "https://tidywells.myshopify.com/products/pv-znrt-t-shirt-oil-and-gas-humor-decline-curve-gift",
+ "bundle-stickers-leduc-and-tidywells": "https://tidywells.myshopify.com/products/sticker-sheet-of-3-leduc-pumpjack-and-tidywells-logo-stickers-oilfield-laptop-decals",
  "bundle-stickers-3-pack": "https://tidywells.myshopify.com/products/sticker-sheet-of-3-hard-hat-stickers-oil-and-gas-humor-laptop-decals",
  "bundle-stickers-6-pack": "https://tidywells.myshopify.com/products/sticker-sheet-of-6-hard-hat-stickers-oil-and-gas-humor-laptop-decals",
  "bundle-stickers-complete-set": "https://tidywells.myshopify.com/products/sticker-sheet-of-9-complete-hard-hat-sticker-set-oil-and-gas-humor-laptop-decals",

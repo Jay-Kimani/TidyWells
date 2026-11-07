@@ -50,6 +50,12 @@ PATCH_HATS = [("patch-oval", "Oval Patch Trucker", "Tidywells Patch Trucker Hat,
 TOQUES = [("camp-life", "Camp Life", "For the winter rotation: a toque that says it for you."),
           ("powered-by-oil", "Powered by Oil", "Embroidered on the cuff, for the long walk to the truck."),
           ("build-the-pipeline", "Build the Pipeline", "Embroidered on the cuff, for the walk to the truck.")]
+LEDUC = [  # slug, kind, short name, exact store title, blurb
+    ("leduc-pumpjack", "hoodie", "Leduc Pumpjack", "Leduc Pumpjack Hoodie, Alberta Oilfield Gift, Oil and Gas Hoodie", "A Leduc pumpjack across the back, a small Tidywells label on the chest."),
+    ("leduc-pumpjack", "tee", "Leduc Pumpjack", "Leduc Pumpjack T-Shirt, Alberta Oilfield Gift, Oil and Gas Tee", "A Leduc pumpjack across the back, a small Tidywells label on the chest."),
+    ("leduc-pumpjack", "crewneck", "Leduc Pumpjack", "Leduc Pumpjack Crewneck Sweatshirt, Alberta Oilfield Gift, Oil and Gas Sweater", "A Leduc pumpjack across the back, a small Tidywells label on the chest."),
+    ("leduc-pumpjack", "print", "Leduc Pumpjack", "Leduc Pumpjack Poster, Alberta Oilfield Wall Art, 18x24 Print", "Where Alberta's modern oil industry began in 1947, in red, black and cream."),
+]
 SHEETS = [("units-and-conversions", "Units & Conversions", "Oil, gas, energy and pressure factors, plus the rate-from-volume rule.")]
 FEATURED = ["build-the-pipeline", "ottawa-doesnt-pump-oil", "shut-in-not-shut-down", "hyperbolic-decline"]
 BEST = ["hoodie-build-the-pipeline", "hoodie-ottawa-doesnt-pump-oil", "toque-camp-life", "mug-build-the-pipeline"]
@@ -59,8 +65,9 @@ BEST = ["hoodie-build-the-pipeline", "hoodie-ottawa-doesnt-pump-oil", "toque-cam
 LINKJS = ('<script src="shop-links.js"></script><script src="shop-links.js"></script><script src="shop.js"></script>')
 
 
-PRICE = {"hoodie": 74.99, "tee": 36.99, "mug": 24.99, "hat": 49.99, "toque": 39.99, "poster": 44.99, "sheet": 8.99}  # CAD launch prices; confirmed in the store
+PRICE = {"hoodie": 74.99, "tee": 36.99, "mug": 24.99, "hat": 49.99, "toque": 39.99, "poster": 44.99, "sheet": 8.99, "crewneck": 59.99, "print": 44.99}  # CAD launch prices; confirmed in the store
 BUNDLES = [  # id, title, blurb, price, stickers in pack, image. Stickers are sold only in packs: one sticker alone costs about as much to ship as it earns.
+    ("stickers-leduc-and-tidywells", "Leduc and Tidywells sticker sheet", "A5 kiss-cut sheet of three: the big Leduc pumpjack, the Tidywells decline-curve label and the Tidywells oilfield patch.", 12.99, 3, "sp-sticker-sheet-leduc-1.jpg"),
     ("stickers-3-pack", "Sticker sheet of 3", "A5 kiss-cut sheet: Build the Pipeline, Scrap the Tanker Ban and Powered by Oil. About 2.5 inch each.", 12.99, 3, "sp-sticker-sheet-3-1.jpg"),
     ("stickers-6-pack", "Sticker sheet of 6", "A5 kiss-cut sheet of six: the three above plus Camp Life, Ottawa Doesn't Pump Oil and Darcy's Law. About 2.3 inch each.", 14.99, 6, "sp-sticker-sheet-6-1.jpg"),
     ("stickers-complete-set", "Complete sheet of 9", "A5 kiss-cut sheet with every design in the collection, one of each. About 1.7 inch each.", 16.99, 9, "sp-sticker-sheet-9-1.jpg"),
@@ -73,12 +80,19 @@ SPECS = {
     "mug": ["11 oz ceramic mug, design wraps around", "Dishwasher and microwave safe (confirm in the store listing)", "No oil company names or logos"],
     "patchhat": ["Full-colour printed patch design on the front panel of a foam-front mesh-back trucker", "Adjustable snapback; one size fits most (22.8 inch)", "Colour combinations are set in the store listing", "Original artwork, no oil company names or logos"],
     "hat": ["Embroidered text on the front panel", "Adjustable fit; colour set in the store listing", "No oil company names or logos"],
+    "crewneck": ["Large design printed on the back, small Tidywells label on the left chest", "Heavy blend crewneck, 50% cotton and 50% polyester", "No oil company names or logos", "Garment colours and sizes are set in the store listing"],
+    "print": ["18 x 24 inch print on cream paper with a navy and red rule", "Original artwork, no company names or logos", "Paper finish and shipping are set in the store listing"],
     "toque": ["Cuffed knit toque (beanie) with embroidered cuff", "One size; fabric and lining are set in the store listing", "No oil company names or logos"],
     "sheet": ["11 x 17 inch PDF, instant digital download", "For your own use: print as often as you like", "Standard published conversion factors and public regulator file layouts"],
 }
 
 POSTER_TAIL = " Four headline figures sit under the chart, and the source, method and data window are printed at the foot, so it reads like a figure from a report rather than decoration. Available as a dark Night edition and a cream Paper edition."
 DESC = {
+    "hoodie-leduc-pumpjack": "A Leduc pumpjack in red, black and cream across the back, with Tidywells and Alberta Oilfield Gear across the top. A small Tidywells decline-curve label sits on the left chest. Available in black, navy and white. Original artwork, no company names or logos.",
+    "tee-leduc-pumpjack": "A Leduc pumpjack in red, black and cream across the back, with Tidywells and Alberta Oilfield Gear across the top. A small Tidywells decline-curve label sits on the left chest. Available in black, navy and white. Original artwork, no company names or logos.",
+    "crewneck-leduc-pumpjack": "A Leduc pumpjack in red, black and cream across the back, with Tidywells and Alberta Oilfield Gear across the top. A small Tidywells decline-curve label sits on the left chest. A heavy blend crewneck in black, navy and white. Original artwork, no company names or logos.",
+    "print-leduc-pumpjack": "A Leduc pumpjack in red, black and cream on a cream paper ground, framed with a navy and red rule and Tidywells at the foot. Leduc is where Alberta's modern oil industry began in 1947. 18 x 24 inch print. Original artwork, no company names or logos.",
+    "bundle-stickers-leduc-and-tidywells": "One A5 kiss-cut sheet with three stickers: the big Leduc pumpjack, the Tidywells decline-curve label and the Tidywells oilfield patch. Peel one off and stick it on a hard hat, laptop, toolbox or truck dash.",
     "bundle-stickers-3-pack": "A5 kiss-cut sheet with three of our best-known designs: Build the Pipeline, Scrap the Tanker Ban and Powered by Oil. Peel one off and stick it on a hard hat, toolbox or truck dash. About 2.5 inch each.",
     "bundle-stickers-6-pack": "A5 kiss-cut sheet of six designs: Build the Pipeline, Scrap the Tanker Ban, Powered by Oil, Camp Life, Ottawa Doesn't Pump Oil and Darcy's Law. About 2.3 inch each, ready to peel and stick.",
     "bundle-stickers-complete-set": "One A5 kiss-cut sheet with every design in the collection, one of each: nine stickers at about 1.7 inch. The best value per sticker.",
@@ -124,6 +138,7 @@ DESC = {
     "sheet-units-and-conversions": "A one-page, 11 x 17 inch PDF of oil, gas, energy and pressure conversion factors, plus the rule for turning a volume into a daily rate. Print it for your desk or your truck; for your own use. Instant download.",
 }
 SIZES = {
+    "crewneck": ("Unisex crewneck", ["S", "M", "L", "XL", "2XL", "3XL"], [(20, 26), (22, 27), (24, 28), (26, 29), (28, 30), (30, 31)]),
     "tee": ("Unisex t-shirt", ["S", "M", "L", "XL", "2XL", "3XL"], [(18, 28), (20, 29), (22, 30), (24, 31), (26, 32), (28, 33)]),
     "hoodie": ("Unisex hoodie", ["S", "M", "L", "XL", "2XL", "3XL"], [(20, 27), (22, 28), (24, 29), (26, 30), (28, 31), (30, 32)]),
 }
@@ -173,6 +188,12 @@ APP_PICKS = HOODIE_PICKS
 PATCH_PICKS = [(1, "Black, front"), (5, "Black, worn"), (3, "Black, side"), (4, "Black, back"), (2, "Navy, front"), (8, "Navy, worn"), (6, "Navy, side"), (7, "Navy, back")]
 MUG_PICKS = [(1, "Front"), (5, "On the desk"), (6, "On the table"), (2, "Side"), (3, "Handle")]
 HAT_PICKS = [(1, "Front, black"), (6, "Worn, black"), (7, "Worn, black, back"), (2, "Front, charcoal"), (12, "Worn, charcoal"), (13, "Worn, charcoal, back"), (3, "Back"), (4, "Side")]
+LEDUC_PICKS = {
+    "hoodie": [(4, "Back, black"), (1, "Front, black"), (11, "Worn, black"), (9, "Worn, black, back"), (12, "Back, navy"), (2, "Front, navy"), (19, "Worn, navy"), (17, "Worn, navy, back"), (20, "Back, white"), (3, "Front, white")],
+    "tee": [(4, "Back, black"), (1, "Front, black"), (9, "Worn, black"), (10, "Worn, black, back"), (11, "Back, navy"), (2, "Front, navy"), (16, "Worn, navy"), (17, "Worn, navy, back"), (18, "Back, white"), (3, "Front, white")],
+    "crewneck": [(8, "Back, black"), (2, "Front, black"), (11, "Worn, black"), (12, "Back, navy"), (3, "Front, navy"), (16, "Worn, navy"), (4, "Back, white"), (1, "Front, white"), (7, "Worn, white")],
+    "print": [(2, "Poster"), (4, "On the wall"), (3, "Rolled")],
+}
 TOQUE_PICKS = [(1, "Black"), (2, "Charcoal"), (4, "Worn"), (5, "Worn, back"), (7, "Worn, charcoal"), (8, "Worn, charcoal back")]
 POSTER_PICKS = [("night", 1, "Night"), ("paper", 1, "Paper"), ("night", 4, "Night, on the wall"), ("paper", 4, "Paper, on the wall"), ("night", 3, "Rolled")]
 
@@ -186,6 +207,9 @@ def catalogue():
     for s, n, k, b in APPAREL:
         imgs, labs = spi(f"{k}-{s}", HOODIE_PICKS if k == "hoodie" else TEE_PICKS, f"{n} {k}")
         out.append(dict(kind=k, slug=s, title=f"{n} {'hoodie' if k == 'hoodie' else 't-shirt'}", short=n, blurb=b, images=imgs, labels=labs))
+    for s, k, n, t, b in LEDUC:
+        imgs, labs = spi(f"{k}-{s}", LEDUC_PICKS[k], f"{n} {k}")
+        out.append(dict(kind=k, slug=s, title=t if False else f"{n} " + {"hoodie": "hoodie", "tee": "t-shirt", "crewneck": "crewneck", "print": "poster"}[k], short=n, blurb=b, images=imgs, labels=labs))
     for s, n, b in MUGS:
         imgs, labs = spi(f"mug-{s}", MUG_PICKS, f"{n} mug")
         out.append(dict(kind="mug", slug=s, title=f"{n} mug", short=n, blurb=b, images=imgs, labels=labs))
@@ -237,7 +261,7 @@ def card_of(it):
 
 
 def kind_label(k):
-    return {"poster": "Data-art poster", "hoodie": "Hoodie", "tee": "T-shirt", "sticker": "Sticker sheet", "sheet": "Digital download", "mug": "Mug", "hat": "Hat", "toque": "Toque"}[k]
+    return {"poster": "Data-art poster", "hoodie": "Hoodie", "tee": "T-shirt", "sticker": "Sticker sheet", "sheet": "Digital download", "mug": "Mug", "hat": "Hat", "toque": "Toque", "crewneck": "Crewneck", "print": "Poster"}[k]
 
 
 def body():
@@ -253,7 +277,7 @@ def body():
              '<nav class="chips" aria-label="Shop sections"><a href="#apparel">Apparel</a><a href="#headwear">Toques and hats</a><a href="#drinkware">Mugs</a><a href="#stickers">Sticker packs</a>'
              '<a href="#posters">Posters</a><a href="#downloads">Digital</a><a href="#your-well">Make your own</a></nav></div>')
     o.append('<h2 id="best">Crew favourites</h2>' + grid([by[i] for i in BEST], "pgrid four"))
-    o.append('<h2 id="apparel">Apparel</h2><p>Heavy type on the back, a small Tidywells mark on the left chest. True to size, with a size guide on every page.</p>' + grid(of("hoodie", "tee")))
+    o.append('<h2 id="apparel">Apparel</h2><p>Heavy type on the back, a small Tidywells mark on the left chest. True to size, with a size guide on every page.</p>' + grid(of("hoodie", "crewneck", "tee")))
     o.append('<h2 id="headwear">Toques and hats</h2><p>Embroidered text and printed patches. Warm toques for the winter crew, adjustable hats for the rest of the year.</p>' + grid(of("toque", "hat")))
     o.append('<h2 id="drinkware">Mugs</h2>' + grid(of("mug")))
     stick = [f'<div class="prod" data-quick="1" data-slug="bundle-{b[0]}"><a class="pimg" href="product-bundle-{b[0]}.html">{card_img(b[5], b[1], 1000, 1000)}</a><div class="pi"><span class="tag">{"Most designs" if b[4] == 9 else "Sticker sheet"}</span><h3><a href="product-bundle-{b[0]}.html">{esc(b[1])}</a></h3><p>{esc(b[2])}</p>'
@@ -265,6 +289,8 @@ def body():
     for it in of("poster"):
         s = it["slug"]
         ps.append(prod(s, "poster", it["short"], it["blurb"], f'<img src="{IMG}sp-poster-{s}-night-1.jpg" alt="{esc(it["short"])} poster, 18 by 24 inch" width="1000" height="1000" loading="lazy">', 1000, 1000))
+    for it in of("print"):
+        ps.append(card_of(it))
     o.append('<h2 id="posters">Data-art posters</h2><p>18 × 24 inch, drawn from the open Tidywells dataset. The numbers match <a href="data.html">the CSV you can download</a> and the poster says where they come from. Each comes as a dark Night edition and a cream Paper edition.</p>'
              '<div class="pgrid">' + "".join(ps) + '</div>')
     o.append('<h2 id="downloads">Digital download</h2><p>An 11 × 17 inch sheet to pin up beside your screen. Print it as often as you like for your own use.</p>' + grid(of("sheet")))
@@ -375,6 +401,8 @@ def listings():
             rows.append((f"poster-{s}-{cw.lower()}", "Poster 18x24in", f"{t} Poster, Canadian Oil and Gas Data Art, {cw} Edition, 18x24 Print",
                          f"{DESC[pid('poster', s)]} Generated from the open Tidywells dataset (Petrinex and BC Energy Regulator public data); the figures match the CSV at tidywells.com/data.html. "
                          "Not investment advice.", TAGS_BASE + ["data art", "wall art", "office decor", "poster", "chart print"]))
+    for s, k, n, t, b in LEDUC:
+        rows.append((f"{k}-{s}", {"hoodie": "Hoodie", "tee": "T-shirt", "crewneck": "Crewneck", "print": "Poster 18x24in"}[k], t, DESC[pid(k, s)], TAGS_BASE + ["leduc", "pumpjack", "alberta", "oilfield gift", "gift for him"]))
     for s, n, k, b in APPAREL:
         rows.append((f"{k}-{s}", "Hoodie" if k == "hoodie" else "T-shirt", f"{n} {'Hoodie' if k == 'hoodie' else 'T-Shirt'}, Oil and Gas Humor, Decline Curve Gift",
                      f"{DESC[pid(k, s)]} True to size. Large back print with a small Tidywells mark on the left chest.", TAGS_BASE + ["funny shirt", "decline curve", "roughneck", "oilfield humor", "gift for him"]))
@@ -410,7 +438,7 @@ def store_links(rows):
     handle = lambda t: re.sub(r"[^a-z0-9]+", "-", t.lower().replace("'", "")).strip("-")
     links = {}
     # Shopify handles that differ from the listing title (a duplicated product, a retitled sheet)
-    fix = {"complete-sheet-of-9-hard-hat-stickers-oil-and-gas-humor-laptop-decals": "sticker-sheet-of-9-complete-hard-hat-sticker-set-oil-and-gas-humor-laptop-decals"}
+    fix = {"leduc-and-tidywells-sticker-sheet-hard-hat-stickers-oil-and-gas-humor-laptop-decals": "sticker-sheet-of-3-leduc-pumpjack-and-tidywells-logo-stickers-oilfield-laptop-decals", "complete-sheet-of-9-hard-hat-stickers-oil-and-gas-humor-laptop-decals": "sticker-sheet-of-9-complete-hard-hat-sticker-set-oil-and-gas-humor-laptop-decals"}
     for rid, _type, title, *_ in rows:
         h0 = handle(title)
         h = base + fix.get(h0, h0)
