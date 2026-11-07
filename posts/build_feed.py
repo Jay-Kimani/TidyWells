@@ -251,7 +251,7 @@ if __name__ == "__main__":
         ("Follow, build and shop", [
             ("https://github.com/Jay-Kimani/TidyWells", "code", "Python package", "Open-source loaders for Petrinex and BCER files."),
             ("https://tidywells.substack.com/", "mail", "Newsletter", "New analysis by email on Substack, or on Medium."),
-            ("shop.html", "bag", "Shop", "Hoodies, posters from real data, stickers and notebooks."),
+            ("shop.html", "bag", "Shop", "Hoodies, toques, mugs, wall posters and free reference sheets."),
             ("pro.html", "layers", "Pro data pack", "Tidy monthly CSV packs, CAD $4.99 a month."),
         ]),
     ]
