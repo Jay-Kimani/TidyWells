@@ -14,18 +14,9 @@ ROOT = Path(__file__).resolve().parents[1]
 DOCS = ROOT / "docs"
 IMG = "img/shop/"
 
-POSTERS = [  # slug, title, blurb
-    ("ab-oil", "Alberta Oil", "Monthly oil production, January 2022 to September 2026, with the peak month marked."),
-    ("record-barrels", "Record Barrels", "Alberta, Saskatchewan and BC oil stacked on one chart, with the highest month since January 2022 marked."),
-    ("peak-vs-now", "Peak vs Now", "Six oil and gas streams ranked by how close they are to their own best month."),
-    ("86-of-100", "86 of Every 100", "A hundred dots, one for every 100 barrels: who produces what in the three provinces."),
-    ("decline-shape", "Shape of a Decline", "The Arps family b = 0 to 1.5, the curve every well-file reader should know."),
-]
+POSTERS = []  # the old data-art posters were retired; the physical posters are the "print" kind in LEDUC
 APPAREL = [  # slug, name, garment, blurb
-    ("hyperbolic-decline", "Hyperbolic Decline: My Motivation", "hoodie", "For anyone whose enthusiasm follows an Arps curve."),
     ("powered-by-oil", "Powered by Oil", "tee", "Short, clean, and true."),
-    ("scrap-the-tanker-ban", "Scrap the Tanker Ban", "tee", "For the west coast export argument."),
-    ("camp-life", "Camp Life", "tee", "Two words for the rotation."),
     ("darcys-law", "Darcy's Law", "tee", "How fluid moves through rock."),
     ("pv-znrt", "pV = znRT", "tee", "The real gas law, with the z-factor."),
 ]
@@ -51,10 +42,14 @@ LEDUC = [  # slug, kind, short name, exact store title, blurb
     ("leduc-pumpjack", "tee", "Leduc Pumpjack", "Leduc Pumpjack T-Shirt, Alberta Oilfield Gift, Oil and Gas Tee", "A Leduc pumpjack across the back, a small Tidywells label on the chest."),
     ("leduc-pumpjack", "crewneck", "Leduc Pumpjack", "Leduc Pumpjack Crewneck Sweatshirt, Alberta Oilfield Gift, Oil and Gas Sweater", "A Leduc pumpjack across the back, a small Tidywells label on the chest."),
     ("leduc-pumpjack", "print", "Leduc Pumpjack", "Leduc Pumpjack Poster, Alberta Oilfield Wall Art, 18x24 Print", "Where Alberta's modern oil industry began in 1947, in red, black and cream."),
+    ("oil-and-gas-commission", "print", "Oil and Gas Commission", "Oil and Gas Commission Poster, Alberta Oilfield Wall Art, 18x24 Print", "A retro tin-sign style joke commission: a coffee cup and a pumpjack buddy under the Alberta sky."),
+    ("drilling-gear-bigfoot", "print", "Drilling Gear Bigfoot", "Drilling Gear Bigfoot Poster, Alberta Oilfield Wall Art, 18x24 Print", "A Sasquatch strolling past a pumpjack at sunset in the foothills."),
+    ("support-natural-resources", "print", "Support Natural Resources", "Support Natural Resources Poster, Alberta Oilfield Wall Art, 18x24 Print", "A service rig, a pumpjack and the Rockies at sunset, ESTD 2013."),
+    ("boom-bust-repeat", "print", "Boom Bust Repeat Alberta", "Boom Bust Repeat Alberta Poster, Oilfield Wall Art, 18x24 Print", "For anyone who has ridden the cycle more than once."),
 ]
-SHEETS = [("units-and-conversions", "Units & Conversions", "Oil, gas, energy and pressure factors, plus the rate-from-volume rule.")]
-FEATURED = ["hyperbolic-decline"]
-BEST = ["hoodie-leduc-pumpjack", "toque-fire-rescue-blowout", "mug-leduc", "hoodie-hyperbolic-decline"]
+SHEETS = []  # digital downloads removed: physical posters only
+FEATURED = []
+BEST = ["hoodie-leduc-pumpjack", "toque-fire-rescue-blowout", "mug-leduc", "print-leduc-pumpjack"]
 
 
 
@@ -88,6 +83,10 @@ DESC = {
     "tee-leduc-pumpjack": "A Leduc pumpjack in red, black and cream across the back, with Tidywells and Alberta Oilfield Gear across the top. A small Tidywells decline-curve label sits on the left chest. Available in black, navy and white. Original artwork, no company names or logos.",
     "crewneck-leduc-pumpjack": "A Leduc pumpjack in red, black and cream across the back, with Tidywells and Alberta Oilfield Gear across the top. A small Tidywells decline-curve label sits on the left chest. A heavy blend crewneck in black, navy and white. Original artwork, no company names or logos.",
     "print-leduc-pumpjack": "A Leduc pumpjack in red, black and cream on a cream paper ground, framed with a navy and red rule and Tidywells at the foot. Leduc is where Alberta's modern oil industry began in 1947. 18 x 24 inch print. Original artwork, no company names or logos.",
+    "print-oil-and-gas-commission": "A retro tin-sign style Tidywells Oil and Gas Commission poster: a coffee cup and a pumpjack buddy walking out of the Alberta foothills under a Canadian flag. 18 x 24 inch print. Original artwork, no company names or logos. The Oil and Gas Commission is a joke; Tidywells is not affiliated with any regulator or operator.",
+    "print-drilling-gear-bigfoot": "A Tidywells Drilling Gear poster: a Sasquatch strolling past a pumpjack at sunset in the Alberta foothills, with a Canadian flag in the background. 18 x 24 inch print. Original artwork, no company names or logos. Tidywells is not affiliated with any regulator or operator.",
+    "print-support-natural-resources": "A Tidywells Support Natural Resources poster in a vintage enamel-sign style, established 2013. 18 x 24 inch print. Original artwork, no company names or logos. Tidywells is not affiliated with any regulator or operator.",
+    "print-boom-bust-repeat": "A Tidywells Boom. Bust. Repeat. Alberta poster in a vintage tin-sign style. 18 x 24 inch print. Original artwork, no company names or logos. Tidywells is not affiliated with any regulator or operator.",
     "bundle-stickers-leduc-and-tidywells": "One A5 kiss-cut sheet with three stickers: the big Leduc pumpjack, the Tidywells decline-curve label and the Tidywells oilfield patch. Peel one off and stick it on a hard hat, laptop, toolbox or truck dash.",
     "bundle-stickers-3-pack": "A5 kiss-cut sheet with three of our best-known designs: Build the Pipeline, Scrap the Tanker Ban and Powered by Oil. Peel one off and stick it on a hard hat, toolbox or truck dash. About 2.5 inch each.",
     "bundle-stickers-6-pack": "A5 kiss-cut sheet of six designs: Build the Pipeline, Scrap the Tanker Ban, Powered by Oil, Camp Life, Ottawa Doesn't Pump Oil and Darcy's Law. About 2.3 inch each, ready to peel and stick.",
@@ -308,10 +307,10 @@ def body():
     o = []
     o.append('<div class="shop-hero"><span class="badge">Now open</span>'
              '<h1>The Tidywells <span class="grad">shop</span></h1>'
-             '<p>Hoodies, toques, hats, mugs and sticker packs for people who work in oil and gas, and posters drawn from the open data.</p>'
+             '<p>Hoodies, toques, hats, mugs and sticker packs for people who work in oil and gas, and wall posters.</p>'
              '<ul class="trust"><li>Printed to order, delivered in 5 to 7 business days</li><li>Secure checkout by Shopify</li><li>Prices in CAD, launch price while it lasts</li><li>Size guide on every page</li></ul>'
              '<nav class="chips" aria-label="Shop sections"><a href="#apparel">Apparel</a><a href="#headwear">Toques and hats</a><a href="#drinkware">Mugs</a><a href="#stickers">Sticker packs</a>'
-             '<a href="#posters">Posters</a><a href="#downloads">Digital</a><a href="#your-well">Make your own</a></nav></div>')
+             '<a href="#posters">Posters</a><a href="#your-well">Make your own</a></nav></div>')
     o.append('<h2 id="best">Crew favourites</h2>' + grid([by[i] for i in BEST], "pgrid four"))
     o.append('<h2 id="apparel">Apparel</h2><p>Heavy type on the back, a small Tidywells mark on the left chest. True to size, with a size guide on every page.</p>' + grid(of("hoodie", "crewneck", "tee")))
     o.append('<h2 id="headwear">Toques and hats</h2><p>Embroidered text and printed patches. Warm toques for the winter crew, adjustable hats for the rest of the year.</p>' + grid(of("toque", "hat")))
@@ -327,16 +326,15 @@ def body():
         ps.append(prod(s, "poster", it["short"], it["blurb"], f'<img src="{IMG}sp-poster-{s}-night-1.jpg" alt="{esc(it["short"])} poster, 18 by 24 inch" width="1000" height="1000" loading="lazy">', 1000, 1000))
     for it in of("print"):
         ps.append(card_of(it))
-    o.append('<h2 id="posters">Data-art posters</h2><p>18 × 24 inch, drawn from the open Tidywells dataset. The numbers match <a href="data.html">the CSV you can download</a> and the poster says where they come from. Each comes as a dark Night edition and a cream Paper edition.</p>'
+    o.append('<h2 id="posters">Wall posters</h2><p>18 × 24 inch prints of original Tidywells artwork, printed to order and shipped rolled. Hang one in the shop, the truck or the den.</p>'
              '<div class="pgrid">' + "".join(ps) + '</div>')
-    o.append('<h2 id="downloads">Digital download</h2><p>An 11 × 17 inch sheet to pin up beside your screen. Print it as often as you like for your own use.</p>' + grid(of("sheet")))
     o.append('<div class="well-card" id="your-well"><div class="wc-text"><span class="tag">Make your own</span><h2>Your Well poster</h2>'
              '<p>Turn one well\'s monthly production into a poster, for a well you own or may use. It runs in your browser and the file never leaves your device.</p>'
              '<p><a class="btn primary" href="your-well.html">Make a poster</a></p>'
              '<p class="shop-note">We do not sell prints of other people\'s wells from public files; that needs the regulator\'s written confirmation.</p></div>'
              f'<figure><img src="{IMG}your-well-example.jpg" alt="Example Your Well poster built from synthetic data" width="720" height="960" loading="lazy"><figcaption>Example, made from synthetic data</figcaption></figure></div>')
     o.append('<h2>Good to know</h2><div class="faq"><p><b>How do sizes fit?</b><br>True to size. Every hoodie and tee page has a size guide with flat measurements.</p>'
-             '<p><b>Who makes and ships the products?</b><br>Our fulfilment partner prints each item to order. Delivery takes about 5 to 7 business days; the shipping cost is shown at checkout before you pay. The digital sheet is instant.</p>'
+             '<p><b>Who makes and ships the products?</b><br>Our fulfilment partner prints each item to order. Delivery takes about 5 to 7 business days; the shipping cost is shown at checkout before you pay.</p>'
              '<p><b>Is this affiliated with a regulator or an operator?</b><br>No. The posters use public regulator data and original wording, and no company names or logos appear on any product. Posters are not investment advice.</p>'
              '<p><b>Where does the money go?</b><br>It helps keep the open data, tools and analysis free. Tidywells is built by one person; see <a href="about.html">About</a>.</p></div>')
     o.append(LINKJS)
@@ -345,7 +343,7 @@ def body():
 
 def home_strip():
     items = {it["id"]: it for it in catalogue()}
-    pick = ["hoodie-leduc-pumpjack", "hoodie-hyperbolic-decline", "mug-leduc", "toque-fire-rescue-blowout", "hat-build-the-pipeline", "poster-record-barrels"]
+    pick = ["hoodie-leduc-pumpjack", "print-leduc-pumpjack", "mug-leduc", "toque-fire-rescue-blowout", "hat-build-the-pipeline", "print-oil-and-gas-commission"]
     cards = ""
     for i in pick:
         it = items[i]
@@ -353,10 +351,10 @@ def home_strip():
         cards += (f'<a class="prod" href="{it["page"]}" style="text-decoration:none;color:inherit"><img src="{IMG}{f}" alt="{esc(alt)}" width="{w}" height="{h}" loading="lazy">'
                   f'<div class="pi"><span class="tag">{esc(kind_label(it["kind"]))}</span><h3>{esc(it["short"])}</h3></div></a>')
     return ('<!--SHOP--><section class="strip"><span class="badge">Now open</span>'
-            '<h2>The Tidywells shop</h2><p>Hoodies, toques, hats, mugs and sticker packs for people who work in oil and gas, plus posters drawn from real data.</p>'
+            '<h2>The Tidywells shop</h2><p>Hoodies, toques, hats, mugs, sticker packs and wall posters for people who work in oil and gas.</p>'
             f'<div class="pgrid">{cards}</div>'
             f'<p class="shop-note">Hoodies from CAD ${fmt_price(PRICE["hoodie"])} · toques from CAD ${fmt_price(PRICE["toque"])} · mugs from CAD ${fmt_price(PRICE["mug"])} (launch prices)</p>'
-            '<p><a class="btn primary" href="shop.html">See the collection</a> <a class="btn" href="shop.html#posters">Data-art posters</a></p></section><!--/SHOP-->')
+            '<p><a class="btn primary" href="shop.html">See the collection</a> <a class="btn" href="shop.html#posters">Wall posters</a></p></section><!--/SHOP-->')
 
 
 def product_page(it, items):
@@ -387,12 +385,12 @@ def product_page(it, items):
 
 
 def posterbox(prefix, topic):
-    """'Hang this chart' strip for articles: three matched posters with prices, linking to their product pages."""
-    sets = {"snapshot": ["record-barrels", "peak-vs-now", "86-of-100"], "gas": ["peak-vs-now", "record-barrels", "decline-shape"], "decline": ["decline-shape", "record-barrels", "ab-oil"], "default": ["record-barrels", "86-of-100", "decline-shape"]}
-    names = {s: t for s, t, _ in POSTERS}
-    cards = "".join(f'<a class="prod" href="{prefix}{page_name("poster", s)}" style="text-decoration:none;color:inherit"><img src="{prefix}{IMG}sp-poster-{s}-night-1.jpg" alt="{esc(names[s])} poster" width="1000" height="1000" loading="lazy"><div class="pi"><h3>{esc(names[s])}</h3>{price_html("poster")}</div></a>' for s in sets.get(topic, sets["default"]))
-    return ('<!--POSTERBOX--><section class="posterbox"><div class="pb-t"><span class="tag">From the Tidywells shop</span><h2>Hang the data on your wall</h2>'
-            f'<p>Every poster is drawn from the same open dataset as these articles, 18 x 24 inch, opening soon. <a href="{prefix}shop.html#posters">See all posters</a>.</p></div>'
+    """Poster strip for articles: three physical posters with prices, linking to their product pages."""
+    names = {"leduc-pumpjack": "Leduc Pumpjack", "oil-and-gas-commission": "Oil and Gas Commission", "drilling-gear-bigfoot": "Drilling Gear Bigfoot", "support-natural-resources": "Support Natural Resources", "boom-bust-repeat": "Boom Bust Repeat Alberta"}
+    sets = {"snapshot": ["leduc-pumpjack", "boom-bust-repeat", "support-natural-resources"], "gas": ["support-natural-resources", "leduc-pumpjack", "drilling-gear-bigfoot"], "decline": ["boom-bust-repeat", "leduc-pumpjack", "oil-and-gas-commission"], "default": ["leduc-pumpjack", "boom-bust-repeat", "drilling-gear-bigfoot"]}
+    cards = "".join(f'<a class="prod" href="{prefix}{page_name("print", s)}" style="text-decoration:none;color:inherit"><img src="{prefix}{IMG}sp-print-{s}-2.jpg" alt="{esc(names[s])} poster" width="1000" height="1000" loading="lazy"><div class="pi"><h3>{esc(names[s])}</h3>{price_html("print")}</div></a>' for s in sets.get(topic, sets["default"]))
+    return ('<!--POSTERBOX--><section class="posterbox"><div class="pb-t"><span class="tag">From the Tidywells shop</span><h2>Hang one on your wall</h2>'
+            f'<p>Original oilfield posters, 18 x 24 inch, printed to order. <a href="{prefix}shop.html#posters">See all posters</a>.</p></div>'
             f'<div class="pgrid">{cards}</div></section><!--/POSTERBOX-->')
 
 
