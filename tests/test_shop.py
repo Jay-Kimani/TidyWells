@@ -53,10 +53,9 @@ def test_prices_are_labelled_and_no_sale_claims():
     for page in pages:
         t = visible_text((DOCS / page).read_text(encoding="utf-8"))
         assert " sale" not in t and "% off" not in t and "discount" not in t and "limited time" not in t, page
-        if "$" in t:
-            assert "launch price" in t, page
+        assert "launch price" not in t, page
     strip = re.search(r"<!--SHOP-->.*?<!--/SHOP-->", (DOCS / "index.html").read_text(encoding="utf-8"), re.S).group(0).lower()
-    assert " sale" not in strip and "now open" in strip and "launch prices" in strip
+    assert " sale" not in strip and "now open" in strip and "launch price" not in strip
 
 
 def test_every_product_has_a_page_a_price_and_clean_structured_data():

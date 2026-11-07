@@ -88,6 +88,13 @@ function twBuy() {
   }
   function store(k, v) { try { if (v === undefined) return JSON.parse(localStorage.getItem(k) || "null"); if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, JSON.stringify(v)); } catch (e) { return null; } }
   var CART = "cart{id checkoutUrl totalQuantity}";
+  // welcome code: set by subscribe.js when the visitor joins the email list; applied to the cart automatically
+  function codes() { var c = null; try { c = localStorage.getItem("tw_code"); } catch (e) {} return c ? [c] : []; }
+  function applyCode(id) {
+    var c = codes(); if (!id || !c.length) return;
+    gql("mutation($id:ID!,$d:[String!]){cartDiscountCodesUpdate(cartId:$id,discountCodes:$d){cart{id}userErrors{message}}}", { id: id, d: c }).catch(function () {});
+  }
+  document.addEventListener("tw-joined", function () { applyCode(store(KEY)); });
   function bar(c) {
     var el = document.getElementById("tw-cart");
     if (!c || !c.totalQuantity) { if (el) el.remove(); return; }
@@ -96,12 +103,12 @@ function twBuy() {
   }
   function add(variantId, qty) {
     var saved = store(KEY), line = [{ merchandiseId: variantId, quantity: qty }];
-    function create() { return gql("mutation($l:[CartLineInput!]){cartCreate(input:{lines:$l}){" + CART + " userErrors{message}}}", { l: line }).then(function (d) { return d.cartCreate; }); }
+    function create() { return gql("mutation($l:[CartLineInput!],$d:[String!]){cartCreate(input:{lines:$l,discountCodes:$d}){" + CART + " userErrors{message}}}", { l: line, d: codes() }).then(function (d) { return d.cartCreate; }); }
     var p = saved ? gql("mutation($id:ID!,$l:[CartLineInput!]!){cartLinesAdd(cartId:$id,lines:$l){" + CART + " userErrors{message}}}", { id: saved, l: line }).then(function (d) { return d.cartLinesAdd; }).then(function (r) { return (r.cart ? r : create()); }, create) : create();
     return p.then(function (r) { if (!r.cart) throw new Error((r.userErrors[0] || {}).message || "Could not add to cart"); store(KEY, r.cart.id); bar(r.cart); return r.cart; });
   }
   var saved = store(KEY);
-  if (saved) gql("query($id:ID!){cart(id:$id){id checkoutUrl totalQuantity}}", { id: saved }).then(function (d) { if (d.cart) bar(d.cart); else store(KEY, null); }, function () {});
+  if (saved) gql("query($id:ID!){cart(id:$id){id checkoutUrl totalQuantity}}", { id: saved }).then(function (d) { if (d.cart) { bar(d.cart); applyCode(saved); } else store(KEY, null); }, function () {});
   // shop page: sticker sheets have no page of their own, so they get a direct Add to cart button
   document.querySelectorAll(".prod[data-slug]").forEach(function (card) {
     var go = card.querySelector(".go"), u = links[card.getAttribute("data-slug")];
@@ -174,8 +181,8 @@ function twHype() {
   var HOT = { "hoodie-leduc-pumpjack": "Hot pick", "print-oil-and-gas-commission": "Crowd favourite", "toque-fire-rescue-blowout": "Cold-snap essential", "mug-leduc": "Gift-ready",
               "sheet-units-and-conversions": "Instant download" };
   var KIND = { hoodie: ["Fresh drop", "Heavy, warm, printed to order. Hoodie season is here."], tee: ["Fresh drop", "Soft tee, loud back print. Printed to order."], toque: ["Winter-ready", "Warm toque with an embroidered line. Printed to order."],
-               hat: ["Fresh drop", "Embroidered, adjustable, one size fits most."], mug: ["Gift-ready", "The coffee mug your crew will fight over."], poster: ["Launch price while it lasts", "18 x 24 in. Real data, drawn clean."],
-               bundle: ["Launch price while it lasts", "More stickers per dollar on the bigger sheets."], sheet: ["Instant download", "Pin it up today. No shipping, no waiting."] };
+               hat: ["Fresh drop", "Embroidered, adjustable, one size fits most."], mug: ["Gift-ready", "The coffee mug your crew will fight over."], poster: ["Wall-ready", "18 x 24 in. Real data, drawn clean."],
+               bundle: ["Better value", "More stickers per dollar on the bigger sheets."], sheet: ["Instant download", "Pin it up today. No shipping, no waiting."] };
   function kindOf(slug) { var m = /^(hoodie|tee|toque|hat|mug|poster|bundle|sheet)/.exec(slug); return m ? m[1] : ""; }
   var st = document.createElement("style");
   st.textContent = ".pimg{position:relative;display:block}.hype{position:absolute;top:10px;left:10px;z-index:2;background:#d6304b;color:#fff;font-size:10.5px;font-weight:800;line-height:1;white-space:nowrap;letter-spacing:.03em;text-transform:uppercase;padding:5px 9px;border-radius:999px;width:max-content;max-width:calc(100% - 20px);box-shadow:0 2px 8px rgba(0,0,0,.25)}.hype.alt{background:#0f1e45}.hype.hot::before{content:'\\1F525 '}" +
@@ -197,7 +204,7 @@ function twHype() {
     var slug = go.getAttribute("data-slug"), k = KIND[kindOf(slug)], hot = HOT[slug];
     if (!k || !hot || go.previousElementSibling && go.previousElementSibling.classList.contains("proof")) return;
     var d = document.createElement("p"); d.className = "proof";
-    d.innerHTML = "<b>" + (hot || k[0]) + ".</b> " + k[1] + " Launch price while it lasts.";
+    d.innerHTML = "<b>" + (hot || k[0]) + ".</b> " + k[1];
     go.parentNode.insertBefore(d, go);
   });
 }

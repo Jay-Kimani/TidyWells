@@ -52,7 +52,7 @@ BEST = ["hoodie-leduc-pumpjack", "toque-fire-rescue-blowout", "mug-leduc", "prin
 LINKJS = ('<script src="shop-links.js"></script><script src="shop-links.js"></script><script src="shop.js"></script>')
 
 
-PRICE = {"hoodie": 74.99, "tee": 36.99, "mug": 24.99, "hat": 49.99, "toque": 39.99, "poster": 44.99, "sheet": 8.99, "crewneck": 59.99, "print": 44.99}  # CAD launch prices; confirmed in the store
+PRICE = {"hoodie": 74.99, "tee": 36.99, "mug": 24.99, "hat": 49.99, "toque": 39.99, "poster": 44.99, "sheet": 8.99, "crewneck": 59.99, "print": 44.99}  # CAD prices; confirmed in the store
 BUNDLES = []  # stickers retired
 SPECS = {
     "poster": ["18 x 24 inch print, Dark Night or cream Paper edition (separate listings)", "Drawn from the open Tidywells dataset, data through September 2026", "Source, method and data window printed on the poster", "Produced and shipped by our fulfilment partner; timing shown at checkout"],
@@ -147,7 +147,7 @@ def fmt_price(a):
 
 def price_html(kind=None, amount=None):
     a = PRICE[kind] if amount is None else amount
-    return f'<span class="price">CAD ${fmt_price(a)} <small>launch price</small></span>'
+    return f'<span class="price">CAD ${fmt_price(a)}</span>'
 
 
 def pid(kind, slug):
@@ -298,7 +298,7 @@ def body():
     o.append('<div class="shop-hero"><span class="badge">Now open</span>'
              '<h1>The Tidywells <span class="grad">shop</span></h1>'
              '<p>Hoodies, toques, hats, mugs and wall posters for people who work in oil and gas, plus free reference sheets.</p>'
-             '<ul class="trust"><li>Printed to order, delivered in 5 to 7 business days</li><li>Secure checkout by Shopify</li><li>Prices in CAD, launch price while it lasts</li><li>Size guide on every page</li></ul>'
+             '<ul class="trust"><li>Printed to order, delivered in 5 to 7 business days</li><li>Secure checkout by Shopify</li><li>Prices in CAD</li><li>Size guide on every page</li></ul>'
              '<nav class="chips" aria-label="Shop sections"><a href="#apparel">Apparel</a><a href="#headwear">Toques and hats</a><a href="#drinkware">Mugs</a>'
              '<a href="#posters">Posters</a><a href="#downloads">Free sheets</a><a href="#your-well">Make your own</a></nav></div>')
     o.append('<h2 id="best">Crew favourites</h2>' + grid([by[i] for i in BEST], "pgrid four"))
@@ -343,7 +343,7 @@ def home_strip():
     return ('<!--SHOP--><section class="strip"><span class="badge">Now open</span>'
             '<h2>The Tidywells shop</h2><p>Hoodies, toques, hats, mugs and wall posters for people who work in oil and gas.</p>'
             f'<div class="pgrid">{cards}</div>'
-            f'<p class="shop-note">Hoodies from CAD ${fmt_price(PRICE["hoodie"])} · toques from CAD ${fmt_price(PRICE["toque"])} · mugs from CAD ${fmt_price(PRICE["mug"])} (launch prices)</p>'
+            f'<p class="shop-note">Hoodies from CAD ${fmt_price(PRICE["hoodie"])} · toques from CAD ${fmt_price(PRICE["toque"])} · mugs from CAD ${fmt_price(PRICE["mug"])}</p>'
             '<p><a class="btn primary" href="shop.html">See the collection</a> <a class="btn" href="shop.html#posters">Wall posters</a></p></section><!--/SHOP-->')
 
 
@@ -368,7 +368,7 @@ def product_page(it, items):
              f'<p class="plead">{esc(it["blurb"])}</p><p>{price_html(kind, it.get("price"))}</p><p class="go soon" data-slug="{esc(it["id"])}">Opening soon. <a href="shop.html#waitlist">Get an email when the shop opens</a>.</p>'
              f'<h2>About this design</h2><p>{esc(DESC[it["id"]])}</p>{tts if kind in SIZES else ""}'
              f'<h2>Details</h2><ul class="specs">{specs}</ul>{size_chart(kind) if kind in SIZES else ""}'
-             '<p class="shop-note">Launch price in Canadian dollars; shipping and tax are added at checkout and the store confirms the final price. Tidywells is not affiliated with any regulator or operator.</p></div></div>'
+             '<p class="shop-note">Prices in Canadian dollars; shipping and tax are added at checkout and the store confirms the final price. Tidywells is not affiliated with any regulator or operator.</p></div></div>'
              f'<h2>More from this range</h2><div class="pgrid">{rel}</div>')
     body_ += f'<script type="application/ld+json">{json.dumps(ld)}</script><script src="shop-links.js"></script><script src="shop.js"></script>'
     return page(it["page"], t, f"{t} from the Tidywells shop. {it['blurb']}", body_, css="article{max-width:none}")
