@@ -38,11 +38,15 @@ APPAREL = [  # slug, name, garment, blurb
 STICKERS = [("build-the-pipeline", "Build the Pipeline"), ("scrap-the-tanker-ban", "Scrap the Tanker Ban"), ("ottawa-doesnt-pump-oil", "Ottawa Doesn't Pump Oil"),
             ("powered-by-oil", "Powered by Oil"), ("shut-in-not-shut-down", "Shut-In, Not Shut Down"),
             ("camp-life", "Camp Life"), ("darcys-law", "Darcy's Law"), ("pv-znrt", "pV = znRT"), ("hyperbolic-decline", "Hyperbolic Decline")]
-MUGS = [("build-the-pipeline", "Build the Pipeline", "Three words and a request, for the first coffee of the shift."),
-        ("ottawa-doesnt-pump-oil", "Ottawa Doesn't Pump Oil", "A reminder of who does."),
+MUGS = [("leduc", "Leduc Pumpjack", "A bold Leduc pumpjack print in red, black and cream."),
+        ("support-natural-resources", "Support Natural Resources", "A service rig, a pumpjack and the Rockies at sunset."),
+        ("bigfoot-drilling-gear", "Bigfoot Drilling Gear", "A Bigfoot on location, in sunset colours."),
+        ("boom-bust-repeat", "Boom Bust Repeat Alberta", "For anyone who has ridden the cycle more than once."),
+        ("fire-rescue-blowout", "Fire Rescue Blowout", "The firefighting and blowout specialist patch."),
+        ("oil-and-gas-commission", "Oil and Gas Commission", "A joke commission, with a cartoon oil drum and wellhead."),
         ("powered-by-oil", "Powered by Oil", "Short, clean, and true."),
-        ("hyperbolic-decline", "Hyperbolic Decline: My Motivation", "For anyone whose enthusiasm follows an Arps curve."),
-        ("check-the-units", "Check the Units", "m³, Mcf, MMcf, boe. Always.")]
+        ("hyperbolic-decline", "Hyperbolic Decline: My Motivation", "For anyone whose enthusiasm follows an Arps curve.")]
+MUG_TITLE = {"leduc": "Leduc Pumpjack Mug, Alberta Oilfield Coffee Mug, Oil and Gas Gift"}
 HATS = [("build-the-pipeline", "Build the Pipeline", "Embroidered text, three words and a request."),
         ("powered-by-oil", "Powered by Oil", "Embroidered text, three words and a fact.")]
 PATCH_HATS = [("patch-oval", "Oval Patch Trucker", "Tidywells Patch Trucker Hat, Oilfield Hat, Oil and Gas Gift", "A retro oilfield patch, oval, on a foam-front trucker."),
@@ -56,7 +60,7 @@ LEDUC = [  # slug, kind, short name, exact store title, blurb
 ]
 SHEETS = [("units-and-conversions", "Units & Conversions", "Oil, gas, energy and pressure factors, plus the rate-from-volume rule.")]
 FEATURED = ["build-the-pipeline", "ottawa-doesnt-pump-oil", "shut-in-not-shut-down", "hyperbolic-decline"]
-BEST = ["hoodie-build-the-pipeline", "hoodie-ottawa-doesnt-pump-oil", "toque-fire-rescue-blowout", "mug-build-the-pipeline"]
+BEST = ["hoodie-build-the-pipeline", "hoodie-ottawa-doesnt-pump-oil", "toque-fire-rescue-blowout", "mug-leduc"]
 
 
 
@@ -107,10 +111,13 @@ DESC = {
     "sticker-shut-in-not-shut-down": "A 3 inch die-cut-style sticker of a valve wheel with the line shut-in, not shut down. Made for hard hats, laptops and truck dashboards.",
     "sticker-hyperbolic-decline": "A 3 inch die-cut-style sticker with the steep start and long tail of a hyperbolic decline. For the engineers' laptop lid.",
     "sticker-check-the-units": "A 3 inch die-cut-style sticker with the one habit that prevents most reporting errors: check the units. For the engineers' laptop lid.",
-    "mug-build-the-pipeline": "Three words and a request, wrapped around an 11 oz mug. For the first coffee of the shift and the desk it ends up on. Original design, no company names or logos.",
-    "mug-ottawa-doesnt-pump-oil": "A short reminder of who actually pumps it, in heavy type on an 11 oz mug. Good for the crew room and the office kitchen. Original design, no company names or logos.",
+    "mug-leduc": "A bold Leduc pumpjack print in red, black and cream on an 11 oz mug, for anyone who grew up near or worked the Alberta oilfield. Original design, no company names or logos.",
+    "mug-support-natural-resources": "The Support Natural Resources artwork on an 11 oz mug: a pumpjack, a service rig truck and the Rockies at sunset. Original design, no company names or logos.",
+    "mug-bigfoot-drilling-gear": "The Drilling Gear artwork on an 11 oz mug: a Bigfoot walking past a pumpjack and the Canadian flag against a mountain sunset. Original design, no company names or logos.",
+    "mug-boom-bust-repeat": "The Boom. Bust. Repeat. Alberta artwork on an 11 oz mug: a pumpjack in front of a red sun, with mountains and pines. Original design, no company names or logos.",
+    "mug-fire-rescue-blowout": "The Fire Rescue Blowout patch on an 11 oz mug: a burning derrick against the mountains, Firefighting and Blowout Specialist, Alberta, BC and Sask. Original design, no company names or logos.",
+    "mug-oil-and-gas-commission": "The Tidywells Oil and Gas Commission artwork on an 11 oz mug: a cartoon oil drum and wellhead walking the Alberta oilfield. A joke commission, not a real regulator. Original design, no company names or logos.",
     "mug-hyperbolic-decline": "A small decline curve under the line, on an 11 oz mug: for anyone whose enthusiasm follows an Arps curve. Original design, no company names or logos.",
-    "mug-check-the-units": "m³, Mcf, MMcf, boe: always check the units. An 11 oz mug for the engineer who asks the question that saves the slide. Original design, no company names or logos.",
     "hat-build-the-pipeline": "Embroidered text on the front of an adjustable hat: three words and a request. Plain, clean, easy to wear to the site, the rink or the pub. Original design, no company names or logos.",
     "hat-powered-by-oil": "Embroidered text on the front of an adjustable hat: powered by oil, three words and a fact. Original design, no company names or logos.",
     "tee-powered-by-oil": "Three words and a fact, in heavy type on the back. For the lunchroom, the truck and everyone who has noticed what the lights run on. Printed in light ink for dark garments. Original design, no company names or logos.",
@@ -344,7 +351,7 @@ def body():
 
 def home_strip():
     items = {it["id"]: it for it in catalogue()}
-    pick = ["hoodie-build-the-pipeline", "hoodie-ottawa-doesnt-pump-oil", "mug-build-the-pipeline", "toque-fire-rescue-blowout", "hat-build-the-pipeline", "poster-record-barrels"]
+    pick = ["hoodie-build-the-pipeline", "hoodie-ottawa-doesnt-pump-oil", "mug-leduc", "toque-fire-rescue-blowout", "hat-build-the-pipeline", "poster-record-barrels"]
     cards = ""
     for i in pick:
         it = items[i]
@@ -448,7 +455,7 @@ def listings():
         rows.append((bid, f"Sticker pack {bn}", f"{bt}, Hard Hat Stickers, Oil and Gas Humor, Laptop Decals",
                      f"{bb} A5 kiss-cut vinyl sticker sheet made for hard hats, laptops and truck dashboards. No oil company names or logos.", TAGS_BASE + ["hard hat sticker", "laptop sticker", "vinyl sticker", "sticker pack", "oilfield"]))
     for s, n, b in MUGS:
-        rows.append((f"mug-{s}", "Mug 11oz", f"{n} Mug, Oilfield Coffee Mug, Oil and Gas Gift",
+        rows.append((f"mug-{s}", "Mug 11oz", MUG_TITLE.get(s, f"{n} Mug, Oilfield Coffee Mug, Oil and Gas Gift"),
                      DESC[pid("mug", s)], TAGS_BASE + ["coffee mug", "oilfield mug", "gift for him", "work mug", "oil and gas"]))
     for s, n, b in HATS:
         rows.append((f"hat-{s}", "Hat", f"{n} Embroidered Hat, Oilfield Hat, Oil and Gas Gift",
@@ -476,7 +483,7 @@ def store_links(rows):
     handle = lambda t: re.sub(r"[^a-z0-9]+", "-", t.lower().replace("'", "")).strip("-")
     links = {}
     # Shopify handles that differ from the listing title (a duplicated product, a retitled sheet)
-    fix = {"fire-rescue-blowout-toque-beanie-embroidered-winter-hat-oilfield-gift": "camp-life-toque-beanie-embroidered-winter-hat-oilfield-gift", "leduc-and-tidywells-sticker-sheet-hard-hat-stickers-oil-and-gas-humor-laptop-decals": "sticker-sheet-of-3-leduc-pumpjack-and-tidywells-logo-stickers-oilfield-laptop-decals", "complete-sheet-of-9-hard-hat-stickers-oil-and-gas-humor-laptop-decals": "sticker-sheet-of-9-complete-hard-hat-sticker-set-oil-and-gas-humor-laptop-decals"}
+    fix = {"leduc-pumpjack-mug-alberta-oilfield-coffee-mug-oil-and-gas-gift": "build-the-pipeline-mug-oilfield-coffee-mug-oil-and-gas-gift", "bigfoot-drilling-gear-mug-oilfield-coffee-mug-oil-and-gas-gift": "ottawa-doesnt-pump-oil-mug-oilfield-coffee-mug-oil-and-gas-gift", "support-natural-resources-mug-oilfield-coffee-mug-oil-and-gas-gift": "check-the-units-mug-oilfield-coffee-mug-oil-and-gas-gift", "fire-rescue-blowout-toque-beanie-embroidered-winter-hat-oilfield-gift": "camp-life-toque-beanie-embroidered-winter-hat-oilfield-gift", "leduc-and-tidywells-sticker-sheet-hard-hat-stickers-oil-and-gas-humor-laptop-decals": "sticker-sheet-of-3-leduc-pumpjack-and-tidywells-logo-stickers-oilfield-laptop-decals", "complete-sheet-of-9-hard-hat-stickers-oil-and-gas-humor-laptop-decals": "sticker-sheet-of-9-complete-hard-hat-sticker-set-oil-and-gas-humor-laptop-decals"}
     for rid, _type, title, *_ in rows:
         h0 = handle(title)
         h = base + fix.get(h0, h0)
