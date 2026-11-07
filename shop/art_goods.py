@@ -210,7 +210,7 @@ DESIGNS = [  # slug, name, fn, garment
 ]
 STICKER_SLUGS = ["build-the-pipeline", "scrap-the-tanker-ban", "ottawa-doesnt-pump-oil", "powered-by-oil", "shut-in-not-shut-down", "hyperbolic-decline", "camp-life", "darcys-law", "pv-znrt"]
 MUG_SLUGS = ["build-the-pipeline", "ottawa-doesnt-pump-oil", "powered-by-oil", "hyperbolic-decline", "check-the-units"]
-HATS = [("build-the-pipeline", ["BUILD THE", "PIPELINE"]), ("powered-by-oil", ["POWERED", "BY OIL."])]
+HATS = [("powered-by-oil", ["POWERED", "BY OIL."])]
 TOQUES = [("build-the-pipeline", ["BUILD THE PIPELINE"]), ("camp-life", ["CAMP LIFE."]), ("powered-by-oil", ["POWERED BY OIL."])]
 STICKERS = STICKER_SLUGS
 GARMENT_COLORS = {"black": "#17191f", "navy": "#16233f", "sand": "#d9cfba", "white": "#f1f1ee", "heather": "#9ca2ab"}

@@ -30,7 +30,6 @@ window.TIDYWELLS_SHOP_LINKS = {
  "mug-oil-and-gas-commission": "https://tidywells.myshopify.com/products/oil-and-gas-commission-mug-oilfield-coffee-mug-oil-and-gas-gift",
  "mug-powered-by-oil": "https://tidywells.myshopify.com/products/powered-by-oil-mug-oilfield-coffee-mug-oil-and-gas-gift",
  "mug-hyperbolic-decline": "https://tidywells.myshopify.com/products/hyperbolic-decline-my-motivation-mug-oilfield-coffee-mug-oil-and-gas-gift",
- "hat-build-the-pipeline": "https://tidywells.myshopify.com/products/build-the-pipeline-embroidered-hat-oilfield-hat-oil-and-gas-gift",
  "hat-powered-by-oil": "https://tidywells.myshopify.com/products/powered-by-oil-embroidered-hat-oilfield-hat-oil-and-gas-gift",
  "hat-patch-oval": "https://tidywells.myshopify.com/products/tidywells-patch-trucker-hat-oilfield-hat-oil-and-gas-gift",
  "hat-patch-square": "https://tidywells.myshopify.com/products/tidywells-square-patch-trucker-hat-oilfield-hat-oil-and-gas-gift",

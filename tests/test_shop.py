@@ -62,7 +62,7 @@ def test_prices_are_labelled_and_no_sale_claims():
 def test_every_product_has_a_page_a_price_and_clean_structured_data():
     import json
     items = shop.catalogue()
-    assert len(items) == 35 and len({i["page"] for i in items}) == 35
+    assert len(items) == 34 and len({i["page"] for i in items}) == 34
     sitemap = (DOCS / "sitemap.xml").read_text(encoding="utf-8")
     for it in items:
         html = (DOCS / it["page"]).read_text(encoding="utf-8")
@@ -178,7 +178,7 @@ console.log(JSON.stringify({{bad:p.bad,n:s.length,v0:s[0].v,wells:c.wells,s1:s1.
 def test_listing_copy_fits_store_limits():
     import csv
     rows = list(csv.DictReader(open(ROOT / "shop" / "listings.csv", encoding="utf-8")))
-    assert len(rows) == 35  # 12 apparel (4 collections x hoodie, tee, crewneck) + 4 posters + 3 apparel tees + 8 mugs + 2 hats + 2 patch hats + 1 toque + 1 Your Well
+    assert len(rows) == 34  # 12 apparel (4 collections x hoodie, tee, crewneck) + 4 posters + 3 apparel tees + 8 mugs + 1 hat + 2 patch hats + 1 toque + 1 Your Well
     for r in rows:
         tags = r["tags"].split("|")
         assert len(r["title"]) <= 140 and len(tags) <= 13 and all(len(t) <= 20 for t in tags), r["id"]

@@ -30,8 +30,7 @@ MUGS = [("leduc", "Leduc Pumpjack", "A bold Leduc pumpjack print in red, black a
         ("powered-by-oil", "Powered by Oil", "Short, clean, and true."),
         ("hyperbolic-decline", "Hyperbolic Decline: My Motivation", "For anyone whose enthusiasm follows an Arps curve.")]
 MUG_TITLE = {"leduc": "Leduc Pumpjack Mug, Alberta Oilfield Coffee Mug, Oil and Gas Gift"}
-HATS = [("build-the-pipeline", "Build the Pipeline", "Embroidered text, three words and a request."),
-        ("powered-by-oil", "Powered by Oil", "Embroidered text, three words and a fact.")]
+HATS = [("powered-by-oil", "Powered by Oil", "Embroidered text, three words and a fact.")]
 PATCH_HATS = [("patch-oval", "Oval Patch Trucker", "Tidywells Patch Trucker Hat, Oilfield Hat, Oil and Gas Gift", "A retro oilfield patch, oval, on a foam-front trucker."),
               ("patch-square", "Square Patch Trucker", "Tidywells Square Patch Trucker Hat, Oilfield Hat, Oil and Gas Gift", "The same flare-stack scene on a square patch.")]
 TOQUES = [("fire-rescue-blowout", "Fire Rescue Blowout", "The firefighting and blowout specialist patch, embroidered on the cuff.")]
@@ -103,7 +102,6 @@ DESC = {
     "mug-fire-rescue-blowout": "The Fire Rescue Blowout patch on an 11 oz mug: a burning derrick against the mountains, Firefighting and Blowout Specialist, Alberta, BC and Sask. Original design, no company names or logos.",
     "mug-oil-and-gas-commission": "The Tidywells Oil and Gas Commission artwork on an 11 oz mug: a cartoon oil drum and wellhead walking the Alberta oilfield. A joke commission, not a real regulator. Original design, no company names or logos.",
     "mug-hyperbolic-decline": "A small decline curve under the line, on an 11 oz mug: for anyone whose enthusiasm follows an Arps curve. Original design, no company names or logos.",
-    "hat-build-the-pipeline": "Embroidered text on the front of an adjustable hat: three words and a request. Plain, clean, easy to wear to the site, the rink or the pub. Original design, no company names or logos.",
     "hat-powered-by-oil": "Embroidered text on the front of an adjustable hat: powered by oil, three words and a fact. Original design, no company names or logos.",
     "tee-powered-by-oil": "Three words and a fact, in heavy type on the back. For the lunchroom, the truck and everyone who has noticed what the lights run on. Printed in light ink for dark garments. Original design, no company names or logos.",
     "tee-camp-life": "Two words for anyone who has done the rotation: the bunkhouse, the cafeteria, the long drive in and the longer one home. Heavy type on the back. Printed in light ink for dark garments. Original design, no company names or logos.",
@@ -335,7 +333,7 @@ def body():
 
 def home_strip():
     items = {it["id"]: it for it in catalogue()}
-    pick = ["hoodie-leduc-pumpjack", "print-boom-bust-repeat", "mug-leduc", "toque-fire-rescue-blowout", "hat-build-the-pipeline", "print-oil-and-gas-commission"]
+    pick = ["hoodie-leduc-pumpjack", "print-boom-bust-repeat", "mug-leduc", "toque-fire-rescue-blowout", "hat-patch-oval", "print-oil-and-gas-commission"]
     cards = ""
     for i in pick:
         it = items[i]
