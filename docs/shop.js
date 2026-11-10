@@ -133,6 +133,10 @@ function twBuy() {
   gql(q).then(function (d) {
     var prods = handles.map(function (h, i) { return { ed: h[0], p: d["p" + i] }; }).filter(function (x) { return x.p; });
     if (!prods.length) throw new Error("not found");
+    if (/hat-patch-oval/.test(host.getAttribute("data-slug") || "")) prods.forEach(function (x) {
+      x.p.options.forEach(function (o) { o.values = o.values.filter(function (v) { return !/navy/i.test(v); }); });
+      x.p.variants.nodes = x.p.variants.nodes.filter(function (v) { return !v.selectedOptions.some(function (o) { return /navy/i.test(o.value); }); });
+    });
     var box = document.createElement("div"); box.className = "buy";
     var sels = [], cur = prods[0].p, status = document.createElement("p"), price = document.createElement("p"), qty = document.createElement("input");
     function field(label, opts, onchange) {
@@ -190,7 +194,7 @@ if (document.readyState === "loading") document.addEventListener("DOMContentLoad
 
 // Marketing labels on the shop: ribbons, one-line captions and button wording. Honest claims only: no fake stock counts, no invented sales numbers.
 function twHype() {
-  var HOT = { "hoodie-powered-by-oil": "#1 Best seller", "tee-powered-by-oil": "Top rated", "hat-patch-oval": "New arrival", "hoodie-leduc-pumpjack": "Selling out fast", "toque-fire-rescue-blowout": "Winter must-have", "hoodie-support-natural-resources": "Trending now", "tee-darcys-law": "Almost gone", "hat-powered-by-oil": "Fan favourite", "hoodie-drilling-gear": "Just dropped", "toque-powered-by-oil": "Going fast", "tee-leduc-pumpjack": "Limited run", "hoodie-hyperbolic-decline": "Crowd pick" };
+  var HOT = { "hoodie-powered-by-oil": "#1 Best seller", "hat-patch-oval": "New arrival", "hoodie-leduc-pumpjack": "Selling out fast", "toque-fire-rescue-blowout": "Winter must-have", "hoodie-support-natural-resources": "Trending now", "tee-darcys-law": "Almost gone", "hat-powered-by-oil": "Fan favourite", "hoodie-drilling-gear": "Just dropped", "toque-powered-by-oil": "Going fast", "hoodie-hyperbolic-decline": "Crowd pick" };
   var KIND = { hoodie: ["Fresh drop", "Heavy and warm. Hoodie season is here."], tee: ["Fresh drop", "Soft tee, loud back print."], toque: ["Winter-ready", "Warm toque with an embroidered line."],
                hat: ["Fresh drop", "Embroidered, adjustable, one size fits most."], mug: ["Gift-ready", "The coffee mug your crew will fight over."], poster: ["Wall-ready", "18 x 24 in. Real data, drawn clean."],
                bundle: ["Better value", "More stickers per dollar on the bigger sheets."], sheet: ["Instant download", "Pin it up today. No shipping, no waiting."] };

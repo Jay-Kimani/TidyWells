@@ -158,7 +158,7 @@ TEE_PICKS = [(1, "Front, black"), (4, "Back, black"), (9, "Worn, black"), (10, "
              (2, "Front, charcoal"), (11, "Back, charcoal"), (16, "Worn, charcoal"), (17, "Worn, charcoal, back"),
              (3, "Front, navy"), (18, "Back, navy"), (24, "Worn, navy"), (25, "Worn, navy, back"), (23, "Worn, navy (3)")]
 APP_PICKS = HOODIE_PICKS
-PATCH_PICKS = [(1, "Black, front"), (5, "Black, worn"), (3, "Black, side"), (4, "Black, back"), (2, "Navy, front"), (8, "Navy, worn"), (6, "Navy, side"), (7, "Navy, back")]
+PATCH_PICKS = [(1, "Black, front"), (5, "Black, worn"), (3, "Black, side"), (4, "Black, back")]
 MUG_PICKS = [(1, "Front"), (5, "On the desk"), (6, "On the table"), (2, "Side"), (3, "Handle")]
 HAT_PICKS = [(1, "Front, black"), (6, "Worn, black"), (7, "Worn, black, back"), (2, "Front, charcoal"), (12, "Worn, charcoal"), (13, "Worn, charcoal, back"), (3, "Back"), (4, "Side")]
 LEDUC_PICKS = {
