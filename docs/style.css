@@ -527,3 +527,44 @@ ul.toc{list-style:none;padding:0;margin:0}ul.toc li{margin:0;border-bottom:1px s
 .pdp .pgrid .prod h3{font:500 12px Inter,system-ui,sans-serif;letter-spacing:.1em;text-transform:uppercase;margin:10px 0 2px;color:var(--pk)}
 .pdp .pgrid .price{font-size:13px;color:var(--muted)}
 /*/PDP*/
+
+/*MOBILE*/
+@media(max-width:640px){
+  html{-webkit-text-size-adjust:100%}
+  body{overflow-x:clip}
+  .util div{flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;gap:20px;padding:8px 16px;white-space:nowrap;scrollbar-width:none;font-size:12.5px}
+  .util div::-webkit-scrollbar{display:none}
+  header{position:relative;padding:4px 14px}
+  nav{min-height:0;gap:0 16px}
+  nav a,nav .dd>summary{font-size:15px;padding:11px 0}
+  nav a.brand{padding:4px 0}
+  nav a.pro,nav a.shopbtn{padding:7px 16px;margin:3px 0}
+  nav button{padding:8px 12px;min-height:38px}
+  main{padding:16px 16px 28px}
+  main img,main video,main iframe,main svg{max-width:100%;height:auto}
+  main pre,main table{display:block;max-width:100%;overflow-x:auto}
+  h1{font-size:clamp(1.7rem,8vw,2.2rem);line-height:1.15;overflow-wrap:anywhere}
+  h2{overflow-wrap:anywhere}
+  input,select,textarea{font-size:16px}
+  .btn,button,a.btn{min-height:42px}
+  footer{padding:20px 16px}
+  footer a{display:inline-block;padding:6px 2px}
+  .promo{padding:14px 16px;margin:18px 0}
+  .pgrid{gap:12px}
+  .card{padding:14px}
+}
+@media(max-width:640px){
+  nav a.brand{flex:0 0 100%;margin:0}
+  .brand img,nav a.brand img{height:38px}
+  nav button{position:absolute;top:8px;right:14px;margin:0}
+  input[type=file]{max-width:100%;width:100%!important}
+  .row{flex-wrap:wrap}
+  .chip,.chips a{min-height:40px;display:inline-flex;align-items:center}
+}
+@media(max-width:640px){
+  .az{display:flex;flex-wrap:wrap;gap:6px}
+  .az a{display:inline-flex;align-items:center;justify-content:center;min-width:40px;min-height:40px;border:1px solid var(--line);border-radius:8px}
+  dd a{display:inline-block;padding:6px 0}
+  .prod h3 a,.pgrid h3 a{display:inline-block;padding:6px 0}
+  .util a,footer div a{display:inline-block;padding:6px 0}
+}

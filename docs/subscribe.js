@@ -10,7 +10,7 @@
 
   var st = document.createElement("style");
   st.textContent = ".tw-offer{display:flex;gap:10px 14px;flex-wrap:wrap;align-items:center;justify-content:center;padding:9px 40px 9px 16px;background:var(--navy,#0a1a30);color:#fff;font-size:14px;line-height:1.35;position:relative;text-align:center}" +
-    ".tw-offer b{color:#ffb070}.tw-offer form{display:flex;gap:6px;flex-wrap:nowrap;justify-content:center}@media(max-width:620px){.tw-offer form{flex-wrap:wrap}}.tw-offer input[type=email]{min-width:200px;padding:6px 10px;border-radius:6px;border:1px solid rgba(255,255,255,.35);background:#fff;color:#111;font:inherit}" +
+    ".tw-offer b{color:#ffb070}.tw-offer form{display:flex;gap:6px;flex-wrap:nowrap;justify-content:center}@media(max-width:620px){.tw-offer form{display:none}.tw-offer{padding:8px 38px 8px 14px;font-size:13px;justify-content:flex-start;text-align:left}}.tw-offer input[type=email]{min-width:200px;padding:6px 10px;border-radius:6px;border:1px solid rgba(255,255,255,.35);background:#fff;color:#111;font:inherit}" +
     ".tw-offer button.go{padding:6px 14px;border:0;border-radius:6px;background:#ff963c;color:#1a1000;font:inherit;font-weight:700;cursor:pointer}" +
     ".tw-offer .x{position:absolute;right:8px;top:6px;background:none;border:0;color:#fff;font-size:20px;line-height:1;cursor:pointer;opacity:.7}" +
     ".tw-offer code,.tw-ok code{background:rgba(255,255,255,.16);padding:2px 8px;border-radius:5px;font-weight:700;letter-spacing:.04em}.tw-ok code{background:var(--chip,#eee);color:inherit}" +
