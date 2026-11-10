@@ -82,7 +82,7 @@ if __name__ == "__main__":
     a.write_text(t[:i] + "\n" + snaps_html(snaps) + "\n" + t[j:], encoding="utf-8")
     # sitemap + robots (search engines)
     base = "https://tidywells.com"
-    pages = ["", "tools.html", "decline.html", "explore.html", "analysis.html", "glossary.html", "methods.html", "guide.html", "pro.html", "about.html", "data.html", "clean.html", "scorecard.html", "revisions.html", "didnt-work.html", "corrections.html", "terms.html", "shop.html", ""] + sorted(x.name for x in (ROOT / "docs").glob("product-*.html"))
+    pages = ["", "tools.html", "decline.html", "explore.html", "analysis.html", "glossary.html", "methods.html", "guide.html", "about.html", "data.html", "clean.html", "scorecard.html", "revisions.html", "didnt-work.html", "corrections.html", "terms.html", "shop.html", ""] + sorted(x.name for x in (ROOT / "docs").glob("product-*.html"))
     urls = [(f"{base}/{pg}", None) for pg in pages] + [(f"{base}/posts/{p['slug']}.html", p["date"]) for p in posts]
     sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
     for u, d in urls:
@@ -230,32 +230,16 @@ if __name__ == "__main__":
         "layers": '<path d="M12 4l9 5-9 5-9-5zM3 14l9 5 9-5"/>',
     }
     FEATURES = [
-        ("Tools", [
-            ("decline.html", "curve", "Decline-curve tool", "Fit a curve to one well, forecast it and run simple economics."),
-            ("explore.html", "bars", "Production explorer", "Monthly charts for Alberta, Saskatchewan and BC."),
-            ("clean.html", "file", "File cleaner", "Turn a regulator file into one tidy CSV, in your browser."),
-        ]),
-        ("Research", [
-            ("data.html", "db", "Open data", "Download the monthly dataset and see how it is checked."),
-            ("analysis.html", "doc", "Analysis", "A new study about every two weeks, plus monthly snapshots."),
-            ("scorecard.html", "target", "Forecast scorecard", "Forecasts written down first and graded in public."),
-            ("revisions.html", "refresh", "Data revisions", "What the regulators changed after first publishing a month."),
-        ]),
-        ("Learn", [
-            ("methods.html", "list", "Methods", "Sources, rules and limits behind every number."),
-            ("guide.html", "book", "Data guide", "How the regulator files work and where they trip people up."),
-            ("glossary.html", "az", "Glossary", "Oil and gas terms in plain words."),
-            ("didnt-work.html", "x", "What didn't work", "Negative results and mistakes we found."),
-        ]),
-        ("Follow, build and shop", [
-            ("https://github.com/Jay-Kimani/TidyWells", "code", "Python package", "Open-source loaders for Petrinex and BCER files."),
-            ("https://tidywells.substack.com/", "mail", "Newsletter", "New analysis by email on Substack, or on Medium."),
-            ("shop.html", "bag", "Shop", "Hoodies, toques, mugs, wall posters and free reference sheets."),
-            ("pro.html", "layers", "Pro data pack", "Tidy monthly CSV packs, CAD $4.99 a month."),
+        ("Go deeper", [
+            ("tools.html", "list", "Data and tools", "Free decline-curve, explorer and file-cleaning tools."),
+            ("data.html", "book", "Open data", "Monthly AB, SK and BC production, free to download."),
+            ("methods.html", "book", "Methods", "Sources, rules and limits behind every number."),
+            ("scorecard.html", "list", "Forecast scorecard", "Our forecasts, graded against what happened."),
+            ("about.html", "mail", "About", "Who builds Tidywells and why."),
         ]),
     ]
     def feature_html():
-        out = ['<!--FEATURES--><section class="ftdir" aria-label="Everything on Tidywells"><h2>Everything on Tidywells</h2>']
+        out = ['<!--FEATURES--><section class="ftdir" aria-label="More from Tidywells"><h2>More from Tidywells</h2>']
         for title, items in FEATURES:
             out.append(f'<h3 class="fth">{title}</h3><div class="ftgrid">')
             for href, ic, name, desc in items:
@@ -274,35 +258,32 @@ if __name__ == "__main__":
 
     # grouped site navigation, rebuilt on every page (header block is replaced wholesale)
     NAV = [
-        ("link", "Home", "index.html", None),
         ("link", "Analysis", "analysis.html", None),
-        ("menu", "Tools", "tools", [
+        ("menu", "Data and tools", "tools", [
+            ("data.html", "Open data", "Monthly AB, SK and BC production, free"),
             ("tools.html", "All tools and guides", "Start here: tools and learning"),
             ("decline.html", "Decline curve", "Fit a curve to one well"),
             ("explore.html", "Production explorer", "Charts for AB, SK and BC"),
-            ("clean.html", "File cleaner", "Clean a regulator file in your browser")]),
-        ("menu", "Research", "research", [
-            ("scorecard.html", "Forecast scorecard", "Our forecasts, graded against what happened"),
-            ("revisions.html", "Data revisions", "What the regulators changed after publishing"),
-            ("didnt-work.html", "What didn't work", "Negative results and mistakes we found")]),
-        ("menu", "Learn", "learn", [
-            ("methods.html", "Methods", "Sources, rules and limits"),
+            ("clean.html", "File cleaner", "Clean a regulator file in your browser"),
             ("guide.html", "Data guide", "How the regulator files work"),
             ("glossary.html", "Glossary", "Oil and gas terms in plain words")]),
         ("link", "Shop", "shop.html", "shopbtn"),
         ("menu", "About", "about", [
             ("about.html", "About Tidywells", "Who builds it and why"),
             ("about.html#how-this-is-made", "How this is made", "Where AI is used, and how it is checked"),
+            ("methods.html", "Methods", "Sources, rules and limits"),
+            ("scorecard.html", "Forecast scorecard", "Our forecasts, graded against what happened"),
+            ("revisions.html", "Data revisions", "What the regulators changed after publishing"),
+            ("didnt-work.html", "What didn't work", "Negative results and mistakes we found"),
             ("corrections.html", "Corrections", "Mistakes we found and fixed"),
             ("terms.html", "Terms and privacy", "Disclaimer and data use")]),
     ]
-    GROUP_OF = {"index.html": "index.html", "tools.html": "tools", "decline.html": "tools", "explore.html": "tools", "clean.html": "tools", "scorecard.html": "research", "revisions.html": "research", "didnt-work.html": "research", "analysis.html": "analysis.html",
-                "methods.html": "learn", "guide.html": "learn", "glossary.html": "learn",
-                "about.html": "about", "corrections.html": "about", "terms.html": "about",
-                "sponsor.html": "about", "shop.html": "shop.html"}
+    GROUP_OF = {"analysis.html": "analysis.html", "shop.html": "shop.html",
+                "tools.html": "tools", "decline.html": "tools", "explore.html": "tools", "clean.html": "tools", "data.html": "tools", "guide.html": "tools", "glossary.html": "tools",
+                "about.html": "about", "methods.html": "about", "scorecard.html": "about", "revisions.html": "about", "didnt-work.html": "about", "corrections.html": "about", "terms.html": "about"}
     def nav_html(prefix, cur):
         grp = GROUP_OF.get(cur) or ("shop.html" if cur.startswith("product-") else None)
-        out = [f'<div class="util"><div><a href="{prefix}data.html">Open data</a><a href="{prefix}pro.html">Pro data pack</a>'
+        out = [f'<div class="util"><div><a href="{prefix}data.html">Open data</a>'
                f'<a href="https://doi.org/10.5281/zenodo.23969867" target="_blank" rel="noopener" title="Cite the Tidywells dataset (Zenodo DOI 10.5281/zenodo.23969867)">Cite (DOI)</a>'
                f'<a href="https://medium.com/@tidywells" target="_blank" rel="noopener">Medium</a>'
                f'<a href="https://tidywells.substack.com/" target="_blank" rel="noopener">Substack</a></div></div>'
@@ -379,17 +360,8 @@ if __name__ == "__main__":
         if f.name in ("data.html", "index.html"):
             t = re.sub(r"\s*<!--LD-->.*?<!--/LD-->\n?", "", t, flags=re.S)
             t = t.replace("</head>", "<!--LD-->" + ld_json(f.name) + "<!--/LD-->\n</head>", 1)
-        # Pro box: only on the analysis index and the articles; removed everywhere else
-        if f.parent.name == "posts" or f.name == "analysis.html":
-            strip = (f'<!--PRO--><div class="pro-box"><div class="pt"><strong>Want the data behind these posts?</strong>'
-                     f'<span>Tidywells Pro: tidy monthly data packs as CSV files, CAD $4.99 a month with a 3-day free trial.</span></div>'
-                     f'<a class="btn buy" href="{pref}pro.html">See Tidywells Pro</a></div><!--/PRO-->')
-            t = re.sub(r"<!--PRO-->.*?<!--/PRO-->", lambda m: strip, t, flags=re.S) if "<!--PRO-->" in t else t.replace("</main>", "</main>\n" + strip, 1)
-        else:
-            t = re.sub(r"<!--PRO-->.*?<!--/PRO-->\n?", "", t, flags=re.S)
-        if "<footer" in t and 'pro.html">Pro' not in t.rsplit("<footer", 1)[1]:
-            head_, foot_ = t.rsplit("<footer", 1)
-            t = head_ + "<footer" + foot_.replace(">Shop</a>", f'>Shop</a> · <a href="{pref}pro.html">Pro data pack</a>', 1)
+        t = re.sub(r"<!--PRO-->.*?<!--/PRO-->\n?", "", t, flags=re.S)
+        t = re.sub(r' &middot; <a href="[^"]*pro\.html">Pro data pack</a>| · <a href="[^"]*pro\.html">Pro data pack</a>', "", t)
         if "<footer" in t and f'>Shop</a>' not in t.rsplit("<footer", 1)[1]:
             head_, foot_ = t.rsplit("<footer", 1)
             t = head_ + "<footer" + foot_.replace(sub_a, sub_a + f' · <a href="{pref}shop.html">Shop</a>', 1)

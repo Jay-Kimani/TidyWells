@@ -169,7 +169,7 @@ def test_home_feature_directory_links_resolve():
     html = (DOCS / "index.html").read_text(encoding="utf-8")
     block = re.search(r"<!--FEATURES-->.*?<!--/FEATURES-->", html, re.S).group(0)
     hrefs = re.findall(r'class="ft" href="([^"]+)"', block)
-    assert len(hrefs) == 15
+    assert len(hrefs) == 5
     for h in hrefs:
         if not h.startswith("http"):
             assert (DOCS / h).exists(), h

@@ -589,3 +589,13 @@ main h2#apparel,main h2#headwear,main h2#downloads{font-size:22px;font-weight:70
 .shop-hero .chips{justify-content:center;gap:34px;border-bottom:0;margin:0}
 .shop-hero .chips a{font-size:12.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;padding:8px 0}
 @media(max-width:640px){.shop-meta{letter-spacing:.08em;font-size:10.5px;line-height:1.7}.shop-hero .chips{gap:22px}.shop-hero .chips a{font-size:11.5px;letter-spacing:.1em}}
+/*FONT-STORE*/
+:root{--serif:Inter,system-ui,-apple-system,"Segoe UI",sans-serif}
+body.ed h2+p,.hh p{font-style:normal;font-weight:400}
+body.ed .card.post p{font-size:16px;line-height:1.65}
+body.ed .card.post .ptitle,body.ed a.snap b,body.ed main summary{font-weight:600;letter-spacing:-.005em}
+.mast h1,.hh h1{font-weight:500;letter-spacing:.06em;text-transform:uppercase;line-height:1.1}
+.mast h1{font-size:clamp(30px,6vw,52px)}.hh h1{font-size:clamp(26px,5vw,40px)}
+.hero2 h1{font-weight:600;letter-spacing:-.01em}
+.eyebrow,.kicker{letter-spacing:.14em;text-transform:uppercase;font-weight:600}
+h2{font-weight:600;letter-spacing:-.005em}

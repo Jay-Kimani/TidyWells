@@ -49,7 +49,7 @@
       msg.innerHTML = 'Your welcome code: <code>' + CODE + '</code> for 5% off your first order, applied at checkout.';
       bar.appendChild(msg);
     } else {
-      msg.innerHTML = '<b>5% off your first order.</b> Join the email list and get the code.';
+      msg.innerHTML = '<b>Free analysis by email.</b> Join the list and get 5% off your first order.';
       bar.appendChild(msg);
       var holder = document.createElement("span"); holder.innerHTML = formHtml("Get my code"); bar.appendChild(holder);
       wire(holder.firstChild, msg);
@@ -72,8 +72,8 @@
 
   // 3. footer panel
   var box = document.getElementById("subscribe"); if (!box) return;
-  var html = '<div class="panel" style="margin:16px 0"><b>Join the list: 5% off your first order</b>' +
-    '<p style="margin:4px 0;font-size:14px;color:var(--muted)">New analysis about every two weeks, plus the occasional shop note. ';
+  var html = '<div class="panel" style="margin:16px 0"><b>Get the analysis by email, free</b>' +
+    '<p style="margin:4px 0;font-size:14px;color:var(--muted)">New analysis about every two weeks, plus 5% off your first shop order. ';
   if (action) {
     html += 'Or use <a href="' + rss + '">RSS</a>.</p><div class="tw-ok" style="font-size:14px"></div>' +
       '<form style="display:flex;gap:8px;flex-wrap:wrap"><input type="email" name="email" required placeholder="you@example.com" aria-label="Email address" style="flex:1;min-width:200px"><button type="submit">Get my 5% code</button></form>' +
