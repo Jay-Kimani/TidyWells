@@ -2,6 +2,12 @@
  "hat-patch-oval": {
   "images": [
    [
+    "sp-hat-patch-oval-8.jpg",
+    "Oval Patch Trucker hat, on a truck dash, black",
+    1000,
+    1500
+   ],
+   [
     "sp-hat-patch-oval-1.jpg",
     "Oval Patch Trucker hat, front, black",
     1000,
@@ -42,23 +48,17 @@
     "Oval Patch Trucker hat, held up to the sky, black",
     1000,
     1505
-   ],
-   [
-    "sp-hat-patch-oval-8.jpg",
-    "Oval Patch Trucker hat, on a truck dash, black",
-    1000,
-    1500
    ]
   ],
   "labels": [
+   "On a truck dash, black",
    "Front, black",
    "Back and snapback, black",
    "On the sand, black",
    "Worn, black",
    "Worn, back view, black",
    "Worn by a woman, black",
-   "Held up to the sky, black",
-   "On a truck dash, black"
+   "Held up to the sky, black"
   ],
   "desc": "A retro oilfield patch on a foam-front mesh-back trucker: a burning derrick against the mountains, Tidywells in bold type, Firefighting and Blowout Specialist across the top and Alberta, BC and Sask underneath. Full-colour print, adjustable snapback. Original artwork, no company names or logos.",
   "blurb": "A retro oilfield patch, oval, on a foam-front trucker.",
@@ -71,6 +71,12 @@
  },
  "hat-powered-by-oil": {
   "images": [
+   [
+    "sp-hat-powered-by-oil-8.jpg",
+    "Powered by Oil hat, on a truck dash, black",
+    1000,
+    1500
+   ],
    [
     "sp-hat-powered-by-oil-1.jpg",
     "Powered by Oil hat, front, black",
@@ -112,23 +118,17 @@
     "Powered by Oil hat, held up to the sky, black",
     1000,
     1505
-   ],
-   [
-    "sp-hat-powered-by-oil-8.jpg",
-    "Powered by Oil hat, on a truck dash, black",
-    1000,
-    1500
    ]
   ],
   "labels": [
+   "On a truck dash, black",
    "Front, black",
    "Back and strap, black",
    "Worn, black",
    "Worn by a woman, black",
    "Worn, back view, black",
    "Worn, hands on cap, black",
-   "Held up to the sky, black",
-   "On a truck dash, black"
+   "Held up to the sky, black"
   ],
   "desc": "Embroidered text on the front of an adjustable hat: powered by oil, three words and a fact. Original design, no company names or logos.",
   "blurb": "Embroidered text, three words and a fact.",
@@ -140,6 +140,12 @@
  },
  "hoodie-drilling-gear": {
   "images": [
+   [
+    "sp-hoodie-drilling-gear-16.jpg",
+    "Drilling Gear hoodie, hanging, black",
+    1000,
+    1000
+   ],
    [
     "sp-hoodie-drilling-gear-1.jpg",
     "Drilling Gear hoodie, back, black",
@@ -231,12 +237,6 @@
     1000
    ],
    [
-    "sp-hoodie-drilling-gear-16.jpg",
-    "Drilling Gear hoodie, hanging, black",
-    1000,
-    1000
-   ],
-   [
     "sp-hoodie-drilling-gear-17.jpg",
     "Drilling Gear hoodie, hanging, white",
     1000,
@@ -244,6 +244,7 @@
    ]
   ],
   "labels": [
+   "Hanging, black",
    "Back, black",
    "Front, black",
    "Front, white",
@@ -259,7 +260,6 @@
    "Boots, white",
    "Hood, black",
    "Hood, white",
-   "Hanging, black",
    "Hanging, white"
   ],
   "desc": "A retro sunset graphic of a Sasquatch walking past a pumpjack, the Rockies and a maple leaf behind, with Tidywells across the top and Drilling Gear across the bottom. A small Tidywells decline-curve logo sits on the left chest. Available in black and white. A heavy blend hooded sweatshirt, 50% cotton and 50% polyester. Original artwork, no company names or logos.",
@@ -273,6 +273,12 @@
  },
  "hoodie-hyperbolic-decline": {
   "images": [
+   [
+    "sp-hoodie-hyperbolic-decline-9.jpg",
+    "Hyperbolic Decline hoodie, hanging on a line, black",
+    1000,
+    1494
+   ],
    [
     "sp-hoodie-hyperbolic-decline-1.jpg",
     "Hyperbolic Decline hoodie, back, black",
@@ -322,12 +328,6 @@
     1503
    ],
    [
-    "sp-hoodie-hyperbolic-decline-9.jpg",
-    "Hyperbolic Decline hoodie, hanging on a line, black",
-    1000,
-    1494
-   ],
-   [
     "sp-hoodie-hyperbolic-decline-10.jpg",
     "Hyperbolic Decline hoodie, hood close-up, black",
     1000,
@@ -335,6 +335,7 @@
    ]
   ],
   "labels": [
+   "Hanging on a line, black",
    "Back, black",
    "Front, black",
    "Worn front, black",
@@ -343,7 +344,6 @@
    "Among rocks, black",
    "Tying boots, black",
    "Worn by a woman, black",
-   "Hanging on a line, black",
    "Hood close-up, black"
   ],
   "desc": "HYPERBOLIC DECLINE across the back in white, with a blue decline curve and my motivation underneath, and a small Tidywells decline-curve logo on the left chest. A dry joke for anyone who works in or around the oil patch, or whose enthusiasm follows an Arps curve. Available in black. A heavy blend hooded sweatshirt, 50% cotton and 50% polyester. Original artwork, no company names or logos.",
@@ -357,6 +357,12 @@
  },
  "hoodie-leduc-pumpjack": {
   "images": [
+   [
+    "sp-hoodie-leduc-pumpjack-18.jpg",
+    "Leduc Pumpjack hoodie, hanging on a line, black",
+    1000,
+    1500
+   ],
    [
     "sp-hoodie-leduc-pumpjack-1.jpg",
     "Leduc Pumpjack hoodie, back, black",
@@ -460,12 +466,6 @@
     1502
    ],
    [
-    "sp-hoodie-leduc-pumpjack-18.jpg",
-    "Leduc Pumpjack hoodie, hanging on a line, black",
-    1000,
-    1500
-   ],
-   [
     "sp-hoodie-leduc-pumpjack-19.jpg",
     "Leduc Pumpjack hoodie, hanging on a line, white",
     1000,
@@ -473,6 +473,7 @@
    ]
   ],
   "labels": [
+   "Hanging, black",
    "Back, black",
    "Front, black",
    "Front, white",
@@ -490,7 +491,6 @@
    "Worn, seated, white",
    "Hood, black",
    "Hood, white",
-   "Hanging, black",
    "Hanging, white"
   ],
   "desc": "A Leduc pumpjack in red, black and cream across the back, with Tidywells and Alberta Oilfield Gear across the top. A small Tidywells decline-curve label sits on the left chest. Available in black and white. Original artwork, no company names or logos.",
@@ -504,6 +504,12 @@
  },
  "hoodie-powered-by-oil": {
   "images": [
+   [
+    "sp-hoodie-powered-by-oil-9.jpg",
+    "Powered by Oil hoodie, hanging on a line, black",
+    1000,
+    1494
+   ],
    [
     "sp-hoodie-powered-by-oil-1.jpg",
     "Powered by Oil hoodie, back, black",
@@ -553,12 +559,6 @@
     1499
    ],
    [
-    "sp-hoodie-powered-by-oil-9.jpg",
-    "Powered by Oil hoodie, hanging on a line, black",
-    1000,
-    1494
-   ],
-   [
     "sp-hoodie-powered-by-oil-10.jpg",
     "Powered by Oil hoodie, hood close-up, black",
     1000,
@@ -566,6 +566,7 @@
    ]
   ],
   "labels": [
+   "Hanging",
    "Back, flat",
    "Worn, front",
    "Worn, rocks",
@@ -574,7 +575,6 @@
    "Worn, seated",
    "Worn, walking",
    "Worn, woman",
-   "Hanging",
    "Close-up, hood"
   ],
   "desc": "Bold POWERED BY OIL. lettering across the back in white. A small Tidywells decline-curve logo sits on the left chest. Available in black. A heavy blend hooded sweatshirt, 50% cotton and 50% polyester. Original artwork, no company names or logos.",
@@ -588,6 +588,12 @@
  },
  "hoodie-support-natural-resources": {
   "images": [
+   [
+    "sp-hoodie-support-natural-resources-11.jpg",
+    "Support Natural Resources hoodie, back, hanging on a clothesline in a field, black",
+    1000,
+    1500
+   ],
    [
     "sp-hoodie-support-natural-resources-1.jpg",
     "Support Natural Resources hoodie, back, black",
@@ -647,15 +653,10 @@
     "Support Natural Resources hoodie, close-up of the back print, hood, black",
     1000,
     1500
-   ],
-   [
-    "sp-hoodie-support-natural-resources-11.jpg",
-    "Support Natural Resources hoodie, back, hanging on a clothesline in a field, black",
-    1000,
-    1500
    ]
   ],
   "labels": [
+   "On the line",
    "Back, flat",
    "Front, flat",
    "Worn, field",
@@ -665,8 +666,7 @@
    "Worn, walking",
    "Worn, woman",
    "Close-up",
-   "Close-up, hood",
-   "On the line"
+   "Close-up, hood"
   ],
   "desc": "A bold Support Natural Resources graphic across the back: a pumpjack, a drilling rig, storage tanks, mountains and pines, with a service truck in front, under a rust-orange sun. A small Tidywells decline-curve logo sits on the left chest. Available in black. A heavy blend hooded sweatshirt, 50% cotton and 50% polyester. Original artwork, no company names or logos.",
   "blurb": "A pumpjack, a rig and a service truck under a rust-orange sun, Support Natural Resources across the back.",
@@ -679,6 +679,12 @@
  },
  "tee-darcys-law": {
   "images": [
+   [
+    "sp-tee-darcys-law-8.jpg",
+    "Darcy's Law tee, hanging on a line, black",
+    1000,
+    1494
+   ],
    [
     "sp-tee-darcys-law-1.jpg",
     "Darcy's Law tee, back, black",
@@ -722,12 +728,6 @@
     1500
    ],
    [
-    "sp-tee-darcys-law-8.jpg",
-    "Darcy's Law tee, hanging on a line, black",
-    1000,
-    1494
-   ],
-   [
     "sp-tee-darcys-law-9.jpg",
     "Darcy's Law tee, worn by a woman, back, black",
     1000,
@@ -741,6 +741,7 @@
    ]
   ],
   "labels": [
+   "Hanging",
    "Back, flat",
    "Front, flat",
    "Worn, rocks",
@@ -748,7 +749,6 @@
    "Worn, seated",
    "Worn, standing",
    "Worn, field",
-   "Hanging",
    "Worn, woman",
    "Worn, front"
   ],
@@ -764,6 +764,12 @@
  },
  "tee-drilling-gear": {
   "images": [
+   [
+    "sp-tee-drilling-gear-8.jpg",
+    "Drilling Gear tee hanging on a line, black",
+    1000,
+    1493
+   ],
    [
     "sp-tee-drilling-gear-1.jpg",
     "Drilling Gear tee, back, black",
@@ -807,12 +813,6 @@
     1498
    ],
    [
-    "sp-tee-drilling-gear-8.jpg",
-    "Drilling Gear tee hanging on a line, black",
-    1000,
-    1493
-   ],
-   [
     "sp-tee-drilling-gear-9.jpg",
     "Drilling Gear tee, worn by a woman, back, black",
     1000,
@@ -826,6 +826,7 @@
    ]
   ],
   "labels": [
+   "Hanging",
    "Back, flat",
    "Front, flat",
    "Worn, rocks",
@@ -833,7 +834,6 @@
    "Worn, seated",
    "Worn, standing",
    "Worn, field",
-   "Hanging",
    "Worn, woman",
    "Worn, front"
   ],
@@ -848,6 +848,12 @@
  },
  "tee-leduc-pumpjack": {
   "images": [
+   [
+    "sp-tee-leduc-pumpjack-6.jpg",
+    "Leduc Pumpjack tee hanging on a line, black",
+    1000,
+    1494
+   ],
    [
     "sp-tee-leduc-pumpjack-1.jpg",
     "Leduc Pumpjack tee, back, black",
@@ -879,12 +885,6 @@
     1500
    ],
    [
-    "sp-tee-leduc-pumpjack-6.jpg",
-    "Leduc Pumpjack tee hanging on a line, black",
-    1000,
-    1494
-   ],
-   [
     "sp-tee-leduc-pumpjack-7.jpg",
     "Leduc Pumpjack tee, worn among rocks, back, black",
     1000,
@@ -910,12 +910,12 @@
    ]
   ],
   "labels": [
+   "Hanging",
    "Back, flat",
    "Front, flat",
    "Worn, back",
    "Worn, seated",
    "Worn, woman",
-   "Hanging",
    "Worn, standing",
    "Worn, climbing",
    "Worn, outdoors",
@@ -932,6 +932,12 @@
  },
  "tee-powered-by-oil": {
   "images": [
+   [
+    "sp-tee-powered-by-oil-7.jpg",
+    "Powered by Oil tee, hanging on a line in a field",
+    1000,
+    1493
+   ],
    [
     "sp-tee-powered-by-oil-1.jpg",
     "Powered by Oil tee, front, black",
@@ -969,12 +975,6 @@
     1500
    ],
    [
-    "sp-tee-powered-by-oil-7.jpg",
-    "Powered by Oil tee, hanging on a line in a field",
-    1000,
-    1493
-   ],
-   [
     "sp-tee-powered-by-oil-8.jpg",
     "Powered by Oil tee, worn, back view standing on rocks",
     1000,
@@ -988,13 +988,13 @@
    ]
   ],
   "labels": [
+   "Hanging in a field",
    "Front, black",
    "Back, black",
    "Worn, on the rocks",
    "Worn, in a field",
    "Seated on a rock",
    "Worn, with boots",
-   "Hanging in a field",
    "Standing on rocks",
    "Worn, front"
   ],
@@ -1010,6 +1010,12 @@
  },
  "tee-support-natural-resources": {
   "images": [
+   [
+    "sp-tee-support-natural-resources-7.jpg",
+    "Support Natural Resources tee hanging on a line, black",
+    1000,
+    1500
+   ],
    [
     "sp-tee-support-natural-resources-1.jpg",
     "Support Natural Resources tee, back, black",
@@ -1047,12 +1053,6 @@
     1500
    ],
    [
-    "sp-tee-support-natural-resources-7.jpg",
-    "Support Natural Resources tee hanging on a line, black",
-    1000,
-    1500
-   ],
-   [
     "sp-tee-support-natural-resources-8.jpg",
     "Support Natural Resources tee, worn climbing, back, black",
     844,
@@ -1072,13 +1072,13 @@
    ]
   ],
   "labels": [
+   "Hanging",
    "Back, flat",
    "Front, flat",
    "Worn, back",
    "Worn, seated",
    "Worn, outdoors",
    "Worn, woman",
-   "Hanging",
    "Worn, climbing",
    "Worn, hillside",
    "Worn, front"
@@ -1094,6 +1094,12 @@
  },
  "toque-fire-rescue-blowout": {
   "images": [
+   [
+    "sp-toque-fire-rescue-blowout-13.jpg",
+    "Fire Rescue Blowout toque, on a truck dash",
+    1000,
+    1499
+   ],
    [
     "sp-toque-fire-rescue-blowout-1.jpg",
     "Fire Rescue Blowout toque, black",
@@ -1165,15 +1171,10 @@
     "Fire Rescue Blowout toque, held up to the sky",
     1000,
     1500
-   ],
-   [
-    "sp-toque-fire-rescue-blowout-13.jpg",
-    "Fire Rescue Blowout toque, on a truck dash",
-    1000,
-    1499
    ]
   ],
   "labels": [
+   "On a truck dash",
    "Black",
    "Worn at sunset",
    "Pulled down",
@@ -1185,8 +1186,7 @@
    "With headphones",
    "Worn, front",
    "Worn, back",
-   "Held up to the sky",
-   "On a truck dash"
+   "Held up to the sky"
   ],
   "desc": "A cuffed toque with the Fire Rescue Blowout patch embroidered on the cuff: a burning derrick, the mountains and Alberta, BC and Sask lettering. Original design, no company names or logos.",
   "blurb": "The firefighting and blowout specialist patch, embroidered on the cuff.",
@@ -1199,16 +1199,16 @@
  "toque-powered-by-oil": {
   "images": [
    [
-    "sp-toque-powered-by-oil-1.jpg",
-    "Powered by Oil toque, black, flat on white",
-    1000,
-    1000
-   ],
-   [
     "sp-toque-powered-by-oil-2.jpg",
     "Powered by Oil toque, black, on a truck dash",
     1000,
     1498
+   ],
+   [
+    "sp-toque-powered-by-oil-1.jpg",
+    "Powered by Oil toque, black, flat on white",
+    1000,
+    1000
    ],
    [
     "sp-toque-powered-by-oil-3.jpg",
@@ -1272,8 +1272,8 @@
    ]
   ],
   "labels": [
-   "Flat, black",
    "On a truck dash",
+   "Flat, black",
    "Worn, front",
    "Worn, back",
    "Held up to the sky",
