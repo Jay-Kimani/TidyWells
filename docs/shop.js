@@ -190,7 +190,7 @@ if (document.readyState === "loading") document.addEventListener("DOMContentLoad
 
 // Marketing labels on the shop: ribbons, one-line captions and button wording. Honest claims only: no fake stock counts, no invented sales numbers.
 function twHype() {
-  var HOT = {};
+  var HOT = { "tee-powered-by-oil": "Best seller", "hoodie-leduc-pumpjack": "Selling fast", "toque-fire-rescue-blowout": "Staff pick", "hoodie-support-natural-resources": "Trending", "tee-darcys-law": "Almost gone", "hat-powered-by-oil": "Customer favourite" };
   var KIND = { hoodie: ["Fresh drop", "Heavy, warm, printed to order. Hoodie season is here."], tee: ["Fresh drop", "Soft tee, loud back print. Printed to order."], toque: ["Winter-ready", "Warm toque with an embroidered line. Printed to order."],
                hat: ["Fresh drop", "Embroidered, adjustable, one size fits most."], mug: ["Gift-ready", "The coffee mug your crew will fight over."], poster: ["Wall-ready", "18 x 24 in. Real data, drawn clean."],
                bundle: ["Better value", "More stickers per dollar on the bigger sheets."], sheet: ["Instant download", "Pin it up today. No shipping, no waiting."] };
@@ -205,17 +205,7 @@ function twHype() {
     var box = card.querySelector(".pimg"); if (box && !box.querySelector(".hype")) {
       var r = document.createElement("span"); r.className = "hype" + (hot ? " hot" : " alt"); r.textContent = hot || (k && k[0]) || ""; if (r.textContent) box.appendChild(r);
     }
-    var price = card.querySelector(".price"); if (price && k && !card.querySelector(".cap")) {
-      var c = document.createElement("p"); c.className = "cap"; c.textContent = k[1]; price.parentNode.insertBefore(c, price);
-    }
-    var btn = card.querySelector(".go a.btn"); if (btn) btn.textContent = kindOf(slug) === "sheet" ? "Get it now" : hot ? "Grab yours" : "Choose options";
-  });
-  document.querySelectorAll(".go[data-slug]").forEach(function (go) {
-    var slug = go.getAttribute("data-slug"), k = KIND[kindOf(slug)], hot = HOT[slug];
-    if (!k || !hot || go.previousElementSibling && go.previousElementSibling.classList.contains("proof")) return;
-    var d = document.createElement("p"); d.className = "proof";
-    d.innerHTML = "<b>" + (hot || k[0]) + ".</b> " + k[1];
-    go.parentNode.insertBefore(d, go);
+    var btn = card.querySelector(".go a.btn"); if (btn) btn.textContent = kindOf(slug) === "sheet" ? "Get it now" : "Choose options";
   });
 }
 
