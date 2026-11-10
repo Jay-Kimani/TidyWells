@@ -61,7 +61,7 @@ def test_prices_are_labelled_and_no_sale_claims():
 def test_every_product_has_a_page_a_price_and_clean_structured_data():
     import json
     items = shop.catalogue()
-    assert len(items) == 34 and len({i["page"] for i in items}) == 34
+    assert len(items) == 14 and len({i["page"] for i in items}) == 14
     sitemap = (DOCS / "sitemap.xml").read_text(encoding="utf-8")
     for it in items:
         html = (DOCS / it["page"]).read_text(encoding="utf-8")
@@ -87,9 +87,9 @@ def test_dataset_structured_data_matches_manifest():
     assert ld["temporalCoverage"] == f"{m['first_month']}/{m['last_month']}"
 
 
-def test_articles_carry_poster_box():
+def test_articles_have_no_poster_box():
     for page in sorted((DOCS / "posts").glob("*.html")):
-        assert "<!--POSTERBOX-->" in page.read_text(encoding="utf-8"), page.name
+        assert "<!--POSTERBOX-->" not in page.read_text(encoding="utf-8"), page.name
 
 
 def test_no_company_names_in_products_or_art():
@@ -108,7 +108,7 @@ def test_catalogue_is_consistent():
     assert {c[0] for c in shop.HATS} == {c[0] for c in goods.HATS}
     assert set(goods.STICKERS) <= set(slugs)
     for s, _n, kind, _b in shop.APPAREL:
-        assert kind in ("hoodie", "tee") and kind == [d[3] for d in goods.DESIGNS if d[0] == s][0]
+        assert kind in ("hoodie", "tee")  # a design can be sold as a hoodie, a tee or both
     for s in shop.FEATURED:
         assert s in slugs
 
@@ -177,7 +177,7 @@ console.log(JSON.stringify({{bad:p.bad,n:s.length,v0:s[0].v,wells:c.wells,s1:s1.
 def test_listing_copy_fits_store_limits():
     import csv
     rows = list(csv.DictReader(open(ROOT / "shop" / "listings.csv", encoding="utf-8")))
-    assert len(rows) == 34  # 12 apparel (4 collections x hoodie, tee, crewneck) + 4 posters + 3 apparel tees + 8 mugs + 1 hat + 2 patch hats + 1 toque + 1 Your Well
+    assert len(rows) == 14  # hoodies, tees, hats and toques; mugs, crewnecks and posters are retired
     for r in rows:
         tags = r["tags"].split("|")
         assert len(r["title"]) <= 140 and len(tags) <= 13 and all(len(t) <= 20 for t in tags), r["id"]

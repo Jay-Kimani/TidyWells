@@ -178,7 +178,7 @@ if (document.readyState === "loading") document.addEventListener("DOMContentLoad
 
 // Marketing labels on the shop: ribbons, one-line captions and button wording. Honest claims only: no fake stock counts, no invented sales numbers.
 function twHype() {
-  var HOT = { "hoodie-leduc-pumpjack": "Hot pick", "print-oil-and-gas-commission": "Crowd favourite", "toque-fire-rescue-blowout": "Cold-snap essential", "mug-leduc": "Gift-ready",
+  var HOT = { "hoodie-leduc-pumpjack": "Hot pick", "toque-fire-rescue-blowout": "Cold-snap essential", "tee-powered-by-oil": "Crowd favourite",
               "sheet-units-and-conversions": "Instant download" };
   var KIND = { hoodie: ["Fresh drop", "Heavy, warm, printed to order. Hoodie season is here."], tee: ["Fresh drop", "Soft tee, loud back print. Printed to order."], toque: ["Winter-ready", "Warm toque with an embroidered line. Printed to order."],
                hat: ["Fresh drop", "Embroidered, adjustable, one size fits most."], mug: ["Gift-ready", "The coffee mug your crew will fight over."], poster: ["Wall-ready", "18 x 24 in. Real data, drawn clean."],

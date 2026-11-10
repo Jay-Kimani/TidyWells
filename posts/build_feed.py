@@ -374,12 +374,8 @@ if __name__ == "__main__":
         if sub_a not in t:
             t = t.replace(med_a, med_a + " · " + sub_a)
         pref = "../" if f.parent.name == "posts" else ("/" if f.name == "404.html" else "")
-        # shop cross-sell: matched posters at the end of every article
-        if f.parent.name == "posts":
-            topic = "snapshot" if f.name.startswith("snapshot-") else "gas" if f.name in ("gas-has-a-season.html", "gas-oil-ratio.html") else \
-                "decline" if f.name in ("first-year-decline.html", "decline-backtest.html", "recovery-low-forecasts.html", "shut-ins-and-restarts.html", "new-wells-by-vintage.html") else "default"
-            pb = BSHOP.posterbox("../", topic)
-            t = re.sub(r"<!--POSTERBOX-->.*?<!--/POSTERBOX-->", lambda m: pb, t, flags=re.S) if "<!--POSTERBOX-->" in t else t.replace("</main>", "</main>\n" + pb, 1)
+        # shop cross-sell posters retired: strip any leftover poster box
+        t = re.sub(r"\s*<!--POSTERBOX-->.*?<!--/POSTERBOX-->", "", t, flags=re.S)
         # structured data: Dataset on the open-data page, Organization and WebSite on the home page
         if f.name in ("data.html", "index.html"):
             t = re.sub(r"\s*<!--LD-->.*?<!--/LD-->\n?", "", t, flags=re.S)
