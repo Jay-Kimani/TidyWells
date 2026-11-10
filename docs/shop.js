@@ -228,14 +228,15 @@ function twHype() {
       btns[i].click();
       ths.forEach(function (t, j) { t.setAttribute("aria-pressed", j === i ? "true" : "false"); });
       [].forEach.call(dots.querySelectorAll("button"), function (d) { d.setAttribute("aria-pressed", d.getAttribute("data-c") === colOf[i] ? "true" : "false"); });
-      cap.textContent = btns[i].textContent.trim() + "  (" + (i + 1) + " of " + btns.length + ")";
+      cap.textContent = btns[i].textContent.trim() + "  (" + (i + 1) + " of " + btns.length + ")"; cnt.textContent = (i + 1) + " / " + btns.length;
       try { strip.scrollTo({ left: ths[i].offsetLeft - 8, behavior: "smooth" }); } catch (e) {}
     }
     function arrow(dir) {
       var a = document.createElement("button"); a.type = "button"; a.className = "arr " + (dir < 0 ? "prev" : "next");
-      a.setAttribute("aria-label", dir < 0 ? "Previous image" : "Next image"); a.innerHTML = dir < 0 ? "&#8249;" : "&#8250;";
+      a.setAttribute("aria-label", dir < 0 ? "Previous image" : "Next image"); a.innerHTML = "<span aria-hidden=\"true\">" + (dir < 0 ? "&#8249;" : "&#8250;") + "</span>";
       a.addEventListener("click", function () { pick(cur + dir); }); stage.appendChild(a);
     }
+    var cnt = document.createElement("span"); cnt.className = "cnt"; stage.appendChild(cnt);
     arrow(-1); arrow(1);
     v.setAttribute("tabindex", "0");
     v.addEventListener("keydown", function (e) { if (e.key === "ArrowLeft") { pick(cur - 1); e.preventDefault(); } else if (e.key === "ArrowRight") { pick(cur + 1); e.preventDefault(); } });

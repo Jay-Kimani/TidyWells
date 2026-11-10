@@ -8,7 +8,7 @@ Everything the shop sells is generated from code in this folder, so it can be re
 | `art_goods.py` | 12 apparel designs (light and dark ink), garment mockups, 6 stickers, 2 notebook covers |
 | `cheats.py` | 3 printable 11 x 17 reference sheets |
 | `render.js` | Renders SVG/HTML to print PNGs (poster 5400x7200 = 300 dpi at 18x24 in, apparel 3600x4800 transparent), JPEG previews and PDFs |
-| `build_shop.py` | Writes `docs/shop.html`, `docs/your-well.html`, the home-page strip, and `listings.csv` (store titles, descriptions, tags) |
+| `build_shop.py` | Writes `docs/shop.html`, the home-page strip, and `listings.csv` (store titles, descriptions, tags) |
 
 Rebuild the site pages after changing the catalogue: `python shop/build_shop.py && python posts/build_feed.py`.
 Rebuild the artwork (needs Node, Playwright and the `@fontsource` packages for Fraunces, Inter and IBM Plex Mono, all SIL OFL):
@@ -30,7 +30,6 @@ The previews on the site are the files in `docs/img/shop/`. Print-size files are
 5. **Set prices yourself** from the supplier's base costs, shipping and fees. This repo deliberately contains no prices.
 6. **Connect the site.** In `docs/config.js` set `TIDYWELLS_SHOP_URL` to your storefront (https only). The badge changes to "Now open" and every card shows "View in store". Per-product links go in `TIDYWELLS_SHOP_LINKS` (keys are the `data-slug` values on `shop.html`). `tests/test_shop.py` will then need updating on purpose: it blocks prices and sale wording while no store is connected.
 7. **Business basics.** Register the business and tax setup as your province requires (ask an accountant), and check marketplace terms.
-8. **Well-level prints.** The "Your Well" tool runs in the visitor's browser on their own data. Do not sell prints of specific named wells from public files until the regulator confirms the terms in writing.
 
 ## Honesty rules the tests enforce
 

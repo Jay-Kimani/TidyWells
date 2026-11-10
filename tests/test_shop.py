@@ -1,5 +1,5 @@
 """The shop must stay honest: images exist, no prices or sale claims before a store is connected, no company names,
-poster numbers match the open data, and the Your Well engine behaves."""
+poster numbers match the open data,."""
 import importlib.util
 import json
 import re
@@ -49,7 +49,7 @@ def test_every_image_exists():
 def test_prices_are_labelled_and_no_sale_claims():
     cfg = (DOCS / "config.js").read_text(encoding="utf-8")
     assert re.search(r'TIDYWELLS_SHOP_OPEN\s*=\s*(true|false)', cfg), "shop open flag must be set"
-    pages = ["shop.html", "your-well.html"] + [i["page"] for i in shop.catalogue()]
+    pages = ["shop.html"] + [i["page"] for i in shop.catalogue()]
     for page in pages:
         t = visible_text((DOCS / page).read_text(encoding="utf-8"))
         assert " sale" not in t and "% off" not in t and "discount" not in t and "limited time" not in t, page
@@ -155,25 +155,6 @@ def test_posters_are_well_formed_svg():
 node = shutil.which("node")
 
 
-@pytest.mark.skipif(node is None, reason="node not installed")
-def test_wellposter_engine():
-    js = f"""
-const W=require({json.dumps(str(DOCS / 'wellposter.js'))});
-const p=W.parse('month,volume\\n2023-01,310\\n2023-02,280\\n2023-03,262\\nbad,row');
-const s=W.series(p.rows,{{}});
-const c=W.parse('month,well_id,province,product,volume\\n2023-01,0001,AB,OIL,310\\n2023-01,0002,AB,OIL,100\\n2023-02,0001,AB,OIL,280');
-const s1=W.series(c.rows,{{well:'0001',product:'OIL'}});
-const svg=W.poster(s,{{title:'A <b> & "q"',unit:'bbl per day',theme:'paper'}});
-console.log(JSON.stringify({{bad:p.bad,n:s.length,v0:s[0].v,wells:c.wells,s1:s1.map(x=>x.v),esc:svg.includes('A &lt;b&gt; &amp; &quot;q&quot;'),raw:svg.includes('<b>'),err:W.parse('x').error}}));
-"""
-    out = json.loads(subprocess.run([node, "-e", js], capture_output=True, text=True, check=True).stdout)
-    assert out["bad"] == 1 and out["n"] == 3
-    assert abs(out["v0"] - 10.0) < 1e-9  # 310 over 31 days
-    assert out["wells"] == ["0001", "0002"]  # leading zeros preserved
-    assert abs(out["s1"][0] - 10.0) < 1e-9 and abs(out["s1"][1] - 10.0) < 1e-9  # 280/28
-    assert out["esc"] and not out["raw"] and out["err"]
-
-
 def test_listing_copy_fits_store_limits():
     import csv
     rows = list(csv.DictReader(open(ROOT / "shop" / "listings.csv", encoding="utf-8")))
@@ -188,7 +169,7 @@ def test_home_feature_directory_links_resolve():
     html = (DOCS / "index.html").read_text(encoding="utf-8")
     block = re.search(r"<!--FEATURES-->.*?<!--/FEATURES-->", html, re.S).group(0)
     hrefs = re.findall(r'class="ft" href="([^"]+)"', block)
-    assert len(hrefs) == 16
+    assert len(hrefs) == 15
     for h in hrefs:
         if not h.startswith("http"):
             assert (DOCS / h).exists(), h

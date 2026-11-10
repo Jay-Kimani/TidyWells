@@ -294,7 +294,7 @@ def body():
              '<p>Hoodies, t-shirts, toques and hats for people who work in oil and gas, plus free reference sheets.</p>'
              '<ul class="trust"><li>Printed to order, delivered in 5 to 7 business days</li><li>Secure checkout by Shopify</li><li>Prices in CAD</li><li>Size guide on every page</li></ul>'
              '<nav class="chips" aria-label="Shop sections"><a href="#apparel">Apparel</a><a href="#headwear">Toques and hats</a>'
-             '<a href="#downloads">Free sheets</a><a href="#your-well">Make your own</a></nav></div>')
+             '<a href="#downloads">Free sheets</a></nav></div>')
     o.append('<h2 id="best">Crew favourites</h2>' + grid([by[i] for i in BEST], "pgrid four"))
     o.append('<h2 id="apparel">Apparel</h2><p>Heavy type on the back, a small Tidywells mark on the left chest. True to size, with a size guide on every page.</p>' + grid(of("hoodie", "crewneck", "tee")))
     o.append('<h2 id="headwear">Toques and hats</h2><p>Embroidered text and printed patches. Warm toques for the winter crew, adjustable hats for the rest of the year.</p>' + grid(of("toque", "hat")))
@@ -302,12 +302,7 @@ def body():
           ("tidywells-decline-curves-one-page.pdf", "dl-decline.png", "Decline Curves, One Page", "The Arps family in the order you will meet it: exponential, hyperbolic, harmonic."),
           ("tidywells-regulator-data-gotchas.pdf", "dl-gotchas.png", "Regulator Data Gotchas", "The unit and layout traps in public regulator production files.")]
     cards = "".join(f'<div class="prod"><a class="pimg" href="downloads/{f}">{card_img(im, t, 440, 680)}</a><div class="pi"><span class="tag">Free PDF</span><h3><a href="downloads/{f}">{esc(t)}</a></h3><p>{esc(b)}</p><span class="shop-note">11 x 17 inch. For your own use, print as often as you like.</span><span class="go"><a class="btn primary" href="downloads/{f}" download>Download free</a></span></div></div>' for f, im, t, b in dl)
-    o.append('<h2 id="downloads">Free reference sheets</h2><p>Pin one up beside your screen. They are free to download; if you want a poster of your own well, <a href="#your-well">make one below</a>.</p><div class="pgrid">' + cards + '</div>')
-    o.append('<div class="well-card" id="your-well"><div class="wc-text"><span class="tag">Make your own</span><h2>Your Well poster</h2>'
-             '<p>Turn one well\'s monthly production into a poster, for a well you own or may use. It runs in your browser and the file never leaves your device.</p>'
-             '<p><a class="btn primary" href="your-well.html">Make a poster</a></p>'
-             '<p class="shop-note">We do not sell prints of other people\'s wells from public files; that needs the regulator\'s written confirmation.</p></div>'
-             f'<figure><img src="{IMG}your-well-example.jpg" alt="Example Your Well poster built from synthetic data" width="720" height="960" loading="lazy"><figcaption>Example, made from synthetic data</figcaption></figure></div>')
+    o.append('<h2 id="downloads">Free reference sheets</h2><p>Pin one up beside your screen. They are free to download.</p><div class="pgrid">' + cards + '</div>')
     o.append('<h2>Good to know</h2><div class="faq"><p><b>How do sizes fit?</b><br>True to size. Every hoodie and tee page has a size guide with flat measurements.</p>'
              '<p><b>Who makes and ships the products?</b><br>Our fulfilment partner prints each item to order. Delivery takes about 5 to 7 business days; the shipping cost is shown at checkout before you pay.</p>'
              '<p><b>Is this affiliated with a regulator or an operator?</b><br>No. No company names or logos appear on any product.</p>'
@@ -357,35 +352,6 @@ def product_page(it, items):
              f'<h2>More from this range</h2><div class="pgrid">{rel}</div>')
     body_ += f'<script type="application/ld+json">{json.dumps(ld)}</script><script src="shop-links.js"></script><script src="shop.js"></script>'
     return page(it["page"], t, f"{t} from the Tidywells shop. {it['blurb']}", body_, css="article{max-width:none}")
-
-
-def your_well():
-    return """<h1>Your Well poster</h1>
-<p class="yw-lead">Turn one well's monthly production into a clean poster. Your data is read in your browser and never uploaded. Use it for wells you own or have the right to use.</p>
-<div class="yw">
-<div class="panel yw-in">
-<h2>1. Add your data</h2>
-<label for="paste">Paste two columns, month and volume, or load a file</label>
-<textarea id="paste" placeholder="month,volume&#10;2023-01,310&#10;2023-02,295"></textarea>
-<div class="yw-row"><input id="file" type="file" accept=".csv,.txt,.tsv"><button id="ex" type="button">Use example data</button></div>
-<p class="shop-note">Also accepts the output of the <a href="clean.html">File cleaner</a>; then pick the well below.</p>
-<div id="msg" class="shop-note" role="status"></div>
-<h2>2. Make it yours</h2>
-<div class="fgrid">
-<div id="wellrow" hidden><label for="well">Well</label><select id="well"></select></div>
-<div id="prodrow" hidden><label for="prod">Product</label><select id="prod"></select></div>
-<div class="wide"><label for="title">Title</label><input id="title" placeholder="My Well" maxlength="60"></div>
-<div><label for="unit">Unit label</label><input id="unit" placeholder="bbl per day" maxlength="40"></div>
-<div><label for="theme2">Colourway</label><select id="theme2"><option value="night">Night</option><option value="paper">Paper</option></select></div>
-<div class="wide"><label for="kind">The numbers are</label><select id="kind"><option value="vol">monthly volumes (shown as a daily rate)</option><option value="rate">already a daily rate</option></select></div>
-</div>
-</div>
-<div class="yw-out"><div id="ph" class="yw-ph">Your poster appears here</div>
-<div id="out" hidden><div id="prev"></div>
-<p class="yw-btns"><button id="dl" type="button" class="btn primary">Download PNG</button><button id="dls" type="button" class="btn">Download SVG</button></p></div></div>
-</div>
-<p class="shop-note">Tidywells does not sell prints of other people's wells made from public files; the regulators' terms need confirming in writing first. The PNG is 3600 x 4800 pixels. It uses fonts on your device, so it can look slightly different from the shop posters.</p>
-<script src="wellposter.js"></script><script src="your-well.js"></script>"""
 
 
 TAGS_BASE = ["oil and gas", "petroleum engineer", "oilfield gift", "data nerd", "geek gift", "engineer gift", "canadian oil", "alberta"]
@@ -460,7 +426,6 @@ def main():
     html = page("shop.html", "Shop", "Oil and gas hoodies, t-shirts, toques and hats from Tidywells.", body(),
                 css="article{max-width:none}")
     (DOCS / "shop.html").write_text(html, encoding="utf-8")
-    (DOCS / "your-well.html").write_text(page("your-well.html", "Your Well poster", "Make a poster of your own well's production in your browser. Nothing is uploaded.", your_well(), css="article{max-width:none}"), encoding="utf-8")
     items = catalogue()
     for it in items:
         (DOCS / it["page"]).write_text(product_page(it, items), encoding="utf-8")

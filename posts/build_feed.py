@@ -82,7 +82,7 @@ if __name__ == "__main__":
     a.write_text(t[:i] + "\n" + snaps_html(snaps) + "\n" + t[j:], encoding="utf-8")
     # sitemap + robots (search engines)
     base = "https://tidywells.com"
-    pages = ["", "tools.html", "decline.html", "explore.html", "analysis.html", "glossary.html", "methods.html", "guide.html", "pro.html", "about.html", "data.html", "clean.html", "scorecard.html", "revisions.html", "didnt-work.html", "corrections.html", "terms.html", "shop.html", "your-well.html"] + sorted(x.name for x in (ROOT / "docs").glob("product-*.html"))
+    pages = ["", "tools.html", "decline.html", "explore.html", "analysis.html", "glossary.html", "methods.html", "guide.html", "pro.html", "about.html", "data.html", "clean.html", "scorecard.html", "revisions.html", "didnt-work.html", "corrections.html", "terms.html", "shop.html", ""] + sorted(x.name for x in (ROOT / "docs").glob("product-*.html"))
     urls = [(f"{base}/{pg}", None) for pg in pages] + [(f"{base}/posts/{p['slug']}.html", p["date"]) for p in posts]
     sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
     for u, d in urls:
@@ -234,7 +234,6 @@ if __name__ == "__main__":
             ("decline.html", "curve", "Decline-curve tool", "Fit a curve to one well, forecast it and run simple economics."),
             ("explore.html", "bars", "Production explorer", "Monthly charts for Alberta, Saskatchewan and BC."),
             ("clean.html", "file", "File cleaner", "Turn a regulator file into one tidy CSV, in your browser."),
-            ("your-well.html", "frame", "Your Well poster", "Make a poster from your own well's production data."),
         ]),
         ("Research", [
             ("data.html", "db", "Open data", "Download the monthly dataset and see how it is checked."),
@@ -300,7 +299,7 @@ if __name__ == "__main__":
     GROUP_OF = {"index.html": "index.html", "tools.html": "tools", "decline.html": "tools", "explore.html": "tools", "clean.html": "tools", "scorecard.html": "research", "revisions.html": "research", "didnt-work.html": "research", "analysis.html": "analysis.html",
                 "methods.html": "learn", "guide.html": "learn", "glossary.html": "learn",
                 "about.html": "about", "corrections.html": "about", "terms.html": "about",
-                "sponsor.html": "about", "shop.html": "shop.html", "your-well.html": "shop.html"}
+                "sponsor.html": "about", "shop.html": "shop.html"}
     def nav_html(prefix, cur):
         grp = GROUP_OF.get(cur) or ("shop.html" if cur.startswith("product-") else None)
         out = [f'<div class="util"><div><a href="{prefix}data.html">Open data</a><a href="{prefix}pro.html">Pro data pack</a>'
