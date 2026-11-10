@@ -582,3 +582,10 @@ ul.toc{list-style:none;padding:0;margin:0}ul.toc li{margin:0;border-bottom:1px s
 .shop-hero .chips a:hover,.shop-hero .chips a:focus{border-bottom-color:currentColor}
 .shop-meta{margin:12px 0 0;font-size:13px;color:var(--muted)}
 main h2#apparel,main h2#headwear,main h2#downloads{font-size:22px;font-weight:700;margin:40px 0 14px}
+/*SHOP-HERO-2*/
+.shop-hero{text-align:center;padding:28px 0 8px}
+.shop-hero h1{font-size:clamp(26px,4vw,36px);font-weight:500;letter-spacing:.09em;text-transform:uppercase;margin:0 0 14px}
+.shop-meta{margin:0 0 26px;font-size:11.5px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.shop-hero .chips{justify-content:center;gap:34px;border-bottom:0;margin:0}
+.shop-hero .chips a{font-size:12.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;padding:8px 0}
+@media(max-width:640px){.shop-meta{letter-spacing:.08em;font-size:10.5px;line-height:1.7}.shop-hero .chips{gap:22px}.shop-hero .chips a{font-size:11.5px;letter-spacing:.1em}}

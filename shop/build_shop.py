@@ -289,10 +289,9 @@ def body():
     grid = lambda lst, cls="pgrid": f'<div class="{cls}">' + "".join(card_of(x) for x in lst) + '</div>'
     o = []
     o.append('<div class="shop-hero"><h1>Shop</h1>'
-             '<p class="shop-sub">Hoodies, t-shirts, toques and hats. Printed to order in Canada.</p>'
+             '<p class="shop-meta">Delivery in 5 to 7 business days &middot; Prices in CAD &middot; Secure checkout by Shopify</p>'
              '<nav class="chips" aria-label="Shop sections"><a href="#apparel">Apparel</a><a href="#headwear">Toques and hats</a>'
-             '<a href="#downloads">Free sheets</a></nav>'
-             '<p class="shop-meta">Delivery in 5 to 7 business days. Prices in CAD. Secure checkout by Shopify.</p></div>')
+             '<a href="#downloads">Free sheets</a></nav></div>')
     o.append('<h2 id="apparel">Apparel</h2>' + grid(of("hoodie", "crewneck", "tee")))
     o.append('<h2 id="headwear">Toques and hats</h2>' + grid(of("toque", "hat")))
     dl = [("tidywells-units-and-conversions.pdf", "dl-units.png", "Units & Conversions", "Oil, gas, energy and pressure factors, plus the rule for turning a monthly volume into a daily rate."),
