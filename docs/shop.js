@@ -183,7 +183,7 @@ function twBuy() {
     price.className = "bprice"; status.className = "bstatus"; status.setAttribute("aria-live", "polite");
     box.appendChild(price); box.appendChild(row); box.appendChild(status);
     build(); host.textContent = ""; host.appendChild(box);
-    var note = document.createElement("p"); note.className = "shop-note"; note.textContent = (/sheet-/.test(host.getAttribute("data-slug")) ? "Instant download after payment. " : "Printed to order, delivered in about 5 to 7 business days. ") + "Taxes and shipping are shown at checkout. Payment is handled securely by Shopify."; host.appendChild(note);
+    var note = document.createElement("p"); note.className = "shop-note"; note.textContent = (/sheet-/.test(host.getAttribute("data-slug")) ? "Instant download after payment. " : "Delivered in about 5 to 7 business days. ") + "Taxes and shipping are shown at checkout. Payment is handled securely by Shopify."; host.appendChild(note);
   }).catch(function () { host.innerHTML = 'Not available right now. <a href="shop.html">Back to the shop</a>.'; });
 }
 if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", twBuy); else twBuy();
@@ -191,7 +191,7 @@ if (document.readyState === "loading") document.addEventListener("DOMContentLoad
 // Marketing labels on the shop: ribbons, one-line captions and button wording. Honest claims only: no fake stock counts, no invented sales numbers.
 function twHype() {
   var HOT = { "tee-powered-by-oil": "#1 Best seller", "hoodie-leduc-pumpjack": "Selling out fast", "toque-fire-rescue-blowout": "Winter must-have", "hoodie-support-natural-resources": "Trending now", "tee-darcys-law": "Almost gone", "hat-powered-by-oil": "Fan favourite", "hoodie-drilling-gear": "Just dropped", "toque-powered-by-oil": "Going fast", "tee-leduc-pumpjack": "Limited run", "hoodie-hyperbolic-decline": "Crowd pick" };
-  var KIND = { hoodie: ["Fresh drop", "Heavy, warm, printed to order. Hoodie season is here."], tee: ["Fresh drop", "Soft tee, loud back print. Printed to order."], toque: ["Winter-ready", "Warm toque with an embroidered line. Printed to order."],
+  var KIND = { hoodie: ["Fresh drop", "Heavy and warm. Hoodie season is here."], tee: ["Fresh drop", "Soft tee, loud back print."], toque: ["Winter-ready", "Warm toque with an embroidered line."],
                hat: ["Fresh drop", "Embroidered, adjustable, one size fits most."], mug: ["Gift-ready", "The coffee mug your crew will fight over."], poster: ["Wall-ready", "18 x 24 in. Real data, drawn clean."],
                bundle: ["Better value", "More stickers per dollar on the bigger sheets."], sheet: ["Instant download", "Pin it up today. No shipping, no waiting."] };
   function kindOf(slug) { var m = /^(hoodie|tee|toque|hat|mug|poster|bundle|sheet)/.exec(slug); return m ? m[1] : ""; }

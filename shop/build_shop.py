@@ -300,7 +300,7 @@ def body():
     cards = "".join(f'<div class="prod"><a class="pimg" href="downloads/{f}">{card_img(im, t, 440, 680)}</a><div class="pi"><span class="tag">Free PDF</span><h3><a href="downloads/{f}">{esc(t)}</a></h3><p>{esc(b)}</p><span class="shop-note">11 x 17 inch. For your own use, print as often as you like.</span><span class="go"><a class="btn primary" href="downloads/{f}" download>Download free</a></span></div></div>' for f, im, t, b in dl)
     o.append('<h2 id="downloads">Free reference sheets</h2><p>Pin one up beside your screen. They are free to download.</p><div class="pgrid">' + cards + '</div>')
     o.append('<h2>Good to know</h2><div class="faq"><p><b>How do sizes fit?</b><br>True to size. Every hoodie and tee page has a size guide with flat measurements.</p>'
-             '<p><b>Who makes and ships the products?</b><br>Our fulfilment partner prints each item to order. Delivery takes about 5 to 7 business days; the shipping cost is shown at checkout before you pay.</p>'
+             '<p><b>Who makes and ships the products?</b><br>Our fulfilment partner makes and ships each order. Delivery takes about 5 to 7 business days; the shipping cost is shown at checkout before you pay.</p>'
              '<p><b>Is this affiliated with a regulator or an operator?</b><br>No. No company names or logos appear on any product.</p>'
              '<p><b>Where does the money go?</b><br>It helps keep the open data, tools and analysis free. Tidywells is built by one person; see <a href="about.html">About</a>.</p></div>')
     o.append(LINKJS)
@@ -343,7 +343,7 @@ def product_page(it, items):
     acc = (f'<details open><summary>About this design</summary><p>{esc(DESC[it["id"]])}</p></details>'
            f'<details><summary>Details</summary>{tts if kind in SIZES else ""}<ul class="specs">{specs}</ul></details>'
            + (f'<details id="size-guide"><summary>Size guide</summary>{guide}</details>' if guide else "")
-           + '<details><summary>Shipping and returns</summary><p>Printed to order and delivered in about 5 to 7 business days. Shipping and tax are added at checkout and the store confirms the final price in Canadian dollars. Tidywells is not affiliated with any regulator or operator.</p></details>')
+           + '<details><summary>Shipping and returns</summary><p>Delivered in about 5 to 7 business days. Shipping and tax are added at checkout and the store confirms the final price in Canadian dollars. Tidywells is not affiliated with any regulator or operator.</p></details>')
     body_ = (f'<div class="pdp"><p class="crumb"><a href="shop.html">Shop</a> / {esc(kind_label(kind))}</p>'
              f'<div class="ppage"><div class="pview">{pics}{sw}</div><div class="pdet" data-slug="{esc(it["id"])}"><span class="tag">{esc(kind_label(kind))}</span><h1>{esc(t)}</h1>'
              f'<p class="plead">{esc(it["blurb"])}</p><p class="pprice">{price_html(kind, it.get("price"))}</p><p class="go soon" data-slug="{esc(it["id"])}">Opening soon. <a href="shop.html#waitlist">Get an email when the shop opens</a>.</p>'
