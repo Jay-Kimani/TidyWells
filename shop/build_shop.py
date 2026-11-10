@@ -34,7 +34,6 @@ LEDUC = [  # slug, kind, short name, exact store title, blurb
 ]
 SHEETS = []  # digital downloads removed: physical posters only
 FEATURED = []
-BEST = ["hoodie-leduc-pumpjack", "tee-powered-by-oil", "toque-fire-rescue-blowout", "toque-powered-by-oil"]
 
 
 
@@ -295,7 +294,6 @@ def body():
              '<ul class="trust"><li>Printed to order, delivered in 5 to 7 business days</li><li>Secure checkout by Shopify</li><li>Prices in CAD</li><li>Size guide on every page</li></ul>'
              '<nav class="chips" aria-label="Shop sections"><a href="#apparel">Apparel</a><a href="#headwear">Toques and hats</a>'
              '<a href="#downloads">Free sheets</a></nav></div>')
-    o.append('<h2 id="best">Crew favourites</h2>' + grid([by[i] for i in BEST], "pgrid four"))
     o.append('<h2 id="apparel">Apparel</h2><p>Heavy type on the back, a small Tidywells mark on the left chest. True to size, with a size guide on every page.</p>' + grid(of("hoodie", "crewneck", "tee")))
     o.append('<h2 id="headwear">Toques and hats</h2><p>Embroidered text and printed patches. Warm toques for the winter crew, adjustable hats for the rest of the year.</p>' + grid(of("toque", "hat")))
     dl = [("tidywells-units-and-conversions.pdf", "dl-units.png", "Units & Conversions", "Oil, gas, energy and pressure factors, plus the rule for turning a monthly volume into a daily rate."),
@@ -343,13 +341,16 @@ def product_page(it, items):
     rel = "".join(f'<a class="prod" href="{r["page"]}" style="text-decoration:none;color:inherit"><img src="{IMG}{r["images"][0][0]}" alt="{esc(r["images"][0][1])}" width="{r["images"][0][2]}" height="{r["images"][0][3]}" loading="lazy"><div class="pi"><h3>{esc(r["short"])}</h3>{price_html(kind, r.get("price"))}</div></a>' for r in related)
     ld = {"@context": "https://schema.org", "@type": "Product", "name": t, "description": DESC[it["id"]], "sku": it["id"], "brand": {"@type": "Brand", "name": "Tidywells"},
           "image": [f"https://tidywells.com/{IMG}{f}" for f, *_ in imgs], "url": f"https://tidywells.com/{it['page']}"}
-    body_ = (f'<p class="crumb"><a href="shop.html">Shop</a> &rsaquo; {esc(kind_label(kind))}</p>'
+    guide = size_chart(kind).replace("<h2>Size guide</h2>", "") if kind in SIZES else ""
+    acc = (f'<details open><summary>About this design</summary><p>{esc(DESC[it["id"]])}</p></details>'
+           f'<details><summary>Details</summary>{tts if kind in SIZES else ""}<ul class="specs">{specs}</ul></details>'
+           + (f'<details id="size-guide"><summary>Size guide</summary>{guide}</details>' if guide else "")
+           + '<details><summary>Shipping and returns</summary><p>Printed to order and delivered in about 5 to 7 business days. Shipping and tax are added at checkout and the store confirms the final price in Canadian dollars. Tidywells is not affiliated with any regulator or operator.</p></details>')
+    body_ = (f'<div class="pdp"><p class="crumb"><a href="shop.html">Shop</a> / {esc(kind_label(kind))}</p>'
              f'<div class="ppage"><div class="pview">{pics}{sw}</div><div class="pdet" data-slug="{esc(it["id"])}"><span class="tag">{esc(kind_label(kind))}</span><h1>{esc(t)}</h1>'
-             f'<p class="plead">{esc(it["blurb"])}</p><p>{price_html(kind, it.get("price"))}</p><p class="go soon" data-slug="{esc(it["id"])}">Opening soon. <a href="shop.html#waitlist">Get an email when the shop opens</a>.</p>'
-             f'<h2>About this design</h2><p>{esc(DESC[it["id"]])}</p>{tts if kind in SIZES else ""}'
-             f'<h2>Details</h2><ul class="specs">{specs}</ul>{size_chart(kind) if kind in SIZES else ""}'
-             '<p class="shop-note">Prices in Canadian dollars; shipping and tax are added at checkout and the store confirms the final price. Tidywells is not affiliated with any regulator or operator.</p></div></div>'
-             f'<h2>More from this range</h2><div class="pgrid">{rel}</div>')
+             f'<p class="plead">{esc(it["blurb"])}</p><p class="pprice">{price_html(kind, it.get("price"))}</p><p class="go soon" data-slug="{esc(it["id"])}">Opening soon. <a href="shop.html#waitlist">Get an email when the shop opens</a>.</p>'
+             f'<div class="pacc">{acc}</div></div></div>'
+             f'<h2 class="pmore">More from this range</h2><div class="pgrid">{rel}</div></div>')
     body_ += f'<script type="application/ld+json">{json.dumps(ld)}</script><script src="shop-links.js"></script><script src="shop.js"></script>'
     return page(it["page"], t, f"{t} from the Tidywells shop. {it['blurb']}", body_, css="article{max-width:none}")
 

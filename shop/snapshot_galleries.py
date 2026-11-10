@@ -17,7 +17,7 @@ for f in sorted(DOCS.glob("product-*.html")):
         continue
     imgs = [(a, unescape(b), int(w), int(hh)) for a, b, w, hh in re.findall(r'<img src="img/shop/([^"]+)" alt="([^"]*)" width="(\d+)" height="(\d+)"', m.group(1))]
     labs = [unescape(x) for x in re.findall(r'<button type="button" data-pi="\d+" aria-pressed="[a-z]+">(.*?)</button>', h)]
-    d = re.search(r"<h2>About this design</h2><p>(.*?)</p>", h, re.S)
+    d = re.search(r"<summary>About this design</summary><p>(.*?)</p>", h, re.S)
     pl = re.search(r'<p class="plead">(.*?)</p>', h, re.S)
     sp = re.search(r'<ul class="specs">(.*?)</ul>', h, re.S)
     if imgs and len(imgs) == len(labs) and d and pl and sp:

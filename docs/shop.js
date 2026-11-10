@@ -133,7 +133,7 @@ function twBuy() {
   gql(q).then(function (d) {
     var prods = handles.map(function (h, i) { return { ed: h[0], p: d["p" + i] }; }).filter(function (x) { return x.p; });
     if (!prods.length) throw new Error("not found");
-    var box = document.createElement("div"); box.className = "buy"; box.style.cssText = "display:grid;gap:10px;max-width:380px";
+    var box = document.createElement("div"); box.className = "buy";
     var sels = [], cur = prods[0].p, status = document.createElement("p"), price = document.createElement("p"), qty = document.createElement("input");
     function field(label, opts, onchange) {
       var l = document.createElement("label"), s = document.createElement("select"); l.textContent = label + " "; l.style.cssText = "display:grid;gap:4px;font-weight:600";
@@ -147,28 +147,40 @@ function twBuy() {
       return cur.variants.nodes.filter(function (v) { return want.every(function (w) { return v.selectedOptions.some(function (o) { return o.name === w[0] && o.value === w[1]; }); }); })[0] || cur.variants.nodes[0];
     }
     function refresh() { var v = variant(); price.textContent = "CAD $" + Number(v.price.amount).toFixed(2); status.textContent = v.availableForSale ? "" : "Sold out"; btns.forEach(function (b) { b.disabled = !v.availableForSale; }); }
+    var TWC = { black: "#111111", white: "#ffffff", navy: "#1c2c52", charcoal: "#454a52", grey: "#8b8e94", gray: "#8b8e94", red: "#b3282d", green: "#2f5d3a" };
+    function swatch(x) { var w = String(x).toLowerCase().split(/[\s\/]+/); for (var k = w.length - 1; k >= 0; k--) { if (TWC[w[k]]) return TWC[w[k]]; } return "#9a9a9a"; }
     function build() {
       optBox.innerHTML = ""; sels = [];
       cur.options.filter(function (o) { return !(o.values.length === 1 && o.values[0] === "Default Title"); }).forEach(function (o) {
-        var l = document.createElement("label"), s = document.createElement("select"); l.textContent = o.name + " "; l.style.cssText = "display:grid;gap:4px;font-weight:600";
-        s.style.cssText = "padding:8px;border-radius:8px;font:inherit"; s.setAttribute("data-n", o.name);
-        o.values.forEach(function (x) { var e = document.createElement("option"); e.value = e.textContent = x; s.appendChild(e); });
-        s.addEventListener("change", refresh); l.appendChild(s); optBox.appendChild(l); sels.push(s);
+        var isCol = /colou?r/i.test(o.name), wrap = document.createElement("div"), head = document.createElement("div"), nm = document.createElement("span"), cv = document.createElement("b"), grp = document.createElement("div"), s = document.createElement("select");
+        wrap.className = "opt"; head.className = "opt-h"; nm.textContent = o.name; head.appendChild(nm); head.appendChild(cv);
+        if (/size/i.test(o.name) && document.getElementById("size-guide")) { var sg = document.createElement("a"); sg.href = "#size-guide"; sg.textContent = "Size guide"; sg.addEventListener("click", function () { document.getElementById("size-guide").open = true; }); head.appendChild(sg); }
+        grp.className = isCol ? "optsw" : "optgrid"; grp.setAttribute("role", "radiogroup"); grp.setAttribute("aria-label", o.name);
+        s.hidden = true; s.setAttribute("data-n", o.name);
+        function sync() { cv.textContent = isCol ? s.value : ""; [].forEach.call(grp.children, function (b) { b.setAttribute("aria-checked", b.getAttribute("data-v") === s.value ? "true" : "false"); }); }
+        o.values.forEach(function (x) {
+          var e = document.createElement("option"); e.value = e.textContent = x; s.appendChild(e);
+          var b = document.createElement("button"); b.type = "button"; b.setAttribute("role", "radio"); b.setAttribute("data-v", x); b.setAttribute("aria-label", x);
+          if (isCol) { b.className = "sw-c"; var d = document.createElement("i"); d.style.background = swatch(x); b.appendChild(d); } else { b.className = "sz"; b.textContent = x; }
+          b.addEventListener("click", function () { s.value = x; sync(); refresh(); if (isCol && window.twGallery) window.twGallery.color(x); });
+          grp.appendChild(b);
+        });
+        wrap.appendChild(head); wrap.appendChild(grp); wrap.appendChild(s); optBox.appendChild(wrap); sels.push(s); sync();
       });
       refresh();
     }
     qty.type = "number"; qty.min = 1; qty.max = 20; qty.value = 1; qty.setAttribute("aria-label", "Quantity"); qty.style.cssText = "width:80px;padding:8px;border-radius:8px;font:inherit";
-    var row = document.createElement("div"); row.style.cssText = "display:flex;gap:10px;align-items:center;flex-wrap:wrap";
+    var row = document.createElement("div");
     var addB = document.createElement("button"), buyB = document.createElement("button"), btns = [addB, buyB];
-    addB.type = buyB.type = "button"; addB.className = "btn"; buyB.className = "btn primary"; addB.textContent = "Add to cart"; buyB.textContent = "Buy now";
+    addB.type = buyB.type = "button"; addB.className = "pb pb-solid"; buyB.className = "pb pb-line"; addB.textContent = "Add to cart"; buyB.textContent = "Buy now";
     function go(now) {
       var v = variant(), n = Math.max(1, Math.min(20, parseInt(qty.value, 10) || 1)); btns.forEach(function (b) { b.disabled = true; }); status.textContent = "Adding...";
       add(v.id, n).then(function (c) { if (now) location.href = c.checkoutUrl; else { status.textContent = "Added. Checkout is in the corner."; btns.forEach(function (b) { b.disabled = false; }); } },
         function (e) { status.textContent = "Sorry, that did not work (" + e.message + "). Try again."; btns.forEach(function (b) { b.disabled = false; }); });
     }
     addB.addEventListener("click", function () { go(false); }); buyB.addEventListener("click", function () { go(true); });
-    row.appendChild(qty); row.appendChild(addB); row.appendChild(buyB);
-    price.style.cssText = "font-weight:700;margin:0"; status.style.cssText = "margin:0;color:var(--muted)"; status.setAttribute("aria-live", "polite");
+    row.className = "buyrow"; row.appendChild(addB); row.appendChild(buyB);
+    price.className = "bprice"; status.className = "bstatus"; status.setAttribute("aria-live", "polite");
     box.appendChild(price); box.appendChild(row); box.appendChild(status);
     build(); host.textContent = ""; host.appendChild(box);
     var note = document.createElement("p"); note.className = "shop-note"; note.textContent = (/sheet-/.test(host.getAttribute("data-slug")) ? "Instant download after payment. " : "Printed to order, delivered in about 5 to 7 business days. ") + "Taxes and shipping are shown at checkout. Payment is handled securely by Shopify."; host.appendChild(note);
@@ -199,7 +211,6 @@ function twHype() {
     }
     var btn = card.querySelector(".go a.btn"); if (btn) btn.textContent = kindOf(slug) === "sheet" ? "Get it now" : hot ? "Grab yours" : "Choose options";
   });
-  document.querySelectorAll("h2#best").forEach(function (h) { h.textContent = "Crew favourites"; });
   document.querySelectorAll(".go[data-slug]").forEach(function (go) {
     var slug = go.getAttribute("data-slug"), k = KIND[kindOf(slug)], hot = HOT[slug];
     if (!k || !hot || go.previousElementSibling && go.previousElementSibling.classList.contains("proof")) return;
@@ -229,7 +240,7 @@ function twHype() {
       ths.forEach(function (t, j) { t.setAttribute("aria-pressed", j === i ? "true" : "false"); });
       [].forEach.call(dots.querySelectorAll("button"), function (d) { d.setAttribute("aria-pressed", d.getAttribute("data-c") === colOf[i] ? "true" : "false"); });
       cap.textContent = btns[i].textContent.trim() + "  (" + (i + 1) + " of " + btns.length + ")"; cnt.textContent = (i + 1) + " / " + btns.length;
-      try { strip.scrollTo({ left: ths[i].offsetLeft - 8, behavior: "smooth" }); } catch (e) {}
+      try { strip.scrollTo({ left: ths[i].offsetLeft - 8, top: ths[i].offsetTop - 8, behavior: "smooth" }); } catch (e) {}
     }
     function arrow(dir) {
       var a = document.createElement("button"); a.type = "button"; a.className = "arr " + (dir < 0 ? "prev" : "next");
@@ -246,7 +257,7 @@ function twHype() {
     btns.forEach(function (b, i) {
       var cm = /(black|charcoal|navy|white)/i.exec(b.textContent); if (cm) last = cm[1].toLowerCase(); colOf.push(last);
       var t = document.createElement("button"), im = new Image(); t.type = "button"; t.className = "th"; t.setAttribute("aria-label", b.textContent.trim());
-      var src = imgs.filter(function (x) { return x.getAttribute("data-pi") === b.getAttribute("data-pi"); })[0]; im.src = src ? src.getAttribute("src") : ""; im.alt = ""; im.loading = "lazy"; im.width = im.height = 68;
+      var src = imgs.filter(function (x) { return x.getAttribute("data-pi") === b.getAttribute("data-pi"); })[0]; im.src = src ? src.getAttribute("src") : ""; im.alt = ""; im.loading = "lazy"; im.width = 72; im.height = 90;
       t.appendChild(im); t.addEventListener("click", function () { pick(i); }); strip.appendChild(t); ths.push(t);
       if (cm && !seen[last]) {
         seen[last] = 1; var d = document.createElement("button"), c = last; d.type = "button"; d.setAttribute("data-i", i); d.setAttribute("data-c", c); d.className = "colbtn";
@@ -256,7 +267,7 @@ function twHype() {
     });
     v.querySelector(".sw").style.display = "none";
     v.appendChild(strip);
-    if (dots.children.length > 1) { var lab = document.createElement("span"); lab.textContent = "Colour"; lab.className = "collab"; dots.insertBefore(lab, dots.firstChild); v.appendChild(dots); }
+    window.twGallery = { pick: pick, color: function (name) { var w = /(black|charcoal|navy|white)/i.exec(name || ""); if (!w) return; var c = w[1].toLowerCase(); for (var k = 0; k < colOf.length; k++) { if (colOf[k] === c) { pick(k); return; } } } };
     v.appendChild(cap); pick(0);
   }
   function run() { document.querySelectorAll(".pview").forEach(build); }
