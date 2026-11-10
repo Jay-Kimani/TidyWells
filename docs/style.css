@@ -572,3 +572,13 @@ ul.toc{list-style:none;padding:0;margin:0}ul.toc li{margin:0;border-bottom:1px s
 .pdp .pview{max-width:560px}
 .pdp .ppage{grid-template-columns:minmax(0,560px) minmax(300px,400px);justify-content:center}
 @media(max-width:860px){.pdp .pview{max-width:none}.pdp .ppage{grid-template-columns:minmax(0,1fr)}.pdp .pview .stage{width:76%;margin:0 auto}.pdp .pview .thumbs{justify-content:center}}
+/*SHOP-HERO*/
+.shop-hero{padding:8px 0 0}
+.shop-hero h1{font-size:clamp(30px,5vw,44px);font-weight:700;letter-spacing:-.01em;margin:0 0 6px;background:none;-webkit-text-fill-color:currentColor}
+.shop-sub{margin:0 0 18px;color:var(--muted);font-size:16px}
+.shop-hero .chips{display:flex;gap:26px;margin:0;border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none}
+.shop-hero .chips::-webkit-scrollbar{display:none}
+.shop-hero .chips a{padding:10px 0;border:0;border-bottom:2px solid transparent;border-radius:0;background:none;font-size:15px;font-weight:600;white-space:nowrap;min-height:0}
+.shop-hero .chips a:hover,.shop-hero .chips a:focus{border-bottom-color:currentColor}
+.shop-meta{margin:12px 0 0;font-size:13px;color:var(--muted)}
+main h2#apparel,main h2#headwear,main h2#downloads{font-size:22px;font-weight:700;margin:40px 0 14px}

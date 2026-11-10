@@ -288,14 +288,13 @@ def body():
     of = lambda *kinds: [it for it in items if it["kind"] in kinds]
     grid = lambda lst, cls="pgrid": f'<div class="{cls}">' + "".join(card_of(x) for x in lst) + '</div>'
     o = []
-    o.append('<div class="shop-hero"><span class="badge">Now open</span>'
-             '<h1>The Tidywells <span class="grad">shop</span></h1>'
-             '<p>Hoodies, t-shirts, toques and hats for people who work in oil and gas, plus free reference sheets.</p>'
-             '<ul class="trust"><li>Printed to order, delivered in 5 to 7 business days</li><li>Secure checkout by Shopify</li><li>Prices in CAD</li><li>Size guide on every page</li></ul>'
+    o.append('<div class="shop-hero"><h1>Shop</h1>'
+             '<p class="shop-sub">Hoodies, t-shirts, toques and hats. Printed to order in Canada.</p>'
              '<nav class="chips" aria-label="Shop sections"><a href="#apparel">Apparel</a><a href="#headwear">Toques and hats</a>'
-             '<a href="#downloads">Free sheets</a></nav></div>')
-    o.append('<h2 id="apparel">Apparel</h2><p>Heavy type on the back, a small Tidywells mark on the left chest. True to size, with a size guide on every page.</p>' + grid(of("hoodie", "crewneck", "tee")))
-    o.append('<h2 id="headwear">Toques and hats</h2><p>Embroidered text and printed patches. Warm toques for the winter crew, adjustable hats for the rest of the year.</p>' + grid(of("toque", "hat")))
+             '<a href="#downloads">Free sheets</a></nav>'
+             '<p class="shop-meta">Delivery in 5 to 7 business days. Prices in CAD. Secure checkout by Shopify.</p></div>')
+    o.append('<h2 id="apparel">Apparel</h2>' + grid(of("hoodie", "crewneck", "tee")))
+    o.append('<h2 id="headwear">Toques and hats</h2>' + grid(of("toque", "hat")))
     dl = [("tidywells-units-and-conversions.pdf", "dl-units.png", "Units & Conversions", "Oil, gas, energy and pressure factors, plus the rule for turning a monthly volume into a daily rate."),
           ("tidywells-decline-curves-one-page.pdf", "dl-decline.png", "Decline Curves, One Page", "The Arps family in the order you will meet it: exponential, hyperbolic, harmonic."),
           ("tidywells-regulator-data-gotchas.pdf", "dl-gotchas.png", "Regulator Data Gotchas", "The unit and layout traps in public regulator production files.")]
