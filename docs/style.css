@@ -568,3 +568,7 @@ ul.toc{list-style:none;padding:0;margin:0}ul.toc li{margin:0;border-bottom:1px s
   .prod h3 a,.pgrid h3 a{display:inline-block;padding:6px 0}
   .util a,footer div a{display:inline-block;padding:6px 0}
 }
+/*PDP-SMALLER*/
+.pdp .pview{max-width:560px}
+.pdp .ppage{grid-template-columns:minmax(0,560px) minmax(300px,400px);justify-content:center}
+@media(max-width:860px){.pdp .pview{max-width:none}.pdp .ppage{grid-template-columns:minmax(0,1fr)}.pdp .pview .stage{width:76%;margin:0 auto}.pdp .pview .thumbs{justify-content:center}}
