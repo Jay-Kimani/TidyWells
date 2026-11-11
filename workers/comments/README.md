@@ -1,6 +1,6 @@
 # Tidywells comments (Cloudflare Worker + D1 + Turnstile)
 
-Anonymous name + comment, held for approval. Free on Cloudflare's free tier.
+Anonymous name + comment, published immediately. Free on Cloudflare's free tier.
 
 ## Dashboard setup (no command line)
 1. **D1 database:** Cloudflare dashboard > Storage & databases > D1 > Create database, name it `tidywells-comments`.
@@ -17,7 +17,7 @@ Anonymous name + comment, held for approval. Free on Cloudflare's free tier.
    `docs/config.js` as `TIDYWELLS_COMMENTS_API` and `TIDYWELLS_TURNSTILE_SITEKEY`. Push.
 
 ## Moderating
-Open `<worker URL>/admin`, enter your admin key, press Load. Approve or delete. Comments stay hidden until approved.
+Open `<worker URL>/admin`, enter your admin key, press Load. Delete anything you do not want shown. New comments publish immediately.
 Bookmark it. (There are no email notifications; check it when you publish a post.)
 
 ## Notes

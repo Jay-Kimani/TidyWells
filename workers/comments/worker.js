@@ -1,4 +1,4 @@
-// Tidywells comments: Cloudflare Worker + D1 + Turnstile. Anonymous name + comment, held for approval.
+// Tidywells comments: Cloudflare Worker + D1 + Turnstile. Anonymous name + comment, published immediately (Turnstile and honeypot spam checks; delete from /admin if needed).
 // Bindings/vars to set in the dashboard: DB (D1), TURNSTILE_SECRET (secret), ADMIN_KEY (secret),
 // ALLOWED_ORIGINS (plain text, e.g. "https://tidywells.com,https://www.tidywells.com"), IP_SALT (secret, any random string).
 
@@ -61,7 +61,7 @@ export async function handle(req, env, fetchFn = fetch) {
     if (recent && recent.n >= 5) return json({ error: "Too many comments. Please try again later." }, 429, h);
     const links = (body.match(/https?:\/\//gi) || []).length;
     if (links > 2) return json({ error: "Please limit links to two." }, 400, h);
-    await env.DB.prepare("INSERT INTO comments (page,name,body,created,approved,ip_hash) VALUES (?,?,?,?,0,?)").bind(page, name, body, Date.now(), ipHash).run();
+    await env.DB.prepare("INSERT INTO comments (page,name,body,created,approved,ip_hash) VALUES (?,?,?,?,1,?)").bind(page, name, body, Date.now(), ipHash).run();
     return json({ ok: true }, 200, h);
   }
 

@@ -1,5 +1,5 @@
 // Comments for analysis posts. If TIDYWELLS_COMMENTS_API is set, uses the Tidywells comment service
-// (name + comment, no account, held for approval, Turnstile spam check). Otherwise falls back to giscus
+// (name + comment, no account, published straight away, Turnstile spam check). Otherwise falls back to giscus
 // (GitHub sign-in) if configured. Shows nothing if neither is configured.
 (function () {
   var box = document.getElementById("comments");
@@ -23,7 +23,7 @@
     var form = el("form", { class: "panel", style: "display:grid;gap:10px;margin:14px 0" }, [name, body, hp, ts, btn, msg]);
     [name, body].forEach(function (i) { i.style.cssText = "width:100%;box-sizing:border-box;padding:9px 11px;border-radius:8px;border:1px solid var(--line);background:var(--panel);color:var(--fg);font:inherit"; });
     box.appendChild(el("h2", { text: "Comments" }));
-    box.appendChild(el("p", { class: "muted", style: "margin-top:-6px", text: "Questions, corrections and ideas are welcome. Leave a name and a comment; no account needed. Comments appear after approval. Please be civil, and no investment tips or promotion." }));
+    box.appendChild(el("p", { class: "muted", style: "margin-top:-6px", text: "Questions, corrections and ideas are welcome. Leave a name and a comment; no account needed. Please be civil, and no investment tips or promotion." }));
     box.appendChild(list); box.appendChild(form);
     var loadTs = document.createElement("script");
     loadTs.src = "https://challenges.cloudflare.com/turnstile/v0/api.js"; loadTs.async = true; loadTs.defer = true;
@@ -46,7 +46,7 @@
         body: JSON.stringify({ page: page, name: name.value, body: body.value, website: hp.value, token: tokEl ? tokEl.value : "" }) })
         .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
         .then(function (x) {
-          if (x.ok) { msg.textContent = "Thanks! Your comment will appear after it is approved."; body.value = ""; if (window.turnstile) window.turnstile.reset(); }
+          if (x.ok) { msg.textContent = "Thanks! Your comment is posted."; body.value = ""; if (window.turnstile) window.turnstile.reset(); }
           else msg.textContent = x.d.error || "Something went wrong. Please try again.";
         }).catch(function () { msg.textContent = "Could not reach the comment service. Please try again."; })
         .then(function () { btn.disabled = false; });

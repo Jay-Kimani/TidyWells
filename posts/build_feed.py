@@ -257,6 +257,7 @@ if __name__ == "__main__":
 
     # grouped site navigation, rebuilt on every page (header block is replaced wholesale)
     NAV = [
+        ("link", "Home", "index.html", None),
         ("link", "Analysis", "analysis.html", None),
         ("menu", "Data and tools", "tools", [
             ("data.html", "Open data", "Monthly AB, SK and BC production, free"),
@@ -274,7 +275,7 @@ if __name__ == "__main__":
             ("revisions.html", "Data revisions", "What the regulators changed after publishing"),
             ("didnt-work.html", "What didn't work", "Negative results and mistakes we found")]),
     ]
-    GROUP_OF = {"analysis.html": "analysis.html", "shop.html": "shop.html",
+    GROUP_OF = {"index.html": "index.html", "analysis.html": "analysis.html", "shop.html": "shop.html",
                 "tools.html": "tools", "decline.html": "tools", "explore.html": "tools", "clean.html": "tools", "data.html": "tools", "guide.html": "tools", "glossary.html": "tools",
                 "about.html": "about", "methods.html": "about", "scorecard.html": "about", "revisions.html": "about", "didnt-work.html": "about", "corrections.html": "about", "terms.html": "about"}
     def nav_html(prefix, cur):
