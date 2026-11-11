@@ -316,11 +316,10 @@ def home_strip():
         f, alt, w, h = it["images"][0]
         cards += (f'<a class="prod" href="{it["page"]}" style="text-decoration:none;color:inherit"><img src="{IMG}{f}" alt="{esc(alt)}" width="{w}" height="{h}" loading="lazy">'
                   f'<div class="pi"><span class="tag">{esc(kind_label(it["kind"]))}</span><h3>{esc(it["short"])}</h3></div></a>')
-    return ('<!--SHOP--><section class="strip"><span class="badge">Now open</span>'
-            '<h2>The Tidywells shop</h2><p>Hoodies, t-shirts, toques and hats for people who work in oil and gas.</p>'
+    return ('<!--SHOP--><section class="strip">'
+            '<h2>Shop</h2>'
             f'<div class="pgrid">{cards}</div>'
-            f'<p class="shop-note">Hoodies from CAD ${fmt_price(PRICE["hoodie"])} · toques from CAD ${fmt_price(PRICE["toque"])} · mugs from CAD ${fmt_price(PRICE["mug"])}</p>'
-            '<p><a class="btn primary" href="shop.html">See the collection</a></p></section><!--/SHOP-->')
+            '<p><a class="btn primary" href="shop.html">Shop all</a></p></section><!--/SHOP-->')
 
 
 def product_page(it, items):

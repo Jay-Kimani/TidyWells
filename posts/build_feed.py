@@ -158,7 +158,6 @@ if __name__ == "__main__":
              f'<p><a href="explore.html">Explore every month</a> · <a href="posts/{snap_slug}.html">Read the {MON[m_ - 1]} snapshot</a> · <a href="data.html">Download the data</a></p></section><!--/LATEST-->')
     ix = ROOT / "docs" / "index.html"
     t_ = re.sub(r"<!--LATEST-->.*?<!--/LATEST-->\n?", "", ix.read_text(encoding="utf-8"), flags=re.S)
-    t_ = t_.replace("<main>\n", "<main>\n" + strip + "\n", 1)
     ix.write_text(t_, encoding="utf-8")
     # reproduce-this-number block on monthly snapshots (placed before the share box)
     for p_ in posts:
@@ -270,13 +269,10 @@ if __name__ == "__main__":
         ("link", "Shop", "shop.html", "shopbtn"),
         ("menu", "About", "about", [
             ("about.html", "About Tidywells", "Who builds it and why"),
-            ("about.html#how-this-is-made", "How this is made", "Where AI is used, and how it is checked"),
             ("methods.html", "Methods", "Sources, rules and limits"),
             ("scorecard.html", "Forecast scorecard", "Our forecasts, graded against what happened"),
             ("revisions.html", "Data revisions", "What the regulators changed after publishing"),
-            ("didnt-work.html", "What didn't work", "Negative results and mistakes we found"),
-            ("corrections.html", "Corrections", "Mistakes we found and fixed"),
-            ("terms.html", "Terms and privacy", "Disclaimer and data use")]),
+            ("didnt-work.html", "What didn't work", "Negative results and mistakes we found")]),
     ]
     GROUP_OF = {"analysis.html": "analysis.html", "shop.html": "shop.html",
                 "tools.html": "tools", "decline.html": "tools", "explore.html": "tools", "clean.html": "tools", "data.html": "tools", "guide.html": "tools", "glossary.html": "tools",

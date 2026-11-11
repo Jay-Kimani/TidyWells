@@ -1,12 +1,12 @@
 {
-  "built_utc": "2026-11-10",
+  "built_utc": "2026-11-11",
   "file": "tidywells-monthly-production.csv",
   "sha256": "94193a121eff937329b691e179f73bd2d545478244e76e3d95796f754ce60bfb",
   "rows": 342,
   "series": 6,
   "first_month": "2022-01",
   "last_month": "2026-09",
-  "numbers_checked_against_data": 800,
+  "numbers_checked_against_data": 792,
   "snapshot_pages_checked": 33,
   "failures": 0
 }

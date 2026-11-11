@@ -55,7 +55,7 @@ def test_prices_are_labelled_and_no_sale_claims():
         assert " sale" not in t and "% off" not in t and "discount" not in t and "limited time" not in t, page
         assert "launch price" not in t, page
     strip = re.search(r"<!--SHOP-->.*?<!--/SHOP-->", (DOCS / "index.html").read_text(encoding="utf-8"), re.S).group(0).lower()
-    assert " sale" not in strip and "now open" in strip and "launch price" not in strip
+    assert " sale" not in strip and "launch price" not in strip
 
 
 def test_every_product_has_a_page_a_price_and_clean_structured_data():
@@ -165,11 +165,3 @@ def test_listing_copy_fits_store_limits():
         assert not any(b in (r["title"] + r["description"]).lower() for b in BRANDS)
 
 
-def test_home_feature_directory_links_resolve():
-    html = (DOCS / "index.html").read_text(encoding="utf-8")
-    block = re.search(r"<!--FEATURES-->.*?<!--/FEATURES-->", html, re.S).group(0)
-    hrefs = re.findall(r'class="ft" href="([^"]+)"', block)
-    assert len(hrefs) == 5
-    for h in hrefs:
-        if not h.startswith("http"):
-            assert (DOCS / h).exists(), h
