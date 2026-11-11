@@ -606,3 +606,14 @@ h2{font-weight:600;letter-spacing:-.005em}
 .hero2 + main .strip .pgrid{grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
 .hero2 + main .strip .btn.primary{display:inline-block;margin-top:24px;background:var(--pk,#111);color:#fff;border-radius:0;letter-spacing:.14em;text-transform:uppercase;font-size:12.5px;padding:15px 34px}
 @media(max-width:640px){.hero2 + main .strip .pgrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.hero2 + main{padding-top:32px}}
+/*HERO-MODERN*/
+.hero2 h1{font-size:clamp(30px,5.2vw,60px);font-weight:500;letter-spacing:.05em;text-transform:uppercase;line-height:1.12;max-width:15em}
+.hero2 .eyebrow{font-size:11.5px;letter-spacing:.22em;font-weight:500;opacity:.85}
+.hero2-in>p{font-size:clamp(15px,1.5vw,17px);font-weight:300;letter-spacing:.02em;line-height:1.75;max-width:34em;opacity:.92}
+.hero2 .cta .btn{border-radius:0;letter-spacing:.14em;text-transform:uppercase;font-size:12px;font-weight:600;padding:15px 30px}
+.hero2-links b{font-weight:300}.hero2-links span{font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:500}
+@media(max-width:640px){.hero2 h1{letter-spacing:.03em}}
+.hero2-links b{font-weight:800;color:#ffb347;font-size:36px;letter-spacing:0}
+.hero2-links span{font-weight:700;color:#fff}
+.hero2-links a{border-top:2px solid #ffb347}
+.hero2-links a:hover b{color:#fff}
