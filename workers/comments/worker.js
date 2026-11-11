@@ -1,5 +1,5 @@
-// Tidywells comments: Cloudflare Worker + D1 + Turnstile. Anonymous name + comment, published immediately (Turnstile and honeypot spam checks; delete from /admin if needed).
-// Bindings/vars to set in the dashboard: DB (D1), TURNSTILE_SECRET (secret), ADMIN_KEY (secret),
+// Tidywells comments: Cloudflare Worker + D1 + Turnstile. Anonymous name + comment, published immediately (Turnstile and honeypot spam checks; every comment is shown).
+// Bindings/vars to set in the dashboard: DB (D1), TURNSTILE_SECRET (secret),
 // ALLOWED_ORIGINS (plain text, e.g. "https://tidywells.com,https://www.tidywells.com"), IP_SALT (secret, any random string).
 
 const PAGE_RE = /^\/[A-Za-z0-9._\-\/]{1,200}$/;
@@ -11,7 +11,7 @@ function cors(req, env) {
   return {
     "Access-Control-Allow-Origin": ok ? o : allowed[0],
     "Access-Control-Allow-Methods": "GET,POST,OPTIONS",
-    "Access-Control-Allow-Headers": "Content-Type,X-Admin-Key",
+    "Access-Control-Allow-Headers": "Content-Type",
     Vary: "Origin",
   };
 }
@@ -21,12 +21,6 @@ const json = (data, status, h) =>
 async function sha(s) {
   const b = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(s));
   return [...new Uint8Array(b)].map((x) => x.toString(16).padStart(2, "0")).join("");
-}
-function sameKey(a, b) {
-  if (!a || !b || a.length !== b.length) return false;
-  let r = 0;
-  for (let i = 0; i < a.length; i++) r |= a.charCodeAt(i) ^ b.charCodeAt(i);
-  return r === 0;
 }
 const clean = (s, n) => String(s || "").replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, "").trim().slice(0, n);
 
@@ -38,7 +32,7 @@ export async function handle(req, env, fetchFn = fetch) {
   if (url.pathname === "/comments" && req.method === "GET") {
     const page = url.searchParams.get("page") || "";
     if (!PAGE_RE.test(page)) return json({ error: "bad page" }, 400, h);
-    const r = await env.DB.prepare("SELECT id,name,body,created FROM comments WHERE page=? AND approved=1 ORDER BY created ASC LIMIT 200").bind(page).all();
+    const r = await env.DB.prepare("SELECT id,name,body,created FROM comments WHERE page=? ORDER BY created ASC LIMIT 200").bind(page).all();
     return json({ comments: r.results || [] }, 200, h);
   }
 
@@ -65,39 +59,7 @@ export async function handle(req, env, fetchFn = fetch) {
     return json({ ok: true }, 200, h);
   }
 
-  if (url.pathname.startsWith("/admin")) {
-    if (url.pathname === "/admin" && req.method === "GET") return new Response(ADMIN_HTML, { headers: { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-store" } });
-    if (!sameKey(req.headers.get("X-Admin-Key") || "", env.ADMIN_KEY || "")) return json({ error: "unauthorized" }, 401, h);
-    if (url.pathname === "/admin/pending") {
-      const r = await env.DB.prepare("SELECT id,page,name,body,created,approved FROM comments ORDER BY approved ASC, created DESC LIMIT 200").all();
-      return json({ comments: r.results || [] }, 200, h);
-    }
-    if (req.method === "POST" && (url.pathname === "/admin/approve" || url.pathname === "/admin/delete")) {
-      const d = await req.json().catch(() => ({}));
-      const id = parseInt(d.id, 10);
-      if (!id) return json({ error: "bad id" }, 400, h);
-      if (url.pathname === "/admin/approve") await env.DB.prepare("UPDATE comments SET approved=1 WHERE id=?").bind(id).run();
-      else await env.DB.prepare("DELETE FROM comments WHERE id=?").bind(id).run();
-      return json({ ok: true }, 200, h);
-    }
-  }
   return json({ error: "not found" }, 404, h);
 }
 
 export default { fetch: (req, env) => handle(req, env) };
-
-const ADMIN_HTML = `<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>Comments admin</title>
-<style>body{font:15px system-ui;max-width:760px;margin:20px auto;padding:0 14px;background:#0a0f16;color:#e8edf6}input,button{font:inherit;padding:7px 10px;border-radius:8px;border:1px solid #445;background:#1a2230;color:inherit}
-.c{border:1px solid #334;border-radius:10px;padding:10px 12px;margin:10px 0}.p{border-color:#ff1f3d}small{color:#97a6bb}button.g{background:#0b5ed7}button.r{background:#a3182b}pre{white-space:pre-wrap;margin:6px 0;font:inherit}</style></head>
-<body><h2>Comments admin</h2><p><input id="k" type="password" placeholder="Admin key"> <button id="go">Load</button></p><div id="o"></div>
-<script>
-const o=document.getElementById("o"),k=document.getElementById("k");
-async function api(p,b){const r=await fetch(p,{method:b?"POST":"GET",headers:{"X-Admin-Key":k.value,"Content-Type":"application/json"},body:b?JSON.stringify(b):undefined});if(!r.ok)throw new Error(r.status);return r.json()}
-async function load(){o.textContent="";try{const d=await api("/admin/pending");if(!d.comments.length)o.textContent="No comments yet.";
-for(const c of d.comments){const e=document.createElement("div");e.className="c"+(c.approved?"":" p");
-const m=document.createElement("small");m.textContent=(c.approved?"approved":"PENDING")+" · "+c.page+" · "+new Date(c.created).toLocaleString();
-const n=document.createElement("b");n.textContent=c.name;const t=document.createElement("pre");t.textContent=c.body;e.append(m,document.createElement("br"),n,t);
-if(!c.approved){const a=document.createElement("button");a.className="g";a.textContent="Approve";a.onclick=async()=>{await api("/admin/approve",{id:c.id});load()};e.append(a," ")}
-const x=document.createElement("button");x.className="r";x.textContent="Delete";x.onclick=async()=>{if(confirm("Delete this comment?")){await api("/admin/delete",{id:c.id});load()}};e.append(x);o.append(e)}}catch(e){o.textContent="Could not load (wrong key?)"}}
-document.getElementById("go").onclick=load;
-</script></body></html>`;

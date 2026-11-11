@@ -11,15 +11,14 @@ Anonymous name + comment, published immediately. Free on Cloudflare's free tier.
    replace everything with `worker.js`, Deploy.
 4. **Bindings and variables** (Worker > Settings):
    - Bindings > Add > D1 database, variable name `DB`, pick `tidywells-comments`.
-   - Variables and secrets: `TURNSTILE_SECRET` (secret, the Turnstile secret key), `ADMIN_KEY` (secret, a long random
+   - Variables and secrets: `TURNSTILE_SECRET` (secret, the Turnstile secret key), `` (secret, a long random
      passphrase you choose), `IP_SALT` (secret, any random string), `ALLOWED_ORIGINS` (text: `https://tidywells.com,https://www.tidywells.com`).
 5. Copy the Worker URL (like `https://tidywells-comments.YOURNAME.workers.dev`) and the Turnstile **site key** into
    `docs/config.js` as `TIDYWELLS_COMMENTS_API` and `TIDYWELLS_TURNSTILE_SITEKEY`. Push.
 
 ## Moderating
-Open `<worker URL>/admin`, enter your admin key, press Load. Delete anything you do not want shown. New comments publish immediately.
 Bookmark it. (There are no email notifications; check it when you publish a post.)
 
 ## Notes
-- The admin key is never stored in the repo. Never put the Turnstile secret or admin key in `config.js`.
+Never put the Turnstile secret in `config.js`.
 - Local test: `node workers/comments/test.mjs`.
