@@ -31,6 +31,7 @@
     var load = function () {
       fetch(api + "/comments?page=" + encodeURIComponent(page)).then(function (r) { return r.json(); }).then(function (d) {
         list.textContent = "";
+        if (!(d.comments || []).length) list.appendChild(el("p", { class: "muted", text: "No comments yet. Be the first." }));
         (d.comments || []).forEach(function (c) {
           list.appendChild(el("div", { class: "card", style: "margin:10px 0;padding:12px 16px" }, [
             el("strong", { text: c.name }), el("small", { class: "muted", text: "  " + new Date(c.created).toLocaleDateString() }),
@@ -46,7 +47,7 @@
         body: JSON.stringify({ page: page, name: name.value, body: body.value, website: hp.value, token: tokEl ? tokEl.value : "" }) })
         .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
         .then(function (x) {
-          if (x.ok) { msg.textContent = "Thanks! Your comment is posted."; body.value = ""; if (window.turnstile) window.turnstile.reset(); }
+          if (x.ok) { msg.textContent = "Thanks! Your comment is posted."; body.value = ""; load(); if (window.turnstile) window.turnstile.reset(); }
           else msg.textContent = x.d.error || "Something went wrong. Please try again.";
         }).catch(function () { msg.textContent = "Could not reach the comment service. Please try again."; })
         .then(function () { btn.disabled = false; });
